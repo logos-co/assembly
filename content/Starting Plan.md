@@ -21,7 +21,7 @@ There needs to be a maintained resource that acts as a coordination hub of the o
 The process of adding/editing linked flat-files with rich metadata within a Github repo, served as a static site for all to see and contribute to, fulfills all those requirements. 
 
 You can look at the [[index|homepage]] or [[site-plan/index|site plan]] to get a sense of what this is and what we have planned for it. 
-### #resources: 
+### #resources
 - Claude convos:
 	- https://claude.ai/share/fc0109af-cc06-42e9-add2-370700040f6c
 	- https://claude.ai/chat/5b7f03a2-674e-4f58-9005-a4ed500e488d
@@ -91,6 +91,9 @@ Having a technical diagram serves as the reference justification for organizatio
 
 Furthermore, when changes inevitably come that lead to technical changes in the Logos stack, updates to the diagram _should_ serve to provide justification for team changes in the event those technical changes are large enough. 
 
+### #resources 
+- [Study of Conway's Law on FreeBSD](https://link.springer.com/chapter/10.1007/978-3-642-38928-3_8)
+
 ### Article: Life of a Txn Through Logos
 This was an idea that was brainstormed from a conversation between me and Jacek when I asked him what "nuclear" content could be created such that a large amount of understanding can be had from a relatively small amount of work. I had shown him some previous thoughts in this angle via [my talk at Devcon]() and [a previous blog post of our for Status]() that were similar in nature. 
 
@@ -100,6 +103,6 @@ Having this article completed signifies a number of things:
 
 This then serves as evergreen reference content to continue providing clarity broadly and derive more specialized content from. 
 
-### #resources:
+### #resources
 - https://miro.com/app/board/uXjVJtcerQQ=/?focusWidget=3458764647770037520
 - 

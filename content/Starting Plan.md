@@ -8,7 +8,7 @@ The goal is clarity and alignment, here's how we get started. The following is a
 - Logos Stack Technical Diagram
 - All Hands Planning
 
-Let's look at each one to understand why adding clarity fosters unification. 
+Let's look at each one to understand why adding clarity fosters unification.
 
 ## Logos Praxis
 There needs to be a maintained resource that acts as a coordination hub of the organization, and it needs to have the following properties:
@@ -21,7 +21,7 @@ There needs to be a maintained resource that acts as a coordination hub of the o
 The process of adding/editing linked flat-files with rich metadata within a Github repo, served as a static site for all to see and contribute to, fulfills all those requirements. 
 
 You can look at the [[index|homepage]] or [[site-plan/index|site plan]] to get a sense of what this is and what we have planned for it. 
-### Resources: 
+### #resources: 
 - Claude convos:
 	- https://claude.ai/share/fc0109af-cc06-42e9-add2-370700040f6c
 	- https://claude.ai/chat/5b7f03a2-674e-4f58-9005-a4ed500e488d
@@ -29,7 +29,7 @@ You can look at the [[index|homepage]] or [[site-plan/index|site plan]] to get a
 ## Logos Circles
 It is imperative that the organization at large understand the problems of the communities that we're fostering. Additionally, the requirements of those communities need to be formalized and understood such that we can be sure the Logos Stack satisfies them. 
 
-The initial initiative here iwll be to work with the Logos Cirlces groups and their leaders to help unify the process of understanding the winnable issues and their associated requirements such that our engineering efforts can identify whether or not our technical solutions are aimed in the right direction.
+The initial initiative here will be to work with the Logos Cirlces groups and their leaders to help unify the process of understanding the winnable issues and their associated requirements such that our engineering efforts can identify whether or not our technical solutions are aimed in the right direction.
 
 ## Logos.co Website
 The website is the on-ramping of our culture. It proudly markets the lifestyle we aim to enable in others through the Logos movement. 
@@ -56,7 +56,7 @@ The below diagram is a proposal for how I see the hierarchy of information, meas
 
 It is important to note that my role in this is to foster the process, not own the updates. Domain owners do the updates, or at least point to things that need updating, and the previously mentioned feedback loop helps the process of getting the documents actually updated. 
 
-![[Pasted image 20251112162817.png]]
+![[strategy-doc-dependency-diagram.png]]
 ### Establish Reporting on Progress and Misalignment
 As per the [[Logos Launch Strategy]], each track will have a dashboard and metrics associated with their goals. Additionally, each team will have their own execution roadmap that points to deliverables. 
 
@@ -74,10 +74,32 @@ This includes but isn't limited to:
 - https://www.notion.so/Logos-Broadcast-Network-2798f96fb65c809ab9d4cc0a9d40d099
 
 ## Logos Technical Stack Diagram - Abstract diagram complete
+> [!info] initial abstraction completed in Miro, designers are cleaning it up
 
+
+The creation of a technical diagram of the Logos Stack, as we ideally see it, would serve a number of initiatives simultaneously, all of which improving clarity across the ecosystem. 
 ### Marketing Clarity - Done
-
+Marketing needs to understand how things fit together but can't be expected to understand the technical details. A view of the highest abstractions and their dependencies allows them to see the big picture and how it fits together without them digging deep. 
 ### Justification of Organizational Structure
-Conway's Law description and justification here. 
+One of the stated responsibilities of the [[Head of Evangelism JD]] is 
 
-### Article: Life of a Txn Through Logos.
+> Connect teams teams internally to ensure they are aligned on the Logos mission, that they understand their role in it and with whom they need to collaborate.
+
+The [[Logos Launch Strategy]] required significant organizational changes. The strategy that is being followed is that of [Conway's Law](https://en.wikipedia.org/wiki/Conway%27s_law), whereby organizational structure follows communication pipelines of the technology being built. 
+
+Having a technical diagram serves as the reference justification for organizational structure. It gives intuition for teams on why they're broken up they way they are as well as who they should mostly likely be working with (technical dependencies). 
+
+Furthermore, when changes inevitably come that lead to technical changes in the Logos stack, updates to the diagram _should_ serve to provide justification for team changes in the event those technical changes are large enough. 
+
+### Article: Life of a Txn Through Logos
+This was an idea that was brainstormed from a conversation between me and Jacek when I asked him what "nuclear" content could be created such that a large amount of understanding can be had from a relatively small amount of work. I had shown him some previous thoughts in this angle via [my talk at Devcon]() and [a previous blog post of our for Status]() that were similar in nature. 
+
+Having this article completed signifies a number of things:
+- if we're able to sufficiently write this article, then it is clear we as an organization understand the stack we're building and how it all fits together, and what properties we're getting as we traverse data through the system. 
+- we're able to create derivative content from this one explaining the differentiators of our system from others by showing _where in the lifecycle_ manipulation can happen to a transaction that ours maintains integrity.
+
+This then serves as evergreen reference content to continue providing clarity broadly and derive more specialized content from. 
+
+### #resources:
+- https://miro.com/app/board/uXjVJtcerQQ=/?focusWidget=3458764647770037520
+- 

@@ -1,7 +1,7 @@
 ---
-title: Welcome to Praxis - the hub of coordination for Logos
+title: Welcome to Praxis
 ---
-
+## The hub of coordination for Logos
 This site aims to provide clarity for the Logos project. Because it is an asynchronous organization and permissionless movement, we do this through the coordination of creating "artifacts," or things you can share and use.
 
 In order for Logos to be successful, we all have to be on the same page. This site and the effort that goes into it are pushing the clarity required to get there.

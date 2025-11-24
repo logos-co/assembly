@@ -24,7 +24,7 @@ export const sharedPageComponents: SharedLayout = {
   ],
   footer: Component.Footer({
     links: {
-      GitHub: "https://github.com/logos-co/praxis",
+      GitHub: "https://github.com/logos-co/assembly",
       "Discord Community": "https://discord.gg/9At2E9esrH",
     },
   }),

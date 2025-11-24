@@ -71,15 +71,28 @@ This includes but isn't limited to:
 - analysis of cross team communication efficiency
 
 ## Logos Broadcast Network
+As it currently stands, we create and broadcast a myriad of content. We form a number of groups and have follow-up conversations in various places. The LBN is the coordinated effort of unifying all of these efforts, establishing expectations around scheduling, applying available resources, and ensuring consistency throughout. 
+
+Some examples of this are:
+- IFT Townhall
+- upcoming: Logos Launch Updates
+- Dev Club
+- Who is Logos podcast
+- Communication Club
+- AI/ML Club
+- 
+
+#### #resources 
 - https://www.notion.so/Logos-Broadcast-Network-2798f96fb65c809ab9d4cc0a9d40d099
 
 ## Logos Technical Stack Diagram - Abstract diagram complete
-> [!info] initial abstraction completed in Miro, designers are cleaning it up
-
+> [!info] see the details in [[Logos Tech Stack Diagram]]
 
 The creation of a technical diagram of the Logos Stack, as we ideally see it, would serve a number of initiatives simultaneously, all of which improving clarity across the ecosystem. 
-### Marketing Clarity - Done
+### Marketing Clarity
 Marketing needs to understand how things fit together but can't be expected to understand the technical details. A view of the highest abstractions and their dependencies allows them to see the big picture and how it fits together without them digging deep. 
+
+When asking questions, having a diagram to reference helps them articulate their lack of understanding. As an example, there were recent questions around where the package manager fits in to the stack and how it relates to the rest of things. Pointing to the diagram allows for them to ask the right kind of question and for those who answer to explain with each other holding the same picture in their heads. 
 ### Justification of Organizational Structure
 One of the stated responsibilities of the [[Head of Evangelism JD]] is 
 
@@ -91,18 +104,22 @@ Having a technical diagram serves as the reference justification for organizatio
 
 Furthermore, when changes inevitably come that lead to technical changes in the Logos stack, updates to the diagram _should_ serve to provide justification for team changes in the event those technical changes are large enough. 
 
-### #resources 
+#### #resources 
 - [Study of Conway's Law on FreeBSD](https://link.springer.com/chapter/10.1007/978-3-642-38928-3_8)
 
 ### Article: Life of a Txn Through Logos
-This was an idea that was brainstormed from a conversation between me and Jacek when I asked him what "nuclear" content could be created such that a large amount of understanding can be had from a relatively small amount of work. I had shown him some previous thoughts in this angle via [my talk at Devcon]() and [a previous blog post of our for Status]() that were similar in nature. 
+described in [[Lifecycle of a Logos Txn]]
 
-Having this article completed signifies a number of things:
-- if we're able to sufficiently write this article, then it is clear we as an organization understand the stack we're building and how it all fits together, and what properties we're getting as we traverse data through the system. 
-- we're able to create derivative content from this one explaining the differentiators of our system from others by showing _where in the lifecycle_ manipulation can happen to a transaction that ours maintains integrity.
-
-This then serves as evergreen reference content to continue providing clarity broadly and derive more specialized content from. 
-
-### #resources
+#### #resources
 - https://miro.com/app/board/uXjVJtcerQQ=/?focusWidget=3458764647770037520
-- 
+
+
+## Contextual AI Everywhere
+Considering previous reasoning around our prioritization and focus of creating artifacts, it then reasons to ingest all of these materials into a global RAG to be used for various AI purposes. 
+
+LLMs are beautiful at providing an easy experience and helping people understand. RAGs are the current methodology for ensuring their answers are up to date on specific information. We already started this endeavor internally with the business intelligence team and the [CaaS](https://ask.free.technology) roll-out. 
+
+### Expand CaaS
+
+### Introduce a Logos MCP Server
+Claire from the BI team is creating a PoC MPC server leveraging [Context7](https://context7.com/) to see how useful it would be to provide always-up-to-date Logos context to LLMs.

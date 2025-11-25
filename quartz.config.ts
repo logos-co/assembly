@@ -8,7 +8,7 @@ import * as Plugin from "./quartz/plugins"
  */
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "Logos Praxis",
+    pageTitle: "Logos Assembly",
     pageTitleSuffix: "",
     enableSPA: true,
     enablePopovers: true,

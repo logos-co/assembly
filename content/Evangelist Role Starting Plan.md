@@ -25,9 +25,10 @@ The following is a list of initiatives that bootstrap a unified understanding of
 Let's look at each one to understand why adding clarity fosters unification.
 ### Logos Assembly site maintenance and sharing
 `Contributes to Responsibilities 1, 3, 4, 7`
+
 **Assumption**:  If we can get the entire org to contribute to and leverage this site in the manner of an open source project, then we can rapidly achieve alignment on what's going on. 
 
-This website is an attempt to track and coordinate the creation of [[artifacts]] throughout Logos. Once something gets completed, the website then serves as a resource for where it exists and its effect on the its intended audience. 
+This website is an attempt to track and coordinate the creation of [[artifacts]] throughout Logos. Once something gets completed, the website then serves as a resource for where it exists and its effect on its intended audience. 
 
 The Evangelist will maintain this resource and continuously leverage it to answer questions throughout the org. They will work with all Logos CCs to understand what's being done and who's doing it. They will teach others how to meaningfully contribute to it to help maintain understanding of Logos coordination.
 
@@ -37,7 +38,7 @@ This site:
 - ensures the artifacts we generate are shareable `(4)` by making them discoverable and make explicit the audience they're intended for. 
 - as it grows over time, displays the magnitude of effort being done by various parties to share the work we're doing, and allows them to permissionlessly hone their arguments by referencing the information within it `(7)`. 
 
-You can look at the [[index|homepage]] or [[site-plan/index|site plan]] to get a sense of what this is supposed to be, how it is supposed to work, and what we have planned for it. 
+You can look at the [[index|homepage]] or [[site-plan/index|site plan]] to get a sense of what this is supposed to be, how it is supposed to work, and what we have planned for it (heavy WIP).
 
 #### #resources
 - Claude convos:
@@ -46,6 +47,7 @@ You can look at the [[index|homepage]] or [[site-plan/index|site plan]] to get a
 
 ### Logos Circles
 `Contributes to Responsibilities 2, 3, 4, 5, 6, 7`
+
 It is imperative that the organization at large understand the problems of the communities that we're fostering. Additionally, the requirements of those communities need to be formalized and understood such that we can be sure the Logos Stack satisfies them. There is a two way street that needs to be build so back and forth communication is efficient.
 
 The initial initiative here will be to work with the Logos Circles groups and their leaders to help unify the process of understanding the winnable issues and their associated requirements such that our engineering efforts can identify whether or not our technical solutions are aimed in the right direction. 
@@ -160,6 +162,11 @@ Considering previous reasoning around our prioritization and focus of creating a
 LLMs are beautiful at providing an easy experience and helping people understand. RAGs are the current methodology for ensuring their answers are up to date on specific information. We already started this endeavor internally with the business intelligence team and the [CaaS](https://ask.free.technology) roll-out. 
 
 #### Expand CaaS
+TODO
+
+#### #resources 
+- https://ask.free.technology
+- https://github.com/status-im/data-docs/blob/master/docs/artificial_intelligence/overview.md
 
 #### Introduce a Logos MCP Server
 Claire from the BI team is creating a PoC MPC server leveraging [Context7](https://context7.com/) to see how useful it would be to provide always-up-to-date Logos context to LLMs.

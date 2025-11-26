@@ -1,7 +1,8 @@
 The goal of the [[Head of Evangelism JD]] is clarity and alignment. Let's look at the responsibilities of the JD and map proposed initiatives to them. 
 
+Before we get to what the Evangelist will be focusing on initially, it's good to understand what they are responsible for and how to track their success. 
 ## Responsibilities
-below are the listed responsibilities of this role. Under each of the sections, we'll go through explicitly how it directly serves to them.
+below are the listed responsibilities of this role. Under each of the sections below, we'll tag what responsibilities each effort contributes to and how. 
 
 1. **Connect** teams internally to ensure they are aligned on the Logos mission, that they understand their role in it and with whom they need to collaborate.
 2. **Evangelise** the IFT/Logos word - at first internally to ensure internal alignment and then externally to build momentum.
@@ -22,7 +23,7 @@ Here are the proposed success metrics to help gauge how well things are going:
 7. Average engagement rate for content (#TBD)
 
 ## Details of Proposed Initiatives
-The following is a list of initiatives that bootstrap a unified understanding of Logos across the IFT Core Contributors as well as set the groundwork to expand into the larger Logos Community:
+The following is a list of initial initiatives that bootstrap a unified understanding of Logos across the IFT Core Contributors as well as set the groundwork to expand into the larger Logos Community:
 
 - maintenance of Logos Assembly (this site)
 - Logos Circles coaching
@@ -32,7 +33,7 @@ The following is a list of initiatives that bootstrap a unified understanding of
 - Logos Stack Technical Diagram contribution and distribution
 - All Hands Planning contribution 
 
-Let's look at each one to understand why adding clarity fosters unification.
+It is important to note that this is not exhaustive, but only a list of what the explicit focus at first will be. Over time, as feedback comes in and clarity is aligned, the strategy can adapt to whatever the organization feels is more important. Let's look at each one to understand how it contributes to clarity and alignment across the org and broader. 
 ### Logos Assembly site maintenance and sharing
 `Contributes to Responsibilities 1, 3, 4, 7`
 
@@ -88,6 +89,9 @@ Monitoring the Logos.co Website:
 ### Logos Launch Strategy
 `Contributes to Responsibilities 1, 2, 3, 4, 6, 7`
 
+This is the core focus up front: to ensure that the Launch Strategy document is clearly understood across internal CCs. It's the core of what everyone is working off of and makes decisions in reference to. 
+
+The following sections outline the main areas of attention in ensuring that happens. 
 #### Establish and maintain feedback loop
 In order to ensure alignment, it's imperative that we maintain a tight feedback loop from those consuming the strategy and acting upon it. This means:
 1. CC consumes current strategy and execution documentation
@@ -127,6 +131,7 @@ As it currently stands, we create and broadcast a myriad of content. We form a n
 
 Some examples of this are:
 - IFT Townhall
+- IFT Research Calls
 - upcoming: Logos Launch Updates
 - Dev Club
 - Who is Logos podcast
@@ -175,7 +180,7 @@ The Evangelist will coordinate with comms and technical leadership on writing th
 - https://miro.com/app/board/uXjVJtcerQQ=/?focusWidget=3458764647770037520
 
 
-### Bonus: Contextual AI Everywhere
+### Bonus Efforts: Contextual AI Everywhere
 Considering previous reasoning around our prioritization and focus of creating artifacts, it then reasons to ingest all of these materials into a global RAG to be used for various AI purposes. 
 
 LLMs are beautiful at providing an easy experience and helping people understand. RAGs are the current methodology for ensuring their answers are up to date on specific information. We already started this endeavor internally with the business intelligence team and the [CaaS](https://ask.free.technology) roll-out. 

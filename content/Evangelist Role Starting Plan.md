@@ -9,7 +9,7 @@ below are the listed responsibilities of this role. Under each of the sections, 
 4. **Communicate** the Logos vision and ensure it is understandable, believable, and shareable across the entire ecosystem.
 5. **Drive the narrative** of why the Logos unification matters.
 6. **Inspire** the organisation by helping to understand not just what to do, but why it matters.
-7. **Coaches** other to be able to speak about Logos in a compelling way.
+7. **Coaches** others to be able to speak about Logos in a compelling way.
 
 ## Details of Proposed Initiatives
 The following is a list of initiatives that bootstrap a unified understanding of Logos across the IFT Core Contributors as well as set the groundwork to expand into the larger Logos Community:
@@ -29,6 +29,13 @@ Let's look at each one to understand why adding clarity fosters unification.
 **Assumption**:  If we can get the entire org to contribute to and leverage this site in the manner of an open source project, then we can rapidly achieve alignment on what's going on. 
 
 This website is an attempt to track and coordinate the creation of [[artifacts]] throughout Logos. Once something gets completed, the website then serves as a resource for where it exists and its effect on its intended audience. 
+
+When appropriate, the website will link to other places where certain coordination should happen instead. For example, the roadmap website (https://roadmap.logos.co, also quartz repos) will maintain Logos:
+- weekly reports
+- Roadmap
+- FURPS
+
+This site (assembly) can serve as a meta repo for those in order to help others understand "where stuff goes," and who to go to if you have questions about it (resource map aspect of here, along with "meta docs")
 
 The Evangelist will maintain this resource and continuously leverage it to answer questions throughout the org. They will work with all Logos CCs to understand what's being done and who's doing it. They will teach others how to meaningfully contribute to it to help maintain understanding of Logos coordination.
 

@@ -11,6 +11,16 @@ below are the listed responsibilities of this role. Under each of the sections, 
 6. **Inspire** the organisation by helping to understand not just what to do, but why it matters.
 7. **Coaches** others to be able to speak about Logos in a compelling way.
 
+Here are the proposed success metrics to help gauge how well things are going:
+
+1. Successful reunification of the Logos teams internally (removal of objections/friction).
+2. 100% comprehension of the Logos narrative amongst CCs.
+3. “Mission alignment” scores via engagement survey.
+4. Strong attendance (and participant ratings) for all-hands & townhalls.
+5. Content reach internally and externally.
+6. TBD amount of authored posts/content per quarter.
+7. Average engagement rate for content (#TBD)
+
 ## Details of Proposed Initiatives
 The following is a list of initiatives that bootstrap a unified understanding of Logos across the IFT Core Contributors as well as set the groundwork to expand into the larger Logos Community:
 
@@ -133,7 +143,9 @@ The Evangelist will work with those coordinating and creating content on this ne
 
 ### Logos Technical Stack Diagram 
 `Contributes to Responsibilities 1, 2, 3, 4, 5, 6, 7`
+
 `Status: Abstract diagram complete`
+
 > [!info] see the details in [[Logos Tech Stack Diagram]]
 
 The creation of a technical diagram of the Logos Stack, as we ideally see it, would serve a number of initiatives simultaneously, all of which improving clarity across the ecosystem. 

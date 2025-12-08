@@ -1,3 +1,8 @@
+---
+title: LIPs Leadership Directives and notes
+tags:
+  - sdd
+---
 This document keeps track of the various directives and thoughts that have been handed down from IFT leadership. It is important to keep track of these and understand where they come from and under what guidance they were given such that the organization reacts appropriately and builds out understanding that is aligned. 
 
 ## Jarrad's views

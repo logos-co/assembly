@@ -1,3 +1,8 @@
+---
+tags:
+  - sdd
+---
+> [!NOTE] This document was generated using AI and has yet to be human reviewed
 # Protocol Documentation
 
 *Integration Layer — Detailing the communication contracts between components*

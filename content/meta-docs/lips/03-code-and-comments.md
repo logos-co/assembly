@@ -1,3 +1,8 @@
+---
+tags:
+  - sdd
+---
+> [!NOTE] This document was generated using AI and has yet to be human reviewed
 # Code & Comments
 
 *Implementation Layer — The executable realization of specification requirements*

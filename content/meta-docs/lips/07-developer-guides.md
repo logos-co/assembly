@@ -1,3 +1,8 @@
+---
+tags:
+  - sdd
+---
+> [!NOTE] This document was generated using AI and has yet to be human reviewed
 # Developer Guides
 
 *Consumer Layer — Task-oriented documentation for building with the system*

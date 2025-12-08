@@ -1,3 +1,8 @@
+---
+tags:
+  - sdd
+---
+> [!NOTE] This document was generated using AI and has yet to be human reviewed
 # Contribution Guidelines
 
 *Community Layer — How to participate in specification-governed development*

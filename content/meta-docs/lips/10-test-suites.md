@@ -1,3 +1,8 @@
+---
+tags:
+  - sdd
+---
+> [!NOTE] This document was generated using AI and has yet to be human reviewed
 # Test Suites
 
 *Validation Layer — Verifying implementations against specification requirements*

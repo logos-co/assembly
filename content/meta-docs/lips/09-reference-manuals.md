@@ -1,3 +1,8 @@
+---
+tags:
+  - sdd
+---
+> [!NOTE] This document was generated using AI and has yet to be human reviewed
 # Reference Manuals
 
 *Consumer Layer — Comprehensive, authoritative technical reference*

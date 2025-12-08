@@ -1,3 +1,8 @@
+---
+tags:
+  - sdd
+---
+> [!NOTE] This document was generated using AI and has yet to be human reviewed
 # Tutorials
 
 *Consumer Layer — Hands-on learning experiences for developers*

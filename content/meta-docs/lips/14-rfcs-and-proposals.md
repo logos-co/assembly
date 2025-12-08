@@ -1,3 +1,8 @@
+---
+tags:
+  - sdd
+---
+> [!NOTE] This document was generated using AI and has yet to be human reviewed
 # RFCs & Proposals
 
 *Community Layer — The process for evolving specifications*

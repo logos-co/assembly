@@ -1,6 +1,9 @@
-# Documentation Dependency on Specifications
+---
+title: Specifications within Logos
+---
+> [!NOTE] This document was generated using AI and has yet to be human reviewed
 
-*A complete guide to how technical documentation relates to and derives from specifications*
+*A complete guide on how technical documentation relates to and derives from specifications*
 
 ---
 
@@ -104,6 +107,8 @@ Documents that govern participation and evolution:
    │  Guides   │      │           │      │  Manuals  │
    └───────────┘      └───────────┘      └───────────┘
 ```
+
+For a more detailed visualization, please see the [[Specification Dependency Graph]]
 
 ---
 

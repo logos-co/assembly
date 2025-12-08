@@ -1,3 +1,8 @@
+---
+tags:
+  - sdd
+---
+> [!NOTE] This document was generated using AI and has yet to be human reviewed
 # API Documentation
 
 *Implementation Layer — Translating specification interfaces into callable contracts*

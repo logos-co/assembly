@@ -1,3 +1,8 @@
+---
+tags:
+  - sdd
+---
+> [!NOTE] This document was generated using AI and has yet to be human reviewed
 # Audit Trails
 
 *Validation Layer — Evidence of specification compliance over time*

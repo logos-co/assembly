@@ -21,6 +21,7 @@ the following list is all the various platforms we currently leverage to do thes
 	- X
 	- [[Github]]
 	- GSuite
+	- [[Strapi]]
 - Creating Content
 	- Restream
 	- Streamyard
@@ -32,3 +33,5 @@ the following list is all the various platforms we currently leverage to do thes
 		- Assembly (this site)
 	- Discord
 	- GSuite
+	- Status Application
+	- Telegram

@@ -8,4 +8,4 @@ The [[Github]] repo that hosts that codebase can be found at https://github.com/
 
 It was created to be the hub that aggregates all content creation and funnels people to regardless of how it's distributed. As I understand it, due to various strategy and CC changes, it isn't leveraged or updated as much these days. 
 
-`Jinho` manages the content on that site if I'm not mistaken. 
+The content is managed through a self-hosted instantiation of [[Strapi]], see that page for details on how to use it. 

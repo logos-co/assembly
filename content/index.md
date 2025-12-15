@@ -34,7 +34,7 @@ This site has a lot of content to cover in order to provide universal clarity to
 
 Here is his [[Evangelist Role Starting Plan]]
 
-Here's the [Site Plan](./site-plan/index.md)
+Here's the [Site Plan](site-plan/index.md)
 
 
 > [!NOTE] Ongoing rough thoughts can be viewed on this [Miro board](https://miro.com/app/board/uXjVJzc-jpI=/)

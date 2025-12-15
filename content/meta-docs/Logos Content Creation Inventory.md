@@ -10,24 +10,24 @@ the following list is all the various platforms we currently leverage to do thes
 
 - Front Ends
 	- [[Logos Press Engine]]
-	- [[Logos-co Calendar]]
-	- [[news-free-technology]]
-	- Youtube
+	- [[Logos-co Calendar|Logos.co Calendar]]
+	- [[news-free-technology|news.free.technology]]
+	- [[Youtube]]
 	- X
 	- fork of forkcast.org
 	- Assembly (this site)
 - Distribution / Hosting
-	- Youtube
+	- [[Youtube]]
 	- X
 	- [[Github]]
 	- GSuite
 	- [[Strapi]]
 - Creating Content
-	- Restream
-	- Streamyard
+	- [[Restream]]
+	- [[Streamyard]]
 	- Design Studio
 - Coordination and Planning
-	- ClickUp
+	- [[ClickUp]]
 	- Notion
 	- [[Github]]
 		- Assembly (this site)

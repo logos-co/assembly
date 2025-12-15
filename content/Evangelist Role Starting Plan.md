@@ -25,6 +25,7 @@ Here are the proposed success metrics to help gauge how well things are going:
 ## Details of Proposed Initiatives
 The following is a list of initial initiatives that bootstrap a unified understanding of Logos across the IFT Core Contributors as well as set the groundwork to expand into the larger Logos Community:
 
+- Org wide agreement on specifications: what and how
 - maintenance of Logos Assembly (this site)
 - Logos Circles coaching
 - Logos.co Website monitoring
@@ -34,6 +35,12 @@ The following is a list of initial initiatives that bootstrap a unified understa
 - All Hands Planning contribution 
 
 It is important to note that this is not exhaustive, but only a list of what the explicit focus at first will be. Over time, as feedback comes in and clarity is aligned, the strategy can adapt to whatever the organization feels is more important. Let's look at each one to understand how it contributes to clarity and alignment across the org and broader. 
+
+### Org wide agreement on specifications: what and how (Critical Focus)
+`Contributes to Responsibilities 1, 4, 5`
+
+Specifications are at the core of efficient development communication and collaboration, particularly when dealing with FOSS development. They *DRIVE* understanding. 
+
 ### Logos Assembly site maintenance and sharing
 `Contributes to Responsibilities 1, 3, 4, 7`
 

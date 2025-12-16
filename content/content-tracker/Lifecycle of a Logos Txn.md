@@ -16,4 +16,4 @@ Having this article completed signifies a number of things:
 
 This then serves as evergreen reference content to continue providing clarity broadly and derive more specialized content from. 
 
-I've used Claude Opus 4.5 Research to give an example of such an article and altered it a bit. This can be read at [[blockchain_privacy_leaks]].
+I've used Claude Opus 4.5 Research to give an example of such an article and altered it a bit. This can be read at [[blockchain_privacy_leaks]]. Note that this article is focused on identifying the various places in which information can be leaked such that we can write additional articles that show how we're addressing these issues. 

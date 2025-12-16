@@ -13,19 +13,23 @@ the following list is all the various platforms we currently leverage to do thes
 	- [[Logos-co Calendar|Logos.co Calendar]]
 	- [[news-free-technology|news.free.technology]]
 	- [[Youtube]]
-	- X
+	- [[X]]
 	- fork of forkcast.org
-	- Assembly (this site)
 - Distribution / Hosting
 	- [[Youtube]]
-	- X
+	- [[X]]
 	- [[Github]]
 	- GSuite
 	- [[Strapi]]
 - Creating Content
-	- [[Restream]]
-	- [[Streamyard]]
-	- Design Studio
+	- [[Restream]] - video
+	- [[Streamyard]] - video
+	- Design Studio - video
+	- GSuite - Text
+	- Notion - Text
+	- notes.status.im - Text
+	- hackmd.io - Text
+	- Fileverse - Text
 - Coordination and Planning
 	- [[ClickUp]]
 	- Notion

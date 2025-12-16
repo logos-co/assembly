@@ -1,3 +1,6 @@
+---
+title: Logos Alignment Survey - Dec 2025
+---
 
 ## Introduction
 Clarity is king to efficiency. In order to gain clarity we have to know where individuals lack it, which means we need to talk to them. 

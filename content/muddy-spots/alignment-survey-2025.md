@@ -15,8 +15,10 @@ To that end, we would like to conduct a survey and follow-up discussion with tea
 ## The Ask
 We ask that team leads complete the [Alignment Survey](https://www.notion.so/2cb8f96fb65c8000a7e1f4ba60816866?pvs=106) (Notion Form) by Christmas. We will follow up afterwards to schedule calls to go over results so that we can get more details where needed. It is ok if follow-ups bleed into the new year, but is heavily desired that initial survey results get done beforehand. 
 
+While this is aimed at leads, if someone feels strongly about filling this form out, the more the merrier.
+
 ## F.A.Q.
 - Why only leads, don't other people have opinions?
-	- everyone's opinion is important. This decision is an optimization for both getting broadly scoped opinions while minimizing the disturbance of those doing the work. It is assumed that leads have a good level of understanding of those they work with with respect to clarity and what's needed to improve it. 
+	- Everyone's opinion is important, and everyone in the IFT is able to fill it out. This decision is an optimization for both getting broadly scoped opinions while minimizing the disturbance of those doing the work. It is assumed that leads have a good level of understanding of those they work with with respect to clarity and what's needed to improve it. Everyone is welcome to fill it out, I'm only asking leads to. 
 - Why so quick, it's the holidays?
 	- We would like to get a snapshot before the end of the year so that we can do it again before the all hands and present on our development and progress. We are striving to _show_ real progress towards delivering the Logos Launch, and internal alignment is an area with high impact on potential success. 

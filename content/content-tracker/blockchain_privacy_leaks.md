@@ -3,6 +3,7 @@ title: "The Anatomy of Exposure: How Blockchain Transactions Leak Information at
 tags:
   - artifact
 ---
+![[blockchain_privacy_leaks_meta|Who is this for and why?]]
 
 > [!NOTE] This was written with the help of Claude Opus 4.5 Research. While it has been read and reviewed for reasonability, the claims have not been verified. 
 

@@ -10,7 +10,7 @@ In order for Logos to be successful, we all have to be on the same page. This si
 TODO -> It's a good way to intuit the purpose of this repo. We are assembling for action. 
 
 ## Why NOT the name "Praxis"?
-Praxis is about doing. It is the unity of theory and practice. But there are projects in the ecosystem that are also named this that are too close to Logos... we don't need to make things difficult to understand or make confusing. So we went with Assembly instead. So use that word to give you additional motivation about what this repository of information is about.
+I originally called this page/repo Praxis, which is about doing. It is the unity of theory and practice. But there are projects in the ecosystem that are also named this that are too close to Logos... we don't need to make things difficult to understand or make confusing. So we went with Assembly instead. So use that word to give you additional motivation about what this repository of information is about.
 
 ### Ancient Greek Origins
 The term originates from ancient Greek (πρᾶξις), meaning "action" or "practice." Aristotle distinguished between three types of knowledge:

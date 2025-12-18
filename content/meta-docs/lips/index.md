@@ -10,3 +10,5 @@ Specifications play a crucial role within FOSS development for a myriad of reaso
 You can find various quotes and links that were given by IFT Leadership in [[lips-directives|LIPs Leadership Directives and notes]] 
 
 A lot of content has been created around explaining what a "specification" is, and then how all technical work associated with it relates downstream to it in the [[meta-docs/lips/specs and tech docs/index|specs and tech docs]] section. 
+
+It is often asked where you can find "good examples" of specs. We maintain a running list of "good specs" at [[Specification Examples]]

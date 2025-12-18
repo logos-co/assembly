@@ -10,7 +10,7 @@ export const sharedPageComponents: SharedLayout = {
       provider: "giscus",
       options: {
         // from data-repo
-        repo: "logos-co/praxis",
+        repo: "logos-co/assembly",
         // from data-repo-id
         repoId: "R_kgDOQUhKqA",
         // from data-category

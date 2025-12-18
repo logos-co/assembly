@@ -5,7 +5,10 @@ tags:
 ---
 ![[blockchain_privacy_leaks_meta|Who is this for and why?]]
 
-> [!NOTE] This was written with the help of Claude Opus 4.5 Research. While it has been read and reviewed for reasonability, the claims have not been verified. 
+> [!NOTE] This was written with the help of Claude Opus 4.5 Research. While it has been read and reviewed for reasonability, the claims have not been verified.
+> 
+> All source material can be found in [[blockchain_privacy_sources]]
+ 
 
 **Every blockchain transaction leaks information to dozens of parties before, during, and after it appears on-chain—and most privacy tools address only a fraction of these exposures.** While users focus on application-layer privacy solutions like mixers and zero-knowledge proofs, the more pervasive privacy erosion happens at infrastructure and network layers that remain largely unaddressed. This creates a fundamental "privacy stack gap" where sophisticated on-chain privacy can be completely undermined by simple IP correlation, RPC provider logging, compromised frontends, or timing analysis at lower layers of the system.
 

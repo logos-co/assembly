@@ -124,7 +124,7 @@ The numbers are stark: **top 2 builders (Beaverbuild, rsync) control over 85% of
 | **Relays** | All submitted blocks, bid amounts, builder identities, patterns |
 | **Proposers (Validators)** | Only block header + payment (blinded to transaction contents) |
 
-Builders profit from this visibility. **Over $7.2 billion in MEV has been extracted since 2020**—arbitrage (35%), sandwich attacks (30%), and liquidations (25%). The March 2025 incident where a trader lost $215,000 to a sandwich attack while the validator earned approximately $200,000 illustrates the scale. Over 72,000 sandwich attacks targeted 35,000+ victims in a recent 30-day period.
+Builders profit from this visibility. **Over \$7.2 billion in MEV has been extracted since 2020** —arbitrage (35%), sandwich attacks (30%), and liquidations (25%). The March 2025 incident where a trader lost \$215,000 to a sandwich attack while the validator earned approximately \$200,000 illustrates the scale. Over 72,000 sandwich attacks targeted 35,000+ victims in a recent 30-day period.
 
 **Private order flow dominance** reinforces centralization. Approximately 60% of block value comes from private order flows. Private transactions constitute only around 12% of transaction volume but **over 54% of block rewards**. Five providers (MEV-Share, MEV Blocker, jaredfromsubway.eth, Banana Gun, Maestro) influence more than 50% of winning auctions.
 

@@ -1,6 +1,7 @@
 ---
 tags:
   - resources
+title: Interrogating Decentralized Systems and The History of Testing Software
 ---
 Alberto did a talk for the IFT Research call on Jan 7, 2025 about how to interrogate distributed systems. 
 
@@ -19,3 +20,8 @@ I contributed to this talk, but also spent some time beforehand talking with Alb
 - [[testing-history.html]]: This is an html file that shows graphics associated with the Claude write-up.
 - [mermaid diagrams](https://hackmd.io/@corpetty/S16C_knE-l): Similar diagrams but in mermaid form in a HackMD document. 
 - [[testing-history-writeup]]: The Claude (Opus 4.5 w/ thinking/research) on the history of testing methodologies. 
+	- [Claude link](https://claude.ai/public/artifacts/38e1a3b1-487f-49e8-a8d9-c7687ded7fb0): same link, but on Claude so you can get references or fork it yourself. 
+
+Here is the link embedded (testing):
+
+<iframe src="https://claude.site/public/artifacts/38e1a3b1-487f-49e8-a8d9-c7687ded7fb0/embed" title="Claude Artifact" width="100%" height="600" frameborder="0" allow="clipboard-write" allowfullscreen></iframe>

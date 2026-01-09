@@ -99,7 +99,7 @@ MetaMask's default provider Infura explicitly collects IP addresses and Ethereum
 
 Transaction signing is the most privacy-preserving stage—private keys correctly remain isolated—but the surrounding processes still leak information.
 
-Software wallet signing exposes transactions to the potentially compromised browser or mobile environment. Hardware wallets (Ledger, Trezor) keep keys in secure elements, but their companion applications still make RPC calls that expose addresses. Research has revealed that while seeds are protected by secure elements, cryptographic operations on older models remain vulnerable to physical voltage glitching attacks with relatively inexpensive equipment.
+Software wallet signing exposes transactions to the potentially compromised browser or mobile environment. Hardware wallets (Keycard, Lattice1, Ledger, Trezor) keep keys in secure elements, but their companion applications still make RPC calls that expose addresses. Research has revealed that while seeds are protected by secure elements, cryptographic operations on older models remain vulnerable to physical voltage glitching attacks with relatively inexpensive equipment.
 
 **Multi-signature coordination introduces substantial exposure.** Gnosis Safe (now Safe) multisig wallets reveal all signer addresses publicly on-chain—the entire ownership structure is visible to anyone. Off-chain signature collection through Safe Transaction Service means that service sees all pending transactions, who signed in what order, and approval/rejection patterns.
 
@@ -151,7 +151,7 @@ Research shows **60% of Bitcoin connections cross just 3 ISPs**, creating concen
 
 **Infrastructure constraint:** Default wallet behavior sends transactions through centralized RPC providers. The overwhelming majority of users never change these defaults, creating a comprehensive dataset at each major provider.
 
-_Note: Running your own node eliminates Stage 4 RPC provider risks, but transactions still enter the public mempool and remain subject to Stage 5 network-layer deanonymization._
+_Note: Running your own node(s) eliminates Stage 4 RPC provider risks, but transactions still enter the public mempool and remain subject to Stage 5 network-layer deanonymization._
 
 ---
 
@@ -195,7 +195,7 @@ These services centralize visibility into user transaction flow with their respe
 
 Tor integration hides IP but faces Bitcoin-specific deanonymization attacks demonstrated by Biryukov & Pustogarov (2015). Tor usage itself is detectable, potentially drawing attention. I2P offers stronger resistance but has a smaller anonymity set and faces integration challenges.
 
-_Future articles will examine how next-generation network privacy layers like Logos' Waku mixnet address these fundamental limitations._
+_Future articles will examine how next-generation network privacy layers like Logos' Blend network and mixnet address these fundamental limitations._
 
 **User choice:** Users can use private mempool services to avoid public mempool exposure, run their own nodes with Tor for network-layer privacy.
 

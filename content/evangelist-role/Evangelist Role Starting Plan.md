@@ -1,3 +1,6 @@
+---
+superceded-by: "[[plan-Q1-2026]]"
+---
 The goal of the [[Head of Evangelism JD]] is clarity and alignment. Let's look at the responsibilities of the JD and map proposed initiatives to them. 
 
 Before we get to what the Evangelist will be focusing on initially, it's good to understand what they are responsible for and how to track their success. 

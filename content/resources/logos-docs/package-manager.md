@@ -2,6 +2,7 @@
 tags:
   - module
   - logos-core
+  - furps
 ---
 - link: https://github.com/logos-co/logos-package-manager
 

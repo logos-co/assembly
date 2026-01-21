@@ -1,7 +1,7 @@
 ---
 tags:
-  - spec
   - logos-core
+  - specs
 ---
 - link: https://github.com/logos-co/logos-package/blob/master/docs/spec.md
 - The `index.md` file before gives both the spec and the Project Description, which correctly attempts to differentiate between implementation independent documentation and implementation specific documentation. 

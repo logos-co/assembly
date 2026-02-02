@@ -355,7 +355,3 @@ Lou needs: number of sessions to record, number of edited outputs.
 | **March 6** | Parallel Societies Day 1 | Unconference: tech, hacktivism, community |
 | **March 7** | Parallel Societies Day 2 | Culture celebration |
 | **March 8-9** | Team Offsites | Stream-specific work, cross-team collaboration |
-
----
-
-*Document prepared for coordination team review. Please add comments and flag any concerns before [date].*

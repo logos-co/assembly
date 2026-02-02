@@ -48,20 +48,25 @@
 
 #### 09:30–10:45 | What is Logos (75 min)
 
-The foundational alignment block. Everyone leaves with the same clear understanding.
+The foundational alignment block. Everyone leaves with the same clear understanding of what we're building, why, and how.
 
 **Content:**
-- The mission: what "revitalising civil society" means concretely
+- The mission: what "revitalising civil society" means concretely (15 min)
 - Why now: macro context (surveillance, institutional capture, civic decay)
-- The tech stack: Logos Blockchain, Logos Messaging, Logos Storage
+- The tech stack: Logos Blockchain, Logos Messaging, Logos Storage (20 min)
   - Why these three primitives
-  - How they connect (integration map visual)
   - What this combination uniquely enables
-- The design space we're opening up for builders
+- **Specification Driven Development: How We Build** (20 min)
+  - What SDD is and why it matters for FOSS projects
+  - Why it's critical for blockchain and privacy tech specifically
+  - How everyone relates to this regardless of role (engineers, EcoDev, community)
+  - The culture of rigor and why things take time
+  - *Presenter: Corey*
+- Integration map: how the stack and specs connect (15 min)
 
-**Owner:** TBD (Leadership + Technical leads)  
+**Owner:** Leadership + Technical leads; Corey for SDD segment  
 **Format:** Presentation with visuals  
-**Note:** This IS the messaging. If this block lands, people can explain Logos.
+**Note:** This IS the messaging. Mission → Tech → Method → Integration. If this block lands, people understand not just what Logos is but how it gets built.
 
 ---
 
@@ -126,11 +131,14 @@ Tangible proof of progress. Builds confidence, gives people concrete things to r
   - Messaging integration demo
   - Circles use case implementation
   - Storage demo
+  - **Specification visualization tool** *(optional, if ready)* — callback to SDD presentation; shows the methodology in action
 - Brief context for each: what it is, why it matters, what it proves
 
 **Owner:** TBD  
 **Format:** Live demos with narration  
-**Open Question:** What demos are ready/realistic for March 5?
+**Open Questions:** 
+- What demos are ready/realistic for March 5?
+- Spec visualization tool: decision point ~1 week out on readiness
 
 ---
 
@@ -317,23 +325,25 @@ Lou needs: number of sessions to record, number of edited outputs.
 
 1. **Showcases:** What demos are realistically ready for March 5? Who owns preparation?
 
-2. **Stream Questions:** Can each stream lead (Engineering, EcoDev, Comms) prepare 2-3 key questions by [date]?
+2. **Spec Visualization Tool:** Decision point ~1 week before event on whether demo is ready for Showcases block.
 
-3. **Circles Speakers:** Which 2-3 of the 6 confirmed stewards (Michael, Jimin, Joao, Deca, Alice, Marco) should present? Santi/Amelia coordinating.
+3. **Stream Questions:** Can each stream lead (Engineering, EcoDev, Comms) prepare 2-3 key questions by [date]?
 
-4. **Nimbus/Status:** Are we comfortable with "acknowledged but not featured" approach? Anyone from those teams who should have a specific voice?
+4. **Circles Speakers:** Which 2-3 of the 6 confirmed stewards (Michael, Jimin, Joao, Deca, Alice, Marco) should present? Santi/Amelia coordinating.
 
-5. **Closing Moment:** What kind of ending fits the culture? Video? Reading? Something else?
+5. **Nimbus/Status:** Are we comfortable with "acknowledged but not featured" approach? Anyone from those teams who should have a specific voice?
 
-6. **Facilitation:** Who runs the table discussions in the afternoon? Do we need external facilitator support?
+6. **Closing Moment:** What kind of ending fits the culture? Video? Reading? Something else?
 
-7. **Capture Method:** How do we collect outputs from table sessions? Cards? Digital? Who synthesizes for offsites?
+7. **Facilitation:** Who runs the table discussions in the afternoon? Do we need external facilitator support?
 
-8. **Finance Update:** Confirm approach — virtual pre-work before all-hands (recommended) or parallel session?
+8. **Capture Method:** How do we collect outputs from table sessions? Cards? Digital? Who synthesizes for offsites?
 
-9. **Coalition Partners:** Confirm approach for Charter Cities / Zanzalu early arrivals. Full day, partial, or separate?
+9. **Finance Update:** Confirm approach — virtual pre-work before all-hands (recommended) or parallel session?
 
-10. **Recording:** Confirm scope and budget. Who liaises with Lou on final requirements?
+10. **Coalition Partners:** Confirm approach for Charter Cities / Zanzalu early arrivals. Full day, partial, or separate?
+
+11. **Recording:** Confirm scope and budget. Who liaises with Lou on final requirements?
 
 ---
 

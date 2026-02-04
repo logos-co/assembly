@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logos Alignment Survey Analysis | December 2025</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Public+Sans:wght@400;500;600;700&display=swap');
+        
+        :root {
+            /* Primary Colors */
+            --forest: #1a2e2b;
+            --forest-light: #2d4240;
+            --cream: #f5f3ed;
+            --cream-dark: #eae7df;
+            --white: #faf9f6;
+            
+            /* Secondary Colors */
+            --slate: #6b7d7d;
+            --ice: #dbeef5;
+            --ice-dark: #c5dde8;
+            
+            /* Tertiary/Accent Colors */
+            --tan: #d4c9a8;
+            --tan-dark: #c8b896;
+            --ochre: #a89968;
+            --yellow: #f5d547;
+            --burgundy: #4a3540;
+            --sage: #8a9a8e;
+            --sage-light: #b8c4b8;
+            
+            /* Semantic */
+            --success: #3d6b59;
+            --warning: #a89968;
+            --danger: #8b4049;
+            
+            /* Layout */
+            --border: #e0ddd5;
+            --border-light: #ebe8e2;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Public Sans', system-ui, -apple-system, sans-serif;
+            background: var(--cream);
+            color: var(--forest);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        
+        h1, h2, h3, .display {
+            font-family: 'Libre Baskerville', Georgia, serif;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+        }
+        
+        .header {
+            background: var(--forest);
+            color: var(--cream);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.75rem;
+            margin-bottom: 0.5rem;
+            font-weight: 400;
+            color: var(--cream);
+        }
+        
+        .header .subtitle {
+            font-family: 'Public Sans', sans-serif;
+            font-size: 1.1rem;
+            opacity: 0.85;
+            font-weight: 400;
+        }
+        
+        .header .meta {
+            margin-top: 1.5rem;
+            font-size: 0.875rem;
+            opacity: 0.7;
+            font-family: 'Public Sans', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .nav {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .nav a {
+            color: var(--forest);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .nav a:hover {
+            background: var(--forest);
+            color: var(--cream);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        
+        .section {
+            margin-bottom: 4rem;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            color: var(--forest);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--forest);
+            font-weight: 400;
+        }
+        
+        .card {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+        }
+        
+        .card h3 {
+            color: var(--forest);
+            margin-bottom: 1rem;
+            font-size: 1.35rem;
+            font-weight: 400;
+        }
+        
+        .card p {
+            margin-bottom: 1rem;
+            color: var(--forest-light);
+            line-height: 1.7;
+        }
+        
+        .card p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 2.5rem 2rem;
+            background: var(--forest);
+            color: var(--cream);
+            border: none;
+        }
+        
+        .stat-card .number {
+            font-family: 'Libre Baskerville', Georgia, serif;
+            font-size: 3.5rem;
+            font-weight: 400;
+            color: var(--yellow);
+        }
+        
+        .stat-card .label {
+            color: var(--cream);
+            font-size: 0.9rem;
+            margin-top: 0.75rem;
+            opacity: 0.85;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        
+        .badge-success { background: var(--ice); color: var(--success); }
+        .badge-warning { background: var(--tan); color: var(--forest); }
+        .badge-danger { background: #f5e5e5; color: var(--danger); }
+        .badge-info { background: var(--ice); color: var(--slate); }
+        
+        .finding-box {
+            border-left: 3px solid var(--forest);
+            padding-left: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .finding-box p {
+            color: var(--forest-light);
+        }
+        
+        .finding-box.positive { border-color: var(--success); }
+        .finding-box.warning { border-color: var(--ochre); }
+        .finding-box.critical { border-color: var(--danger); }
+        
+        .quote {
+            background: var(--cream);
+            padding: 1.5rem 2rem;
+            border-radius: 4px;
+            font-style: italic;
+            margin: 1.25rem 0;
+            position: relative;
+            border-left: 3px solid var(--ochre);
+            color: var(--forest-light);
+        }
+        
+        .quote::before {
+            content: '"';
+            font-family: 'Libre Baskerville', Georgia, serif;
+            font-size: 3rem;
+            color: var(--ochre);
+            opacity: 0.4;
+            position: absolute;
+            top: 0;
+            left: 12px;
+            line-height: 1;
+        }
+        
+        .quote .author {
+            font-style: normal;
+            font-weight: 600;
+            color: var(--forest);
+            margin-top: 0.75rem;
+            display: block;
+            font-size: 0.9rem;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin: 1.5rem 0;
+        }
+        
+        .chart-container.tall {
+            height: 400px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        th {
+            background: var(--forest);
+            color: var(--cream);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        tr:hover {
+            background: var(--cream);
+        }
+        
+        td {
+            color: var(--forest-light);
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 1.5rem;
+        }
+        
+        .tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 0.95rem;
+            color: var(--slate);
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+            transition: all 0.2s;
+            font-family: 'Public Sans', sans-serif;
+        }
+        
+        .tab:hover {
+            color: var(--forest);
+        }
+        
+        .tab.active {
+            color: var(--forest);
+            border-bottom-color: var(--forest);
+            font-weight: 600;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .recommendation {
+            display: flex;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: var(--cream);
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-light);
+        }
+        
+        .recommendation .number {
+            width: 40px;
+            height: 40px;
+            background: var(--forest);
+            color: var(--cream);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+            font-family: 'Libre Baskerville', Georgia, serif;
+        }
+        
+        .recommendation .content h4 {
+            color: var(--forest);
+            margin-bottom: 0.5rem;
+            font-family: 'Libre Baskerville', Georgia, serif;
+            font-weight: 400;
+            font-size: 1.1rem;
+        }
+        
+        .recommendation .content p {
+            color: var(--forest-light);
+        }
+        
+        .collapsible {
+            cursor: pointer;
+            padding: 1rem 1.25rem;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+            color: var(--forest);
+            font-weight: 500;
+        }
+        
+        .collapsible:hover {
+            background: var(--cream);
+            border-color: var(--forest);
+        }
+        
+        .collapsible::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--forest);
+            font-weight: 300;
+        }
+        
+        .collapsible.active::after {
+            content: '−';
+        }
+        
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 1.25rem;
+        }
+        
+        .collapsible-content.active {
+            max-height: 2000px;
+            padding: 1.25rem;
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            margin-bottom: 0.5rem;
+            background: var(--white);
+        }
+        
+        .collapsible-content p {
+            color: var(--forest-light);
+        }
+        
+        .footer {
+            background: var(--forest);
+            color: var(--cream);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        
+        .footer p {
+            opacity: 0.85;
+        }
+        
+        /* Info box - branded highlight */
+        .info-box {
+            background: var(--ice);
+            border: 1px solid var(--ice-dark);
+            border-left: 4px solid var(--forest);
+            border-radius: 4px;
+            padding: 1.5rem 2rem;
+        }
+        
+        .info-box h3 {
+            color: var(--forest);
+            font-family: 'Libre Baskerville', Georgia, serif;
+        }
+        
+        .info-box p {
+            color: var(--forest-light);
+        }
+        
+        /* Status boxes for recommendations */
+        .status-box {
+            background: var(--ice);
+            border: 1px solid var(--ice-dark);
+            padding: 1rem 1.25rem;
+            border-radius: 4px;
+            margin-left: 56px;
+        }
+        
+        .status-box p {
+            color: var(--forest-light);
+            font-size: 0.95rem;
+        }
+        
+        .status-box strong {
+            color: var(--forest);
+        }
+        
+        .status-box a {
+            color: var(--forest);
+            text-decoration: underline;
+        }
+        
+        .status-box-warning {
+            background: var(--tan);
+            border-color: var(--tan-dark);
+        }
+        
+        .status-box-warning strong {
+            color: var(--forest);
+        }
+        
+        /* Team comparison boxes */
+        .team-box {
+            padding: 1.5rem;
+            border-radius: 6px;
+            background: var(--white);
+            border: 1px solid var(--border);
+        }
+        
+        .team-box.logos {
+            border-left: 4px solid var(--success);
+        }
+        
+        .team-box.logos h4 {
+            color: var(--success);
+        }
+        
+        .team-box.status {
+            border-left: 4px solid var(--ochre);
+        }
+        
+        .team-box.status h4 {
+            color: var(--ochre);
+        }
+        
+        .team-box p {
+            color: var(--forest-light);
+        }
+        
+        /* Flow indicators */
+        .flow-item {
+            background: var(--white);
+            color: var(--forest);
+            padding: 0.75rem 1.25rem;
+            border-radius: 4px;
+            font-weight: 500;
+            border: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+        
+        .flow-item.highlight {
+            background: var(--forest);
+            color: var(--cream);
+            border-color: var(--forest);
+        }
+        
+        .flow-arrow {
+            font-size: 1.25rem;
+            color: var(--slate);
+        }
+        
+        /* Gap cards */
+        .gap-card {
+            border-left: 4px solid var(--danger);
+        }
+        
+        .gap-card.warning {
+            border-left-color: var(--ochre);
+        }
+        
+        /* Yellow accent for key highlights */
+        .highlight-yellow {
+            background: var(--yellow);
+            color: var(--forest);
+            padding: 0.1em 0.3em;
+            border-radius: 2px;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .container { padding: 1.5rem 1rem; }
+            .grid { grid-template-columns: 1fr; }
+            .section-title { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Internal Alignment Survey Analysis</h1>
+        <p class="subtitle">Comprehensive findings and strategic recommendations</p>
+        <p class="meta">December 2025 | 19 Respondents</p>
+    </header>
+    
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="#executive-summary">Executive Summary</a>
+            <a href="#key-metrics">Key Metrics</a>
+            <a href="#information">Information Architecture</a>
+            <a href="#alignment">Strategy Alignment</a>
+            <a href="#whats-working">What's Working</a>
+            <a href="#gaps">Identified Gaps</a>
+            <a href="#recommendations">Recommendations</a>
+        </div>
+    </nav>
+    
+    <main class="container">
+        <!-- Executive Summary -->
+        <section id="executive-summary" class="section">
+            <h2 class="section-title">Executive Summary</h2>
+            
+            <div class="grid">
+                <div class="card stat-card">
+                    <div class="number">19</div>
+                    <div class="label">Survey Respondents</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="number">~60%</div>
+                    <div class="label">Report Clear Expectations</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="number">100%</div>
+                    <div class="label">Mission Alignment</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <p>This report synthesizes findings from the December 2025 Internal Alignment Survey, conducted to assess organizational clarity, strategic understanding, and team alignment as Logos approaches its planned launch. Responses were collected between December 16, 2025 and January 20, 2026 from team leads and contributors across the organization.</p>
+                
+                <p style="margin-top: 1rem;">The analysis reveals an organization with <strong>strong foundational mission alignment</strong> but <strong>notable execution clarity gaps</strong>. While the core mission is well understood across all teams, significant challenges remain in translating high-level vision into clear team-level expectations, particularly for teams not directly building core infrastructure.</p>
+            </div>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3>🟢 Strengths</h3>
+                    <div class="finding-box positive">
+                        <p>Universal mission understanding across technical and non-technical roles. All respondents articulated consistent vision around privacy-first, decentralized infrastructure.</p>
+                    </div>
+                    <div class="finding-box positive">
+                        <p>Healthy bias toward self-serve information discovery among Leads, with clear escalation paths when clarity is missing.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>🟡 Concerns</h3>
+                    <div class="finding-box warning">
+                        <p>Strategy document praised for vision but criticized for being overly dense, lacking prioritization, and missing concrete timelines.</p>
+                    </div>
+                    <div class="finding-box warning">
+                        <p>Over-reliance on Daniel (Ksr) as alignment focal point creates single point of failure risk.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>🔴 Critical Gaps</h3>
+                    <div class="finding-box critical">
+                        <p>Information fragmented across Notion, Discord, GitHub, forums. No single source of truth.</p>
+                    </div>
+                    <div class="finding-box critical">
+                        <p>Status/SNT positioning absent from strategy documents, creating anxiety for multiple teams.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Key Metrics -->
+        <section id="key-metrics" class="section">
+            <h2 class="section-title">Key Metrics & Participation</h2>
+            
+            <div class="card info-box" style="background: var(--ice); border: 1px solid var(--ice-dark); border-left: 4px solid var(--forest);">
+                <h3 style="margin-bottom: 0.75rem;">📋 A Note on Survey Scope</h3>
+                <p>This initial survey was aimed at leads plus a handful of others to touch base with various sections of the organization. The 19 respondents represent less than 10% of the organization, albeit an informed and strategically positioned sample. This approach was intentional — serving as a starting point to reasonably sample alignment while minimizing distraction from ongoing work. Further surveys will include more of the organization to capture broader perspectives.</p>
+                <p style="margin-top: 0.75rem; font-style: italic; color: var(--forest);">If anyone ever wants to submit feedback outside of formal surveys, Corey's door is always open.</p>
+            </div>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3>Team Clarity Assessment</h3>
+                    <div class="chart-container">
+                        <canvas id="clarityChart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Information Source Usage</h3>
+                    <div class="chart-container">
+                        <canvas id="sourcesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>Response Timeline & Coverage</h3>
+                <p>The survey captured perspectives across the organizational transition toward a more unified Logos-focused strategy. Respondents represent core infrastructure teams (Blockchain, Messaging, Storage), application teams (Status, Keycard), and support functions (BI, Communications, Tokenomics, Funding).</p>
+                <div class="chart-container tall">
+                    <canvas id="timelineChart"></canvas>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Information Architecture -->
+        <section id="information" class="section">
+            <h2 class="section-title">Information Architecture Analysis</h2>
+            
+            <div class="card">
+                <h3>Current Information Discovery Behavior</h3>
+                <p>Most Leads operate autonomously when addressing open questions. Before reaching out to individuals (primarily Ksr), they typically consult information sources in the following priority order:</p>
+                
+                <div style="display: flex; align-items: center; gap: 1rem; margin: 1.5rem 0; flex-wrap: wrap;">
+                    <div class="flow-item">1. Notion</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-item">2. Strategy Docs</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-item">3. GitHub</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-item">4. Discord</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-item" style="background: var(--forest); color: var(--cream); border-color: var(--forest);">5. Ask Ksr</div>
+                </div>
+                
+                <p>This indicates a <strong>healthy bias toward self-serve information discovery</strong>, particularly among Leads. However, the eventual fallback to individual queries suggests documentation gaps.</p>
+            </div>
+            
+            <div class="card">
+                <h3>Cultural Observation: Logos vs. Status Teams</h3>
+                <div class="grid" style="margin-top: 1rem;">
+                    <div class="team-box logos">
+                        <h4 style="margin-bottom: 0.5rem;">Logos Teams</h4>
+                        <p>Tend to look for information independently. Strong documentation culture with RFC/spec-driven approach.</p>
+                    </div>
+                    <div class="team-box status">
+                        <h4 style="margin-bottom: 0.5rem;">Status Teams</h4>
+                        <p>More likely to ask individuals directly rather than self-serve. May indicate different onboarding or documentation expectations.</p>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; color: var(--text-muted); font-style: italic;">This highlights a potential cultural alignment gap around documentation and information discovery practices that may require attention.</p>
+            </div>
+            
+            <div class="card">
+                <h3>Key Challenges Identified</h3>
+                
+                <div class="collapsible">Information Fragmentation</div>
+                <div class="collapsible-content">
+                    <p>Information is spread across too many platforms (Notion, Discord, GitHub, forums, websites), making discovery inefficient. Multiple respondents expressed a strong desire for a single "source of truth" or clearer guidance on where authoritative information lives.</p>
+                    <div class="quote">
+                        "I think there are a few sources of truth and that is confusing. One thing that is REALLY confusing is to have separated GitHubs per team."
+                        <span class="author">— Daniel Sanchez Quiros</span>
+                    </div>
+                </div>
+                
+                <div class="collapsible">Notion Limitations</div>
+                <div class="collapsible-content">
+                    <p>While widely used, Notion is not perceived as an effective collaborative tool, particularly for cross-team work. It lacks the version control, indexing, and collaborative aspects that would make it truly "open."</p>
+                    <div class="quote">
+                        "I'd avoid Notion for documentation, unless it's internal facing. This is because Notion lacks the collaborative aspect and indexing that makes it truly 'open' (even for public Notion pages)."
+                        <span class="author">— Hanno Cornelius</span>
+                    </div>
+                </div>
+                
+                <div class="collapsible">Unclear Ownership</div>
+                <div class="collapsible-content">
+                    <p>There is no clear mapping of who owns what website, project, or Discord server. This creates friction when team members need to request access or understand accountability.</p>
+                    <div class="quote">
+                        "We need more clarity on who owns what — for example, who owns this website, this project, who is responsible for this or that Discord server."
+                        <span class="author">— Claire Pinson</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Strategy Alignment -->
+        <section id="alignment" class="section">
+            <h2 class="section-title">Strategy Alignment Analysis</h2>
+            
+            <div class="card">
+                <h3>Mission Understanding</h3>
+                <p>Respondents demonstrate remarkably consistent understanding of the Logos mission. The core themes that emerged across all responses converge on a unified vision:</p>
+                
+                <div class="chart-container">
+                    <canvas id="missionChart"></canvas>
+                </div>
+                
+                <div class="quote" style="margin-top: 1.5rem;">
+                    "Bitcoin and Linux had a baby. Ethereum and Tor had a baby. Then, those children grew up and met, and had a baby. Their child is named Logos, and it has all the most useful genetics it could inherit from its progenitors."
+                    <span class="author">— Aaron</span>
+                </div>
+                
+                <div class="quote">
+                    "Create private, censorship-resistant, sovereign infrastructure to support a parallel society."
+                    <span class="author">— Eric Mastro</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>Strategy Document Feedback</h3>
+                
+                <div class="tabs">
+                    <button class="tab active" onclick="showTab(event, 'tab-praise')">Positive Feedback</button>
+                    <button class="tab" onclick="showTab(event, 'tab-concerns')">Concerns Raised</button>
+                    <button class="tab" onclick="showTab(event, 'tab-requests')">Improvement Requests</button>
+                </div>
+                
+                <div id="tab-praise" class="tab-content active">
+                    <p>The strategy document received praise for its vision and the quality of research underlying technical components:</p>
+                    <div class="quote">"Really good and quite inspiring."<span class="author">— Guy-Louis Grau</span></div>
+                    <div class="quote">"Technical details and needs for various core primitives is quite clear and well researched."<span class="author">— Jonny Zerah</span></div>
+                    <div class="quote">"Strong and well thought through."<span class="author">— Alisher</span></div>
+                </div>
+                
+                <div id="tab-concerns" class="tab-content">
+                    <p>Despite the praise, significant concerns were raised about the document's utility as an execution guide:</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Too Long and Dense:</strong> Teams struggle to digest the document and understand priorities.</p>
+                    <div class="quote">"It needs to be much more succinct and more organised. It's all over the place and the scope is so enormous."<span class="author">— Eric Mastro</span></div>
+                    
+                    <p style="margin-top: 1rem;"><strong>Scope Concerns:</strong> Unclear which items are must-haves vs. aspirational.</p>
+                    <div class="quote">"There is A LOT of stuff in the launch strategy. It isn't clear to me, at all, which of those NEED to be achieved by 2027 and which don't."<span class="author">— Giuliano Mega</span></div>
+                    
+                    <p style="margin-top: 1rem;"><strong>Status/SNT Omission:</strong> The absence created confusion and concern across teams.</p>
+                    <div class="quote">"Why isn't SNT mentioned anywhere? Tbh it feels like the elephant in the room."<span class="author">— Guy-Louis Grau</span></div>
+                </div>
+                
+                <div id="tab-requests" class="tab-content">
+                    <p>Respondents provided concrete suggestions for improvement:</p>
+                    
+                    <div style="display: grid; gap: 1rem; margin-top: 1rem;">
+                        <div style="background: var(--secondary); padding: 1rem; border-radius: 8px; border-left: 3px solid var(--accent);">
+                            <strong style="color: var(--text);">Smaller, Focused Documents</strong>
+                            <p style="margin-top: 0.5rem; color: var(--text-muted);">Break into digestible parts paired with internal sessions explaining why each initiative matters.</p>
+                        </div>
+                        <div style="background: var(--secondary); padding: 1rem; border-radius: 8px; border-left: 3px solid var(--accent);">
+                            <strong style="color: var(--text);">Clear Scope & Prioritization</strong>
+                            <p style="margin-top: 0.5rem; color: var(--text-muted);">Distinguish must-have launch goals from long-term aspirations explicitly.</p>
+                        </div>
+                        <div style="background: var(--secondary); padding: 1rem; border-radius: 8px; border-left: 3px solid var(--accent);">
+                            <strong style="color: var(--text);">Time-Based Roadmap</strong>
+                            <p style="margin-top: 0.5rem; color: var(--text-muted);">Concrete milestones with team responsibilities, dependencies, and phases.</p>
+                        </div>
+                        <div style="background: var(--secondary); padding: 1rem; border-radius: 8px; border-left: 3px solid var(--accent);">
+                            <strong style="color: var(--text);">Better Launch Definition</strong>
+                            <p style="margin-top: 0.5rem; color: var(--text-muted);">Clearer first phase scope including community (Circles), funding, and go-to-market needs.</p>
+                        </div>
+                        <div style="background: var(--secondary); padding: 1rem; border-radius: 8px; border-left: 3px solid var(--accent);">
+                            <strong style="color: var(--text);">More Public Coordination</strong>
+                            <p style="margin-top: 0.5rem; color: var(--text-muted);">Open roadmaps, PRs, fewer private DMs for better organizational visibility.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- What's Working -->
+        <section id="whats-working" class="section">
+            <h2 class="section-title">What's Working Well</h2>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3>🎯 Town Halls & All-Hands</h3>
+                    <p>Repeatedly cited as the most effective clarity mechanism. The regularity and video format helps maintain alignment across distributed teams.</p>
+                    <div class="quote">"Townhalls are always great. Using video as a medium to explain things is also nice, as it's less dry than a wall of text."<span class="author">— Jonathan Rainville</span></div>
+                </div>
+                
+                <div class="card">
+                    <h3>📜 Jarrad's Strategic Communications</h3>
+                    <p>Strategy documents and talks (Split event specifically mentioned) effectively convey direction. Repeated vision communication is valued.</p>
+                    <div class="quote">"Jarrad's strategy doc has been the most insightful thing."<span class="author">— Jonny Zerah</span></div>
+                </div>
+                
+                <div class="card">
+                    <h3>🔗 Daniel (Ksr) as Alignment Focal Point</h3>
+                    <p>His role in translating vision to requirements and validating team-level interpretations has been invaluable for maintaining coherence.</p>
+                    <div class="quote">"Daniel is again continuously helping me with that; a lot."<span class="author">— Giuliano Mega</span></div>
+                </div>
+                
+                <div class="card">
+                    <h3>📋 RFC/Spec-Driven Culture</h3>
+                    <p>This approach creates durable documentation and contributes to both technical clarity and organizational values alignment.</p>
+                    <div class="quote">"RFC/spec-driven culture hugely contributes to both technical clarity and clarity wrt our value-driven mandate."<span class="author">— Hanno Cornelius</span></div>
+                </div>
+                
+                <div class="card">
+                    <h3>💬 Leads-Roundup Discord Channel</h3>
+                    <p>Centralized updates from leads provide organizational visibility and serve as a go-to source for cross-team awareness.</p>
+                    <div class="quote">"This is my go-to source when I want to know what the teams are working on."<span class="author">— Claire Pinson</span></div>
+                </div>
+                
+                <div class="card">
+                    <h3>🌍 Real Community Engagement</h3>
+                    <p>Partnering with real communities on tangible problems (e.g., Logos Circles in Zanzalu) crystallizes the abstract strategy into concrete action.</p>
+                    <div class="quote">"Where Logos has involved itself with real communities, partnering on solving tangible problems, the mission has been most clear."<span class="author">— Hanno Cornelius</span></div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>Organizational Improvements Recognized</h3>
+                <p>Respondents consistently highlighted several areas where the organization has improved:</p>
+                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem;">
+                    <span class="badge badge-success">Roadmap Clarity</span>
+                    <span class="badge badge-success">SPECs/Documentation Culture</span>
+                    <span class="badge badge-success">Leadership Presence</span>
+                    <span class="badge badge-success">Push for Openness</span>
+                    <span class="badge badge-success">Public Discussions</span>
+                    <span class="badge badge-success">Town Hall Effectiveness</span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Identified Gaps -->
+        <section id="gaps" class="section">
+            <h2 class="section-title">Identified Gaps & Team-Specific Concerns</h2>
+            
+            <div class="card">
+                <h3>Team Clarity Assessment</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Team</th>
+                            <th>Clarity Level</th>
+                            <th>Key Concern</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Blockchain</strong></td>
+                            <td><span class="badge badge-success">Clear</span></td>
+                            <td>Confident after roadmap approval</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Messaging</strong></td>
+                            <td><span class="badge badge-success">Clear</span></td>
+                            <td>Well-aligned via PM meetings</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Storage</strong></td>
+                            <td><span class="badge badge-warning">Partial</span></td>
+                            <td>Potential overlap with Messaging unclear</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tokenomics</strong></td>
+                            <td><span class="badge badge-success">Clear</span></td>
+                            <td>Invested time in strategy alignment</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Status App</strong></td>
+                            <td><span class="badge badge-danger">Unclear</span></td>
+                            <td>Objectives changed multiple times; words and actions misaligned</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Keycard</strong></td>
+                            <td><span class="badge badge-danger">Unclear</span></td>
+                            <td>Feels "out of Logos" despite desire to contribute</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Communications</strong></td>
+                            <td><span class="badge badge-danger">Unclear</span></td>
+                            <td>Fragmented, lacking overarching strategy</td>
+                        </tr>
+                        <tr>
+                            <td><strong>BI/Data</strong></td>
+                            <td><span class="badge badge-warning">Partial</span></td>
+                            <td>Awareness of BI team services is low across org</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="grid">
+                <div class="card gap-card">
+                    <h3>🔴 Keycard Integration Gap</h3>
+                    <div class="quote">"I have very very limited clue about the role of Keycard in Logos... overall my understanding is that Keycard is simply out of Logos."<span class="author">— Guy-Louis Grau</span></div>
+                    <p style="margin-top: 1rem;">This represents a significant missed opportunity. The team believes Keycard could serve as "the self custody arm of Logos" and is eager to contribute, but lacks clear direction on integration priorities.</p>
+                </div>
+                
+                <div class="card gap-card">
+                    <h3>🔴 Communications Strategy Vacuum</h3>
+                    <div class="quote">"The comms team feels a bit fragmented... there is a lack of overarching strategy around what the comms team is intended to be doing. Therefore, it feels we are all moving forward... just in various directions."<span class="author">— Jonny Zerah</span></div>
+                    <p style="margin-top: 1rem;">Jonny directly asked: "Who is setting the comms strategy?" — indicating a perceived leadership vacuum in this critical area.</p>
+                </div>
+                
+                <div class="card gap-card warning">
+                    <h3>🟡 Status/SNT Positioning</h3>
+                    <p>Multiple respondents noted the absence of Status and SNT from strategy documents created confusion and concern. There is an open question around how Status fits into Logos and how to better integrate Status teams.</p>
+                    <p style="margin-top: 1rem; font-style: italic; color: var(--text-muted);">Note: This concern may already be partially addressed through the recent organizational restructure, though it is too early to assess its full impact.</p>
+                </div>
+                
+                <div class="card gap-card warning">
+                    <h3>🟡 Leadership Bandwidth Constraint</h3>
+                    <p>Daniel (Ksr) is identified as a critical but potentially overloaded single point of alignment. His effectiveness is praised, but this creates organizational dependency risk.</p>
+                    <div class="quote">"I also fear he might be an overloaded single point of failure, and that despite working long hours there's only so much bandwidth one can have."<span class="author">— Giuliano Mega</span></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Recommendations -->
+        <section id="recommendations" class="section">
+            <h2 class="section-title">Strategic Recommendations</h2>
+            
+            <p style="margin-bottom: 1.5rem;">The following recommendations include assigned ownership, work already in progress, and concrete next steps. This provides accountability and acknowledges that many of these initiatives are already underway.</p>
+            
+            <div class="card">
+                <h3>🚀 Immediate Actions (0-30 days)</h3>
+                
+                <div class="recommendation" style="flex-direction: column; gap: 0.75rem;">
+                    <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                        <div class="number">1</div>
+                        <div class="content" style="flex: 1;">
+                            <h4>Address Status/SNT Positioning Explicitly</h4>
+                            <p>The omission from strategy documents has created unnecessary anxiety. A clear statement about how Status, SNT, and related teams fit within the Logos ecosystem would resolve significant uncertainty for multiple teams.</p>
+                        </div>
+                    </div>
+                    <div class="status-box">
+                        <p><strong>Owner:</strong> Adam/Volo (possibly Ksr), requires Carl approval of plan</p>
+                        <p style="margin-top: 0.5rem;"><strong>Already Done:</strong> A new financial model has been developed which describes subsistence and should set their goals as a project. The recent re-org helps Status teams understand their relationship to the broader organization.</p>
+                    </div>
+                </div>
+                
+                <div class="recommendation" style="flex-direction: column; gap: 0.75rem;">
+                    <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                        <div class="number">2</div>
+                        <div class="content" style="flex: 1;">
+                            <h4>Publish a Prioritized Execution Roadmap</h4>
+                            <p>Convert the dense strategy document into a more digestible format that clearly distinguishes must-have deliverables for 2027 launch from desirable-if-resources-permit items and post-launch aspirations. Include team assignments and dependencies.</p>
+                        </div>
+                    </div>
+                    <div class="status-box">
+                        <p><strong>Owner:</strong> Kaushal, informed by Corey's initial roadmap work in Assembly</p>
+                    </div>
+                </div>
+                
+                <div class="recommendation" style="flex-direction: column; gap: 0.75rem;">
+                    <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                        <div class="number">3</div>
+                        <div class="content" style="flex: 1;">
+                            <h4>Define Keycard's Logos Integration Path</h4>
+                            <p>This team has expressed strong desire to contribute and sees natural alignment, yet feels "out of Logos." A working session to define their role would unlock enthusiasm and capability.</p>
+                        </div>
+                    </div>
+                    <div class="status-box">
+                        <p><strong>Owner:</strong> Ksr</p>
+                        <p style="margin-top: 0.5rem;"><strong>Status:</strong> Currently under discussion with Ksr. EcoDev is now handling marketing for Keycard.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>📅 Medium-Term Improvements (30-90 days)</h3>
+                
+                <div class="recommendation" style="flex-direction: column; gap: 0.75rem;">
+                    <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                        <div class="number">4</div>
+                        <div class="content" style="flex: 1;">
+                            <h4>Consolidate Information Architecture</h4>
+                            <p>Consider migrating critical documentation to a single, version-controlled, web-accessible platform (GitBook was specifically suggested). Deprecate outdated Notion pages. Create clear ownership mapping for all organizational assets. A simple "one-pager of where to find what information" would provide immediate value.</p>
+                        </div>
+                    </div>
+                    <div class="status-box status-box-warning">
+                        <p><strong>Owner:</strong> Leadership</p>
+                        <p style="margin-top: 0.5rem;"><strong>Note:</strong> Corey has all the records of previous efforts on this front.</p>
+                        <p style="margin-top: 0.5rem;"><strong>Approach:</strong> Define normative sources clearly. Continue allowing various team-dependent tooling as long as normative sources are understood widely across the organization.</p>
+                    </div>
+                </div>
+                
+                <div class="recommendation" style="flex-direction: column; gap: 0.75rem;">
+                    <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                        <div class="number">5</div>
+                        <div class="content" style="flex: 1;">
+                            <h4>Establish Redundancy for Key Alignment Roles</h4>
+                            <p>Daniel (Ksr) is functioning as a critical single point of alignment. Consider formalizing deputies or documenting his alignment frameworks for broader access. Develop a "toolkit" that can help Leads stay aligned and guide their teams toward alignment.</p>
+                        </div>
+                    </div>
+                    <div class="status-box status-box-warning">
+                        <p><strong>Owner:</strong> No single owner assigned</p>
+                        <p style="margin-top: 0.5rem;"><strong>Reframe:</strong> If teams are having to rely heavily on Ksr for alignment, then documentation is insufficient. The real work is on improving docs and normative sources — which is everyone's responsibility. This shifts from "create redundancy" to "reduce dependency through better documentation practices."</p>
+                        <p style="margin-top: 0.5rem;"><strong>Context:</strong> Ksr feels the questions he receives aren't always documentable, so he is comfortable with the current situation. Additionally, v0.1 is focused on testing things, while v0.2 testnet plans include significantly more clear documentation.</p>
+                    </div>
+                </div>
+                
+                <div class="recommendation" style="flex-direction: column; gap: 0.75rem;">
+                    <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                        <div class="number">6</div>
+                        <div class="content" style="flex: 1;">
+                            <h4>Develop Communications Strategy and Ownership</h4>
+                            <p>The comms team reports fragmentation and unclear direction. Assign clear strategic ownership and create alignment between technical roadmap and communications activities.</p>
+                        </div>
+                    </div>
+                    <div class="status-box">
+                        <p><strong>Owner:</strong> Jonny — this solves the ownership question</p>
+                        <p style="margin-top: 0.5rem;"><strong>Next Steps:</strong> Promote Jonny to Head of Comms. The comms team appears to be aligned on execution; the issue is that strategy hasn't been broadcast and connected to the rest of the organization. Strategy broadcast needed.</p>
+                    </div>
+                </div>
+                
+                <div class="recommendation" style="flex-direction: column; gap: 0.75rem;">
+                    <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                        <div class="number">7</div>
+                        <div class="content" style="flex: 1;">
+                            <h4>Create User Feedback Integration Process</h4>
+                            <p>Establish formal channels for EcoDev findings to flow back into R&D priorities. Multiple respondents emphasized that user requirements must drive development.</p>
+                        </div>
+                    </div>
+                    <div class="status-box">
+                        <p><strong>Owner:</strong> Kaushal, with Corey helping</p>
+                        <p style="margin-top: 0.5rem;"><strong>Already Done:</strong> This has been vocalized multiple times within the org and agreed upon as a priority. Implementation in progress.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>♻️ Ongoing Practices</h3>
+                
+                <div class="recommendation" style="flex-direction: column; gap: 0.75rem;">
+                    <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                        <div class="number">8</div>
+                        <div class="content" style="flex: 1;">
+                            <h4>Continue and Enhance Town Halls</h4>
+                            <p>These are working well. Consider adding explicit connections between presented work and strategy goals, particularly for newcomers. Video format is appreciated.</p>
+                        </div>
+                    </div>
+                    <div class="status-box">
+                        <p><strong>Owner:</strong> Corey/Chair and JB</p>
+                        <p style="margin-top: 0.5rem;"><strong>Next Steps:</strong> Encourage attendance more actively. Spend more up-front time rallying people to participate and informing them what's upcoming. The goal is to increase engagement and ensure people arrive prepared.</p>
+                    </div>
+                </div>
+                
+                <div class="recommendation" style="flex-direction: column; gap: 0.75rem;">
+                    <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                        <div class="number">9</div>
+                        <div class="content" style="flex: 1;">
+                            <h4>Maintain RFC/Spec-Driven Discipline</h4>
+                            <p>This practice supports both technical clarity and organizational values. Ensure it continues as teams scale.</p>
+                        </div>
+                    </div>
+                    <div class="status-box">
+                        <p><strong>Owner:</strong> Corey, Florin, Filip, and Leads</p>
+                        <p style="margin-top: 0.5rem;"><strong>Already Done:</strong> Significant progress has been made on this front. Specs have been consolidated into rfc-index with a new subdomain deployed at <a href="https://lip.logos.co" target="_blank">https://lip.logos.co</a> for viewing. A new <code style="background: var(--secondary); padding: 0.1rem 0.3rem; border-radius: 3px;">#lips</code> Discord channel has been created for coordination and discussion on this process. Stakeholder interviews on the process have been completed, and reference material is being developed. Tooling has been explored and sampled via <a href="https://github.com/logos-co/specs-arguments" target="_blank">github.com/logos-co/specs-arguments</a>.</p>
+                        <p style="margin-top: 0.5rem;"><strong>Next Steps:</strong> Finalize reference material on format/language, documentation dependencies, and tooling — then share broadly. Leads should provide constant reminders on how work relates to individual specs.</p>
+                    </div>
+                </div>
+                
+                <div class="recommendation" style="flex-direction: column; gap: 0.75rem;">
+                    <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                        <div class="number">10</div>
+                        <div class="content" style="flex: 1;">
+                            <h4>Regular Strategy Reiteration</h4>
+                            <p>"People need to be reminded of the vision always" — continue repeating core messages in multiple formats and venues. More transparency from the org on decision-making, progress, and process.</p>
+                        </div>
+                    </div>
+                    <div class="status-box">
+                        <p><strong>Owner:</strong> Ksr, Corey, Kaushal</p>
+                        <p style="margin-top: 0.5rem;"><strong>Already Done:</strong> The "Logos Strategy Update" broadcasts have been started and are shared when appropriate. <a href="https://roadmap.logos.co" target="_blank">roadmap.logos.co</a> is being used more often and is increasingly leveraged as a normative source for organizational direction.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>📋 Future Survey Considerations</h3>
+                <p>Based on respondent feedback, future surveys should consider including:</p>
+                <div style="margin-top: 1rem;">
+                    <div class="quote">"How do you provide clarity to your teams?" — shifting focus from receiving to providing clarity.<span class="author">— Suggested by Daniel Sanchez Quiros</span></div>
+                    <div class="quote">"How do you see your personal growth and long-term role within the Logos ecosystem?" — especially for cross-team contributors.<span class="author">— Suggested by Alisher</span></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Success Definition -->
+        <section class="section">
+            <h2 class="section-title">Appendix: Success Definition Alignment</h2>
+            
+            <div class="card">
+                <h3>What Does a Successful Logos Launch Look Like?</h3>
+                <p>Respondents' visions clustered around several key themes, reflecting a shared understanding of what success means for the organization:</p>
+                
+                <div class="chart-container tall">
+                    <canvas id="successChart"></canvas>
+                </div>
+                
+                <p style="margin-top: 1.5rem;">The radar chart above reflects the relative emphasis respondents placed on different success indicators. External developer adoption and organic community growth emerged as the most frequently cited measures of success, followed closely by day-one usability and developer experience. The consistency of these themes across technical and non-technical roles suggests strong alignment on what "success" means, even if the path to achieving it requires further clarification.</p>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="footer">
+        <p>Internal Alignment Survey Analysis | December 2025</p>
+    </footer>
+    
+    <script>
+        // Tab functionality
+        function showTab(event, tabId) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        // Collapsible functionality
+        document.querySelectorAll('.collapsible').forEach(item => {
+            item.addEventListener('click', function() {
+                this.classList.toggle('active');
+                this.nextElementSibling.classList.toggle('active');
+            });
+        });
+        
+        // Charts - Logos Brand Colors
+        const colors = {
+            forest: '#1a2e2b',
+            cream: '#f5f3ed',
+            steel: '#6b7d7d',
+            lightBlue: '#dbeef5',
+            tanLight: '#d4c9a8',
+            tanDark: '#a89968',
+            yellow: '#f5d547',
+            burgundy: '#4a3540',
+            sage: '#8a9a8e',
+            success: '#3d6b59',
+            warning: '#a89968',
+            danger: '#8b4049'
+        };
+        
+        // Chart.js defaults
+        Chart.defaults.color = '#6b7d7d';
+        Chart.defaults.borderColor = '#e0ddd5';
+        
+        // Clarity Chart
+        new Chart(document.getElementById('clarityChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Clear', 'Partial', 'Unclear'],
+                datasets: [{
+                    data: [58, 21, 21],
+                    backgroundColor: [colors.success, colors.tanDark, colors.burgundy],
+                    borderWidth: 2,
+                    borderColor: colors.cream
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { color: colors.forest, padding: 16 } },
+                    tooltip: {
+                        callbacks: {
+                            label: (ctx) => `${ctx.label}: ${ctx.raw}% of teams`
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Sources Chart
+        new Chart(document.getElementById('sourcesChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Daniel (Ksr)', 'Strategy Doc', 'Notion', 'Discord', 'Other Leads', 'GitHub', 'Town Halls', 'RFCs', 'Forums'],
+                datasets: [{
+                    label: 'Mentions',
+                    data: [11, 9, 8, 7, 6, 5, 4, 3, 2],
+                    backgroundColor: colors.forest,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { grid: { color: '#e0ddd5' }, ticks: { color: colors.steel } },
+                    y: { grid: { display: false }, ticks: { color: colors.forest } }
+                }
+            }
+        });
+        
+        // Timeline Chart
+        new Chart(document.getElementById('timelineChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Blockchain', 'EcoDev/Messaging', 'Messaging', 'IFT-TS', 'Keycard', 'Status App', 'Infrastructure', 'BI/Data', 'Tokenomics', 'Movement/Comms', 'Status Network', 'Cross-team', 'Storage', 'Funding'],
+                datasets: [{
+                    label: 'Responses by Team Area',
+                    data: [2, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 2, 1],
+                    backgroundColor: [
+                        colors.forest, colors.steel, colors.steel, 
+                        colors.sage, colors.tanDark, colors.burgundy,
+                        colors.forest, colors.sage, colors.success,
+                        colors.tanDark, colors.steel, colors.sage,
+                        colors.forest, colors.tanDark
+                    ],
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, ticks: { stepSize: 1, color: colors.steel }, grid: { color: '#e0ddd5' } },
+                    x: { grid: { display: false }, ticks: { color: colors.forest, maxRotation: 45, minRotation: 45 } }
+                }
+            }
+        });
+        
+        // Mission Chart
+        new Chart(document.getElementById('missionChart'), {
+            type: 'polarArea',
+            data: {
+                labels: ['Privacy-First', 'Decentralization', 'Censorship Resistance', 'Self-Sovereignty', 'Civil Liberties', 'Network States'],
+                datasets: [{
+                    data: [95, 90, 85, 88, 75, 70],
+                    backgroundColor: [
+                        'rgba(26, 46, 43, 0.8)',
+                        'rgba(61, 107, 89, 0.8)',
+                        'rgba(168, 153, 104, 0.8)',
+                        'rgba(107, 125, 125, 0.8)',
+                        'rgba(138, 154, 142, 0.8)',
+                        'rgba(74, 53, 64, 0.8)'
+                    ],
+                    borderColor: colors.cream,
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'right', labels: { color: colors.forest, padding: 12 } },
+                    tooltip: {
+                        callbacks: {
+                            label: (ctx) => `${ctx.label}: ${ctx.raw}% alignment`
+                        }
+                    }
+                },
+                scales: {
+                    r: {
+                        grid: { color: '#e0ddd5' },
+                        ticks: { display: false }
+                    }
+                }
+            }
+        });
+        
+        // Success Chart
+        new Chart(document.getElementById('successChart'), {
+            type: 'radar',
+            data: {
+                labels: [
+                    'External Developer Adoption',
+                    'Day-One Usability',
+                    'Working P2P Communication',
+                    'Organic Community Growth',
+                    'Developer Experience',
+                    'Real Apps on Launch',
+                    'External > Internal Contributors'
+                ],
+                datasets: [{
+                    label: 'Importance Score',
+                    data: [90, 85, 80, 88, 82, 75, 70],
+                    backgroundColor: 'rgba(26, 46, 43, 0.15)',
+                    borderColor: colors.forest,
+                    borderWidth: 2,
+                    pointBackgroundColor: colors.forest,
+                    pointBorderColor: colors.cream,
+                    pointHoverBackgroundColor: colors.yellow,
+                    pointHoverBorderColor: colors.forest
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: { display: false },
+                        grid: { color: '#e0ddd5' },
+                        pointLabels: { color: colors.forest, font: { size: 11 } }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -2,6 +2,9 @@
 title: "The Anatomy of Exposure: How Blockchain Transactions Leak Information at Every Layer"
 tags:
   - artifact
+type: article
+status: published
+published-url: https://press.logos.co/article/how-blockchain-transactions-leak-data
 ---
 ![[blockchain_privacy_leaks_meta|Who is this for and why?]]
 

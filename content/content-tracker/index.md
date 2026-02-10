@@ -23,6 +23,6 @@ Sourced from the latest weekly updates across all Logos components. Each documen
 |---------|------|-------|
 | [[Logos Tech Stack Diagram]] | Diagram | Abstract diagram complete |
 | [[Lifecycle of a Logos Txn]] | Article | Coordinated with comms and tech leads |
-| [[Logos as an Operating System]] | Article | Conceptual framing piece — [[logos-as-operating-system-draft|Draft available]] |
+| [[Logos as an Operating System]] | Article | Conceptual framing piece — [[logos-as-operating-system-draft|Draft available]] and [public review](https://forum.vac.dev/t/request-for-draft-review-intro-to-logos-tech-stack-and-testnet-v0-1/664) |
 | [[blockchain_privacy_leaks\|Blockchain Privacy Leaks]] | Article | **Published:** [press.logos.co](https://press.logos.co/article/how-blockchain-transactions-leak-data) — with [[blockchain_privacy_leaks_meta\|meta]] and [[blockchain_privacy_sources\|sources]] |
 | [[testing-history-writeup\|Testing History]] | Article | Historical writeup |

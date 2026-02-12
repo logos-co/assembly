@@ -5,9 +5,16 @@ Here we track the various pieces of content that are being created.
 
 It is important to have clarity on who is coordinating around any given [[artifacts]] that Logos creates, the reasoning behind its creation, and the specific audiences it's aimed towards. 
 
+## In Review / In Progress
+
+| Article | Component | Status | Target | Audience |
+|---------|-----------|--------|--------|----------|
+| [[browser-privacy-stage0\|Stage 0: Your Browser Has Already Betrayed You]] | Privacy | **In Review** | ~Feb 21 | Privacy-conscious crypto users, security researchers |
+| [[Logos as an Operating System]] | Logos Core | **In Review** | Next up | Application developers, broader tech audience |
+
 ## Proposed Articles (Feb 2026)
 
-Sourced from the latest weekly updates across all Logos components. Each document includes target audience, key angles, and source material.
+Sourced from the latest weekly updates across all Logos components. Each document includes target audience, key angles, and source material. Prioritization to be determined after the above two articles are published.
 
 | Article | Component | Status | Audience |
 |---------|-----------|--------|----------|
@@ -17,12 +24,11 @@ Sourced from the latest weekly updates across all Logos components. Each documen
 | [[privacy-preserving-file-sharing\|From Codex to Logos Storage: Privacy-Preserving File Sharing]] | Storage | Proposed | Infrastructure devs, privacy engineers |
 | [[libchat-sdk\|libchat: Building E2E Encrypted Messaging with the Chat SDK]] | Messaging | Proposed | App developers, Rust/FFI devs |
 
-## Existing Content
+## Published
 
 | Content | Type | Notes |
 |---------|------|-------|
-| [[Logos Tech Stack Diagram]] | Diagram | Abstract diagram complete |
-| [[Lifecycle of a Logos Txn]] | Article | Coordinated with comms and tech leads |
-| [[Logos as an Operating System]] | Article | Conceptual framing piece — [[logos-as-operating-system-draft|Draft available]] and [public review](https://forum.vac.dev/t/request-for-draft-review-intro-to-logos-tech-stack-and-testnet-v0-1/664) |
 | [[blockchain_privacy_leaks\|Blockchain Privacy Leaks]] | Article | **Published:** [press.logos.co](https://press.logos.co/article/how-blockchain-transactions-leak-data) — with [[blockchain_privacy_leaks_meta\|meta]] and [[blockchain_privacy_sources\|sources]] |
+| [[Logos Tech Stack Diagram]] | Diagram | Abstract diagram complete — deemed sufficient by KSR for Testnet v0.1 |
+| [[Lifecycle of a Logos Txn]] | Article | Coordinated with comms and tech leads |
 | [[testing-history-writeup\|Testing History]] | Article | Historical writeup |

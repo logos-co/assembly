@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IFT All-Hands — March 5, 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0b;
+    --surface: #131315;
+    --surface-hover: #1a1a1e;
+    --border: #2a2a2f;
+    --border-light: #3a3a42;
+    --text: #e8e6e3;
+    --text-dim: #8a8890;
+    --text-muted: #5a5860;
+    --accent: #c8f540;
+    --accent-dim: rgba(200, 245, 64, 0.12);
+    --accent-glow: rgba(200, 245, 64, 0.06);
+    --warm: #f5a623;
+    --warm-dim: rgba(245, 166, 35, 0.12);
+    --cool: #5b9cf5;
+    --cool-dim: rgba(91, 156, 245, 0.12);
+    --red: #f55b5b;
+    --red-dim: rgba(245, 91, 91, 0.10);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 128px;
+  }
+
+  /* ---- HERO ---- */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 3rem 4rem 4rem;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -20%;
+    width: 80vw;
+    height: 80vw;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,245,64,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-overline {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.3s;
+  }
+
+  .hero h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    max-width: 900px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.5s;
+  }
+
+  .hero h1 em { font-style: italic; color: var(--accent); }
+
+  .hero-meta {
+    display: flex;
+    gap: 3rem;
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.7s;
+  }
+
+  .hero-meta-item { display: flex; flex-direction: column; gap: 0.25rem; }
+
+  .hero-meta-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .hero-meta-value { font-size: 1rem; font-weight: 500; color: var(--text); }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    right: 4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 1s;
+  }
+
+  .scroll-hint .line {
+    width: 40px; height: 1px;
+    background: var(--text-muted);
+    animation: pulse 2s ease infinite;
+  }
+
+  /* ---- SESSION FORMAT BAR ---- */
+  .format-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .format-block {
+    padding: 1.5rem 2rem;
+    border-right: 1px solid var(--border);
+    text-align: center;
+    transition: background 0.3s;
+    cursor: pointer;
+  }
+
+  .format-block:last-child { border-right: none; }
+  .format-block:hover { background: var(--accent-glow); }
+
+  .format-block .fb-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    margin-bottom: 0.35rem;
+  }
+
+  .format-block .fb-time {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    margin-bottom: 0.25rem;
+  }
+
+  .format-block .fb-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  /* ---- PRINCIPLES ---- */
+  .principles-strip {
+    display: flex;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--border);
+    scrollbar-width: none;
+  }
+
+  .principles-strip::-webkit-scrollbar { display: none; }
+
+  .principle-chip {
+    flex-shrink: 0;
+    padding: 1rem 1.75rem;
+    border-right: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    transition: background 0.3s;
+  }
+
+  .principle-chip:hover { background: var(--accent-glow); color: var(--text); }
+
+  .principle-chip .pc-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* ---- NAV RAIL ---- */
+  .nav-rail {
+    position: fixed;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  .nav-rail.visible { opacity: 1; }
+
+  .nav-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+  }
+
+  .nav-dot:hover { background: var(--text-dim); transform: scale(1.3); }
+  .nav-dot.active { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+
+  .nav-dot .tooltip {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 0.35rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-family: 'Space Mono', monospace;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+  }
+
+  .nav-dot:hover .tooltip { opacity: 1; }
+
+  /* ---- TIMELINE ---- */
+  .timeline {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+    position: relative;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 130px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--border) 5%, var(--border) 95%, transparent);
+  }
+
+  .phase-header {
+    position: relative;
+    margin-bottom: 2.5rem;
+    margin-top: 4.5rem;
+    padding-left: 170px;
+  }
+
+  .phase-header:first-child { margin-top: 0; }
+
+  .phase-header h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 2.2rem;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
+  .phase-header .phase-sub {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-top: 0.4rem;
+  }
+
+  /* ---- SESSION BLOCK ---- */
+  .session {
+    position: relative;
+    padding-left: 170px;
+    margin-bottom: 1.25rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .session.visible { opacity: 1; transform: translateY(0); }
+
+  .session-time {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 115px;
+    text-align: right;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    padding-top: 1.3rem;
+    line-height: 1.4;
+  }
+
+  .session-time .duration {
+    display: block;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    margin-top: 0.15rem;
+  }
+
+  .session-dot {
+    position: absolute;
+    left: 126px;
+    top: 1.45rem;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--border-light);
+    z-index: 2;
+    transition: all 0.3s;
+  }
+
+  .session:hover .session-dot,
+  .session.expanded .session-dot {
+    border-color: var(--accent);
+    background: var(--accent);
+    box-shadow: 0 0 12px rgba(200,245,64,0.3);
+  }
+
+  .session-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .session-card:hover { border-color: var(--border-light); background: var(--surface-hover); }
+
+  .session.expanded .session-card {
+    border-color: var(--accent);
+    box-shadow: 0 0 30px rgba(200,245,64,0.04);
+  }
+
+  .session-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.15rem 1.5rem;
+    gap: 1rem;
+  }
+
+  .session-header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .session-tag {
+    flex-shrink: 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.55rem;
+    border-radius: 3px;
+    font-weight: 700;
+  }
+
+  .tag-s1 { background: var(--accent-dim); color: var(--accent); }
+  .tag-s2 { background: var(--cool-dim); color: var(--cool); }
+  .tag-s3 { background: var(--warm-dim); color: var(--warm); }
+  .tag-s4 { background: var(--red-dim); color: var(--red); }
+  .tag-break { background: rgba(255,255,255,0.05); color: var(--text-muted); }
+
+  .session-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .session-chevron {
+    flex-shrink: 0;
+    width: 20px; height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    transition: all 0.3s;
+    font-size: 0.85rem;
+  }
+
+  .session.expanded .session-chevron { transform: rotate(180deg); color: var(--accent); }
+
+  .session-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .session.expanded .session-body { max-height: 3000px; }
+
+  .session-content {
+    padding: 0 1.5rem 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .session-content p {
+    font-size: 0.86rem;
+    color: var(--text-dim);
+    margin-top: 1rem;
+    line-height: 1.7;
+  }
+
+  .session-content ul { list-style: none; margin-top: 0.6rem; }
+
+  .session-content li {
+    font-size: 0.83rem;
+    color: var(--text-dim);
+    padding: 0.3rem 0 0.3rem 1.2rem;
+    position: relative;
+    line-height: 1.6;
+  }
+
+  .session-content li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+  }
+
+  .content-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.63rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 1.15rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .owner-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.76rem;
+    color: var(--text-dim);
+    background: rgba(255,255,255,0.04);
+    padding: 0.25rem 0.65rem;
+    border-radius: 4px;
+    margin-top: 0.4rem;
+    margin-right: 0.4rem;
+  }
+
+  .owner-badge .dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .note-box {
+    margin-top: 1rem;
+    padding: 0.8rem 1rem;
+    background: var(--accent-glow);
+    border-left: 2px solid var(--accent);
+    border-radius: 0 4px 4px 0;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  .note-box strong { color: var(--accent); font-weight: 600; }
+
+  /* Sub-block divider within a session */
+  .sub-block {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px dashed var(--border);
+  }
+
+  .sub-block-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+  }
+
+  .sub-block-meta {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.63rem;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+  }
+
+  /* ---- BREAK SESSIONS ---- */
+  .session.is-break .session-card {
+    background: transparent;
+    border-style: dashed;
+    border-color: var(--border);
+    cursor: default;
+  }
+
+  .session.is-break .session-title { color: var(--text-muted); font-weight: 400; font-size: 0.88rem; }
+  .session.is-break .session-dot { width: 5px; height: 5px; left: 128px; border-width: 1px; }
+
+  .break-note {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    margin-left: 0.75rem;
+    opacity: 0.7;
+  }
+
+  /* ---- OPEN QUESTIONS ---- */
+  .questions-section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 4rem 2rem 5rem;
+  }
+
+  .questions-section h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 2.2rem;
+    font-weight: 400;
+    margin-bottom: 0.4rem;
+  }
+
+  .questions-section .sub { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 2rem; }
+
+  .question-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.85rem;
+  }
+
+  .question-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.15rem 1.35rem;
+    transition: all 0.3s;
+  }
+
+  .question-card:hover { border-color: var(--border-light); background: var(--surface-hover); }
+
+  .question-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.58rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.4rem;
+  }
+
+  .question-card h4 { font-size: 0.85rem; font-weight: 500; margin-bottom: 0.3rem; }
+  .question-card p { font-size: 0.76rem; color: var(--text-dim); line-height: 1.5; }
+
+  .priority-urgent { border-left: 3px solid var(--red); }
+  .priority-soon { border-left: 3px solid var(--warm); }
+  .priority-normal { border-left: 3px solid var(--border-light); }
+
+  /* ---- WEEK OVERVIEW ---- */
+  .week-overview { border-top: 1px solid var(--border); padding: 4rem 2rem; }
+
+  .week-overview h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 2.2rem;
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .week-grid {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.85rem;
+  }
+
+  .week-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .week-card.today {
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(200,245,64,0.06);
+  }
+
+  .week-card.today::before {
+    content: 'TODAY';
+    position: absolute;
+    top: 0.6rem; right: 0.6rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    background: var(--accent-dim);
+    padding: 0.15rem 0.45rem;
+    border-radius: 3px;
+  }
+
+  .week-date {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+  }
+
+  .week-card h3 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin: 0.4rem 0 0.3rem;
+  }
+
+  .week-card p { font-size: 0.72rem; color: var(--text-dim); line-height: 1.5; }
+
+  .week-venue {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.57rem;
+    color: var(--text-muted);
+    margin-top: 0.6rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* ---- FOOTER ---- */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  footer .revision {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.63rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* ---- TOOLBAR ---- */
+  .toolbar {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    display: flex;
+    gap: 0.4rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 40px;
+    padding: 0.4rem 0.6rem;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  .toolbar.visible { opacity: 1; }
+
+  .toolbar button {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-dim);
+    padding: 0.45rem 0.85rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .toolbar button:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+
+  .toolbar button.active {
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-color: rgba(200,245,64,0.2);
+  }
+
+  /* ---- ANIMATIONS ---- */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 1000px) {
+    .week-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  @media (max-width: 900px) {
+    .hero { padding: 2rem 2rem 3rem; }
+    .scroll-hint { display: none; }
+    .format-bar { grid-template-columns: repeat(2, 1fr); }
+    .format-block:nth-child(2) { border-right: none; }
+    .timeline::before { left: 20px; }
+    .session { padding-left: 55px; }
+    .session-time { width: 45px; font-size: 0.65rem; }
+    .session-time .duration { display: none; }
+    .session-dot { left: 16px; }
+    .session.is-break .session-dot { left: 18px; }
+    .phase-header { padding-left: 55px; }
+    .question-grid { grid-template-columns: 1fr; }
+    .week-grid { grid-template-columns: repeat(2, 1fr); }
+    .nav-rail { display: none; }
+    .toolbar { bottom: 1rem; }
+    .break-note { display: none; }
+  }
+
+  @media (max-width: 600px) {
+    .format-bar { grid-template-columns: 1fr; }
+    .format-block { border-right: none; border-bottom: 1px solid var(--border); }
+    .format-block:last-child { border-bottom: none; }
+    .week-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; padding: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-overline">Internal Event · Lisbon</div>
+  <h1>IFT <em>All-Hands</em><br>March 5, 2026</h1>
+  <div class="hero-meta">
+    <div class="hero-meta-item">
+      <span class="hero-meta-label">Attendees</span>
+      <span class="hero-meta-value">~200 CCs + 6 Circle Stewards</span>
+    </div>
+    <div class="hero-meta-item">
+      <span class="hero-meta-label">Venue</span>
+      <span class="hero-meta-value">Hotel Conference Rooms (TBD)</span>
+    </div>
+    <div class="hero-meta-item">
+      <span class="hero-meta-label">Format</span>
+      <span class="hero-meta-value">4 × 90-min sessions</span>
+    </div>
+    <div class="hero-meta-item">
+      <span class="hero-meta-label">Purpose</span>
+      <span class="hero-meta-value">Align before we go public</span>
+    </div>
+  </div>
+  <div class="scroll-hint"><span class="line"></span>Scroll to explore</div>
+</section>
+
+<!-- SESSION FORMAT BAR -->
+<section class="format-bar">
+  <div class="format-block" onclick="scrollToPhase('phase-s1')">
+    <div class="fb-num">SESSION 1</div>
+    <div class="fb-time">09:00 – 10:30</div>
+    <div class="fb-title">The Foundation</div>
+  </div>
+  <div class="format-block" onclick="scrollToPhase('phase-s2')">
+    <div class="fb-num">SESSION 2</div>
+    <div class="fb-time">11:00 – 12:30</div>
+    <div class="fb-title">The Path</div>
+  </div>
+  <div class="format-block" onclick="scrollToPhase('phase-s3')">
+    <div class="fb-num">SESSION 3</div>
+    <div class="fb-time">14:00 – 15:30</div>
+    <div class="fb-title">The Expansion</div>
+  </div>
+  <div class="format-block" onclick="scrollToPhase('phase-s4')">
+    <div class="fb-num">SESSION 4</div>
+    <div class="fb-time">16:00 – 17:30</div>
+    <div class="fb-title">The Focus</div>
+  </div>
+</section>
+
+<!-- PRINCIPLES STRIP -->
+<section class="principles-strip">
+  <div class="principle-chip"><span class="pc-dot"></span>Single room, shared experience</div>
+  <div class="principle-chip"><span class="pc-dot"></span>Pyramid structure</div>
+  <div class="principle-chip"><span class="pc-dot"></span>Pre-work assumed</div>
+  <div class="principle-chip"><span class="pc-dot"></span>No PS duplication</div>
+  <div class="principle-chip"><span class="pc-dot"></span>Coffee breaks = buffer time</div>
+</section>
+
+<!-- NAV RAIL -->
+<nav class="nav-rail" id="navRail">
+  <div class="nav-dot" data-target="phase-s1"><span class="tooltip">Session 1</span></div>
+  <div class="nav-dot" data-target="phase-s2"><span class="tooltip">Session 2</span></div>
+  <div class="nav-dot" data-target="phase-s3"><span class="tooltip">Session 3</span></div>
+  <div class="nav-dot" data-target="phase-s4"><span class="tooltip">Session 4</span></div>
+  <div class="nav-dot" data-target="questions-section"><span class="tooltip">Open Questions</span></div>
+  <div class="nav-dot" data-target="week-section"><span class="tooltip">Full Week</span></div>
+</nav>
+
+<!-- TIMELINE -->
+<div class="timeline">
+
+  <!-- SESSION 1 -->
+  <div class="phase-header" id="phase-s1">
+    <h2>The Foundation</h2>
+    <div class="phase-sub">Session 1 · 09:00 – 10:30 · 90 min</div>
+  </div>
+
+  <div class="session" data-phase="s1" id="s-opening-logos">
+    <div class="session-time">09:00<span class="duration">90 min</span></div>
+    <div class="session-dot"></div>
+    <div class="session-card" onclick="toggleSession(this)">
+      <div class="session-header">
+        <div class="session-header-left">
+          <span class="session-tag tag-s1">S1</span>
+          <span class="session-title">Opening + What is Logos</span>
+        </div>
+        <div class="session-chevron">▾</div>
+      </div>
+      <div class="session-body">
+        <div class="session-content">
+          <div class="sub-block-title">Opening</div>
+          <div class="sub-block-meta">15 MINUTES</div>
+          <ul>
+            <li>Welcome, logistics, safety</li>
+            <li>Acknowledge the full Free Technology family — Nimbus and Status colleagues present</li>
+            <li>Frame: <em>"By end of day, you should be able to explain Logos clearly to anyone you meet at Parallel Societies tomorrow"</em></li>
+            <li>Context: Nimbus proved world-class infrastructure, Status proved demand for sovereign comms, Logos is the unified stack</li>
+          </ul>
+
+          <div class="sub-block">
+            <div class="sub-block-title">What is Logos</div>
+            <div class="sub-block-meta">75 MINUTES</div>
+            <div class="content-label">Mission & Context · 15 min</div>
+            <ul>
+              <li>What "revitalising civil society" means concretely</li>
+              <li>Why now: surveillance, institutional capture, civic decay</li>
+            </ul>
+            <div class="content-label">The Tech Stack · 20 min</div>
+            <ul>
+              <li>Logos Blockchain, Logos Messaging, Logos Storage</li>
+              <li>Why these three primitives and what the combination uniquely enables</li>
+            </ul>
+            <div class="content-label">Specification Driven Development · 20 min</div>
+            <ul>
+              <li>What SDD is and why it matters for FOSS projects</li>
+              <li>Why it's critical for blockchain and privacy tech</li>
+              <li>How everyone relates regardless of role</li>
+              <li>The culture of rigor and why things take time</li>
+            </ul>
+            <div class="content-label">Integration Map · 15 min</div>
+            <ul>
+              <li>How the stack and specs connect — the system as a whole</li>
+            </ul>
+          </div>
+
+          <div class="content-label">Owners</div>
+          <span class="owner-badge"><span class="dot"></span>Leadership + Tech leads</span>
+          <span class="owner-badge"><span class="dot"></span>Corey — SDD segment</span>
+          <div class="note-box"><strong>Key:</strong> This IS the messaging. Mission → Tech → Method → Integration. This content is unique to the all-hands — it won't appear at PS.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COFFEE 1 -->
+  <div class="session is-break" data-phase="s1">
+    <div class="session-time">10:30<span class="duration">30 min</span></div>
+    <div class="session-dot"></div>
+    <div class="session-card">
+      <div class="session-header">
+        <div class="session-header-left">
+          <span class="session-tag tag-break">Break</span>
+          <span class="session-title">Coffee</span>
+          <span class="break-note">Can shorten to 15 min if S1 overruns</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SESSION 2 -->
+  <div class="phase-header" id="phase-s2">
+    <h2>The Path</h2>
+    <div class="phase-sub">Session 2 · 11:00 – 12:30 · 90 min</div>
+  </div>
+
+  <div class="session" data-phase="s2" id="s-road-to-mainnet">
+    <div class="session-time">11:00<span class="duration">90 min</span></div>
+    <div class="session-dot"></div>
+    <div class="session-card" onclick="toggleSession(this)">
+      <div class="session-header">
+        <div class="session-header-left">
+          <span class="session-tag tag-s2">S2</span>
+          <span class="session-title">Road to Mainnet</span>
+        </div>
+        <div class="session-chevron">▾</div>
+      </div>
+      <div class="session-body">
+        <div class="session-content">
+          <p>Honest, concrete picture of the path ahead. Expanded format allows deeper Q&A.</p>
+          <div class="content-label">Presentation · 60 min</div>
+          <ul>
+            <li>Testnet phases: how many, what each proves, rough timeline</li>
+            <li>What "launch" actually means — definition of success</li>
+            <li>Key dependencies between workstreams</li>
+            <li>Honest unknowns and how we'll navigate them</li>
+            <li>Preview of tomorrow's testnet reveal — what Jarrad will present at PS, so the room is ready</li>
+          </ul>
+          <div class="content-label">Open Q&A · 30 min</div>
+          <ul>
+            <li>Technical path questions</li>
+            <li>Broader strategic questions welcome — this is the space for them</li>
+          </ul>
+          <div class="content-label">Owner</div>
+          <span class="owner-badge"><span class="dot"></span>Technical leadership</span>
+          <span class="owner-badge"><span class="dot"></span>Presentation + extended Q&A</span>
+          <div class="note-box"><strong>Note:</strong> Testnet demo is reserved for PS Day 1 main stage. This session gives internal context that makes the public reveal more meaningful.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LUNCH -->
+  <div class="session is-break" data-phase="s2">
+    <div class="session-time">12:30<span class="duration">90 min</span></div>
+    <div class="session-dot"></div>
+    <div class="session-card">
+      <div class="session-header">
+        <div class="session-header-left">
+          <span class="session-tag tag-break">Lunch</span>
+          <span class="session-title">Lunch — Mixed Seating Encouraged</span>
+          <span class="break-note">Location TBD · Sidebar room available</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SESSION 3 -->
+  <div class="phase-header" id="phase-s3">
+    <h2>The Expansion</h2>
+    <div class="phase-sub">Session 3 · 14:00 – 15:30 · 90 min</div>
+  </div>
+
+  <div class="session" data-phase="s3" id="s-building-showcases">
+    <div class="session-time">14:00<span class="duration">90 min</span></div>
+    <div class="session-dot"></div>
+    <div class="session-card" onclick="toggleSession(this)">
+      <div class="session-header">
+        <div class="session-header-left">
+          <span class="session-tag tag-s3">S3</span>
+          <span class="session-title">Who We're Building For + Showcases</span>
+        </div>
+        <div class="session-chevron">▾</div>
+      </div>
+      <div class="session-body">
+        <div class="session-content">
+          <div class="sub-block-title">Who We're Building For</div>
+          <div class="sub-block-meta">50 MINUTES · Strategic framing — the why, not the how</div>
+          <ul>
+            <li>Target community vision: what kind of builders, contributors, users</li>
+            <li>Circles strategic frame: why the movement layer matters to Logos</li>
+            <li>"Winnable issues" in practice — the theory of change</li>
+            <li>2–3 stewards share ground-level stories (5–7 min each)</li>
+            <li>EcoDev activation: how we grow the ecosystem to mainnet</li>
+            <li>How Circles and EcoDev connect — community to contributors</li>
+          </ul>
+
+          <div class="sub-block">
+            <div class="sub-block-title">Internal Showcases</div>
+            <div class="sub-block-meta">40 MINUTES · Concrete things to reference at PS tomorrow</div>
+            <ul>
+              <li>Integration proof-of-concept (messaging + storage or cross-stack demo)</li>
+              <li>Circles use case implementation</li>
+              <li>Specification visualization tool <em>(optional — if ready)</em></li>
+            </ul>
+            <p>Frame: <em>"These are things you can point to when people ask 'what does Logos actually do?'"</em></p>
+          </div>
+
+          <div class="content-label">Owners</div>
+          <span class="owner-badge"><span class="dot"></span>EcoDev lead</span>
+          <span class="owner-badge"><span class="dot"></span>2–3 Circle stewards</span>
+          <span class="owner-badge"><span class="dot"></span>Demo owners TBD</span>
+          <div class="note-box"><strong>No duplication:</strong> PS Day 1 has Circles operational content (Culture Zone 11:00, Lab 10:00) and Jarrad's testnet demo (10:30). This session covers strategic narrative and different showcases.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COFFEE 2 -->
+  <div class="session is-break" data-phase="s3">
+    <div class="session-time">15:30<span class="duration">30 min</span></div>
+    <div class="session-dot"></div>
+    <div class="session-card">
+      <div class="session-header">
+        <div class="session-header-left">
+          <span class="session-tag tag-break">Break</span>
+          <span class="session-title">Coffee</span>
+          <span class="break-note">Can shorten to 15 min if S3 overruns</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SESSION 4 -->
+  <div class="phase-header" id="phase-s4">
+    <h2>The Focus</h2>
+    <div class="phase-sub">Session 4 · 16:00 – 17:30 · 90 min</div>
+  </div>
+
+  <div class="session" data-phase="s4" id="s-questions-charge">
+    <div class="session-time">16:00<span class="duration">90 min</span></div>
+    <div class="session-dot"></div>
+    <div class="session-card" onclick="toggleSession(this)">
+      <div class="session-header">
+        <div class="session-header-left">
+          <span class="session-tag tag-s4">S4</span>
+          <span class="session-title">Key Questions + Synthesis + The Charge</span>
+        </div>
+        <div class="session-chevron">▾</div>
+      </div>
+      <div class="session-body">
+        <div class="session-content">
+          <div class="sub-block-title">Key Questions by Stream</div>
+          <div class="sub-block-meta">50 MINUTES · Generates input for offsites</div>
+
+          <div class="content-label">Engineering</div>
+          <ul>
+            <li>What's our testnet participation target?</li>
+            <li>How do we prioritize EcoDev requests vs. core roadmap?</li>
+            <li>What cross-team dependencies need offsite resolution?</li>
+          </ul>
+          <div class="content-label">Ecosystem Development</div>
+          <ul>
+            <li>What does our builder funnel look like today vs. mainnet?</li>
+            <li>How do Circles feed into technical contributors?</li>
+            <li>What's missing from our developer experience?</li>
+          </ul>
+          <div class="content-label">Community / Comms</div>
+          <ul>
+            <li>What's the core narrative for PS conversations?</li>
+            <li>How do we handle "when mainnet?" questions?</li>
+            <li>What do stewards need from the core team?</li>
+          </ul>
+
+          <div class="sub-block">
+            <div class="sub-block-title">Synthesis + Bridge to PS</div>
+            <div class="sub-block-meta">20 MINUTES</div>
+            <ul>
+              <li>Leadership reflects, explicit handoff to offsites</li>
+              <li>PS venue orientation: 9 zones, two buildings, where Logos content lives</li>
+              <li>Practical logistics for tomorrow</li>
+              <li><em>"Tomorrow we take this to the world"</em></li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <div class="sub-block-title">The Charge</div>
+            <div class="sub-block-meta">20 MINUTES · Send people off energized</div>
+            <ul>
+              <li>Day recap, acknowledge the marathon ahead</li>
+              <li>Something memorable: video, reading, collective moment</li>
+              <li>Clear, energizing close</li>
+            </ul>
+          </div>
+
+          <div class="content-label">Format</div>
+          <span class="owner-badge"><span class="dot"></span>Table discussions → sharebacks</span>
+          <span class="owner-badge"><span class="dot"></span>Stage synthesis</span>
+          <span class="owner-badge"><span class="dot"></span>Closing moment</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOCIAL -->
+  <div class="session" data-phase="s4" id="s-social">
+    <div class="session-time">17:30+<span class="duration">Open</span></div>
+    <div class="session-dot"></div>
+    <div class="session-card" onclick="toggleSession(this)">
+      <div class="session-header">
+        <div class="session-header-left">
+          <span class="session-tag tag-break">Social</span>
+          <span class="session-title">Drinks & Dinner</span>
+        </div>
+        <div class="session-chevron">▾</div>
+      </div>
+      <div class="session-body">
+        <div class="session-content">
+          <p>Where real cross-pollination happens — protect this time.</p>
+          <ul>
+            <li>Food, drinks, informal conversation</li>
+            <li>Wednesday evening dinner — location TBD</li>
+            <li>PS Day 1 starts at 09:00 tomorrow — Jarrad on main stage at 09:30</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- OPEN QUESTIONS -->
+<section class="questions-section" id="questions-section">
+  <h2>Open Questions</h2>
+  <p class="sub">For the coordination team — decisions needed before March 5</p>
+  <div class="question-grid">
+    <div class="question-card priority-urgent">
+      <div class="question-num">01 · URGENT</div>
+      <h4>PS "Session *" Slots</h4>
+      <p>Several PS main stage slots still unconfirmed. Highest-visibility content — needs resolution ASAP.</p>
+    </div>
+    <div class="question-card priority-urgent">
+      <div class="question-num">02 · URGENT</div>
+      <h4>Showcases Content</h4>
+      <p>What demos are ready that don't duplicate PS Day 1? Who owns preparation?</p>
+    </div>
+    <div class="question-card priority-soon">
+      <div class="question-num">03 · SOON</div>
+      <h4>Spec Visualization Tool</h4>
+      <p>Decision ~1 week out: is the demo ready for Session 3 Showcases?</p>
+    </div>
+    <div class="question-card priority-soon">
+      <div class="question-num">04 · SOON</div>
+      <h4>Stream Questions</h4>
+      <p>Each stream lead (Eng, EcoDev, Comms) prepare 2–3 key questions.</p>
+    </div>
+    <div class="question-card priority-soon">
+      <div class="question-num">05 · SOON</div>
+      <h4>Circles Speakers</h4>
+      <p>Which 2–3 of 6 confirmed stewards present? Santi/Amelia coordinating.</p>
+    </div>
+    <div class="question-card priority-soon">
+      <div class="question-num">06 · SOON</div>
+      <h4>Venice AI / Architecture</h4>
+      <p>PS Lab 14:00 still has "OR" — which direction? Affects architecture content placement.</p>
+    </div>
+    <div class="question-card priority-normal">
+      <div class="question-num">07</div>
+      <h4>Nimbus / Status</h4>
+      <p>"Acknowledged but not featured" — comfortable? Anyone need a voice?</p>
+    </div>
+    <div class="question-card priority-normal">
+      <div class="question-num">08</div>
+      <h4>Closing Moment</h4>
+      <p>Video? Reading? Collective moment? What fits the culture?</p>
+    </div>
+    <div class="question-card priority-normal">
+      <div class="question-num">09</div>
+      <h4>Finance Update</h4>
+      <p>Virtual pre-work (recommended) or parallel session?</p>
+    </div>
+    <div class="question-card priority-normal">
+      <div class="question-num">10</div>
+      <h4>Coalition Partners</h4>
+      <p>Charter Cities / Zanzalu: full day, partial, or separate?</p>
+    </div>
+    <div class="question-card priority-normal">
+      <div class="question-num">11</div>
+      <h4>Recording</h4>
+      <p>3–4 sessions to record, 2–3 edited. Confirm scope + budget with Lou.</p>
+    </div>
+    <div class="question-card priority-normal">
+      <div class="question-num">12</div>
+      <h4>Venue Details</h4>
+      <p>Room names, addresses, break/lunch locations. Melanie/Terry via Onsite Hub → Corey.</p>
+    </div>
+    <div class="question-card priority-normal">
+      <div class="question-num">13</div>
+      <h4>March 7 AM Offsites</h4>
+      <p>Which teams get the Friday morning PS venue window? Pre-assign or first-come?</p>
+    </div>
+    <div class="question-card priority-normal">
+      <div class="question-num">14</div>
+      <h4>Wednesday Dinner</h4>
+      <p>Confirm location, timing, headcount. Lou says evening works with load-in.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WEEK OVERVIEW -->
+<section class="week-overview" id="week-section">
+  <h2>The Full Week</h2>
+  <div class="week-grid">
+    <div class="week-card today">
+      <div class="week-date">WED MAR 5</div>
+      <h3>IFT All-Hands</h3>
+      <p>Internal alignment. 4 × 90-min sessions. Evening dinner.</p>
+      <div class="week-venue">↳ Hotel rooms (TBD)</div>
+    </div>
+    <div class="week-card">
+      <div class="week-date">THU MAR 6</div>
+      <h3>PS Day 1</h3>
+      <p>Unconference. Testnet reveal. 9 zones, coalition content.</p>
+      <div class="week-venue">↳ One 16 + Fabrica Moderna</div>
+    </div>
+    <div class="week-card">
+      <div class="week-date">FRI MAR 7 AM</div>
+      <h3>Offsites</h3>
+      <p>Full exclusivity of meeting space. Working morning before festival.</p>
+      <div class="week-venue">↳ PS venue meeting space</div>
+    </div>
+    <div class="week-card">
+      <div class="week-date">FRI MAR 7 PM</div>
+      <h3>PS Day 2</h3>
+      <p>Music & arts festival. 13:00–03:00. Culture celebration.</p>
+      <div class="week-venue">↳ One 16 Building</div>
+    </div>
+    <div class="week-card">
+      <div class="week-date">SAT–SUN MAR 8–9</div>
+      <h3>Offsites</h3>
+      <p>Stream-specific work, cross-team collab. Start ≥10:30am Sat.</p>
+      <div class="week-venue">↳ TBD</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>IFT All-Hands · March 5, 2026 · Lisbon</span>
+  <span class="revision">Rev. Feb 10, 2026 · 4×90-min format · Aligned with PS programme</span>
+</footer>
+
+<!-- TOOLBAR -->
+<div class="toolbar" id="toolbar">
+  <button class="active" data-filter="all">All</button>
+  <button data-filter="s1">S1</button>
+  <button data-filter="s2">S2</button>
+  <button data-filter="s3">S3</button>
+  <button data-filter="s4">S4</button>
+</div>
+
+<script>
+function scrollToPhase(id) {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function toggleSession(card) {
+  const session = card.closest('.session');
+  if (session.classList.contains('is-break')) return;
+  const wasExpanded = session.classList.contains('expanded');
+  document.querySelectorAll('.session.expanded').forEach(s => s.classList.remove('expanded'));
+  if (!wasExpanded) session.classList.add('expanded');
+}
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.session').forEach(s => observer.observe(s));
+
+const navRail = document.getElementById('navRail');
+const toolbar = document.getElementById('toolbar');
+
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  const heroH = document.querySelector('.hero').offsetHeight;
+  navRail.classList.toggle('visible', y > heroH);
+  toolbar.classList.toggle('visible', y > heroH);
+
+  const sections = ['phase-s1','phase-s2','phase-s3','phase-s4','questions-section','week-section'];
+  let current = sections[0];
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top < window.innerHeight * 0.4) current = id;
+  });
+  document.querySelectorAll('.nav-dot').forEach(d => {
+    d.classList.toggle('active', d.dataset.target === current);
+  });
+});
+
+document.querySelectorAll('.nav-dot').forEach(dot => {
+  dot.addEventListener('click', () => {
+    document.getElementById(dot.dataset.target)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+document.querySelectorAll('.toolbar button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.toolbar button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+
+    document.querySelectorAll('.session').forEach(s => {
+      s.style.display = (filter === 'all' || s.dataset.phase === filter) ? '' : 'none';
+    });
+
+    document.querySelectorAll('.phase-header').forEach(ph => {
+      if (filter === 'all') { ph.style.display = ''; return; }
+      const map = { s1:'phase-s1', s2:'phase-s2', s3:'phase-s3', s4:'phase-s4' };
+      ph.style.display = (map[filter] === ph.id) ? '' : 'none';
+    });
+  });
+});
+</script>
+</body>
+</html>

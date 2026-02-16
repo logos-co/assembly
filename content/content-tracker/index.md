@@ -7,14 +7,14 @@ It is important to have clarity on who is coordinating around any given [[artifa
 
 ## In Review / In Progress
 
-| Article | Component | Status | Target | Audience |
-|---------|-----------|--------|--------|----------|
-| [[browser-privacy-stage0\|Stage 0: Your Browser Has Already Betrayed You]] | Privacy | **In Review** | ~Feb 21 | Privacy-conscious crypto users, security researchers |
-| [[Logos as an Operating System]] | Logos Core | **In Review** | Next up | Application developers, broader tech audience |
+| Article | Component | Status | Target | Audience | Links |
+|---------|-----------|--------|--------|----------|-------|
+| [[browser-privacy-stage0\|Stage 0: Your Browser Has Already Betrayed You]] | Privacy | **In Review** | ~Feb 21 | Privacy-conscious crypto users, security researchers | [Preview](/static/stage0-browser-privacy.html) |
+| [[Logos as an Operating System]] | Logos Core | **In Review** | Next up | Application developers, broader tech audience | [[logos-as-operating-system-draft\|Draft]] |
 
 ## Proposed Articles (Feb 2026)
 
-Sourced from the latest weekly updates across all Logos components. Each document includes target audience, key angles, and source material. Prioritization to be determined after the above two articles are published.
+Sourced from weekly updates across all Logos components. **Updated Feb 17** with developments from Week 6–7 weeklies (devnet launch, de-MLS on crates.io, multi-burn RLN complete, demo app dogfooding, privacy analysis complete, multi-platform CI). Prioritization to be determined after the above two articles are published.
 
 | Article | Component | Status | Audience |
 |---------|-----------|--------|----------|

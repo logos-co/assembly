@@ -2,11 +2,11 @@
 
 If you've ever used Linux, you already understand Logos.
 
-A Linux distribution isn't just a kernel—it's the kernel plus a networking stack, a carefully chosen set of system services, and the applications that together create a complete operating system. Ubuntu, Arch, and Fedora all share the same Linux kernel, but each assembles a different experience on top of it.
+A Linux distribution isn't just a kernel—it's the kernel plus a networking stack, a carefully chosen set of system services, and the applications that together create a complete operating system. Ubuntu, Arch, Fedora—even Android—all share the same Linux kernel, but each assembles a radically different experience on top of it.
 
 Logos works the same way. At its foundation sits the **Logos Kernel**—a microkernel that handles the essential primitives every decentralized application needs. Above that, a networking layer provides peer discovery, connection management, and privacy-preserving communication through a mix-net. And above that sit **modules**—pluggable components for storage, messaging, blockchain, and whatever else developers need.
 
-The **Logos App** is to Logos what Ubuntu is to Linux: a complete "distribution" that bundles the kernel, the default modules, and UI packages into a usable product. But just as you can build your own Linux distribution with different packages and configurations, you can assemble your own Logos-based platform with a different selection of modules.
+Logos ships with an opinionated default configuration—the kernel runtime, plus Storage, Messaging, and Blockchain modules—that functions like Ubuntu does for Linux: a ready-made distribution that works out of the box. The **Logos App** is the launcher that starts this experience, but it's module-agnostic: it loads whatever module profile is configured, much like a desktop environment can run on any Linux distribution. Users choose which modules to run; developers can go further and assemble entirely different distributions with their own selection of modules and configurations.
 
 ## The Layers
 
@@ -14,21 +14,21 @@ The Logos tech stack is organized into distinct layers, each with a clear respon
 
 ### Logos Kernel: The Foundation
 
-Every operating system needs a kernel, and the Logos Kernel follows the **microkernel** philosophy—it does as little as possible while enabling everything else.
+Every operating system needs a kernel, and the Logos Kernel follows the **microkernel** philosophy—it does as little as possible while enabling everything else. Unlike a monolithic kernel like Linux, where the networking stack lives inside the kernel itself, a microkernel pushes networking and most other services out into separate processes. Logos follows this principle: the kernel provides only the minimal runtime primitives, and networking runs as a distinct layer above it.
 
 In traditional operating systems, microkernels handle only the most fundamental operations: process management, memory allocation, and inter-process communication (IPC). Everything else—file systems, networking, device drivers—runs as separate processes in user space, communicating through the kernel's IPC mechanisms.
 
 The Logos Kernel applies this same principle. Implemented through [`liblogos`](https://github.com/logos-co/logos-liblogos), it provides module lifecycle management (loading, starting, stopping modules), IPC between modules via Qt Remote Objects, and a host process that orchestrates everything. It doesn't store files, relay messages, or validate transactions—those responsibilities belong to the modules above it.
 
-This separation matters. A bug in the storage module can't crash the messaging layer. A blockchain upgrade doesn't require rebuilding the kernel. Each component can be developed, tested, and updated independently—just as Linux kernel modules can be loaded and unloaded without rebooting the system.
+This separation matters. A bug in the storage module can't crash the messaging layer. A blockchain upgrade doesn't require rebuilding the kernel. Each component can be developed, tested, and updated independently—just as system services on Linux can be restarted without rebooting the machine.
 
 ### Discovery, Peering, and Mix-net: The Networking Stack
 
 Above the kernel sits the networking layer—analogous to the TCP/IP stack in Linux. This layer handles how Logos nodes find each other, establish connections, and communicate.
 
-But unlike TCP/IP, this layer has privacy built in from the ground up. The **mix-net** routes messages through multiple relay nodes, mixing traffic patterns so that observers can't determine who is talking to whom. A [**capability discovery protocol**](https://lip.logos.co/ift-ts/raw/extended-kad-disco.html#api-specification) lets nodes advertise and find services without centralized registries. And the peering layer manages connections across the decentralized network.
+But unlike TCP/IP, this layer has privacy built in from the ground up. The **mix-net** protects messages during their outbound phase, routing them through multiple relay nodes and mixing traffic patterns so that observers can't determine who is talking to whom. A [**capability discovery protocol**](https://lip.logos.co/ift-ts/raw/extended-kad-disco.html#api-specification) lets nodes advertise and find peers of interest for their applications without centralized registries. And the peering layer manages connections across the decentralized network.
 
-Think of it this way: in Linux, the networking stack doesn't care whether you're running a web server or a database—it just moves packets. Similarly, the Logos networking layer doesn't care whether modules above it are storing files, sending chat messages, or processing transactions. It provides private, reliable communication as a shared foundation.
+Think of it this way: in Linux, the networking stack doesn't care whether you're running a web server or a database—it just moves packets. The Logos networking layer is designed with the same principle: today, it treats all traffic alike whether modules above it are storing files, sending chat messages, or processing transactions. Future requirements may introduce protocol-level distinctions, but the goal is a shared, private communication foundation that remains agnostic to what runs above it.
 
 This is the layer where the AnonComms team's work lives—building the [libp2p mixnet](https://github.com/logos-co/anoncomms-pm/milestone/2), implementing [RLN-based DoS protection](https://lip.logos.co/ift-ts/raw/mix-spam-protection-rln.html) to prevent spam without sacrificing anonymity, and developing the capability discovery protocol that lets the whole network self-organize.
 
@@ -50,9 +50,9 @@ The module architecture mirrors how Linux system services work. Just as `systemd
 
 At the top of the stack sit the decentralized applications that people actually use. These compose the modules below them—a chat app uses the messaging module and the storage module; a DeFi application uses the blockchain module and the LEZ; a filesharing app uses storage.
 
-The [**Logos App**](https://github.com/logos-co/logos-app-poc) provides the primary user interface, hosting "Simple Apps" that let users interact with the various modules: a wallet for managing tokens, a [chat interface](https://github.com/logos-co/logos-chat-ui) for encrypted messaging, a filesharing tool for storing and retrieving files, and an explorer for inspecting blockchain and LEZ activity. A new [design system repository](https://github.com/logos-co/logos-design-system) provides unified UI components and styling across the platform.
+The [**Logos App**](https://github.com/logos-co/logos-app-poc) is the default launcher for the Logos stack—a shell that starts the runtime, loads the configured module profile, and provides a unified interface. Out of the box, it hosts "Simple Apps" for each default module: a wallet for managing tokens, a [chat interface](https://github.com/logos-co/logos-chat-ui) for encrypted messaging, a filesharing tool for storing and retrieving files, and an explorer for inspecting blockchain and LEZ activity. A new [design system repository](https://github.com/logos-co/logos-design-system) provides unified UI components and styling across the platform.
 
-But the Logos App is just one distribution. The headless **Logos Node** runs the same modules without a UI—ideal for validators, infrastructure operators, or backend services. And developers can build entirely custom applications that select only the modules they need.
+But the launcher is just one way to run Logos. The headless **Logos Node** starts the same runtime without a UI—ideal for validators, infrastructure operators, or backend services. And because the distribution is defined by which modules are selected—not by the launcher—developers can assemble entirely different Logos-based stacks for their own use cases.
 
 ## Where It Stands: Testnet v0.1
 
@@ -86,6 +86,6 @@ Logos takes a fundamentally different approach.
 
 If you understand how Linux works, you understand Logos.
 
-The kernel handles the fundamentals. The networking layer connects nodes privately. Modules provide capabilities. Applications deliver value to users. And just like Linux, the whole stack is open for you to modify, extend, and make your own.
+The kernel handles the fundamentals. The networking layer connects nodes privately. Modules provide capabilities. Applications deliver value to users. Your choice of modules defines your distribution—and just like Linux, the whole stack is open for you to modify, extend, and make your own.
 
 Testnet v0.1 is where this architecture becomes tangible—where you can run a node, store a file, send a message, transfer tokens, and push messages through a mix-net. Not on someone else's infrastructure. On yours.

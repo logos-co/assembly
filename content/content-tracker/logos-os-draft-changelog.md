@@ -6,7 +6,7 @@ tags:
 date: 2026-02-19
 ---
 
-Revision log for the [[logos-as-operating-system-draft|Logos as Operating System]] draft article. Changes based on technical review feedback received via the [VAC forum review thread](https://forum.vac.dev/t/request-for-draft-review-intro-to-logos-tech-stack-and-testnet-v0-1/664).
+Revision log for the [[logos-as-operating-system-draft|Logos as Operating System]] draft article. Changes based on technical review feedback received via the [VAC forum review thread](https://forum.vac.dev/t/request-for-draft-review-intro-to-logos-tech-stack-and-testnet-v0-1/664) and personal DMs.
 
 ## 2026-02-19 — Review feedback pass
 

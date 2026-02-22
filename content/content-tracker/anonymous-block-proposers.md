@@ -5,7 +5,7 @@ tags:
   - article
   - blockchain
 type: article
-status: proposed
+status: in-review
 date: 2026-02-10
 updated: 2026-02-22
 ---
@@ -49,6 +49,10 @@ A technical document explaining *how* the Logos Blockchain achieves private Proo
 ### Research (Notion — internal)
 - Updated Total Stake Inference accuracy via Uncle/DAG references
 - DA sampling network-view analysis
+
+## Draft
+
+[[anonymous-block-proposers-draft|First draft (Feb 22)]]
 
 ## Notes
 

@@ -62,27 +62,27 @@ This is a private coin flip. The validator knows they've won. No one else knows 
 \begin{document}
 \begin{tikzpicture}[
     >=Stealth,
-    node distance=0.8cm and 1.2cm,
-    box/.style={draw, rounded corners=3pt, minimum width=1.6cm, minimum height=0.7cm, align=center, font=\scriptsize},
+    node distance=1.2cm and 1.8cm,
+    box/.style={draw, rounded corners=4pt, minimum width=2.4cm, minimum height=1cm, align=center, font=\normalsize},
     private/.style={box, fill=black!10, draw=black!80},
     public/.style={box, fill=white, draw=black!80},
-    decision/.style={draw, diamond, aspect=2, inner sep=1pt, align=center, font=\scriptsize, fill=black!6, draw=black!80},
-    lbl/.style={font=\tiny, text=black},
+    decision/.style={draw, diamond, aspect=2, inner sep=2pt, align=center, font=\normalsize, fill=black!6, draw=black!80},
+    lbl/.style={font=\small, text=black},
     arrow/.style={->, thick, black},
 ]
 
 % --- Row 1: Private lottery ---
-\node[private] (note) {Note\\[-2pt]{\tiny (stake)}};
+\node[private] (note) {Note\\[-2pt]{\small (stake)}};
 \node[private, right=of note] (hash) {Compute\\[-2pt]ticket hash};
 \node[decision, right=of hash] (check) {ticket $<$\\threshold?};
 
 % --- Row 1 continued: proof + broadcast ---
-\node[private, right=1.4cm of check] (zkp) {Construct\\[-2pt]ZK Proof};
+\node[private, right=2cm of check] (zkp) {Construct\\[-2pt]ZK Proof};
 \node[public, right=of zkp] (blend) {Blend\\[-2pt]Mixnet};
 \node[public, right=of blend] (network) {Network\\[-2pt]Verifies};
 
 % --- Outcome ---
-\node[lbl, below=0.4cm of check] (no) {\textit{No --- wait}};
+\node[lbl, below=0.6cm of check] (no) {\textit{No --- wait}};
 
 % --- Arrows ---
 \draw[arrow] (note) -- (hash);
@@ -94,13 +94,13 @@ This is a private coin flip. The validator knows they've won. No one else knows 
 
 % --- Zone labels ---
 \draw[thin, black!60]
-    ($(note.south west)+(-0.1,-0.6)$) -- ++(0,-0.1) -- ($(check.south east)+(0.1,-0.7)$) -- ++(0,0.1);
-\node[font=\tiny, text=black!70] at ($(note.south west)!0.5!(check.south east)+(0,-0.95)$)
+    ($(note.south west)+(-0.15,-0.8)$) -- ++(0,-0.15) -- ($(check.south east)+(0.15,-0.95)$) -- ++(0,0.15);
+\node[font=\small, text=black!70] at ($(note.south west)!0.5!(check.south east)+(0,-1.3)$)
     {Private --- validator's local state};
 
 \draw[thin, black!60]
-    ($(blend.south west)+(-0.1,-0.15)$) -- ++(0,-0.1) -- ($(network.south east)+(0.1,-0.25)$) -- ++(0,0.1);
-\node[font=\tiny, text=black!70] at ($(blend.south west)!0.5!(network.south east)+(0,-0.5)$)
+    ($(blend.south west)+(-0.15,-0.2)$) -- ++(0,-0.15) -- ($(network.south east)+(0.15,-0.35)$) -- ++(0,0.15);
+\node[font=\small, text=black!70] at ($(blend.south west)!0.5!(network.south east)+(0,-0.7)$)
     {Anonymous broadcast};
 
 \end{tikzpicture}
@@ -142,6 +142,61 @@ The Blend Protocol addresses this.
 ### How Blend Works
 
 Blend is a **mix network** — a privacy overlay for block proposals. Block proposals don't travel directly from the proposer to their peers. Instead, they are routed through a sequence of **blend nodes** (core Nomos nodes that have declared participation in the protocol), where they are cryptographically transformed and randomly delayed before being relayed onward.
+
+```tikz
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc}
+\begin{document}
+\begin{tikzpicture}[
+    >=Stealth,
+    node distance=2cm,
+    core/.style={draw, circle, minimum size=1.4cm, font=\normalsize, fill=black!6, draw=black!80, inner sep=2pt},
+    edge/.style={draw, rounded corners=4pt, minimum width=2cm, minimum height=1cm, font=\normalsize, fill=black!15, draw=black!80, align=center},
+    lbl/.style={font=\small, text=black},
+    data/.style={->, thick, black},
+    cover/.style={->, densely dashed, black!50},
+]
+
+% --- Proposer ---
+\node[edge] (proposer) {Proposer\\(edge)};
+
+% --- Blend nodes (3 hops) ---
+\node[core, right=2.2cm of proposer] (m1) {$B_1$};
+\node[core, right=of m1] (m2) {$B_2$};
+\node[core, right=of m2] (m3) {$B_3$};
+
+% --- Gossip layer ---
+\node[edge, right=2.2cm of m3] (gossip) {Gossip\\Layer};
+
+% --- Extra core nodes for cover traffic ---
+\node[core, above=1.2cm of m2] (c1) {$C_1$};
+\node[core, below=1.2cm of m2] (c2) {$C_2$};
+
+% --- Data path (onion encrypted) ---
+\draw[data] (proposer) -- node[above, lbl] {$\{[\![m]\!]\}_3$} (m1);
+\draw[data] (m1) -- node[above, lbl] {$\{[\![m]\!]\}_2$} (m2);
+\draw[data] (m2) -- node[above, lbl] {$\{[\![m]\!]\}_1$} (m3);
+\draw[data] (m3) -- node[above, lbl] {$m$} (gossip);
+
+% --- Cover traffic ---
+\draw[cover] (c1) -- (m1);
+\draw[cover] (c1) -- (m3);
+\draw[cover] (m1) -- (c2);
+\draw[cover] (c2) -- (m3);
+\draw[cover] (m2) -- (c1);
+\draw[cover] (c2) -- (m2);
+
+% --- Labels ---
+\node[font=\small, text=black!70, below=0.4cm of m2] (note) {each node decrypts one layer, delays, forwards};
+\node[font=\small, text=black!70, above right=-0.1cm and 0.2cm of c1] {cover traffic};
+
+% --- Legend ---
+\draw[data] ($(proposer.south west)+(-0.1,-1.0)$) -- ++(0.8,0) node[right, lbl] {data message};
+\draw[cover] ($(proposer.south west)+(-0.1,-1.5)$) -- ++(0.8,0) node[right, lbl] {cover traffic};
+
+\end{tikzpicture}
+\end{document}
+```
 
 The key properties:
 
@@ -204,6 +259,8 @@ The internal devnet is live. You can spin up a Logos node with the multiplatform
 The devnet is the best place to observe Cryptarchia in operation — watch the slot timing, the PoL verification, and the block propagation through Blend. The specs referenced throughout this article (Cryptarchia PoL Spec, Cryptarchia v1 Protocol, Blend Protocol) are the normative sources for everything described here.
 
 Proposer anonymity in PoS is a hard problem. Logos' answer is to treat it as a first-class requirement, not an afterthought, and to build the cryptographic infrastructure needed to solve it end-to-end.
+
+> [!NOTE] INSERT CTA LINKS HERE
 
 ---
 

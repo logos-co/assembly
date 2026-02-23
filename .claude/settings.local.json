@@ -10,7 +10,8 @@
       "WebFetch(domain:tikzjax.com)",
       "Bash(curl:*)",
       "Bash(ls /home/petty/Github/logos-co/assembly/public/content-tracker/anonymous-block-proposers-draft*)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:roadmap.logos.co)"
     ]
   }
 }

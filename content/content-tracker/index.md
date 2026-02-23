@@ -9,7 +9,6 @@ It is important to have clarity on who is coordinating around any given [[artifa
 
 | Article | Component | Status | Target | Audience | Links |
 |---------|-----------|--------|--------|----------|-------|
-| [[browser-privacy-stage0\|Stage 0: Your Browser Has Already Betrayed You]] | Privacy | **In Review** | ~Feb 21 | Privacy-conscious crypto users, security researchers | [Preview](/static/stage0-browser-privacy.html) |
 | [[Logos as an Operating System]] | Logos Core | **In Review** | Next up | Application developers, broader tech audience | [[logos-as-operating-system-draft\|Draft]], [[logos-os-draft-changelog\|Changelog]] |
 | [[anonymous-block-proposers\|Anonymous Block Proposers: How Logos Solves Leader Privacy in PoS]] | Blockchain | **In Review** | After above | Protocol engineers, blockchain researchers | [[anonymous-block-proposers-draft\|Draft]] |
 
@@ -28,6 +27,7 @@ Sourced from weekly updates across all Logos components. **Updated Feb 17** with
 
 | Content | Type | Notes |
 |---------|------|-------|
+| [[browser-privacy-stage0\|Stage 0: Your Browser Has Already Betrayed You]] | Article | **Published:** [press.logos.co](https://press.logos.co/article/browser-betrayed-you) — fact-checked Feb 22 |
 | [[blockchain_privacy_leaks\|Blockchain Privacy Leaks]] | Article | **Published:** [press.logos.co](https://press.logos.co/article/how-blockchain-transactions-leak-data) — with [[blockchain_privacy_leaks_meta\|meta]] and [[blockchain_privacy_sources\|sources]] |
 | [[Logos Tech Stack Diagram]] | Diagram | Abstract diagram complete — deemed sufficient by KSR for Testnet v0.1 |
 | [[Lifecycle of a Logos Txn]] | Article | Coordinated with comms and tech leads |

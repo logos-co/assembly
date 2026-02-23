@@ -56,6 +56,57 @@ If `ticket < threshold`, the note wins. The parameters `t₀` and `t₁` are pub
 
 This is a private coin flip. The validator knows they've won. No one else knows yet.
 
+```tikz
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric, calc}
+\begin{document}
+\begin{tikzpicture}[
+    >=Stealth,
+    node distance=0.8cm and 1.2cm,
+    box/.style={draw, rounded corners=3pt, minimum width=1.6cm, minimum height=0.7cm, align=center, font=\scriptsize},
+    private/.style={box, fill=black!10, draw=black!80},
+    public/.style={box, fill=white, draw=black!80},
+    decision/.style={draw, diamond, aspect=2, inner sep=1pt, align=center, font=\scriptsize, fill=black!6, draw=black!80},
+    lbl/.style={font=\tiny, text=black},
+    arrow/.style={->, thick, black},
+]
+
+% --- Row 1: Private lottery ---
+\node[private] (note) {Note\\[-2pt]{\tiny (stake)}};
+\node[private, right=of note] (hash) {Compute\\[-2pt]ticket hash};
+\node[decision, right=of hash] (check) {ticket $<$\\threshold?};
+
+% --- Row 1 continued: proof + broadcast ---
+\node[private, right=1.4cm of check] (zkp) {Construct\\[-2pt]ZK Proof};
+\node[public, right=of zkp] (blend) {Blend\\[-2pt]Mixnet};
+\node[public, right=of blend] (network) {Network\\[-2pt]Verifies};
+
+% --- Outcome ---
+\node[lbl, below=0.4cm of check] (no) {\textit{No --- wait}};
+
+% --- Arrows ---
+\draw[arrow] (note) -- (hash);
+\draw[arrow] (hash) -- (check);
+\draw[arrow] (check) -- node[above, lbl] {Yes} (zkp);
+\draw[arrow] (check) -- (no);
+\draw[arrow] (zkp) -- (blend);
+\draw[arrow] (blend) -- (network);
+
+% --- Zone labels ---
+\draw[thin, black!60]
+    ($(note.south west)+(-0.1,-0.6)$) -- ++(0,-0.1) -- ($(check.south east)+(0.1,-0.7)$) -- ++(0,0.1);
+\node[font=\tiny, text=black!70] at ($(note.south west)!0.5!(check.south east)+(0,-0.95)$)
+    {Private --- validator's local state};
+
+\draw[thin, black!60]
+    ($(blend.south west)+(-0.1,-0.15)$) -- ++(0,-0.1) -- ($(network.south east)+(0.1,-0.25)$) -- ++(0,0.1);
+\node[font=\tiny, text=black!70] at ($(blend.south west)!0.5!(network.south east)+(0,-0.5)$)
+    {Anonymous broadcast};
+
+\end{tikzpicture}
+\end{document}
+```
+
 ### Proving the Win in Zero-Knowledge
 
 The winner needs to convince the rest of the network that they legitimately won the lottery, without revealing which note they used, how much stake it holds, or any other identifying information.

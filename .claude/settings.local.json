@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(npx quartz build:*)",
+      "Bash(node:*)",
+      "Bash(npm:*)",
+      "Bash(bash -c \"source ~/.nvm/nvm.sh && nvm use lts && npx quartz build\")",
+      "Bash(bash -c:*)",
+      "WebFetch(domain:tikzjax.com)",
+      "Bash(curl:*)",
+      "Bash(ls /home/petty/Github/logos-co/assembly/public/content-tracker/anonymous-block-proposers-draft*)",
+      "WebFetch(domain:github.com)"
+    ]
+  }
+}

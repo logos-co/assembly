@@ -5,11 +5,12 @@ tags:
   - article
   - privacy
 type: article
-status: in-review
+status: published
 date: 2026-02-10
+published: 2026-02-22
 author: Dr. Corey Petty
 collaborators: Jinho (Press Engine interactivity)
-target-publish: 2026-02-21
+url: https://press.logos.co/article/browser-betrayed-you
 ---
 
 ## Summary

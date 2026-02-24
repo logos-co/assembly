@@ -29,14 +29,6 @@ Formerly known as Codex (mentioned briefly, not dwelled on). The rebrand narrati
 - A peer-to-peer file-sharing system built on content-addressed blocks
 - Designed as one of the three foundational Logos modules (alongside Messaging and Blockchain)
 
-### The Full Vision (from the SRS)
-- **Erasure coding and data redundancy:** Files split into blocks, erasure-coded (Reed-Solomon), organized into Merkle trees, distributed across storage providers. Targets 99.99% data durability.
-- **Storage proofs:** Zero-knowledge proof-of-retrievability so the network can verify providers are actually storing data. Uses Groth16 proof generation.
-- **Marketplace:** Economic system where storage providers post collateral, clients post storage requests, and the protocol enforces durability through slashing conditions and repair mechanisms.
-- **Content discovery:** Kademlia DHT for CID-based lookups and provider discovery.
-- **Data repair:** Lazy repair mechanisms triggered when storage proofs fail — automatic data reconstruction and slot reallocation to maintain redundancy.
-- **Privacy as a design constraint:** Not an afterthought. Anonymous content retrieval, query privacy, encrypted metadata, plausible deniability — designed into the protocol from the start.
-
 ### How It Fits Into the Logos Stack
 - References the layered architecture from "Logos as Operating System": kernel → networking → modules → dapps
 - Storage is one of the three default modules shipped with Logos
@@ -48,29 +40,26 @@ Formerly known as Codex (mentioned briefly, not dwelled on). The rebrand narrati
 - **Simple Filesharing App** in the Logos App: store a file, enter a CID and get it back
 - **Storage module API** for developers to test against
 - **Storage Node** loadable through Logos Core (headless or with UI)
-- The marketplace is not yet in testnet v0.1 (v0.3.0 removed marketplace to focus on filesharing first)
 - Privacy features (anonymous downloads via mixnet, anonymous publishing) are in active research
 
 ### What Differentiates Logos Storage
 - Privacy-first design — most decentralized storage projects leak metadata at discovery, transfer, and publishing stages
 - Integration with the Logos mixnet for anonymous file retrieval (in research)
-- Storage proofs via ZK rather than simple replication checks
 - Native integration with the Logos ecosystem (module system, blockchain marketplace, mix-net privacy)
-- Not a standalone product — designed as infrastructure for the Logos parallel society
+- Not a standalone product — designed as infrastructure for Logos 
 
 ## Article Structure (Proposed)
 
 1. **Introduction** — What Logos Storage is and where it sits in the stack. Brief mention of formerly being called Codex. Reference to prior articles for ecosystem context.
 2. **The Problem** — Why decentralized storage matters. What centralized alternatives get wrong. What existing decentralized storage (IPFS, Filecoin, Arweave) gets right but also where they fall short on privacy.
-3. **The Design** — Core architecture: content-addressed blocks, erasure coding, Merkle trees, storage proofs, marketplace, content discovery, data repair. Frame the full vision.
+3. **The Design** — Core architecture: content-addressed blocks, Merkle trees, content discovery. 
 4. **Privacy by Design** — The privacy dimension that distinguishes Logos Storage. Discovery, transfer, and publishing metadata leaks. How the protocol addresses each.
 5. **Where It Stands Today** — Testnet v0.1 scope: what you can do right now. The storage module, the filesharing app, the developer API.
-6. **What Comes Next** — Marketplace activation, privacy features moving from research to implementation, deeper ecosystem integration.
+6. **What Comes Next** — privacy features moving from research to implementation, deeper ecosystem integration, exploration into the variety of persistence needs and their associated mechanisms of providing for them.
 
 ## Sources
 
 ### Core Reference
-- Logos Storage SRS (internal): `/Documents/logos-wiki-markdown/markdown-output/decentralised-tech-stack/logos-codex-srs.md`
 - Testnet v0.1 scope: `roadmap/content/testnets/v01.md`
 
 ### Prior Articles in Series
@@ -102,6 +91,6 @@ Formerly known as Codex (mentioned briefly, not dwelled on). The rebrand narrati
 
 - This is now framed as the **introductory article** for Logos Storage, not a technical update.
 - Detailed engineering updates (DHT migration, block exchange refactoring, Status integration, Storage Module headless improvements) should be saved for a **separate technical update article** later.
-- The SRS provides excellent framing for the full vision. Use it to paint the complete picture while being honest about what's implemented vs. what's planned.
 - Keep the Codex mention brief — "formerly known as Codex" — no need to explain the rebrand rationale.
 - Readers should come away understanding: (1) what Logos Storage will be, (2) how it fits into Logos, (3) what they can try today, (4) what's coming.
+- If the blockchain module can be see as on-chain persistence and compute, the storage module looks to provide ways to enable offline persistence and compute.

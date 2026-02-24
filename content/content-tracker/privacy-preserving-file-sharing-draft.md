@@ -35,7 +35,7 @@ Logos Storage — formerly known as Codex — is built on a different premise. P
 
 Logos Storage is a peer-to-peer storage protocol designed to provide durable, censorship-resistant data persistence with built-in privacy guarantees. It serves as the storage layer for the Logos tech stack, handling everything from application asset delivery to long-term data archival.
 
-At its core, the system is built on **content-addressed blocks**. When you store a file, it is split into fixed-size blocks, erasure-coded for redundancy, organized into a Merkle tree for integrity verification, and distributed across storage providers. Retrieval reverses the process: request blocks by their content identifiers (CIDs), verify them against the Merkle root, reconstruct the original file.
+At its core, the system is built on **content-addressed blocks**. When you store a file, it is split into fixed-size blocks, organized into a Merkle tree for integrity verification, and distributed across storage providers. Retrieval reverses the process: request blocks by their content identifiers (CIDs), verify them against the Merkle root, reconstruct the original file.
 
 This architecture serves three primary functions within the Logos ecosystem:
 
@@ -47,65 +47,19 @@ This architecture serves three primary functions within the Logos ecosystem:
 
 ## The Architecture
 
-Logos Storage is designed around six core subsystems. Together they form a complete storage protocol that handles data from the moment it enters the network to long-term persistence, verification, and retrieval.
+Logos Storage is built on three foundational primitives. Together they define how data enters the network, how it is organized for integrity verification, and how it can be found again.
 
-### Erasure Coding and Data Redundancy
+**Content-addressed blocks.** When you store a file, it is split into fixed-size blocks. Each block is identified by its content hash — a CID. This means storage is inherently deduplicated and verifiable: a block either matches its identifier or it doesn't. There is no ambiguity, no central authority deciding what counts as authentic.
 
-Durability starts with redundancy. Logos Storage uses **Reed-Solomon erasure coding** — the same family of error-correcting codes used in RAID arrays and deep-space communication — to ensure that data survives node failures.
+**Merkle trees.** All blocks are organized into a Merkle tree, where each leaf is a block and the root hash serves as the content identifier for the complete dataset. This structure enables efficient integrity verification: a client downloading a single block can verify it against the Merkle root without downloading the entire dataset. A **manifest** accompanies each dataset, containing the Merkle root, block layout, and metadata needed for retrieval.
 
-When a file enters the system, it is split into fixed-size blocks and organized into **slots**. Each slot is then erasure-coded: the original data blocks become the systematic portion, and additional parity blocks are generated so that the full data can be reconstructed from any sufficient subset of blocks. The redundancy level is configurable — higher redundancy means more storage overhead but greater durability.
+**Content discovery via DHT.** Storing data is only useful if you can find it again. Logos Storage uses a **Kademlia Distributed Hash Table (DHT)** for content discovery — the same class of DHT used by IPFS, BitTorrent, and other large-scale decentralized systems. The DHT maps CIDs to the providers storing them. When a client wants to retrieve a file, they query the DHT with the CID and receive a list of providers who hold the relevant blocks. The Kademlia topology provides **logarithmic routing** — in a network of N nodes, any content can be located in O(log N) hops. The DHT also handles peer discovery, allowing new nodes to find and join the network without centralized bootstrap servers.
 
-The target is **99.99% data availability** — meaning that even with significant node churn and failures across the network, your data is retrievable.
+These three components — content addressing, Merkle-based integrity, and distributed discovery — are the foundation. Getting them right, and building privacy into each layer, is the work of testnet v0.1.
 
-All blocks are organized into a **Merkle tree**, where each leaf is a block and the root hash serves as the content identifier for the complete dataset. This structure enables efficient integrity verification: a client downloading a single block can verify it against the Merkle root without downloading the entire dataset. A **manifest** accompanies each dataset, containing the Merkle root, block layout, erasure coding parameters, and metadata needed for retrieval.
+---
 
-### Storage Proofs
-
-How do you know a storage provider is actually storing your data? You can't check directly — the whole point of decentralized storage is that you don't need to trust individual providers. Instead, the protocol verifies storage cryptographically.
-
-Logos Storage uses **zero-knowledge proofs of retrievability** — specifically, **Groth16 proofs** — to verify that providers hold the data they claim to hold. The process works like this:
-
-1. The protocol issues a **random challenge** to a storage provider.
-2. The provider must generate a proof that demonstrates possession of specific blocks without revealing the blocks themselves.
-3. The proof is verified on-chain. If the provider fails to respond or produces an invalid proof, the protocol triggers penalties.
-
-This is not a simple "ping the node and see if it responds" check. The zero-knowledge property means the verification is cryptographically sound — a provider cannot fake the proof without actually possessing the data. Proof scheduling is **stochastic**, meaning providers cannot predict when they will be challenged, preventing them from discarding data between checks.
-
-### The Marketplace
-
-Storage costs resources. Providers need hardware, bandwidth, and uptime. Logos Storage aligns incentives through a **marketplace** — a decentralized economic system where storage capacity is traded between providers and clients.
-
-The marketplace operates through the Logos blockchain:
-
-- **Storage requests.** A client posts a request specifying the data size, desired duration, number of storage slots, and the payment offered.
-- **Slot reservation.** Storage providers browse open requests and reserve slots they can fulfill. Reservation requires posting **collateral** — a stake that can be slashed if the provider fails to meet their obligations.
-- **Proof-based verification.** Throughout the storage period, providers must submit storage proofs on schedule. Missed proofs trigger slashing conditions against the provider's collateral.
-- **Repair and reallocation.** When a provider fails, the protocol triggers **data repair** — remaining providers reconstruct the lost blocks using erasure coding and redistribute them to new providers. This happens automatically.
-
-The marketplace is not active in testnet v0.1 — the initial release focuses on the file-sharing protocol itself. But the marketplace is central to how Logos Storage achieves durable, long-term storage in an adversarial environment. Without economic incentives, you're relying on altruism; with them, the network's durability guarantees are backed by skin in the game.
-
-### Content Discovery
-
-Storing data is only useful if you can find it again. Logos Storage uses a **Kademlia Distributed Hash Table (DHT)** for content discovery — the same class of DHT used by IPFS, BitTorrent, and other large-scale decentralized systems.
-
-The DHT maps content identifiers (CIDs) to the providers storing them. When a client wants to retrieve a file, they query the DHT with the CID and receive a list of providers who hold the relevant blocks. The Kademlia topology provides **logarithmic routing** — in a network of N nodes, any content can be located in O(log N) hops.
-
-Provider records in the DHT advertise storage availability — which CIDs a provider holds, how to connect to them, and their current capacity. The DHT also handles peer discovery, allowing new nodes to find and join the network without centralized bootstrap servers.
-
-### Data Repair
-
-Nodes go offline. Hardware fails. Providers disappear. In a decentralized network, this is not an exception — it's the norm. Logos Storage handles this through **automated data repair**.
-
-The repair system monitors the network's redundancy levels continuously:
-
-1. **Failure detection.** When a storage provider misses proof deadlines, the protocol marks them as failed.
-2. **Redundancy assessment.** The system checks whether the remaining providers hold enough blocks to reconstruct the full dataset using erasure coding.
-3. **Lazy repair.** Rather than immediately reconstructing all lost data, the protocol uses a lazy repair mechanism — it triggers reconstruction only when redundancy falls below a configured threshold. This minimizes unnecessary bandwidth usage.
-4. **Slot reallocation.** Reconstructed blocks are assigned to new providers who post collateral and begin submitting their own storage proofs.
-
-The result is a self-healing storage network. Data durability is maintained not through manual intervention but through protocol-enforced repair triggered by cryptographic verification.
-
-### Privacy
+## Privacy by Design
 
 This is where Logos Storage diverges most sharply from existing decentralized storage systems.
 
@@ -142,9 +96,9 @@ This integration matters in several concrete ways:
 
 **The networking layer.** Storage traffic flows through the Logos networking stack, which means it benefits from the mix-net's privacy guarantees. File retrieval can be routed through mix nodes; capability discovery lets storage nodes find each other without centralized infrastructure.
 
-**The blockchain.** The storage marketplace operates through the Logos blockchain. Storage contracts, proof verification, collateral management, and payment settlement all happen on-chain. This is where Logos Storage's economic security comes from — providers post collateral enforced by consensus.
+**The blockchain.** The blockchain layer provides the on-chain foundation for future storage economics — storage contracts, proof verification, and incentive alignment. How exactly the storage and blockchain modules interact at this level is still being worked out, but the intent is clear: if the blockchain module handles on-chain persistence and compute, the storage module handles offline persistence — the data that lives outside the ledger but still needs durability guarantees.
 
-**Applications.** At the top of the stack, applications compose these modules. The simple filesharing app in testnet v0.1 uses the storage module directly. The Status messaging app uses Logos Storage for community message history archives. Future applications will use it for asset hosting, data persistence, module distribution, and more.
+**Applications.** At the top of the stack, applications compose these modules. The simple filesharing app in testnet v0.1 uses the storage module directly. Future applications will use it for asset hosting, data persistence, module distribution, and more.
 
 ---
 
@@ -173,23 +127,23 @@ The Logos Node — the headless runtime — can load and start a storage node al
 
 ### What's Not Yet Available
 
-The **marketplace** is not active in testnet v0.1. The v0.3.0 release deliberately removed marketplace components to focus on getting the file-sharing protocol right first. Storage proofs, collateral, and the economic system are planned for subsequent testnet releases.
-
 **Privacy features** — anonymous downloads via the mix-net, anonymous publishing through hidden services — are in active research with published drafts, but are not yet integrated into the testnet. [Rate-Limiting Nullifiers (RLN)](https://forum.vac.dev/t/speeding-up-rln-proofs/663), the zero-knowledge system that will prevent spam in anonymous retrieval, is being developed in collaboration with the AnonComms team and is a cross-cutting effort shared with the messaging and blockchain layers.
+
+Durability mechanisms — erasure coding, storage proofs, and an economic marketplace for incentivizing storage providers — are part of the longer-term design space. The focus right now is on getting the foundational file-sharing protocol right: content addressing, Merkle integrity, discovery, and privacy. What gets built on top of that foundation, and in what form, will be shaped by what we learn from the testnet.
 
 ---
 
 ## What Comes Next
 
-Logos Storage is being built from the inside out — the core file-sharing protocol first, then the economic layer, then privacy integration.
+Logos Storage is being built from the foundations up — the core file-sharing protocol first, then privacy integration, then whatever economic and durability mechanisms the testnet demonstrates are needed.
 
-The near-term roadmap:
+The immediate priorities:
 
-- **Marketplace activation.** Storage proofs, collateral management, and the economic incentive system will be introduced in subsequent testnet versions. This is what turns file sharing into durable, verifiable storage.
 - **Privacy integration.** The anonymous download approach using the mix protocol has a published draft. Hidden services for anonymous publishing are next. The completed privacy analysis provides a concrete map of what needs to be built and where.
-- **Deeper ecosystem integration.** The package manager will use Logos Storage as its backend for module distribution. Application data persistence patterns will mature. The storage module's integration with the blockchain for marketplace operations will come online.
+- **Ecosystem integration.** Deeper integration with the Logos module system, packaging, and application data persistence patterns as the stack matures.
+- **Learning from the testnet.** The v0.1 testnet is a beginning. The variety of persistence needs — short-lived caching, long-term archival, module distribution, application state — each has its own requirements. The right mechanisms for meeting those needs will be shaped by real usage.
 
-The goal is a storage layer where you can store data with cryptographic durability guarantees, retrieve it without revealing who you are, and pay for it through a decentralized marketplace — all running on infrastructure you control, as part of a stack designed for sovereignty from the ground up.
+The goal is a storage layer where the foundations work: data is content-addressed and verifiable, discovery is functional, and privacy is built in — not bolted on. What gets built on top of those foundations will be determined by what the ecosystem actually needs.
 
 ---
 

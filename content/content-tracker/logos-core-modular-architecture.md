@@ -101,7 +101,7 @@ A developer onboarding article explaining the Logos Core modular architecture th
 ### Presentation — Logos Team Updates (NEW)
 - Video: [Logos Team Updates](https://youtube.com/live/KfPpmQTFPNc) — lead's walkthrough of the full Logos Core architecture (~52 min, Logos Core section at beginning)
 - Slides: [Logos Core presentation](https://drive.google.com/file/d/1lOPto2nyh2nwl8Q0bRbaGTQZZmin4nFQ/view?usp=sharing) — 23 slides covering the pipeline from source to execution, module abstraction, LGX format, CLI tools, LibLogos architecture, headless execution, and Logos Basecamp
-- *Note: Video transcript pending YouTube processing — update brief with verbal framing once available*
+- **Transcript incorporated into draft** — key framing from Iuri's presentation: developer journey narrative, Qt misconception correction, inconsistency as module builder motivation, SDK demo across Electron/terminal/Logos App, future architecture vision (containers, remote machines), three execution modes, permission management
 
 ### Reference
 - "Logos as an Operating System" draft: `assembly/content/content-tracker/logos-as-operating-system-draft.md`

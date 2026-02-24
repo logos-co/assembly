@@ -1,8 +1,10 @@
 # Building on Logos Core: The Modular Architecture and Package Manager
 
-Every application on the Logos stack follows the same journey. Source code becomes a module. A module becomes a package. A package loads into the runtime. The runtime becomes an application. Understanding this pipeline is the fastest way to go from "what is Logos Core?" to shipping something that runs on it.
+Every application on the Logos stack follows the same developer journey. Source code becomes a module. A module becomes a package. A package loads into the runtime. The runtime becomes an application.
 
-This article walks through that pipeline end-to-end — from scaffolding your first module to distributing it through the Logos package manager. If you've read ["Understanding the Logos Tech Stack: An Operating System for Sovereignty"](https://press.logos.co), you already understand the *why*. This is the *how*.
+The Logos Core team has been building modules and apps on this platform, and we've learned a lot from that process. This article walks through the developer journey we've refined — from scaffolding your first module to distributing it through the Logos package manager. You should see not just where the platform is, but where it's going — and the better developer experience waiting for you when you start building.
+
+If you've read ["Understanding the Logos Tech Stack: An Operating System for Sovereignty"](https://press.logos.co), you already understand the *why*. This is the *how*.
 
 ---
 
@@ -20,7 +22,9 @@ Each stage has its own tooling, its own CLI commands, and its own concerns. Toge
 
 ## Stage 1: Build — The Logos Module Builder
 
-Every module starts with the Logos Module Builder. It's a Nix flake template that scaffolds the build system, dependency management, and configuration for a new module. One command:
+The first problem we faced when building modules was the sheer number of configuration files needed. It got messy: lots of makefiles, Nix files, things that had to happen under the hood. Worse, this led to inconsistency between projects — some had code generation, others didn't, and different conventions emerged across the board. Things wouldn't work as expected, and onboarding new contributors meant explaining a different setup for each module.
+
+The **Logos Module Builder** eliminates this problem. It's a Nix flake template that scaffolds the build system, dependency management, and configuration for a new module. One command:
 
 ```bash
 nix flake init -t github:logos-co/logos-module-builder
@@ -37,7 +41,11 @@ mkLogosModule {
 }
 ```
 
-Define your source files and your dependencies. The builder handles the rest. Nix commands are now standardized across every module in the ecosystem — `nix build`, `nix develop`, `nix flake check` — so the workflow for building the wallet module is identical to building the chat module or any third-party module.
+Define your source files and your dependencies. The builder handles the rest.
+
+This approach has multiple advantages beyond simplicity. When we update the underlying technology, everything should just work for the module developer — no changes required on their end. We can push improvements to all modules at once. Nix commands are now standardized across every module in the ecosystem — `nix build`, `nix develop`, `nix flake check` — so the workflow for building the wallet module is identical to building the chat module or any third-party module.
+
+There are also AI-assisted skills available to create new modules from scratch and to update existing modules to the new builder format. The update skill is particularly handy — it does a solid job of migrating older modules automatically.
 
 This is configuration debt reduction as a design principle. Less boilerplate means fewer places for builds to break, faster onboarding for new contributors, and a consistent developer experience across the entire module catalog.
 
@@ -49,7 +57,11 @@ Once your code compiles, the Logos Module Builder produces a **Logos Module** �
 
 ### The Abstraction Layer
 
-A Logos Module is an abstraction layer over Qt Plugins. This is a deliberate architectural decision: by wrapping the plugin system behind the Logos Module API, the underlying technology can be swapped out without rewriting module logic. Your module code talks to the Logos Module interface, not to Qt directly. If the plugin system changes tomorrow, your module doesn't.
+There's a common misunderstanding that we're "doing Qt plugins" or "using Qt" — that's not the right way to think about it. What you're creating is a **Logos Module** that just happens, at the moment, to be implemented using Qt under the hood. This might or might not be the case in the future.
+
+From your perspective as a developer, you're creating a Logos Module. You shouldn't care about the underlying implementation. You care that you're building a Logos Module with particular properties that works in a particular way within Logos Core.
+
+We introduced the Logos Module library to make this abstraction explicit. By wrapping the plugin system behind the Logos Module API, the underlying technology can be swapped out without rewriting module logic. Your module code talks to the Logos Module interface, not to Qt directly. If the plugin system changes tomorrow, your module doesn't.
 
 The Logos Module Library provides the programmatic interface:
 
@@ -73,7 +85,7 @@ version: 0.3.1
 description: Chat module for Logos Core
 author: Logos Collective
 type: service
-dependencies: [logos-waku-module, logos-capability-module]
+dependencies: [logos-messaging-module, logos-capability-module]
 
 # List available methods
 $ lm methods
@@ -114,7 +126,11 @@ logos->chat.on("chatMessage", [](const Message& msg) {
 });
 ```
 
-The naming convention shifts slightly per language — JavaScript uses `onChatMessage` while Nim and C++ use `on("chatMessage")` — but the conceptual model is identical. Learn one SDK and you understand all three. This matters because Logos Core modules are written in different languages: the blockchain module is in Nim, UI modules use C++ with QML, and developer tooling increasingly targets JavaScript. A unified API pattern means these modules compose naturally regardless of implementation language.
+The naming convention shifts slightly per language — JavaScript uses `onChatMessage` while Nim and C++ use `on("chatMessage")` — but the conceptual model is identical. Learn one SDK and you understand all three.
+
+To demonstrate this in practice: in a recent demo, the team took the chat module and used it in an Electron app, in a terminal chat application, and inside the Logos Basecamp app — completely different technologies, yet the base module was the same. This is what we aim for: take our technology and make it easy for anyone to use on any platform without worrying about the underlying details.
+
+This matters because Logos Core modules are written in different languages: the blockchain module is in Nim, UI modules use C++ with QML, and developer tooling increasingly targets JavaScript. A unified API pattern means these modules compose naturally regardless of implementation language.
 
 ---
 
@@ -192,34 +208,42 @@ The distribution story is backed by CI actions that build portable libraries and
 
 With modules built, defined, and packaged, **LibLogos Core** is the runtime that brings them to life. It is the kernel described in the ["Logos as an Operating System"](https://press.logos.co) article — the microkernel that loads modules, manages their lifecycles, and provides the IPC infrastructure for them to communicate.
 
-### Process Isolation
+### Process Isolation and Security
 
-Each module runs in its own process. This is the defining architectural choice of LibLogos Core. A crash in the chat module doesn't take down the wallet. A misbehaving third-party module can't corrupt the blockchain node. The Core is a hub — it starts module processes, monitors their health, and restarts them if they fail.
+Each module runs in an isolated manner for security and stability. Currently modules run in separate processes, but the architecture is designed for more: it's quite possible that in the future, modules will run in containers or even on different machines — and yet they can all talk to each other through the same API.
 
-This is the same philosophy as a microkernel operating system. Just as a crashed printer driver on a microkernel OS doesn't bring down the filesystem, a crashed Logos module doesn't bring down the Core.
+A crash in the chat module doesn't take down the wallet. A misbehaving third-party module can't corrupt the blockchain node. The Core is a hub — it starts module processes, monitors their health, and restarts them if they fail. This is the same philosophy as a microkernel operating system: just as a crashed printer driver on a microkernel OS doesn't bring down the filesystem, a crashed Logos module doesn't bring down the Core.
 
-### Inter-Process Communication
+### Inter-Process Communication and Permissions
 
-Modules communicate through built-in IPC channels managed by LibLogos Core. When the wallet module needs to query the blockchain module for a balance, it doesn't call functions directly — it sends a message through the Core's IPC layer. This decoupling means modules can be written in different languages, run on different schedules, and be updated independently.
+Modules communicate through built-in IPC channels managed by LibLogos Core. The architecture might look like everything only talks to Logos Core, but modules can actually talk to each other directly. The Core ensures they have permissions to communicate with the right modules — you might authorize a module to talk to your wallet, but you don't necessarily want all modules to have that access.
 
-The IPC architecture also enables dependency auto-loading. When a module declares a dependency on another module, LibLogos automatically loads the dependency first. Install the chat UI module, and LibLogos will pull in the chat module, the Waku module, and any other dependencies declared in the chain.
+The Core also manages sessions, so modules can run on different machines while the developer uses the same API regardless. The routing of messages is completely abstracted — as a developer, you don't need to know where a module is running to communicate with it.
 
-### Headless Execution
+The IPC architecture also enables dependency auto-loading. When a module declares a dependency on another module, LibLogos automatically loads the dependency first. Install the chat UI module, and LibLogos will pull in the chat module, the Logos Messaging module, and any other dependencies declared in the chain.
 
-Not every deployment needs a UI. The `logoscore` CLI runs the full LibLogos Core runtime without any graphical interface:
+### Three Ways to Execute
+
+There are three ways to run modules on LibLogos Core:
+
+**1. Dedicated App with SDK** — Build your own application using the SDK in whatever language you prefer. Your app loads LibLogos as a library, starts the modules it needs, and uses the `logos.<module>.<method>` API to interact with them. This is how you'd build a custom Logos-powered application.
+
+**2. Headless Mode (`logoscore` CLI)** — Run the full LibLogos Core runtime without any graphical interface:
 
 ```bash
 # Run with a specific module directory
 $ logoscore -m /path/to/modules
 
 # Load specific modules
-$ logoscore --load-modules logos-blockchain-module,logos-waku-module
+$ logoscore --load-modules logos-blockchain-module,logos-messaging-module
 
 # Execute a method directly
 $ logoscore -c "logos.blockchain.getLatestBlock()"
 ```
 
-This enables server-side deployments — validators, infrastructure nodes, CI test environments — where modules run as background services. It's the daemon mode for Logos: the same runtime, the same modules, the same IPC, without a window.
+This enables server-side deployments — validators, infrastructure nodes, CI test environments — where modules run as background services. Pass a folder of modules, choose which ones to load, and the runtime automatically handles dependencies (loading the chat module will automatically load the wallet module if it's a dependency). It's the daemon mode for Logos: the same runtime, the same modules, the same IPC, without a window.
+
+**3. Logos Basecamp (Super App)** — The default end-user application that provides a graphical interface to the entire module ecosystem. More on this below.
 
 ---
 
@@ -239,7 +263,7 @@ The pipeline isn't theoretical. Thirteen modules are built, packaged, and distri
 | logos-irc-module | Service | IRC bridge |
 | logos-package-manager | Management | Package installation and resolution |
 | logos-storage-module | Service | Decentralized file storage |
-| logos-waku-module | Protocol | Waku relay protocol |
+| logos-messaging-module | Protocol | Logos Messaging relay protocol |
 | logos-wallet-module | Service | Wallet and token management |
 | logos-wallet-ui | UI | Wallet interface (QML) |
 
@@ -247,7 +271,7 @@ The UI modules — wallet, accounts, blockchain — have been reworked in QML, a
 
 The blockchain module integrates directly with the Logos blockchain, emitting events that other modules can subscribe to through the IPC layer. Nix-based C++ code generation automates the binding between blockchain data types and the module's C++ interface, reducing the manual glue code that typically makes blockchain integrations brittle.
 
-The demo chat application — built on the chat module, the Waku module, and the capability discovery protocol — is now being dogfooded internally by the Logos team. It's real usage over a real network, not a conference demo. Mix protocol integration provides network-level privacy for message routing, and capability discovery (fully spec-compliant with the [extended-kad-disco specification](https://lip.logos.co/ift-ts/raw/extended-kad-disco.html#api-specification)) lets nodes find each other without centralized infrastructure.
+The demo chat application — built on the chat module, the Logos Messaging module, and the capability discovery protocol — is now being dogfooded internally by the Logos team. It's real usage over a real network, not a conference demo. Mix protocol integration provides network-level privacy for message routing, and capability discovery (fully spec-compliant with the [extended-kad-disco specification](https://lip.logos.co/ift-ts/raw/extended-kad-disco.html#api-specification)) lets nodes find each other without centralized infrastructure.
 
 A unified [design system](https://github.com/logos-co/logos-design-system) provides shared UI components and typography across all modules, ensuring visual consistency as the module catalog grows.
 
@@ -261,15 +285,17 @@ Everything described above — the build pipeline, the module abstraction, the p
 
 Basecamp is the user-facing application powered by the LibLogos backend. It provides a graphical package manager for browsing, installing, and managing Logos Core modules. Open the package manager, browse the catalog, install the modules you want, and Basecamp handles dependency resolution, platform-appropriate binary selection, and module lifecycle management.
 
+The app displays each loaded module with real-time CPU and memory usage — you can see the Logos Messaging module running as a full node, the wallet module idle, and the chat module processing messages. This isn't a mockup; it's the actual runtime exposing its internals.
+
 Five proof-of-concept applications ship with Basecamp today:
 
 - **Package Manager** — browse and install modules from the catalog
-- **Wallet** — manage tokens and view balances
+- **Wallet** — manage tokens and view balances (using the Go Wallet SDK)
 - **Chat** — encrypted messaging over the Logos network
 - **Blockchain Node Manager** — run and monitor a blockchain node
 - **Storage** — decentralized file storage and retrieval
 
-Each application is composed entirely of Logos Core modules running through LibLogos. The wallet app is the wallet module plus the wallet UI module plus the accounts module. The chat app is the chat module plus the Waku module plus the chat UI module. Basecamp doesn't implement these features — it loads the modules that do.
+Each application is composed entirely of Logos Core modules running through LibLogos. The wallet app is the wallet module plus the wallet UI module plus the accounts module. The chat app is the chat module plus the Logos Messaging module plus the chat UI module. Basecamp doesn't implement these features — it loads the modules that do.
 
 This is the modular architecture made tangible. Users don't need to understand Nix, LGX packages, or IPC channels. They see applications. Developers see a distribution platform for their modules.
 

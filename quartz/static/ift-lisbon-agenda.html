@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IFT Lisbon Week — March 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0b;
+    --surface: #131315;
+    --surface-hover: #1a1a1e;
+    --border: #2a2a2f;
+    --border-light: #3a3a42;
+    --text: #e8e6e3;
+    --text-dim: #8a8890;
+    --text-muted: #5a5860;
+    --accent: #c8f540;
+    --accent-dim: rgba(200, 245, 64, 0.12);
+    --accent-glow: rgba(200, 245, 64, 0.06);
+    --warm: #f5a623;
+    --warm-dim: rgba(245, 166, 35, 0.12);
+    --cool: #5b9cf5;
+    --cool-dim: rgba(91, 156, 245, 0.12);
+    --red: #f55b5b;
+    --red-dim: rgba(245, 91, 91, 0.10);
+    --purple: #b08cf5;
+    --purple-dim: rgba(176, 140, 245, 0.12);
+    --teal: #5bf5c8;
+    --teal-dim: rgba(91, 245, 200, 0.12);
+    --pink: #f57bb5;
+    --pink-dim: rgba(245, 123, 181, 0.12);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  body::before { content: ''; position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: 0.03; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: 128px; }
+
+  /* ── HERO ── */
+  .hero { position: relative; padding: 4rem 4rem 3rem; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -40%; right: -20%; width: 80vw; height: 80vw; border-radius: 50%; background: radial-gradient(circle, rgba(200,245,64,0.04) 0%, transparent 70%); pointer-events: none; }
+  .hero-overline { font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; opacity: 0; animation: fadeUp 0.8s ease forwards 0.3s; }
+  .hero h1 { font-family: 'Instrument Serif', serif; font-size: clamp(2.8rem, 6vw, 5.5rem); font-weight: 400; line-height: 1.05; letter-spacing: -0.02em; max-width: 800px; opacity: 0; animation: fadeUp 0.8s ease forwards 0.5s; }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero-meta { display: flex; gap: 3rem; margin-top: 2rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.8s ease forwards 0.7s; }
+  .hero-meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
+  .hero-meta-label { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); }
+  .hero-meta-value { font-size: 0.92rem; font-weight: 500; }
+
+  /* ── WIP BANNER ── */
+  .wip-banner { background: rgba(245, 166, 35, 0.08); border-bottom: 1px solid rgba(245, 166, 35, 0.2); padding: 0.75rem 2rem; text-align: center; font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; color: var(--warm); }
+
+  /* ── DAY TABS ── */
+  .day-tabs { position: sticky; top: 0; z-index: 200; background: var(--bg); border-bottom: 1px solid var(--border); display: flex; overflow-x: auto; scrollbar-width: none; }
+  .day-tabs::-webkit-scrollbar { display: none; }
+  .day-tab { flex-shrink: 0; padding: 1rem 1.6rem; cursor: pointer; transition: all 0.25s; border-bottom: 2px solid transparent; text-align: center; position: relative; }
+  .day-tab:hover { background: rgba(255,255,255,0.02); }
+  .day-tab.active { border-bottom-color: var(--accent); }
+  .day-tab .dt-day { font-family: 'Space Mono', monospace; font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.2rem; }
+  .day-tab.active .dt-day { color: var(--accent); }
+  .day-tab .dt-name { font-size: 0.82rem; font-weight: 500; color: var(--text-dim); white-space: nowrap; }
+  .day-tab.active .dt-name { color: var(--text); }
+  .day-tab .dt-badge { position: absolute; top: 0.5rem; right: 0.5rem; font-family: 'Space Mono', monospace; font-size: 0.45rem; letter-spacing: 0.1em; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 0.1rem 0.35rem; border-radius: 3px; }
+  .day-tab.placeholder .dt-name { color: var(--text-muted); font-style: italic; }
+
+  /* ── TAB PANELS ── */
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ══ ALL-HANDS TAB STYLES ══ */
+  .ah-format-bar { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--border); }
+  .format-block { padding: 1.3rem 1.5rem; border-right: 1px solid var(--border); text-align: center; transition: background 0.3s; cursor: pointer; }
+  .format-block:last-child { border-right: none; }
+  .format-block:hover { background: var(--accent-glow); }
+  .format-block .fb-num { font-family: 'Space Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; margin-bottom: 0.25rem; }
+  .format-block:nth-child(1) .fb-num { color: var(--accent); }
+  .format-block:nth-child(2) .fb-num { color: var(--cool); }
+  .format-block:nth-child(3) .fb-num { color: var(--warm); }
+  .format-block:nth-child(4) .fb-num { color: var(--red); }
+  .format-block .fb-time { font-family: 'Space Mono', monospace; font-size: 0.68rem; color: var(--text-dim); margin-bottom: 0.15rem; }
+  .format-block .fb-title { font-size: 0.82rem; font-weight: 600; }
+  .principles-strip { display: flex; overflow-x: auto; border-bottom: 1px solid var(--border); scrollbar-width: none; }
+  .principles-strip::-webkit-scrollbar { display: none; }
+  .principle-chip { flex-shrink: 0; padding: 0.75rem 1.3rem; border-right: 1px solid var(--border); display: flex; align-items: center; gap: 0.5rem; font-size: 0.72rem; color: var(--text-dim); }
+  .principle-chip .pc-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+
+  /* Timeline */
+  .timeline { max-width: 900px; margin: 0 auto; padding: 4rem 2rem; position: relative; }
+  .timeline::before { content: ''; position: absolute; left: 130px; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, transparent, var(--border) 5%, var(--border) 95%, transparent); }
+  .phase-header { position: relative; margin-bottom: 2rem; margin-top: 4rem; padding-left: 170px; }
+  .phase-header:first-child { margin-top: 0; }
+  .phase-header h2 { font-family: 'Instrument Serif', serif; font-size: 2.2rem; font-weight: 400; }
+  .phase-header .phase-sub { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; margin-top: 0.35rem; }
+  .phase-s1 { color: var(--accent); } .phase-s2 { color: var(--cool); } .phase-s3 { color: var(--warm); } .phase-s4 { color: var(--red); }
+  .session { position: relative; padding-left: 170px; margin-bottom: 1.25rem; opacity: 0; transform: translateY(20px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+  .session.visible { opacity: 1; transform: translateY(0); }
+  .session-time { position: absolute; left: 0; top: 0; width: 115px; text-align: right; font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--text-dim); padding-top: 1.2rem; line-height: 1.4; }
+  .session-time .duration { display: block; font-size: 0.63rem; color: var(--text-muted); margin-top: 0.12rem; }
+  .session-dot { position: absolute; left: 126px; top: 1.35rem; width: 9px; height: 9px; border-radius: 50%; background: var(--bg); border: 2px solid var(--border-light); z-index: 2; transition: all 0.3s; }
+  .session:hover .session-dot, .session.expanded .session-dot { border-color: var(--accent); background: var(--accent); box-shadow: 0 0 12px rgba(200,245,64,0.3); }
+  .session-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; cursor: pointer; transition: all 0.3s; }
+  .session-card:hover { border-color: var(--border-light); background: var(--surface-hover); }
+  .session.expanded .session-card { border-color: var(--accent); box-shadow: 0 0 30px rgba(200,245,64,0.04); }
+  .session-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.2rem; gap: 0.8rem; }
+  .session-header-left { display: flex; align-items: center; gap: 0.7rem; flex: 1; min-width: 0; }
+  .session-tag { flex-shrink: 0; font-family: 'Space Mono', monospace; font-size: 0.54rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.45rem; border-radius: 3px; font-weight: 700; }
+  .tag-s1 { background: var(--accent-dim); color: var(--accent); }
+  .tag-s2 { background: var(--cool-dim); color: var(--cool); }
+  .tag-s3 { background: var(--warm-dim); color: var(--warm); }
+  .tag-s4 { background: var(--red-dim); color: var(--red); }
+  .tag-break { background: rgba(255,255,255,0.05); color: var(--text-muted); }
+  .session-title { font-size: 0.88rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .session-chevron { flex-shrink: 0; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); transition: all 0.3s; font-size: 0.82rem; }
+  .session.expanded .session-chevron { transform: rotate(180deg); color: var(--accent); }
+  .session-body { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+  .session.expanded .session-body { max-height: 3000px; }
+  .session-content { padding: 0 1.2rem 1.2rem; border-top: 1px solid var(--border); }
+  .session-content p { font-size: 0.82rem; color: var(--text-dim); margin-top: 0.8rem; line-height: 1.7; }
+  .session-content ul { list-style: none; margin-top: 0.5rem; }
+  .session-content li { font-size: 0.8rem; color: var(--text-dim); padding: 0.25rem 0 0.25rem 1.1rem; position: relative; line-height: 1.6; }
+  .session-content li::before { content: '→'; position: absolute; left: 0; color: var(--text-muted); font-size: 0.7rem; }
+  .content-label { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); margin-top: 1rem; margin-bottom: 0.15rem; }
+  .owner-badge { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.72rem; color: var(--text-dim); background: rgba(255,255,255,0.04); padding: 0.2rem 0.55rem; border-radius: 4px; margin-top: 0.35rem; margin-right: 0.3rem; }
+  .owner-badge .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+  .note-box { margin-top: 0.9rem; padding: 0.7rem 0.85rem; background: var(--accent-glow); border-left: 2px solid var(--accent); border-radius: 0 4px 4px 0; font-size: 0.76rem; color: var(--text-dim); line-height: 1.6; }
+  .note-box strong { color: var(--accent); font-weight: 600; }
+  .sub-block { margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed var(--border); }
+  .sub-block-title { font-size: 0.86rem; font-weight: 600; color: var(--text); margin-bottom: 0.2rem; }
+  .sub-block-meta { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--text-muted); letter-spacing: 0.08em; margin-bottom: 0.35rem; }
+  .session.is-break .session-card { background: transparent; border-style: dashed; border-color: var(--border); cursor: default; }
+  .session.is-break .session-title { color: var(--text-muted); font-weight: 400; font-size: 0.84rem; }
+  .session.is-break .session-dot { width: 5px; height: 5px; left: 128px; border-width: 1px; }
+  .break-note { font-family: 'Space Mono', monospace; font-size: 0.56rem; color: var(--text-muted); letter-spacing: 0.05em; margin-left: 0.6rem; opacity: 0.7; }
+  .panelists { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.75rem; }
+  .panelist { display: flex; align-items: center; gap: 0.4rem; font-size: 0.76rem; color: var(--text); background: var(--cool-dim); padding: 0.28rem 0.65rem; border-radius: 20px; border: 1px solid rgba(91,156,245,0.2); }
+  .panelist .p-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cool); }
+
+  /* Questions */
+  .questions-section { max-width: 900px; margin: 0 auto; padding: 4rem 2rem 5rem; }
+  .questions-section h2 { font-family: 'Instrument Serif', serif; font-size: 2.2rem; font-weight: 400; margin-bottom: 0.4rem; }
+  .questions-section .sub { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 2rem; }
+  .question-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+  .question-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.2rem; transition: all 0.3s; }
+  .question-card:hover { border-color: var(--border-light); background: var(--surface-hover); }
+  .question-num { font-family: 'Space Mono', monospace; font-size: 0.54rem; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 0.3rem; }
+  .question-card h4 { font-size: 0.82rem; font-weight: 500; margin-bottom: 0.2rem; }
+  .question-card p { font-size: 0.72rem; color: var(--text-dim); line-height: 1.5; }
+  .priority-soon { border-left: 3px solid var(--warm); }
+  .priority-normal { border-left: 3px solid var(--border-light); }
+
+  /* ══ PS DAY 1 STYLES ══ */
+  .ps1-header { padding: 3rem 4rem 2rem; border-bottom: 1px solid var(--border); }
+  .ps1-header h2 { font-family: 'Instrument Serif', serif; font-size: 2.4rem; font-weight: 400; margin-bottom: 0.4rem; }
+  .ps1-header h2 em { font-style: italic; color: var(--warm); }
+  .ps1-header .ps1-sub { font-size: 0.88rem; color: var(--text-dim); margin-bottom: 1.2rem; line-height: 1.6; }
+
+  .ps1-controls { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .ift-toggle { display: flex; align-items: center; gap: 0.5rem; font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; color: var(--text-dim); cursor: pointer; user-select: none; padding: 0.4rem 0.75rem; border-radius: 4px; border: 1px solid var(--border); transition: all 0.2s; }
+  .ift-toggle:hover { border-color: var(--border-light); }
+  .ift-toggle.active { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+  .ift-toggle .toggle-dot { width: 8px; height: 8px; border-radius: 50%; border: 2px solid currentColor; transition: all 0.2s; }
+  .ift-toggle.active .toggle-dot { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+
+  .building-legend { display: flex; gap: 1.2rem; margin-left: auto; }
+  .building-tag { font-family: 'Space Mono', monospace; font-size: 0.56rem; letter-spacing: 0.08em; display: flex; align-items: center; gap: 0.35rem; color: var(--text-muted); }
+  .building-tag .bt-dot { width: 8px; height: 8px; border-radius: 2px; }
+  .bt-one16 { background: var(--cool); }
+  .bt-fabrica { background: var(--warm); }
+
+  .ps1-zones { display: flex; gap: 0.4rem; margin-top: 1rem; overflow-x: auto; scrollbar-width: none; padding-bottom: 0.5rem; }
+  .ps1-zones::-webkit-scrollbar { display: none; }
+  .zone-chip { flex-shrink: 0; font-family: 'Space Mono', monospace; font-size: 0.52rem; letter-spacing: 0.05em; padding: 0.3rem 0.6rem; border-radius: 3px; border: 1px solid var(--border); color: var(--text-muted); cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  .zone-chip:hover { border-color: var(--border-light); color: var(--text-dim); }
+  .zone-chip.active { border-color: var(--text-dim); color: var(--text); background: rgba(255,255,255,0.04); }
+
+  /* Time slots */
+  .ps1-schedule { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+  .time-slot { margin-bottom: 0.5rem; }
+  .time-slot-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.6rem; padding-top: 1.2rem; }
+  .time-slot-time { font-family: 'Space Mono', monospace; font-size: 0.78rem; color: var(--text); font-weight: 700; min-width: 110px; }
+  .time-slot-line { flex: 1; height: 1px; background: var(--border); }
+  .time-slot-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.6rem; padding-left: 0; }
+
+  .ps-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.85rem 1rem; transition: all 0.35s; position: relative; overflow: hidden; }
+  .ps-card:hover { border-color: var(--border-light); background: var(--surface-hover); }
+  .ps-card .ps-card-zone { font-family: 'Space Mono', monospace; font-size: 0.5rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.35rem; }
+  .ps-card .ps-card-zone .zone-dot { width: 6px; height: 6px; border-radius: 2px; flex-shrink: 0; }
+  .ps-card .ps-card-title { font-size: 0.82rem; font-weight: 500; line-height: 1.4; margin-bottom: 0.25rem; }
+  .ps-card .ps-card-speaker { font-size: 0.72rem; color: var(--text-dim); }
+  .ps-card .ps-card-type { font-family: 'Space Mono', monospace; font-size: 0.48rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-top: 0.35rem; }
+
+  /* IFT highlight */
+  .ps-card.ift-session { border-left: 3px solid var(--accent); }
+  .ps-card.ift-session .ift-badge { display: inline-flex; }
+  .ift-badge { display: none; font-family: 'Space Mono', monospace; font-size: 0.46rem; letter-spacing: 0.1em; color: var(--accent); background: var(--accent-dim); padding: 0.1rem 0.35rem; border-radius: 2px; margin-left: 0.5rem; vertical-align: middle; }
+  body.ift-highlight .ps-card.ift-session { border-color: var(--accent); box-shadow: 0 0 20px rgba(200,245,64,0.08), inset 0 0 30px rgba(200,245,64,0.02); }
+  body.ift-highlight .ps-card:not(.ift-session) { opacity: 0.35; }
+
+  /* Break/lunch slots */
+  .ps-card.is-break-card { background: transparent; border-style: dashed; border-color: var(--border); }
+  .ps-card.is-break-card .ps-card-title { color: var(--text-muted); font-weight: 400; }
+
+  /* Culture Zone special */
+  .ps-card.is-culture { border-left: 3px solid var(--pink); }
+
+  /* ══ LOGISTICS TAB STYLES ══ */
+  .logistics-page { max-width: 800px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+  .logistics-page h2 { font-family: 'Instrument Serif', serif; font-size: 2.4rem; font-weight: 400; margin-bottom: 0.5rem; }
+  .logistics-page h2 em { font-style: italic; }
+  .logistics-page .lp-sub { font-size: 0.88rem; color: var(--text-dim); margin-bottom: 2.5rem; line-height: 1.6; }
+  .logistics-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; }
+  .logistics-card h3 { font-family: 'Instrument Serif', serif; font-size: 1.3rem; font-weight: 400; margin-bottom: 0.6rem; }
+  .logistics-card p, .logistics-card li { font-size: 0.84rem; color: var(--text-dim); line-height: 1.7; }
+  .logistics-card ul { list-style: none; margin-top: 0.5rem; }
+  .logistics-card li { padding: 0.2rem 0 0.2rem 1.1rem; position: relative; }
+  .logistics-card li::before { content: '→'; position: absolute; left: 0; color: var(--text-muted); font-size: 0.7rem; }
+  .logistics-label { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
+  .logistics-tbd { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--text-muted); background: rgba(255,255,255,0.03); display: inline-block; padding: 0.15rem 0.5rem; border-radius: 3px; margin-top: 0.3rem; }
+
+  /* ══ PLACEHOLDER TAB ══ */
+  .placeholder-page { max-width: 600px; margin: 0 auto; padding: 6rem 2rem; text-align: center; }
+  .placeholder-page h2 { font-family: 'Instrument Serif', serif; font-size: 2.2rem; font-weight: 400; margin-bottom: 0.5rem; }
+  .placeholder-page p { font-size: 0.9rem; color: var(--text-dim); line-height: 1.7; }
+  .placeholder-icon { font-size: 2.5rem; margin-bottom: 1rem; opacity: 0.3; }
+
+  /* ══ FOOTER ══ */
+  footer { border-top: 1px solid var(--border); padding: 1.5rem 4rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; color: var(--text-muted); flex-wrap: wrap; gap: 0.5rem; }
+  footer .revision { font-family: 'Space Mono', monospace; font-size: 0.58rem; letter-spacing: 0.05em; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero { padding: 2rem 2rem 2rem; }
+    .ah-format-bar { grid-template-columns: repeat(2, 1fr); } .format-block:nth-child(2) { border-right: none; }
+    .timeline::before { left: 20px; } .session { padding-left: 55px; } .session-time { width: 45px; font-size: 0.65rem; } .session-time .duration { display: none; }
+    .session-dot { left: 16px; } .session.is-break .session-dot { left: 18px; } .phase-header { padding-left: 55px; }
+    .question-grid { grid-template-columns: 1fr; } .break-note { display: none; }
+    .ps1-header { padding: 2rem; }
+    .time-slot-cards { grid-template-columns: 1fr; }
+    .building-legend { margin-left: 0; }
+    .ps1-controls { flex-direction: column; align-items: flex-start; }
+    footer { flex-direction: column; padding: 1.5rem 2rem; }
+  }
+  @media (max-width: 600px) {
+    .ah-format-bar { grid-template-columns: 1fr; } .format-block { border-right: none; border-bottom: 1px solid var(--border); } .format-block:last-child { border-bottom: none; }
+    .day-tab { padding: 0.8rem 1rem; } .day-tab .dt-name { font-size: 0.72rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════ HERO ══════════════ -->
+<section class="hero">
+  <div class="hero-overline">Lisbon · March 4–10, 2026</div>
+  <h1>IFT <em>Event Week</em></h1>
+  <div class="hero-meta">
+    <div class="hero-meta-item"><span class="hero-meta-label">Attendees</span><span class="hero-meta-value">~180 CCs + 12 Circle Stewards</span></div>
+    <div class="hero-meta-item"><span class="hero-meta-label">Venues</span><span class="hero-meta-value">Hotel (Wed) · One 16 + Fabrica Moderna (Thu–Fri)</span></div>
+    <div class="hero-meta-item"><span class="hero-meta-label">Days</span><span class="hero-meta-value">All-Hands · PS Festival · Offsites</span></div>
+  </div>
+</section>
+
+<div class="wip-banner">⚠ WORK IN PROGRESS — This agenda will update as new details come in. Check back regularly.</div>
+
+<!-- ══════════════ DAY TABS ══════════════ -->
+<nav class="day-tabs" id="dayTabs">
+  <div class="day-tab" data-tab="arrivals" onclick="switchTab('arrivals')">
+    <div class="dt-day">Tue Mar 4</div>
+    <div class="dt-name">Arrivals</div>
+  </div>
+  <div class="day-tab active" data-tab="allhands" onclick="switchTab('allhands')">
+    <div class="dt-day">Wed Mar 5</div>
+    <div class="dt-name">All-Hands</div>
+  </div>
+  <div class="day-tab" data-tab="ps1" onclick="switchTab('ps1')">
+    <div class="dt-day">Thu Mar 6</div>
+    <div class="dt-name">PS Day 1</div>
+  </div>
+  <div class="day-tab placeholder" data-tab="ps2" onclick="switchTab('ps2')">
+    <div class="dt-day">Fri Mar 7</div>
+    <div class="dt-name">PS Day 2</div>
+    <div class="dt-badge">SOON</div>
+  </div>
+  <div class="day-tab placeholder" data-tab="offsites" onclick="switchTab('offsites')">
+    <div class="dt-day">Sat–Sun</div>
+    <div class="dt-name">Offsites</div>
+    <div class="dt-badge">SOON</div>
+  </div>
+  <div class="day-tab" data-tab="departures" onclick="switchTab('departures')">
+    <div class="dt-day">Mon Mar 10</div>
+    <div class="dt-name">Departures</div>
+  </div>
+</nav>
+
+<!-- ╔══════════════════════════════════════╗ -->
+<!-- ║        TAB: ARRIVALS (Tue Mar 4)     ║ -->
+<!-- ╚══════════════════════════════════════╝ -->
+<div class="tab-panel" id="panel-arrivals">
+  <div class="logistics-page">
+    <h2>Arrivals & <em>Setup</em></h2>
+    <p class="lp-sub">Tuesday March 4 — Load-in day. No scheduled programming. Arrive, settle in, and prepare for the week.</p>
+
+    <div class="logistics-card">
+      <div class="logistics-label">Hotel Check-In</div>
+      <h3>Accommodation</h3>
+      <p>Check-in details and hotel information will be shared via the coordination team.</p>
+      <ul>
+        <li>Hotel: Eurostars Lisboa (sessions venue for Wednesday All-Hands)</li>
+        <li>Check-in time: TBD</li>
+      </ul>
+    </div>
+
+    <div class="logistics-card">
+      <div class="logistics-label">Venue Setup</div>
+      <h3>One 16 Load-In</h3>
+      <p>The PS venue at One 16 will be in setup mode throughout the day. Lou and sub-vendors managing load-in. Not open to attendees.</p>
+    </div>
+
+    <div class="logistics-card">
+      <div class="logistics-label">Getting Around</div>
+      <h3>Lisbon Logistics</h3>
+      <ul>
+        <li>Airport: Humberto Delgado (LIS) — ~20 min to city center</li>
+        <li>Metro, Uber/Bolt, and taxis all readily available</li>
+        <li>Venue transport guidance to follow from Melanie/Terry</li>
+      </ul>
+    </div>
+
+    <div class="logistics-card">
+      <div class="logistics-label">Evening</div>
+      <h3>Informal Arrival Gathering</h3>
+      <p>No formal programming. Use the evening to settle in and connect with early arrivals.</p>
+      <span class="logistics-tbd">Details TBD</span>
+    </div>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════╗ -->
+<!-- ║       TAB: ALL-HANDS (Wed Mar 5)     ║ -->
+<!-- ╚══════════════════════════════════════╝ -->
+<div class="tab-panel active" id="panel-allhands">
+
+<section class="ah-format-bar">
+  <div class="format-block" onclick="scrollToEl('phase-s1')"><div class="fb-num">SESSION 1</div><div class="fb-time">09:00 – 10:30</div><div class="fb-title">The Foundation</div></div>
+  <div class="format-block" onclick="scrollToEl('phase-s2')"><div class="fb-num">SESSION 2</div><div class="fb-time">11:00 – 12:30</div><div class="fb-title">The Path</div></div>
+  <div class="format-block" onclick="scrollToEl('phase-s3')"><div class="fb-num">SESSION 3</div><div class="fb-time">14:00 – 15:30</div><div class="fb-title">The Expansion</div></div>
+  <div class="format-block" onclick="scrollToEl('phase-s4')"><div class="fb-num">SESSION 4</div><div class="fb-time">16:00 – 17:30</div><div class="fb-title">The Focus</div></div>
+</section>
+
+<section class="principles-strip">
+  <div class="principle-chip"><span class="pc-dot"></span>Single room, shared experience</div>
+  <div class="principle-chip"><span class="pc-dot"></span>Pyramid structure</div>
+  <div class="principle-chip"><span class="pc-dot"></span>Pre-work assumed (Logos teams)</div>
+  <div class="principle-chip"><span class="pc-dot"></span>No PS duplication</div>
+  <div class="principle-chip"><span class="pc-dot"></span>Coffee breaks = buffer</div>
+</section>
+
+<div class="timeline">
+
+  <!-- SESSION 1 -->
+  <div class="phase-header" id="phase-s1">
+    <h2>The Foundation</h2>
+    <div class="phase-sub phase-s1">Session 1 · 09:00 – 10:30 · 90 min</div>
+  </div>
+
+  <div class="session" data-phase="s1">
+    <div class="session-time">09:00<span class="duration">90 min</span></div>
+    <div class="session-dot"></div>
+    <div class="session-card" onclick="toggleSession(this)">
+      <div class="session-header">
+        <div class="session-header-left">
+          <span class="session-tag tag-s1">S1</span>
+          <span class="session-title">Opening + Status & Nimbus Updates + What is Logos</span>
+        </div>
+        <div class="session-chevron">▾</div>
+      </div>
+      <div class="session-body"><div class="session-content">
+        <p>We open by seeing what our family has been building, then weave it into the bigger picture.</p>
+
+        <div class="sub-block-title">Quick Intro</div>
+        <div class="sub-block-meta">~5 MINUTES · PRESENTER: COREY</div>
+        <ul>
+          <li>Welcome, logistics, frame the day</li>
+          <li>Goal: "By end of today, you can explain Logos to anyone at PS tomorrow"</li>
+        </ul>
+
+        <div class="sub-block">
+          <div class="sub-block-title">Status Update + Demo</div>
+          <div class="sub-block-meta">~30 MINUTES · PRESENTER: VOLO</div>
+          <ul>
+            <li>What Status has been building and where it's heading</li>
+            <li>Live demo of current progress</li>
+            <li>How Status fits within the IFT family</li>
+          </ul>
+        </div>
+
+        <div class="sub-block">
+          <div class="sub-block-title">Nimbus Update + Demo</div>
+          <div class="sub-block-meta">~30 MINUTES · PRESENTER: DUSTIN</div>
+          <ul>
+            <li>What Nimbus has been building and where it's heading</li>
+            <li>Live demo of current progress</li>
+            <li>How Nimbus fits within the IFT family</li>
+          </ul>
+        </div>
+
+        <div class="sub-block">
+          <div class="sub-block-title">What is Logos</div>
+          <div class="sub-block-meta">~25 MINUTES · PRESENTER: COREY</div>
+          <ul>
+            <li>Mission: revitalising civil society through decentralised infrastructure</li>
+            <li>The tech stack: Logos Blockchain + Logos Messaging + Logos Storage</li>
+            <li>Integration map: how the stack connects</li>
+          </ul>
+        </div>
+
+        <div class="content-label">Owners</div>
+        <span class="owner-badge"><span class="dot"></span>Corey (Opening + What is Logos)</span>
+        <span class="owner-badge"><span class="dot"></span>Volo (Status)</span>
+        <span class="owner-badge"><span class="dot"></span>Dustin (Nimbus)</span>
+        <div class="note-box"><strong>Flow:</strong> Corey opens and closes. By presenting What is Logos last, he can reference Volo's and Dustin's demos, bridge their work into the Logos narrative, and flex timing to absorb any overrun.</div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- COFFEE -->
+  <div class="session is-break" data-phase="s1">
+    <div class="session-time">10:30<span class="duration">30 min</span></div>
+    <div class="session-dot"></div>
+    <div class="session-card"><div class="session-header"><div class="session-header-left">
+      <span class="session-tag tag-break">Break</span><span class="session-title">Coffee Break</span><span class="break-note">Buffer — can shorten to 15 min</span>
+    </div></div></div>
+  </div>
+
+  <!-- SESSION 2 -->
+  <div class="phase-header" id="phase-s2">
+    <h2>The Path</h2>
+    <div class="phase-sub phase-s2">Session 2 · 11:00 – 12:30 · 90 min</div>
+  </div>
+
+  <div class="session" data-phase="s2">
+    <div class="session-time">11:00<span class="duration">90 min</span></div>
+    <div class="session-dot"></div>
+    <div class="session-card" onclick="toggleSession(this)">
+      <div class="session-header">
+        <div class="session-header-left">
+          <span class="session-tag tag-s2">S2</span>
+          <span class="session-title">Roadmap, Testnet Reveal & Q&A — Panel</span>
+        </div>
+        <div class="session-chevron">▾</div>
+      </div>
+      <div class="session-body"><div class="session-content">
+        <p>The leadership panel lays out where we're going, reveals the testnet, and takes questions.</p>
+
+        <div class="sub-block-title">Roadmap Presentation + Testnet Reveal</div>
+        <div class="sub-block-meta">~60 MINUTES · PANEL FORMAT</div>
+        <div class="panelists">
+          <span class="panelist"><span class="p-dot"></span>Jarrad</span>
+          <span class="panelist"><span class="p-dot"></span>Kaushal</span>
+          <span class="panelist"><span class="p-dot"></span>Ksr</span>
+          <span class="panelist"><span class="p-dot"></span>Jonny</span>
+        </div>
+        <ul>
+          <li>Roadmap phases and key milestones</li>
+          <li>Launch definition — what "launch" means for Logos</li>
+          <li>Cross-team dependencies and critical path</li>
+          <li>Live testnet reveal: Logos Testnet v0.1</li>
+        </ul>
+
+        <div class="sub-block">
+          <div class="sub-block-title">Q&A</div>
+          <div class="sub-block-meta">~30 MINUTES</div>
+          <ul>
+            <li>Open floor for technical and strategic questions</li>
+            <li>Moderated to ensure breadth across topics</li>
+          </ul>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- LUNCH -->
+  <div class="session is-break" data-phase="s2">
+    <div class="session-time">12:30<span class="duration">90 min</span></div>
+    <div class="session-dot"></div>
+    <div class="session-card"><div class="session-header"><div class="session-header-left">
+      <span class="session-tag tag-break">Lunch</span><span class="session-title">Lunch — Eurostars Lisboa & Ikonik Restaurants</span><span class="break-note">Mixed seating encouraged · Sidebar room available</span>
+    </div></div></div>
+  </div>
+
+  <!-- SESSION 3 -->
+  <div class="phase-header" id="phase-s3">
+    <h2>The Expansion</h2>
+    <div class="phase-sub phase-s3">Session 3 · 14:00 – 15:30 · 90 min</div>
+  </div>
+
+  <div class="session" data-phase="s3">
+    <div class="session-time">14:00<span class="duration">90 min</span></div>
+    <div class="session-dot"></div>
+    <div class="session-card" onclick="toggleSession(this)">
+      <div class="session-header">
+        <div class="session-header-left">
+          <span class="session-tag tag-s3">S3</span>
+          <span class="session-title">Who We're Building For + Internal Showcases</span>
+        </div>
+        <div class="session-chevron">▾</div>
+      </div>
+      <div class="session-body"><div class="session-content">
+        <div class="sub-block-title">Who We're Building For</div>
+        <div class="sub-block-meta">50 MINUTES · Strategic framing — the why, not the how</div>
+        <ul>
+          <li>EcoDev activation: ecosystem growth strategy to mainnet</li>
+          <li>Target community vision: builders, contributors, users</li>
+        </ul>
+        <div class="content-label">Panel: Bridging EcoDev & the Movement</div>
+        <ul>
+          <li>How ecosystem development strategy connects to the Circles movement on the ground</li>
+          <li>The funnel from community to contributors</li>
+        </ul>
+        <div class="content-label">Circles Strategic Frame</div>
+        <ul>
+          <li>Why the movement layer matters to Logos's mission</li>
+          <li>"Winnable issues" in practice — the theory of change</li>
+          <li>2–3 stewards share ground-level stories (5–7 min each)</li>
+          <li>What we've learned and what's working</li>
+        </ul>
+
+        <div class="sub-block">
+          <div class="sub-block-title">Internal Showcases</div>
+          <div class="sub-block-meta">40 MINUTES · Concrete things to reference at PS</div>
+          <ul>
+            <li>Integration proof-of-concept (cross-stack demo)</li>
+            <li>Circles use case implementation</li>
+            <li>Other demos TBD</li>
+          </ul>
+          <p>Frame: <em>"Things you can point to when people ask 'what does Logos actually do?'"</em></p>
+        </div>
+
+        <div class="content-label">Owners</div>
+        <span class="owner-badge"><span class="dot"></span>Santi (possibly EcoDev)</span>
+        <span class="owner-badge"><span class="dot"></span>2–3 Circle stewards</span>
+        <span class="owner-badge"><span class="dot"></span>Demo owners TBD</span>
+        <div class="note-box"><strong>No duplication:</strong> PS Day 1 has operational Circles content. This covers strategic narrative and different showcases.</div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- COFFEE -->
+  <div class="session is-break" data-phase="s3">
+    <div class="session-time">15:30<span class="duration">30 min</span></div>
+    <div class="session-dot"></div>
+    <div class="session-card"><div class="session-header"><div class="session-header-left">
+      <span class="session-tag tag-break">Break</span><span class="session-title">Coffee Break</span><span class="break-note">Buffer — can shorten to 15 min</span>
+    </div></div></div>
+  </div>
+
+  <!-- SESSION 4 -->
+  <div class="phase-header" id="phase-s4">
+    <h2>The Focus</h2>
+    <div class="phase-sub phase-s4">Session 4 · 16:00 – 17:30 · 90 min</div>
+  </div>
+
+  <div class="session" data-phase="s4">
+    <div class="session-time">16:00<span class="duration">90 min</span></div>
+    <div class="session-dot"></div>
+    <div class="session-card" onclick="toggleSession(this)">
+      <div class="session-header">
+        <div class="session-header-left">
+          <span class="session-tag tag-s4">S4</span>
+          <span class="session-title">Key Questions by Stream + Synthesis + The Charge</span>
+        </div>
+        <div class="session-chevron">▾</div>
+      </div>
+      <div class="session-body"><div class="session-content">
+
+        <div class="sub-block-title">Key Questions by Stream</div>
+        <div class="sub-block-meta">~50 MINUTES · 5 TRACKS · TABLE DISCUSSIONS</div>
+        <ul>
+          <li><strong>Engineering:</strong> testnet participation target, EcoDev vs roadmap prioritisation, cross-team deps</li>
+          <li><strong>EcoDev:</strong> builder funnel today vs mainnet, Circles→contributors, developer experience gaps</li>
+          <li><strong>Comms:</strong> PS narrative, "when mainnet?" handling, what stewards need</li>
+          <li><strong>Nimbus:</strong> 6-month milestones, cross-team support needs, what IFT should know</li>
+          <li><strong>Status:</strong> 6-month milestones, cross-team support needs, what IFT should know</li>
+        </ul>
+
+        <div class="sub-block">
+          <div class="sub-block-title">Synthesis</div>
+          <div class="sub-block-meta">~20 MINUTES</div>
+          <ul>
+            <li>Leadership reflects on what emerged</li>
+            <li>Handoff to offsites — what each team takes away</li>
+            <li>PS venue orientation: 9 zones, One 16 + Fabrica Moderna, logistics</li>
+          </ul>
+        </div>
+
+        <div class="sub-block">
+          <div class="sub-block-title">The Charge</div>
+          <div class="sub-block-meta">~20 MINUTES</div>
+          <ul>
+            <li>Day recap — the through-line from foundation to focus</li>
+            <li>The marathon acknowledgment</li>
+            <li>Memorable close (format TBD — video, reading, moment)</li>
+          </ul>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- FREE TIME -->
+  <div class="session is-break" data-phase="s4">
+    <div class="session-time">17:30<span class="duration">2 hrs</span></div>
+    <div class="session-dot"></div>
+    <div class="session-card"><div class="session-header"><div class="session-header-left">
+      <span class="session-tag tag-break">Free</span><span class="session-title">Free Time — Recharge Before Dinner</span>
+    </div></div></div>
+  </div>
+
+  <!-- DINNER -->
+  <div class="session" data-phase="s4">
+    <div class="session-time">19:30+<span class="duration">Open</span></div>
+    <div class="session-dot"></div>
+    <div class="session-card" onclick="toggleSession(this)">
+      <div class="session-header"><div class="session-header-left">
+          <span class="session-tag tag-s4">Dinner</span>
+          <span class="session-title">Dinner & Drinks</span>
+      </div><div class="session-chevron">▾</div></div>
+      <div class="session-body"><div class="session-content">
+        <ul>
+          <li>Group dinner — Arigato Parque das Nações</li>
+          <li>Pre-event socializing with the full group</li>
+          <li>Reminder: PS Day 1 starts at 09:00 tomorrow</li>
+        </ul>
+      </div></div>
+    </div>
+  </div>
+
+</div><!-- /timeline -->
+
+<!-- ALL-HANDS OPEN QUESTIONS -->
+<section class="questions-section" id="questions-section">
+  <h2>Open Questions</h2>
+  <p class="sub">Decisions needed before March 5</p>
+  <div class="question-grid">
+    <div class="question-card priority-soon">
+      <div class="question-num">01 · SOON</div>
+      <h4>S3 Showcases</h4>
+      <p>What demos are ready that don't duplicate PS Day 1? Who owns them?</p>
+    </div>
+    <div class="question-card priority-soon">
+      <div class="question-num">02 · SOON</div>
+      <h4>Stream Questions</h4>
+      <p>Each stream lead (Eng, EcoDev, Comms, Nimbus, Status) prepare 2–3 key questions for S4.</p>
+    </div>
+    <div class="question-card priority-soon">
+      <div class="question-num">03 · SOON</div>
+      <h4>Circles Speakers</h4>
+      <p>Which 2–3 of 12 confirmed stewards present? Santi/Amelia coordinating.</p>
+    </div>
+    <div class="question-card priority-normal">
+      <div class="question-num">04</div>
+      <h4>Closing Moment</h4>
+      <p>Video? Reading? Collective moment?</p>
+    </div>
+    <div class="question-card priority-normal">
+      <div class="question-num">05</div>
+      <h4>Facilitation</h4>
+      <p>Who runs S4 table discussions? External facilitator needed?</p>
+    </div>
+    <div class="question-card priority-normal">
+      <div class="question-num">06</div>
+      <h4>Capture Method</h4>
+      <p>Cards? Digital? Who synthesizes for offsites?</p>
+    </div>
+    <div class="question-card priority-normal">
+      <div class="question-num">07</div>
+      <h4>Recording</h4>
+      <p>Confirm scope + budget with Lou.</p>
+    </div>
+    <div class="question-card priority-normal">
+      <div class="question-num">08</div>
+      <h4>PS Venue Orientation</h4>
+      <p>Who prepares the walkthrough/map for S4 Bridge to PS?</p>
+    </div>
+    <div class="question-card priority-normal">
+      <div class="question-num">09</div>
+      <h4>March 7 AM Offsites</h4>
+      <p>Which teams get the Friday morning PS venue window?</p>
+    </div>
+  </div>
+</section>
+
+</div><!-- /panel-allhands -->
+
+<!-- ╔══════════════════════════════════════╗ -->
+<!-- ║       TAB: PS DAY 1 (Thu Mar 6)      ║ -->
+<!-- ╚══════════════════════════════════════╝ -->
+<div class="tab-panel" id="panel-ps1">
+
+<div class="ps1-header">
+  <h2>Parallel Societies — <em>Day 1</em></h2>
+  <p class="ps1-sub">Thursday March 6 · Unconference across 9 zones in two buildings · 09:00–20:00</p>
+
+  <div class="ps1-controls">
+    <div class="ift-toggle" id="iftToggle" onclick="toggleIFT()">
+      <span class="toggle-dot"></span>
+      Highlight IFT Sessions
+    </div>
+    <div class="building-legend">
+      <span class="building-tag"><span class="bt-dot bt-one16"></span>One 16</span>
+      <span class="building-tag"><span class="bt-dot bt-fabrica"></span>Fabrica Moderna</span>
+    </div>
+  </div>
+
+  <div class="ps1-zones" id="zoneFilter">
+    <div class="zone-chip active" data-zone="all">All Zones</div>
+    <div class="zone-chip" data-zone="terminal">Terminal</div>
+    <div class="zone-chip" data-zone="lab">The Lab</div>
+    <div class="zone-chip" data-zone="foss">FOSS</div>
+    <div class="zone-chip" data-zone="community">Community</div>
+    <div class="zone-chip" data-zone="culture">Culture</div>
+    <div class="zone-chip" data-zone="privacy">Privacy</div>
+    <div class="zone-chip" data-zone="decentralised">Decentralised</div>
+    <div class="zone-chip" data-zone="creative">Creative Workshop</div>
+    <div class="zone-chip" data-zone="faisca">Sala Faisca</div>
+  </div>
+</div>
+
+<div class="ps1-schedule" id="ps1Schedule"></div>
+
+</div><!-- /panel-ps1 -->
+
+<!-- ╔══════════════════════════════════════╗ -->
+<!-- ║       TAB: PS DAY 2 (Fri Mar 7)      ║ -->
+<!-- ╚══════════════════════════════════════╝ -->
+<div class="tab-panel" id="panel-ps2">
+  <div class="placeholder-page">
+    <div class="placeholder-icon">◈</div>
+    <h2>PS Day 2 — <em>Coming Soon</em></h2>
+    <p>Friday March 7. Morning offsites at the PS venue (full exclusivity), followed by the music & arts festival from 13:00–03:00 at One 16. Schedule will be added once confirmed.</p>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════╗ -->
+<!-- ║       TAB: OFFSITES (Sat–Sun)        ║ -->
+<!-- ╚══════════════════════════════════════╝ -->
+<div class="tab-panel" id="panel-offsites">
+  <div class="placeholder-page">
+    <div class="placeholder-icon">⊞</div>
+    <h2>Team Offsites — <em>Coming Soon</em></h2>
+    <p>Saturday March 8 – Sunday March 9. Stream-level working sessions and cross-team collaboration. Start ≥10:30am Saturday (recovery from Day 2 festival). Locations and team assignments TBD.</p>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════╗ -->
+<!-- ║       TAB: DEPARTURES (Mon Mar 10)   ║ -->
+<!-- ╚══════════════════════════════════════╝ -->
+<div class="tab-panel" id="panel-departures">
+  <div class="logistics-page">
+    <h2>Departures & <em>Wrap-Up</em></h2>
+    <p class="lp-sub">Monday March 10 — No scheduled programming. Safe travels.</p>
+
+    <div class="logistics-card">
+      <div class="logistics-label">Hotel Check-Out</div>
+      <h3>Accommodation</h3>
+      <p>Standard check-out. Confirm timing with the hotel front desk or coordination team.</p>
+    </div>
+
+    <div class="logistics-card">
+      <div class="logistics-label">Transport</div>
+      <h3>Getting to the Airport</h3>
+      <ul>
+        <li>Lisbon Airport (LIS) — ~20 min from city centre</li>
+        <li>Metro Red Line runs directly to the airport</li>
+        <li>Uber/Bolt typically €10–15 from central Lisbon</li>
+        <li>Allow extra time — Monday morning traffic can be heavier</li>
+      </ul>
+    </div>
+
+    <div class="logistics-card">
+      <div class="logistics-label">Post-Event</div>
+      <h3>Follow-Ups</h3>
+      <ul>
+        <li>Offsite outputs and action items will be compiled and shared</li>
+        <li>Recording edits from the All-Hands and PS will follow in the weeks after</li>
+        <li>Steward follow-up coordination via Santi/Amelia</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer>
+  <span>IFT Event Week · March 4–10, 2026 · Lisbon</span>
+  <span class="revision">Rev. Feb 25, 2026 · ~180 CCs + 12 Stewards · Volo (Status) · Dustin (Nimbus)</span>
+</footer>
+
+<!-- ══════════════ SCRIPTS ══════════════ -->
+<script>
+// ── PS DAY 1 DATA ──
+const ZONES = {
+  terminal:      { name: 'The Terminal',       short: 'Terminal',    building: 'one16',   num: 1, capacity: '100–200' },
+  lab:           { name: 'The Lab',            short: 'Lab',         building: 'one16',   num: 2, capacity: '180' },
+  foss:          { name: 'FOSS Zone',          short: 'FOSS',        building: 'one16',   num: 3, capacity: '150–200' },
+  community:     { name: 'Community Zone',     short: 'Community',   building: 'one16',   num: 4, capacity: '200–300' },
+  culture:       { name: 'Culture Zone',       short: 'Culture',     building: 'one16',   num: 5, capacity: '200–300' },
+  privacy:       { name: 'Privacy Zone',       short: 'Privacy',     building: 'one16',   num: 6, capacity: '100' },
+  decentralised: { name: 'Decentralised Zone', short: 'Decentralised', building: 'one16', num: 7, capacity: '200' },
+  creative:      { name: 'Creative Workshop',  short: 'Creative',    building: 'fabrica', num: 8, capacity: '20' },
+  faisca:        { name: 'Sala Faisca (Manja)',short: 'Faisca',      building: 'fabrica', num: 9, capacity: '30–50' },
+};
+
+const PS1_SCHEDULE = [
+  { time: '09:00 – 09:30', label: 'Opening & Coffee', sessions: [
+    { zone: 'terminal', title: 'Coffee & Open Session', speaker: 'Attendee submissions welcome', type: 'open' },
+    { zone: 'lab', title: 'Coffee & Open Session', speaker: '', type: 'open' },
+    { zone: 'foss', title: 'Coffee & Open Session', speaker: '', type: 'open' },
+    { zone: 'community', title: 'Coffee & Open Session', speaker: '', type: 'open' },
+    { zone: 'culture', title: 'Coffee & Open Session', speaker: '', type: 'open' },
+    { zone: 'privacy', title: 'Coffee & Open Session', speaker: '', type: 'open' },
+    { zone: 'decentralised', title: 'Coffee & Open Session', speaker: '', type: 'open' },
+  ]},
+  { time: '09:30 – 10:00', label: 'Keynote', sessions: [
+    { zone: 'terminal', title: 'Opening Keynote', speaker: 'Jarrad Hope (TBC)', ift: true, type: 'keynote' },
+  ]},
+  { time: '10:00 – 10:30', label: 'Morning Sessions Begin', sessions: [
+    { zone: 'lab', title: "Let's Decentralise Education!", speaker: 'Han (dEdu)', ift: true, type: 'workshop' },
+    { zone: 'privacy', title: 'ALL DAY: Privacy Health Checks', speaker: 'Drop-in — installations, 1:1s, library', type: 'open' },
+  ]},
+  { time: '10:30 – 11:00', label: '', sessions: [
+    { zone: 'terminal', title: 'Live Demo: Logos Testnet v0.1', speaker: 'Logos', ift: true, type: 'demo' },
+    { zone: 'community', title: 'Logos Circle: Blitz Session', speaker: 'Logos & Circle stewards', ift: true, type: 'workshop' },
+    { zone: 'decentralised', title: 'Spritz', speaker: '', type: 'social' },
+  ]},
+  { time: '11:00 – 12:00', label: 'Late Morning Block', sessions: [
+    { zone: 'lab', title: 'Thinking Sovereignty', speaker: 'Francesco Moiraghi', type: 'talk' },
+    { zone: 'foss', title: 'Workshop: Run Your Logos Node', speaker: 'Logos', ift: true, type: 'workshop' },
+    { zone: 'community', title: 'Logos Circle Lisbon: Supporting Community-Led Change in Quinta do Mocho', speaker: 'Lisbon Circle stewards', ift: true, type: 'talk' },
+    { zone: 'privacy', title: 'Privacy & Crypto in Latin America', speaker: 'Ernesto Huerta (Cryptospace & Cryptomex)', type: 'talk' },
+    { zone: 'decentralised', title: 'Why Pop-Up Cities Are Governance Testbeds', speaker: 'Thou Ārt Pop-up City & ZuGrama', type: 'talk' },
+    { zone: 'creative', title: 'Community Radio in Practice', speaker: 'Radio Quantica', type: 'workshop' },
+  ]},
+  { time: '12:00 – 13:00', label: 'Lunch', isBreak: true, sessions: [
+    { zone: 'terminal', title: 'Lunch', type: 'break' },
+  ]},
+  { time: '13:00 – 14:00', label: 'Afternoon Block 1', sessions: [
+    { zone: 'lab', title: 'Logos Execution Zone Architecture', speaker: 'Logos', ift: true, type: 'talk' },
+    { zone: 'foss', title: 'FOSS War Room: Solving Big-Picture Challenges Together', speaker: 'Hakeem Anwar (Above)', type: 'workshop' },
+    { zone: 'community', title: 'Cities and Advocacy: Enacting Digital Change to Defend Civil Rights', speaker: 'Instituto New.Economy, Crecimiento, CCI & Kleros', type: 'panel' },
+    { zone: 'culture', title: 'Immersive Space', speaker: 'Storytelling, 3D printing, mesh Wi-Fi, broadcasting, creative workshops — check ticketing app', type: 'open', isCulture: true },
+    { zone: 'privacy', title: 'Discussion Circle', speaker: 'MoneroKon', type: 'discussion' },
+    { zone: 'decentralised', title: 'Decentralising Nations', speaker: 'Liam Bates & James Bates (Sealand)', type: 'talk' },
+    { zone: 'creative', title: 'Community Radio in Practice (cont.)', speaker: 'Radio Quantica', type: 'workshop' },
+    { zone: 'faisca', title: 'Defy the Banksters with DeFi', speaker: 'Dave Stann', type: 'talk' },
+  ]},
+  { time: '14:00 – 15:00', label: 'Afternoon Block 2', sessions: [
+    { zone: 'lab', title: 'How to Build a Country', speaker: 'Vit Jedlicka (Liberland)', type: 'talk' },
+    { zone: 'foss', title: 'Running Wallets for the Logos Execution Zone', speaker: 'Logos', ift: true, type: 'workshop' },
+    { zone: 'community', title: 'Permanent Hubs and Pop-Up Villages in India and Africa', speaker: 'ZuGrama & ZuAfrique', type: 'talk' },
+    { zone: 'privacy', title: 'Privacy, Trust & the Narrative War: Tools for Information Freedom', speaker: 'Tor', type: 'talk' },
+    { zone: 'decentralised', title: 'Decentralising and Advancing Psychedelic Science', speaker: 'PsyDao', type: 'talk' },
+    { zone: 'creative', title: 'Cut to Resist: Collage as Counter-Narrative', speaker: '', type: 'workshop' },
+    { zone: 'faisca', title: 'Lightning Talks: Innovative Governance & Communities', speaker: 'Charter Cities Institute', type: 'lightning' },
+  ]},
+  { time: '15:00 – 16:00', label: 'Afternoon Block 3', sessions: [
+    { zone: 'lab', title: 'Principles for Digital Civic Infrastructure', speaker: 'Agata Ferreira (IFT), Tommaso Astazi (BC4EU), Marina Markezic (EUCI)', ift: true, type: 'panel' },
+    { zone: 'foss', title: 'Writing Programs for the Logos Execution Zone', speaker: 'Logos', ift: true, type: 'workshop' },
+    { zone: 'community', title: 'How to Build a Pop-Up City 101', speaker: 'Thou Ārt Pop-up City Research Initiative', type: 'workshop' },
+    { zone: 'privacy', title: 'Workshop: NymVPN & Mixnet', speaker: 'Nym', type: 'workshop' },
+    { zone: 'decentralised', title: 'Decentralised Dispute Resolution: Concept and Use Cases', speaker: 'Kleros', type: 'talk' },
+    { zone: 'faisca', title: 'Status Network Session', speaker: 'Status', ift: true, type: 'workshop' },
+  ]},
+  { time: '16:00 – 16:30', label: 'Late Afternoon', sessions: [
+    { zone: 'lab', title: 'Borderless Repression, Borderless Freedom / Decolonising the Mind', speaker: 'Bota Jardemalie · Fatemeh Fannizadeh', type: 'talk' },
+    { zone: 'foss', title: 'App Showcase: Sample Apps for the Logos Execution Zone', speaker: 'Logos', ift: true, type: 'demo' },
+    { zone: 'community', title: 'SolarpunkOS: Blueprint for Heart-Centred, Antifragile Societies', speaker: 'Agartha.One', type: 'talk' },
+    { zone: 'privacy', title: 'Demo & Workshop', speaker: 'Zano', type: 'workshop' },
+    { zone: 'decentralised', title: 'Workshop: Build a Messaging App on Logos', speaker: 'Logos', ift: true, type: 'workshop' },
+    { zone: 'creative', title: 'Workshop: Mission Design', speaker: '', type: 'workshop' },
+  ]},
+  { time: '16:30 – 17:00', label: '', sessions: [
+    { zone: 'lab', title: 'The Future of Anonymity', speaker: 'Renata Avila (OKFN), Harry Halpin (Nym) & Iness Ben Guirat (ULB)', type: 'panel' },
+    { zone: 'decentralised', title: 'Decentralise the Log, Not the Server: Rethinking Open-Source Infrastructure', speaker: 'Logos', ift: true, type: 'talk' },
+    { zone: 'faisca', title: 'Debate: Pop-Up Cities + Lightning Talks', speaker: 'Hugo, CCI & guests', type: 'debate' },
+  ]},
+  { time: '17:00 – 17:15', label: 'Zone Closings', sessions: [
+    { zone: 'foss', title: 'Closing: Conclusions & Actions', speaker: '', type: 'closing' },
+    { zone: 'community', title: 'Porto Circle: Campaign Stand Up & Zone Conclusions', speaker: 'Logos & Porto Circle stewards', ift: true, type: 'closing' },
+    { zone: 'privacy', title: 'Closing: Conclusions & Actions', speaker: '', type: 'closing' },
+    { zone: 'decentralised', title: 'Closing: Conclusions & Actions', speaker: '', type: 'closing' },
+  ]},
+  { time: '17:15 – 18:00', label: 'Main Stage Evening', sessions: [
+    { zone: 'terminal', title: 'Building a Decentralised Web', speaker: 'Brewster Kahle (Internet Archive)', type: 'keynote' },
+    { zone: 'lab', title: 'DarkFi Smart Contracts', speaker: "Rose O'Leary (DarkFi)", type: 'talk' },
+    { zone: 'faisca', title: 'Good Profit, Good Token: Building the Next Era of Crypto Businesses', speaker: 'Kirsten Pomales (Recursive Studios)', type: 'talk' },
+  ]},
+  { time: '18:00 – 18:30', label: '', sessions: [
+    { zone: 'terminal', title: 'What It Takes to Advance Digital Rights in 2026', speaker: 'Pavel Zoneff (Tor)', type: 'keynote' },
+    { zone: 'lab', title: 'Building a Charter City: Lessons from Practitioners', speaker: 'Siaka Stevens, Mark Lutter, Michael Holstein (Charter Cities Institute)', type: 'panel' },
+  ]},
+  { time: '18:30 – 19:00', label: 'Closing Keynote', sessions: [
+    { zone: 'terminal', title: 'Cyber-Guerilla Resistance Through Counter-Economics & Digital Sabotage', speaker: 'Amir Taaki (DarkFi)', type: 'keynote' },
+  ]},
+  { time: '19:00 – 20:00', label: 'Evening Social', sessions: [
+    { zone: 'terminal', title: 'Drinks & Hang Out', speaker: '', type: 'social' },
+    { zone: 'community', title: 'Gnosis Circles Social Experiment: Key Takeaways & Prize Draw', speaker: '', ift: true, type: 'social' },
+    { zone: 'foss', title: 'Drinks & Hang Out', speaker: '', type: 'social' },
+    { zone: 'decentralised', title: 'Drinks & Hang Out', speaker: '', type: 'social' },
+  ]},
+];
+
+// Zone colors
+const ZONE_COLORS = {
+  terminal: '#5b9cf5', lab: '#b08cf5', foss: '#c8f540', community: '#f5a623',
+  culture: '#f57bb5', privacy: '#5bf5c8', decentralised: '#f55b5b',
+  creative: '#f5d85b', faisca: '#8cf5b0',
+};
+
+// ── RENDER PS DAY 1 ──
+function renderPS1() {
+  const container = document.getElementById('ps1Schedule');
+  let html = '';
+
+  PS1_SCHEDULE.forEach(slot => {
+    html += `<div class="time-slot">`;
+    html += `<div class="time-slot-header">`;
+    html += `<div class="time-slot-time">${slot.time}</div>`;
+    html += `<div class="time-slot-line"></div>`;
+    if (slot.label) html += `<span style="font-size:0.68rem;color:var(--text-muted);font-family:'Space Mono',monospace;letter-spacing:0.06em;flex-shrink:0">${slot.label}</span>`;
+    html += `</div>`;
+
+    if (slot.isBreak) {
+      html += `<div style="padding:0.6rem 0;font-size:0.82rem;color:var(--text-muted);font-style:italic">Lunch across all zones</div>`;
+    } else {
+      html += `<div class="time-slot-cards">`;
+      slot.sessions.forEach(s => {
+        const z = ZONES[s.zone];
+        const isOne16 = z.building === 'one16';
+        const color = ZONE_COLORS[s.zone];
+        const classes = ['ps-card'];
+        if (s.ift) classes.push('ift-session');
+        if (s.type === 'break' || s.type === 'open') classes.push('is-break-card');
+        if (s.isCulture) classes.push('is-culture');
+
+        html += `<div class="${classes.join(' ')}" data-zone="${s.zone}">`;
+        html += `<div class="ps-card-zone" style="color:${color}"><span class="zone-dot" style="background:${color}"></span>${z.short}`;
+        if (s.ift) html += `<span class="ift-badge">IFT</span>`;
+        html += `</div>`;
+        html += `<div class="ps-card-title">${s.title}</div>`;
+        if (s.speaker) html += `<div class="ps-card-speaker">${s.speaker}</div>`;
+        if (s.type && s.type !== 'open' && s.type !== 'break') html += `<div class="ps-card-type">${s.type}</div>`;
+        html += `</div>`;
+      });
+      html += `</div>`;
+    }
+    html += `</div>`;
+  });
+
+  container.innerHTML = html;
+}
+
+// ── TAB SWITCHING ──
+function switchTab(tabId) {
+  document.querySelectorAll('.day-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tabId));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + tabId));
+  window.scrollTo({ top: 0, behavior: 'instant' });
+  // Re-observe sessions if switching to all-hands
+  if (tabId === 'allhands') {
+    document.querySelectorAll('#panel-allhands .session').forEach(s => sessionObs.observe(s));
+  }
+}
+
+// ── IFT HIGHLIGHT TOGGLE ──
+function toggleIFT() {
+  const btn = document.getElementById('iftToggle');
+  btn.classList.toggle('active');
+  document.body.classList.toggle('ift-highlight');
+}
+
+// ── ZONE FILTER ──
+document.addEventListener('click', e => {
+  const chip = e.target.closest('.zone-chip');
+  if (!chip) return;
+  document.querySelectorAll('.zone-chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  const zone = chip.dataset.zone;
+  document.querySelectorAll('.ps-card').forEach(card => {
+    card.style.display = (zone === 'all' || card.dataset.zone === zone) ? '' : 'none';
+  });
+});
+
+// ── ALL-HANDS FUNCTIONS ──
+function scrollToEl(id) { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+function toggleSession(card) {
+  const s = card.closest('.session');
+  if (s.classList.contains('is-break')) return;
+  const was = s.classList.contains('expanded');
+  document.querySelectorAll('.session.expanded').forEach(x => x.classList.remove('expanded'));
+  if (!was) s.classList.add('expanded');
+}
+
+// ── INTERSECTION OBSERVER ──
+const sessionObs = new IntersectionObserver(es => {
+  es.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('#panel-allhands .session').forEach(s => sessionObs.observe(s));
+
+// ── INIT ──
+renderPS1();
+</script>
+</body>
+</html>

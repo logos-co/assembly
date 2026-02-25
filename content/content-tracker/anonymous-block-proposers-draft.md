@@ -216,6 +216,14 @@ The Blend specification states that the protocol increases the time required to 
 
 Not every Logos node participates in blending. Core nodes — those that have declared themselves as Blend participants via the Service Declaration Protocol — form the mix network and relay messages. Edge nodes connect to core nodes and inject their proposals into the blend network without running it themselves. The distinction allows lightweight nodes (e.g., validators running on consumer hardware) to benefit from the privacy of the mix without contributing to its bandwidth overhead.
 
+### Rate-Limiting via RLN
+
+Blend's anonymity depends on all legitimate proposals flowing through it. An adversary who bypasses Blend entirely — submitting proposals directly to the gossip layer — immediately exposes themselves as the originating node, defeating any privacy the protocol provides.
+
+To make bypass expensive, block proposals are rate-limited through **RLN (Rate-Limiting Nullifiers)**: each lottery winner is issued a one-use RLN token authorizing a single proposal submission to the Blend network. Reusing an RLN token — attempting to flood Blend with multiple proposals from the same lottery win — triggers a Blend ban. Banned nodes' proposals will not be relayed. The only remaining option is to publish directly to the gossip layer, which exposes the node's network position.
+
+The practical effect: rational proposers have a strong incentive to use Blend correctly. Bypassing it is not just a protocol violation — it is self-deanonymization.
+
 ---
 
 ## Putting It Together: Private Proof of Stake
@@ -236,6 +244,18 @@ This is not a theoretical construction. The Logos Blockchain devnet is live. The
 
 ---
 
+## Security Model: Closer to Bitcoin Than BFT
+
+Cryptarchia's security model is deliberately closer to Bitcoin's proof-of-work than to Byzantine Fault Tolerant (BFT) consensus protocols like Tendermint or Gasper.
+
+BFT protocols tolerate up to one-third of nodes behaving maliciously — above that threshold they break. Cryptarchia's honest-majority threshold sits just below 51%, much closer to Bitcoin. The attack that differentiates it from pure PoW is **double-proposing**: a malicious node that wins a slot can broadcast two conflicting blocks from the same lottery win, creating a fork. In PoW, forking requires mining a full alternative block — expensive. In PoS, the conflicting proposal is cheap to create. This reduces the effective threshold slightly below 51%, but the protocol remains substantially more resilient than BFT.
+
+The practical consequence is **finality time**. Logos Blockchain targets approximately 18-hour economic finality — long enough for the longest-chain rule to resolve any fork caused by malicious behavior under realistic network conditions. Compared to BFT chains that finalize in seconds, this sounds slow. The trade-off is meaningful: a sustained attack on Cryptarchia is not silent. It requires continuous, observable behavior over many hours. The network has 18 hours to detect and respond. This is the same intuition behind Bitcoin's probabilistic finality — an attacker must continuously outpace the honest chain without being able to hide the attempt.
+
+RLN reinforces this. An attacker attempting to flood Blend to overwhelm the anonymity properties triggers a ban and must fall back to direct gossip propagation — making the attack visible at exactly the moment it escalates. Deanonymizing the network and attacking the consensus simultaneously becomes far harder than either alone.
+
+---
+
 ## Comparison: Ethereum's Secret Leader Election
 
 Ethereum's validator community has proposed several approaches to secret leader election, motivated by the same concerns. The most developed is SSLE (EIP-7441 and related work), which uses shuffle-based cryptographic protocols to publish a slot's leader only to that leader themselves in advance, while the network learns the identity only when the block is proposed.
@@ -249,6 +269,18 @@ SSLE removes the public leader schedule and addresses censorship and coercion ri
 Cryptarchia and Blend address all three gaps. Note values are hidden in the ZK proof, preventing on-chain stake inference. One-time leader keys prevent cross-slot linkage. Blend's mix network severs the connection between block proposal and network position.
 
 The cost is latency. Blend's routing delays add seconds to block propagation compared to gossip-only protocols. The slot activation coefficient of 1/30 partially compensates for this — most slots are empty, giving the network time to settle before the next block is expected. But this is a real trade-off: Cryptarchia is not optimized for high throughput or low latency. It optimizes for resilience and proposer privacy.
+
+---
+
+## What This Means for Running a Node
+
+Private Proof of Stake isn't just an academic construction — it changes what it means to operate a validator in practice.
+
+On most PoS chains, running a high-value node is a serious operational commitment. You maintain a known network presence, guard against targeted DoS attacks, manage the risk of stake inference exposing your position, and face slashing if consensus bugs or network interruptions cause inadvertent misbehavior.
+
+Logos removes most of that overhead. Your network identity is shielded by Blend. Your stake is hidden inside a ZK proof. There is no slashing — if your node goes down, you miss some block rewards. That's the extent of it. The goal is a validator experience that is genuinely low-stress for individual participants running consumer hardware, not just institutional operators with 24/7 uptime guarantees and legal teams on retainer.
+
+This permissionlessness is what makes the neutral settlement layer credible. A chain where only sophisticated, highly-capitalized operators can safely validate is not, in practice, permissionless — regardless of what the protocol specification says.
 
 ---
 

@@ -1,10 +1,14 @@
 # IFT All-Hands Agenda — March 5, 2026 (Revised)
 
-*Revised February 24, 2026 — Session 1 & 2 restructured, dinner timing updated*
+*Revised February 25, 2026 — Session 1 & 2 restructured, dinner timing updated*
+
+> **⚠ This document is an ongoing work in progress.** The agenda will be updated as new details come in. Check back regularly for the latest version.
 
 ---
 
 ## Purpose
+
+**Attendees:** ~180 CCs + 12 Circle Stewards
 
 1. Create shared understanding of what Logos is, why it matters, and where it's going
 2. Showcase progress across all IFT projects — Logos, Nimbus, and Status
@@ -42,7 +46,7 @@ Quick intro, then showcase progress across the IFT family, then close with the L
 - Demo of current work
 - How Status fits into the broader IFT picture
 
-*Presenter: [Status lead TBD]*
+*Presenter: Volo*
 
 **Nimbus Update + Demo (~30 min)**
 
@@ -50,20 +54,18 @@ Quick intro, then showcase progress across the IFT family, then close with the L
 - Demo of current work
 - How Nimbus fits into the broader IFT picture
 
-*Presenter: [Nimbus lead TBD]*
+*Presenter: Dustin*
 
 **What is Logos (~25 min)**
 
 - The mission: what "revitalising civil society" means concretely
 - The tech stack: Logos Blockchain, Logos Messaging, Logos Storage — why these three primitives, what the combination uniquely enables
 - Integration map: how the stack connects
-- Context: Logos as the next chapter of the IFT family — building on what Status and Nimbus just showed
-
 *Presenter: Corey*
 
-**Owner:** Corey (Opening + What is Logos); Status lead; Nimbus lead
+**Owner:** Corey (Opening + What is Logos); Volo (Status); Dustin (Nimbus)
 **Format:** Four segments — quick intro, two project presentations with demos, closing Logos vision
-**Note:** Logos engineering teams already delivered virtual pre-work updates. Status and Nimbus didn't have that opportunity — this is their moment. Corey opens and closes, adapting the What is Logos segment to build on whatever Status and Nimbus present.
+**Note:** Logos engineering teams already delivered virtual pre-work updates. Status and Nimbus didn't have that opportunity — this is their moment. Corey opens and closes, adapting the What is Logos segment to build on whatever Volo and Dustin present.
 
 ---
 
@@ -101,7 +103,7 @@ Panel-led session covering the Logos roadmap, testnet phases, and live testnet r
 
 #### 12:30–14:00 | Lunch (90 min)
 
-*Location: [TBD — Melanie/Terry to confirm]*
+*Served at both restaurants in the Eurostars Lisboa and Ikonik*
 - Mixed seating encouraged (cross-team, builders + Circles)
 - **[Sidebar room TBD]** available for Council or leadership sidebar if needed
 
@@ -115,16 +117,16 @@ From technology to movement to community, followed by tangible proof of progress
 
 **Who We're Building For (50 min)**
 
-Strategic framing of Circles — the *why* and *what we've learned*, not the operational *how* (which PS Day 1 covers in dedicated sessions).
+Strategic framing of the ecosystem and movement layers.
 
+- EcoDev activation strategy: how we grow the ecosystem from here to mainnet
 - Target community vision: what kind of builders, contributors, users are we trying to attract and serve?
+- **Panel: Bridging EcoDev and the Movement** — how the ecosystem development strategy connects to the Circles movement on the ground, the funnel from community to contributors
 - Circles strategic frame:
   - Why the movement layer matters to Logos's mission
   - What "winnable issues" look like in practice — the theory of change
   - 2–3 stewards share stories from the ground (5–7 min each)
   - What we've learned and what's working
-- EcoDev activation strategy: how we grow the ecosystem from here to mainnet
-- How Circles and EcoDev connect — the funnel from community to contributors
 
 **Internal Showcases (40 min)**
 
@@ -137,7 +139,7 @@ Arms the internal team with concrete reference points for PS conversations.
 - Brief context for each: what it is, why it matters, what it proves
 - Frame as: *"These are things you'll be able to point to when people ask 'what does Logos actually do?'"*
 
-**Owner:** EcoDev lead + 2–3 Circle stewards; demo owners TBD
+**Owner:** Santi (possibly EcoDev lead) + 2–3 Circle stewards; demo owners TBD
 **Format:** Mixed — presentation + short talks + live demos
 **Note:** PS Day 1 has dedicated Circles content in the Culture Zone (11:00) and dEdu/Circles in The Lab (10:00). Those sessions are operational and hands-on. This session is the strategic narrative — different audience framing, no duplication.
 
@@ -226,7 +228,7 @@ Sample questions (to be refined by stream leads):
 
 #### 19:30+ | Dinner & Drinks
 
-*Location: [TBD — Melanie/Terry to confirm]*
+*Location: Arigato Parque das Nações*
 - Pre-event socializing with the full group
 - This is where real cross-pollination happens — protect this time
 - Reminder: PS Day 1 starts at 09:00 tomorrow
@@ -235,7 +237,7 @@ Sample questions (to be refined by stream leads):
 
 ## Sensitive Content Handling
 
-With 6 Circles stewards in attendance (Michael, Jimin, Joao, Deca, Alice, Marco), sensitive internal content (finance updates, organizational details) should be handled via virtual pre-work before the all-hands. This keeps the room unified and leans into momentum building.
+With 12 Circles stewards in attendance, sensitive internal content (finance updates, organizational details) should be handled via virtual pre-work before the all-hands. This keeps the room unified and leans into momentum building.
 
 **Recommendation:** Finance update delivered as pre-recorded video or document distributed to CCs before March 5. All-hands stays focused on alignment and energy.
 
@@ -243,7 +245,7 @@ With 6 Circles stewards in attendance (Michael, Jimin, Joao, Deca, Alice, Marco)
 
 ## Circles Stewards
 
-6 confirmed (no visa needed): Michael (Boston), Jimin (Seoul), Joao (Floripa), Deca (Rome), Alice (Porto), Marco (Barcelona).
+12 confirmed stewards are joining the all-hands.
 
 Santi/Amelia coordinating speaker selection for the "Who We're Building For" session. 2–3 stewards to share ground-level stories (5–7 min each).
 
@@ -300,8 +302,8 @@ The following details need to be finalized and added:
 - [ ] Venue address for all-hands (hotel conference rooms)
 - [ ] Exact room names for sessions
 - [ ] Coffee break locations
-- [ ] Lunch location and arrangements
-- [ ] Dinner location and timing (confirmed 19:30)
+- [ ] Lunch location and arrangements — **confirmed: both restaurants at Eurostars Lisboa and Ikonik**
+- [ ] Dinner location and timing — **confirmed: Arigato Parque das Nações, 19:30**
 - [ ] Sidebar room for Council/leadership and coalition partner use
 - [ ] PS Day 1 venue address and transport guidance (for Bridge to PS segment)
 - [ ] Any dietary/accessibility considerations
@@ -326,7 +328,7 @@ The following details need to be finalized and added:
 |------|-------|-------|-------|
 | **March 4 (Tue)** | Load-in / Setup | PS venue preparation | One 16 Building |
 | **March 5 (Wed)** | IFT All-Hands | Internal alignment (4 × 90-min sessions) | Hotel conference rooms [TBD] |
-| **March 5 (Wed 19:30)** | Dinner | Pre-event socializing | [TBD] |
+| **March 5 (Wed 19:30)** | Dinner | Pre-event socializing | Arigato Parque das Nações |
 | **March 6 (Thu)** | Parallel Societies Day 1 | Unconference: tech, hacktivism, community (9 zones) | One 16 Building + Fabrica Moderna |
 | **March 7 (Fri AM)** | Team Offsites / Working Morning | Meeting space available — full exclusivity before festival | PS venue meeting space |
 | **March 7 (Fri PM)** | Parallel Societies Day 2 | Music & arts festival (13:00–03:00) | One 16 Building |
@@ -338,38 +340,24 @@ The following details need to be finalized and added:
 
 ## Open Questions for Coordination Team
 
-1. **Nimbus Presenter:** Who leads the Nimbus 30-min update + demo in Session 1?
+1. **Showcases:** What demos are realistically ready for Session 3 that don't duplicate PS Day 1 content? Who owns preparation?
 
-2. **Status Presenter:** Who leads the Status 30-min update + demo in Session 1?
+2. **Stream Questions:** Can each stream lead (Engineering, EcoDev, Comms, Nimbus, Status) prepare 2–3 key questions by [date]?
 
-3. **Showcases:** What demos are realistically ready for Session 3 that don't duplicate PS Day 1 content? Who owns preparation?
+3. **Circles Speakers:** Which 2–3 of the 12 confirmed stewards should present? Santi/Amelia coordinating.
 
-4. **Stream Questions:** Can each stream lead (Engineering, EcoDev, Comms) prepare 2–3 key questions by [date]?
+4. **Closing Moment:** What kind of ending fits the culture? Video? Reading? Something else?
 
-5. **Circles Speakers:** Which 2–3 of the 6 confirmed stewards (Michael, Jimin, Joao, Deca, Alice, Marco) should present? Santi/Amelia coordinating.
+5. **Facilitation:** Who runs the table discussions in Session 4? Do we need external facilitator support?
 
-6. **Closing Moment:** What kind of ending fits the culture? Video? Reading? Something else?
+6. **Capture Method:** How do we collect outputs from table sessions? Cards? Digital? Who synthesizes for offsites?
 
-7. **Facilitation:** Who runs the table discussions in Session 4? Do we need external facilitator support?
+7. **Recording:** Confirm scope and budget. Who liaises with Lou on final requirements?
 
-8. **Capture Method:** How do we collect outputs from table sessions? Cards? Digital? Who synthesizes for offsites?
+8. **PS Venue Orientation:** Who prepares the venue walkthrough/map for the Session 4 Bridge to PS segment?
 
-9. **Finance Update:** Confirm approach — virtual pre-work before all-hands (recommended) or parallel session?
-
-10. **Coalition Partners:** Confirm approach for Charter Cities / Zanzalu early arrivals. Full day, partial, or separate?
-
-11. **Recording:** Confirm scope and budget. Who liaises with Lou on final requirements?
-
-12. **PS Day 1 "Session *" slots:** Several main stage slots at PS remain unconfirmed. Does Lou have speakers for these, or do they need to be filled?
-
-13. **PS Day 1 "Logos Blockchain Architecture — OR Venice AI" slot (14:00, The Lab):** Which direction? If Venice AI takes this, where does the architecture content go?
-
-14. **PS Venue Orientation:** Who prepares the venue walkthrough/map for the Session 4 Bridge to PS segment?
-
-15. **March 7 AM Offsites:** Which teams should prioritize the Friday morning working window at the PS venue?
-
-16. **Dinner Venue:** Confirm location for 19:30 dinner — Melanie/Terry to finalize.
+9. **March 7 AM Offsites:** Which teams should prioritize the Friday morning working window at the PS venue?
 
 ---
 
-*Document revised to incorporate Nimbus/Status presentations in Session 1, panel format for Session 2, and 19:30 dinner timing. Changes documented separately.*
+*This is a living document. Check back regularly for updates.*

@@ -1,8 +1,8 @@
 # IFT All-Hands Agenda Revision — Change Log & Justifications
 
-*February 24, 2026*
+*February 25, 2026*
 
-This document describes all changes made to the IFT All-Hands agenda (March 5, 2026) across three rounds of revision.
+This document describes all changes made to the IFT All-Hands agenda (March 5, 2026) across five rounds of revision.
 
 ---
 
@@ -11,6 +11,75 @@ This document describes all changes made to the IFT All-Hands agenda (March 5, 2
 - **WORKING_PROGRAMME_P_C_NOT_CONFIRMED.xlsx** — PS festival working programme
 - Coordination team feedback (Melanie, Terry, Lou, Kaushal, session format input)
 - Working group decisions on Session 1 and Session 2 content
+- Presenter confirmations and open question resolutions
+
+---
+
+## Round 5 Changes (February 25)
+
+### 1. "Logos as the Next Chapter" Removed from What is Logos
+
+**What changed:** The bullet "Logos as the next chapter of the IFT family" removed from Corey's What is Logos closing segment in Session 1.
+
+**Why:** Corey's closing position in S1 already implicitly builds on Status/Nimbus. The explicit framing was redundant.
+
+---
+
+### 2. WIP Disclaimer Added
+
+**What changed:** Prominent disclaimer added to the top of all documents: *"This document is an ongoing work in progress. Check back regularly."*
+
+**Why:** The agenda is actively evolving across multiple stakeholders. Setting expectations prevents confusion.
+
+---
+
+### 3. Session 3 Owner: Santi (Possibly EcoDev)
+
+**What changed:** Santi listed as primary owner of Session 3. Content restructured: EcoDev strategy → Panel bridging EcoDev and the movement → Circles strategic frame with steward stories.
+
+**Why:** Santi spans community and ecosystem development. The panel creates a structured conversation connecting the two layers.
+
+---
+
+### 4. Presenter Confirmations: Volo (Status), Dustin (Nimbus)
+
+**What changed:** Volo confirmed for Status, Dustin for Nimbus in Session 1. Removed from Open Questions.
+
+---
+
+### 5. Open Questions Cleaned Up — 6 Removed
+
+Removed: Nimbus Presenter (resolved), Status Presenter (resolved), PS "Session *" slots, Venice AI / Architecture, Finance Update, Coalition Partners. 10 questions remain.
+
+---
+
+### 6. Circles Stewards Updated: 6 → 12
+
+**What changed:** 12 confirmed stewards now joining the all-hands.
+
+---
+
+### 7. Header Updated: ~180 CCs + 12 Circle Stewards
+
+**What changed:** Attendee count updated to ~180 CCs + 12 Circle Stewards across HTML hero and markdown header.
+
+---
+
+### 8. Dinner Venue Confirmed: Arigato Parque das Nações
+
+**What changed:** Dinner location set to Arigato Parque das Nações. Removed from open questions. Updated across agenda body, week overview, logistics checklist, and HTML hero metadata.
+
+---
+
+### 9. Lunch Details Confirmed
+
+**What changed:** Lunch served at both restaurants in the Eurostars Lisboa and Ikonik. Updated in agenda body and HTML.
+
+---
+
+### Open Questions Now at 9
+
+Resolved/removed since Round 4: Nimbus presenter, Status presenter, PS Session slots, Venice AI/Architecture, finance update, coalition partners, dinner venue. 9 open questions remain.
 
 ---
 
@@ -209,13 +278,13 @@ This replaces the previous format of a single-presenter "Road to Mainnet" sessio
 
 | Block | Time | Content | Key Change |
 |-------|------|---------|------------|
-| **S1** | 09:00–10:30 | Intro → Status + Nimbus demos → What is Logos | Reordered: Logos closes S1; SDD removed |
+| **S1** | 09:00–10:30 | Intro → Status (Volo) → Nimbus (Dustin) → What is Logos (Corey) | Reordered; presenters confirmed; SDD removed |
 | Coffee | 10:30–11:00 | Buffer break | — |
 | **S2** | 11:00–12:30 | Roadmap Panel + Testnet Reveal + Q&A | Panel format (Jarrad, Kaushal, Ksr, Jonny) |
 | Lunch | 12:30–14:00 | Mixed seating | — |
-| **S3** | 14:00–15:30 | Who We're Building For + Showcases | Unchanged |
+| **S3** | 14:00–15:30 | Who We're Building For + Showcases | Owner: Santi; panel added between EcoDev and Circles |
 | Coffee | 15:30–16:00 | Buffer break | — |
-| **S4** | 16:00–17:30 | Key Questions + Synthesis + The Charge | Added Nimbus/Status question tracks |
+| **S4** | 16:00–17:30 | Key Questions + Synthesis + The Charge | Nimbus/Status question tracks added |
 | Free | 17:30–19:30 | Decompress | Buffer window |
 | Dinner | 19:30+ | Group dinner & drinks | Pushed back from 17:30 |
 

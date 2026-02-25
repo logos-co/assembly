@@ -15,10 +15,11 @@ It is important to have clarity on who is coordinating around any given [[artifa
 
 ## Proposed Articles (Feb 2026)
 
-Sourced from weekly updates across all Logos components. **Updated Feb 23** with developments from Week 6–8 weeklies (devnet launch, de-MLS on crates.io, multi-burn RLN complete, demo app dogfooding, privacy analysis complete, multi-platform CI, anonymous download draft, Storage Module headless mode). Prioritization to be determined after the above articles are published.
+Sourced from weekly updates across all Logos components. **Updated Feb 25** with Logos Blockchain & LEZ team update presentation (Episode 2 of 3): DA dropped from mainnet scope, SQLite Zone demo, decentralized sequencing roadmap, LEZ full blockchain integration, AMM/token/cross-calls/PDAs shipped. Prioritization to be determined after the above articles are published.
 
 | Article | Component | Status | Audience |
 |---------|-----------|--------|----------|
+| [[lez-lee-brief\|Logos Execution Zone: Composable Privacy by Default]] | Blockchain / LEZ | Proposed | App developers, ZK/DeFi engineers |
 | [[gasless-l2-rln\|Gasless L2 Transactions via RLN: A Zero-Knowledge Approach]] | AnonComms | Proposed | ZK/crypto engineers, L2 developers |
 | [[libchat-sdk\|libchat: Building E2E Encrypted Messaging with the Chat SDK]] | Messaging | Proposed | App developers, Rust/FFI devs |
 

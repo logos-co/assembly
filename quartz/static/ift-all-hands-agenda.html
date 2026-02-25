@@ -44,6 +44,17 @@
   .scroll-hint { position: absolute; bottom: 2rem; right: 4rem; display: flex; align-items: center; gap: 0.75rem; font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); opacity: 0; animation: fadeUp 0.8s ease forwards 1s; }
   .scroll-hint .line { width: 40px; height: 1px; background: var(--text-muted); animation: pulse 2s ease infinite; }
 
+  .wip-banner {
+    background: rgba(245, 166, 35, 0.08);
+    border-bottom: 1px solid rgba(245, 166, 35, 0.2);
+    padding: 0.85rem 2rem;
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: var(--warm);
+  }
+
   .format-bar { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
   .format-block { padding: 1.5rem 2rem; border-right: 1px solid var(--border); text-align: center; transition: background 0.3s; cursor: pointer; }
   .format-block:last-child { border-right: none; }
@@ -188,13 +199,15 @@
   <div class="hero-overline">Internal Event · Lisbon</div>
   <h1>IFT <em>All-Hands</em><br>March 5, 2026</h1>
   <div class="hero-meta">
-    <div class="hero-meta-item"><span class="hero-meta-label">Attendees</span><span class="hero-meta-value">~200 CCs + 6 Circle Stewards</span></div>
+    <div class="hero-meta-item"><span class="hero-meta-label">Attendees</span><span class="hero-meta-value">~180 CCs + 12 Circle Stewards</span></div>
     <div class="hero-meta-item"><span class="hero-meta-label">Venue</span><span class="hero-meta-value">Hotel Conference Rooms (TBD)</span></div>
     <div class="hero-meta-item"><span class="hero-meta-label">Format</span><span class="hero-meta-value">4 × 90-min sessions</span></div>
-    <div class="hero-meta-item"><span class="hero-meta-label">Dinner</span><span class="hero-meta-value">19:30</span></div>
+    <div class="hero-meta-item"><span class="hero-meta-label">Dinner</span><span class="hero-meta-value">19:30 · Arigato</span></div>
   </div>
   <div class="scroll-hint"><span class="line"></span>Scroll to explore</div>
 </section>
+
+<div class="wip-banner">⚠ WORK IN PROGRESS — This agenda will update as new details come in. Check back regularly.</div>
 
 <section class="format-bar">
   <div class="format-block" onclick="scrollTo('phase-s1')"><div class="fb-num">SESSION 1</div><div class="fb-time">09:00 – 10:30</div><div class="fb-title">The Foundation</div></div>
@@ -251,7 +264,7 @@
 
         <div class="sub-block">
           <div class="sub-block-title">Status Update + Demo</div>
-          <div class="sub-block-meta">~30 MINUTES · PRESENTER: TBD</div>
+          <div class="sub-block-meta">~30 MINUTES · PRESENTER: VOLO</div>
           <ul>
             <li>Status update on Status progress</li>
             <li>Live demo of current work</li>
@@ -261,7 +274,7 @@
 
         <div class="sub-block">
           <div class="sub-block-title">Nimbus Update + Demo</div>
-          <div class="sub-block-meta">~30 MINUTES · PRESENTER: TBD</div>
+          <div class="sub-block-meta">~30 MINUTES · PRESENTER: DUSTIN</div>
           <ul>
             <li>Status update on Nimbus progress</li>
             <li>Live demo of current work</li>
@@ -276,11 +289,10 @@
             <li>The mission: what "revitalising civil society" means concretely</li>
             <li>The tech stack: Logos Blockchain, Messaging, Storage — why these primitives, what they enable</li>
             <li>Integration map: how the stack connects</li>
-            <li>Building on what Status and Nimbus just showed — Logos as the next chapter</li>
           </ul>
         </div>
 
-        <div class="note-box"><strong>Flow:</strong> Corey opens and closes. By presenting What is Logos last, he can reference Status/Nimbus demos, bridge their work into the Logos narrative, and flex timing to absorb any overrun.</div>
+        <div class="note-box"><strong>Flow:</strong> Corey opens and closes. By presenting What is Logos last, he can reference Volo's and Dustin's demos, bridge their work into the Logos narrative, and flex timing to absorb any overrun.</div>
       </div></div>
     </div>
   </div>
@@ -352,7 +364,7 @@
     <div class="session-time">12:30<span class="duration">90 min</span></div>
     <div class="session-dot"></div>
     <div class="session-card"><div class="session-header"><div class="session-header-left">
-      <span class="session-tag tag-break">Lunch</span><span class="session-title">Lunch — Mixed Seating Encouraged</span><span class="break-note">Sidebar room available</span>
+      <span class="session-tag tag-break">Lunch</span><span class="session-title">Lunch — Eurostars Lisboa & Ikonik Restaurants</span><span class="break-note">Mixed seating encouraged · Sidebar room available</span>
     </div></div></div>
   </div>
 
@@ -377,12 +389,20 @@
         <div class="sub-block-title">Who We're Building For</div>
         <div class="sub-block-meta">50 MINUTES · Strategic framing — the why, not the how</div>
         <ul>
+          <li>EcoDev activation: ecosystem growth strategy to mainnet</li>
           <li>Target community vision: builders, contributors, users</li>
-          <li>Circles strategic frame: why the movement layer matters</li>
+        </ul>
+        <div class="content-label">Panel: Bridging EcoDev & the Movement</div>
+        <ul>
+          <li>How ecosystem development strategy connects to the Circles movement on the ground</li>
+          <li>The funnel from community to contributors</li>
+        </ul>
+        <div class="content-label">Circles Strategic Frame</div>
+        <ul>
+          <li>Why the movement layer matters to Logos's mission</li>
           <li>"Winnable issues" in practice — the theory of change</li>
           <li>2–3 stewards share ground-level stories (5–7 min each)</li>
-          <li>EcoDev activation: ecosystem growth to mainnet</li>
-          <li>How Circles and EcoDev connect — community to contributors</li>
+          <li>What we've learned and what's working</li>
         </ul>
 
         <div class="sub-block">
@@ -397,7 +417,7 @@
         </div>
 
         <div class="content-label">Owners</div>
-        <span class="owner-badge"><span class="dot"></span>EcoDev lead</span>
+        <span class="owner-badge"><span class="dot"></span>Santi (possibly EcoDev)</span>
         <span class="owner-badge"><span class="dot"></span>2–3 Circle stewards</span>
         <span class="owner-badge"><span class="dot"></span>Demo owners TBD</span>
         <div class="note-box"><strong>No duplication:</strong> PS Day 1 has operational Circles content. This covers strategic narrative and different showcases.</div>
@@ -512,7 +532,7 @@
       <div class="session-body"><div class="session-content">
         <p>Pre-event socializing. Where the real cross-pollination happens.</p>
         <ul>
-          <li>Group dinner — location TBD (Melanie/Terry to confirm)</li>
+          <li>Group dinner — Arigato Parque das Nações</li>
           <li>Informal conversations, cross-team bonding</li>
           <li>PS Day 1 starts at 09:00 tomorrow</li>
         </ul>
@@ -527,65 +547,50 @@
   <h2>Open Questions</h2>
   <p class="sub">Decisions needed before March 5</p>
   <div class="question-grid">
-    <div class="question-card priority-urgent">
-      <div class="question-num">01 · URGENT</div>
-      <h4>PS "Session *" Slots</h4>
-      <p>Several PS main stage slots unconfirmed. Highest-visibility content.</p>
-    </div>
-    <div class="question-card priority-urgent">
-      <div class="question-num">02 · URGENT</div>
-      <h4>S1: Nimbus Presenter</h4>
-      <p>Who leads the 30-min Nimbus update + demo?</p>
-    </div>
-    <div class="question-card priority-urgent">
-      <div class="question-num">03 · URGENT</div>
-      <h4>S1: Status Presenter</h4>
-      <p>Who leads the 30-min Status update + demo?</p>
-    </div>
     <div class="question-card priority-soon">
-      <div class="question-num">04 · SOON</div>
+      <div class="question-num">01 · SOON</div>
       <h4>S3 Showcases</h4>
       <p>What demos are ready that don't duplicate PS Day 1? Who owns them?</p>
     </div>
     <div class="question-card priority-soon">
-      <div class="question-num">05 · SOON</div>
+      <div class="question-num">02 · SOON</div>
       <h4>Stream Questions</h4>
-      <p>Each stream lead prepare 2–3 key questions for Session 4.</p>
+      <p>Each stream lead (Eng, EcoDev, Comms, Nimbus, Status) prepare 2–3 key questions for S4.</p>
     </div>
     <div class="question-card priority-soon">
-      <div class="question-num">06 · SOON</div>
+      <div class="question-num">03 · SOON</div>
       <h4>Circles Speakers</h4>
-      <p>Which 2–3 of 6 stewards present? Santi/Amelia coordinating.</p>
-    </div>
-    <div class="question-card priority-soon">
-      <div class="question-num">07 · SOON</div>
-      <h4>Venice AI / Architecture</h4>
-      <p>PS Lab 14:00 "OR" — which direction?</p>
+      <p>Which 2–3 of 12 confirmed stewards present? Santi/Amelia coordinating.</p>
     </div>
     <div class="question-card priority-normal">
-      <div class="question-num">08</div>
+      <div class="question-num">04</div>
       <h4>Closing Moment</h4>
       <p>Video? Reading? Collective moment?</p>
     </div>
     <div class="question-card priority-normal">
+      <div class="question-num">05</div>
+      <h4>Facilitation</h4>
+      <p>Who runs S4 table discussions? External facilitator needed?</p>
+    </div>
+    <div class="question-card priority-normal">
+      <div class="question-num">06</div>
+      <h4>Capture Method</h4>
+      <p>Cards? Digital? Who synthesizes for offsites?</p>
+    </div>
+    <div class="question-card priority-normal">
+      <div class="question-num">07</div>
+      <h4>Recording</h4>
+      <p>Confirm scope + budget with Lou.</p>
+    </div>
+    <div class="question-card priority-normal">
+      <div class="question-num">08</div>
+      <h4>PS Venue Orientation</h4>
+      <p>Who prepares the walkthrough/map for S4 Bridge to PS?</p>
+    </div>
+    <div class="question-card priority-normal">
       <div class="question-num">09</div>
-      <h4>Finance Update</h4>
-      <p>Virtual pre-work recommended.</p>
-    </div>
-    <div class="question-card priority-normal">
-      <div class="question-num">10</div>
-      <h4>Coalition Partners</h4>
-      <p>Charter Cities / Zanzalu: partial inclusion approach?</p>
-    </div>
-    <div class="question-card priority-normal">
-      <div class="question-num">11</div>
-      <h4>Venue Details</h4>
-      <p>Room names, addresses, break/lunch spots. Melanie/Terry → Corey.</p>
-    </div>
-    <div class="question-card priority-normal">
-      <div class="question-num">12</div>
-      <h4>Dinner Venue</h4>
-      <p>Location for 19:30 dinner. Melanie/Terry to finalize.</p>
+      <h4>March 7 AM Offsites</h4>
+      <p>Which teams get the Friday morning PS venue window?</p>
     </div>
   </div>
 </section>
@@ -597,7 +602,7 @@
     <div class="week-card today">
       <div class="week-date">WED MAR 5</div>
       <h3>IFT All-Hands</h3>
-      <p>4 × 90-min sessions. Status + Nimbus + Logos. Testnet reveal. Dinner 19:30.</p>
+      <p>4 × 90-min sessions. Status + Nimbus + Logos. Testnet reveal. Dinner 19:30 at Arigato.</p>
       <div class="week-venue">↳ Hotel rooms (TBD)</div>
     </div>
     <div class="week-card">
@@ -629,7 +634,7 @@
 
 <footer>
   <span>IFT All-Hands · March 5, 2026 · Lisbon</span>
-  <span class="revision">Rev. Feb 24, 2026 · Intro → Status/Nimbus → Logos · Panel S2 · Dinner 19:30</span>
+  <span class="revision">Rev. Feb 25, 2026 · ~180 CCs + 12 Stewards · Volo (Status) · Dustin (Nimbus) · Dinner at Arigato</span>
 </footer>
 
 <div class="toolbar" id="toolbar">

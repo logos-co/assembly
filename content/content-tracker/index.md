@@ -19,7 +19,7 @@ Sourced from weekly updates across all Logos components. **Updated Feb 25** with
 
 | Article | Component | Status | Audience |
 |---------|-----------|--------|----------|
-| [[lez-lee-brief\|Logos Execution Zone: Composable Privacy by Default]] | Blockchain / LEZ | Proposed | App developers, ZK/DeFi engineers |
+| [[lez-lee-brief\|Logos Execution Zone: Composable Privacy by Default]] | Blockchain / LEZ | **Blocked** — post-PS event | App developers, ZK/DeFi engineers |
 | [[gasless-l2-rln\|Gasless L2 Transactions via RLN: A Zero-Knowledge Approach]] | AnonComms | Proposed | ZK/crypto engineers, L2 developers |
 | [[libchat-sdk\|libchat: Building E2E Encrypted Messaging with the Chat SDK]] | Messaging | Proposed | App developers, Rust/FFI devs |
 

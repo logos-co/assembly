@@ -148,6 +148,20 @@
   .priority-soon { border-left: 3px solid var(--warm); }
   .priority-normal { border-left: 3px solid var(--border-light); }
 
+  /* ══ PREWORK STYLES ══ */
+  .prework-page { max-width: 860px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+  .prework-page h2 { font-family: 'Instrument Serif', serif; font-size: 2.4rem; font-weight: 400; margin-bottom: 0.5rem; }
+  .prework-page h2 em { font-style: italic; }
+  .prework-page .pw-sub { font-size: 0.88rem; color: var(--text-dim); margin-bottom: 2.5rem; line-height: 1.6; }
+  .prework-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; transition: border-color 0.3s; }
+  .prework-card:hover { border-color: var(--border-light); }
+  .prework-card h3 { font-family: 'Instrument Serif', serif; font-size: 1.3rem; font-weight: 400; margin-bottom: 0.8rem; }
+  .prework-label { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
+  .pw-links { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .pw-link { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Space Mono', monospace; font-size: 0.72rem; color: var(--text-dim); background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 5px; padding: 0.4rem 0.8rem; text-decoration: none; transition: all 0.25s; }
+  .pw-link:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-dim); }
+  .pw-link .pw-icon { font-size: 0.85rem; }
+
   /* ══ PS DAY 1 STYLES ══ */
   .ps1-header { padding: 3rem 4rem 2rem; border-bottom: 1px solid var(--border); }
   .ps1-header h2 { font-family: 'Instrument Serif', serif; font-size: 2.4rem; font-weight: 400; margin-bottom: 0.4rem; }
@@ -265,6 +279,10 @@
 
 <!-- ══════════════ DAY TABS ══════════════ -->
 <nav class="day-tabs" id="dayTabs">
+  <div class="day-tab" data-tab="prework" onclick="switchTab('prework')">
+    <div class="dt-day">Before You Arrive</div>
+    <div class="dt-name">Pre-work</div>
+  </div>
   <div class="day-tab" data-tab="arrivals" onclick="switchTab('arrivals')">
     <div class="dt-day">Tue Mar 4</div>
     <div class="dt-name">Arrivals</div>
@@ -292,6 +310,69 @@
     <div class="dt-name">Departures</div>
   </div>
 </nav>
+
+<!-- ╔══════════════════════════════════════╗ -->
+<!-- ║        TAB: PRE-WORK                 ║ -->
+<!-- ╚══════════════════════════════════════╝ -->
+<div class="tab-panel" id="panel-prework">
+  <div class="prework-page">
+    <h2>Pre-work <em>Materials</em></h2>
+    <p class="pw-sub">Watch these team update recordings and review the slides before arriving in Lisbon. Come prepared so we can hit the ground running.</p>
+
+    <div class="prework-card">
+      <div class="prework-label">Team Update 1</div>
+      <h3>Logos Core & Anonymous Communications</h3>
+      <div class="pw-links">
+        <a class="pw-link" href="https://youtube.com/live/KfPpmQTFPNc" target="_blank"><span class="pw-icon">▶</span> Video</a>
+        <a class="pw-link" href="https://drive.google.com/file/d/1lOPto2nyh2nwl8Q0bRbaGTQZZmin4nFQ/view?usp=sharing" target="_blank"><span class="pw-icon">◧</span> Core Slides</a>
+        <a class="pw-link" href="https://docs.google.com/presentation/d/1nF50RJMu_2Hos4NVgwtIUGTNcbxm7VqVmOcOMAS_bAw/edit?usp=sharing" target="_blank"><span class="pw-icon">◧</span> AnonComms Slides</a>
+        <a class="pw-link" href="https://logos-co.github.io/assembly/meta-docs/lisbon-allhands/Logos_Team_Updates_1_Transcript" target="_blank"><span class="pw-icon">¶</span> Transcript</a>
+      </div>
+    </div>
+
+    <div class="prework-card">
+      <div class="prework-label">Team Update 2</div>
+      <h3>Logos Blockchain & LEZ/LEE</h3>
+      <div class="pw-links">
+        <a class="pw-link" href="https://youtube.com/live/gSbQ8W9HRWo" target="_blank"><span class="pw-icon">▶</span> Video</a>
+        <a class="pw-link" href="https://docs.google.com/presentation/d/1e5gCSVxWploGwyGcU7dFXXFgZrYxC91j2mJGDcmaAGw/edit?usp=sharing" target="_blank"><span class="pw-icon">◧</span> Slides</a>
+        <a class="pw-link" href="https://logos-co.github.io/assembly/meta-docs/lisbon-allhands/Logos_Team_Updates_Blockchain_LEZ_Transcript" target="_blank"><span class="pw-icon">¶</span> Transcript</a>
+      </div>
+    </div>
+
+    <div class="prework-card">
+      <div class="prework-label">Team Update 3</div>
+      <h3>Logos Messaging & Storage</h3>
+      <div class="pw-links">
+        <a class="pw-link" href="https://youtube.com/live/nI_1PYwoy9s" target="_blank"><span class="pw-icon">▶</span> Video</a>
+        <a class="pw-link" href="https://docs.google.com/presentation/d/1PecZLCFuo7uCo8slsv-EEznO7RQ9XMR7iMeW69O7R_0/edit?usp=sharing" target="_blank"><span class="pw-icon">◧</span> Messaging Slides</a>
+        <a class="pw-link" href="https://1drv.ms/p/c/d17d4e69e3810ff0/IQDRVJsY0yzdQLOS_qfPjY7NAWVY46vjFYUOYNXDjegn1BQ?e=a7wn2W" target="_blank"><span class="pw-icon">◧</span> Storage Slides</a>
+        <a class="pw-link" href="https://logos-co.github.io/assembly/meta-docs/lisbon-allhands/Logos_Team_Updates_Storage_Messaging_Transcript" target="_blank"><span class="pw-icon">¶</span> Transcript</a>
+      </div>
+    </div>
+
+    <div class="prework-card">
+      <div class="prework-label">Team Update 4</div>
+      <h3>Ecosystem Development Engineering</h3>
+      <div class="pw-links">
+        <a class="pw-link" href="https://drive.google.com/file/d/1fjDvJxpu57ix6Kc_Fk-6XdqRnjqNErGE/view?usp=drivesdk" target="_blank"><span class="pw-icon">▶</span> Video</a>
+        <a class="pw-link" href="https://docs.google.com/presentation/d/1ZAHVkzcrkg2qCM8pDrFl84EfItNA1FFusovPb_YH-yg/edit?usp=drivesdk" target="_blank"><span class="pw-icon">◧</span> Slides</a>
+        <a class="pw-link" href="https://docs.google.com/document/d/1Xa9Gk32bvYfLhAuAuM3Tfdn4Nh26IBPE7l19pPTq_aM/edit?usp=drivesdk" target="_blank"><span class="pw-icon">¶</span> Transcript</a>
+      </div>
+    </div>
+
+    <div class="prework-card">
+      <div class="prework-label">Team Update 5</div>
+      <h3>Status Network</h3>
+      <div class="pw-links">
+        <a class="pw-link" href="https://youtube.com/live/Eq_6T4yw7l0" target="_blank"><span class="pw-icon">▶</span> Video</a>
+        <a class="pw-link" href="https://docs.google.com/presentation/d/1rXOxnBwJLNtA1mo16j_-knhbRtSnF5RzvlRYumK7FMU" target="_blank"><span class="pw-icon">◧</span> Slides</a>
+        <a class="pw-link" href="https://logos-co.github.io/assembly/meta-docs/lisbon-allhands/IFT_Townhall_Feb20_2026_Transcript" target="_blank"><span class="pw-icon">¶</span> Transcript</a>
+      </div>
+    </div>
+
+  </div>
+</div>
 
 <!-- ╔══════════════════════════════════════╗ -->
 <!-- ║        TAB: ARRIVALS (Tue Mar 4)     ║ -->

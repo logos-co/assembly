@@ -11,7 +11,9 @@
       "Bash(curl:*)",
       "Bash(ls /home/petty/Github/logos-co/assembly/public/content-tracker/anonymous-block-proposers-draft*)",
       "WebFetch(domain:github.com)",
-      "WebFetch(domain:roadmap.logos.co)"
+      "WebFetch(domain:roadmap.logos.co)",
+      "Bash(git rebase:*)",
+      "Bash(git stash:*)"
     ]
   }
 }

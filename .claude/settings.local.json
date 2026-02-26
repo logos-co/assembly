@@ -13,7 +13,10 @@
       "WebFetch(domain:github.com)",
       "WebFetch(domain:roadmap.logos.co)",
       "Bash(git rebase:*)",
-      "Bash(git stash:*)"
+      "Bash(git stash:*)",
+      "WebFetch(domain:coda.io)",
+      "Bash(claude mcp list:*)",
+      "mcp__crawl4ai__md"
     ]
   }
 }

@@ -236,6 +236,10 @@
   .logistics-card li::before { content: '→'; position: absolute; left: 0; color: var(--text-muted); font-size: 0.7rem; }
   .logistics-label { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
   .logistics-tbd { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--text-muted); background: rgba(255,255,255,0.03); display: inline-block; padding: 0.15rem 0.5rem; border-radius: 3px; margin-top: 0.3rem; }
+  .logistics-card ul ul { margin-top: 0.2rem; margin-bottom: 0.2rem; }
+  .logistics-card ul ul li::before { content: '·'; font-size: 0.9rem; }
+  .transfer-note { margin-top: 0.9rem; padding: 0.7rem 0.85rem; background: var(--accent-glow); border-left: 2px solid var(--accent); border-radius: 0 4px 4px 0; font-size: 0.78rem; color: var(--text-dim); line-height: 1.6; }
+  .transfer-note strong { color: var(--accent); font-weight: 600; }
 
   /* ══ PLACEHOLDER TAB ══ */
   .placeholder-page { max-width: 600px; margin: 0 auto; padding: 6rem 2rem; text-align: center; }
@@ -306,15 +310,13 @@
     <div class="dt-day">Fri Mar 6</div>
     <div class="dt-name">PS Day 1</div>
   </div>
-  <div class="day-tab placeholder" data-tab="ps2" onclick="switchTab('ps2')">
+  <div class="day-tab" data-tab="ps2" onclick="switchTab('ps2')">
     <div class="dt-day">Sat Mar 7</div>
     <div class="dt-name">PS Day 2</div>
-    <div class="dt-badge">SOON</div>
   </div>
-  <div class="day-tab placeholder" data-tab="offsites" onclick="switchTab('offsites')">
+  <div class="day-tab" data-tab="offsites" onclick="switchTab('offsites')">
     <div class="dt-day">Sun–Mon</div>
     <div class="dt-name">Offsites</div>
-    <div class="dt-badge">SOON</div>
   </div>
   <div class="day-tab" data-tab="departures" onclick="switchTab('departures')">
     <div class="dt-day">Tue Mar 10</div>
@@ -410,20 +412,71 @@
     </div>
 
     <div class="logistics-card">
-      <div class="logistics-label">Getting Around</div>
-      <h3>Lisbon Logistics</h3>
+      <div class="logistics-label">Transfer Info</div>
+      <h3>Getting from Lisbon Airport (LIS) to the Hotels</h3>
+      <p>Since this year's venue is quite close to the airport and Lisbon Airport is located within the city, there will be no organised transfers. See below for the easiest ways to get to Ikonik Lisboa and Eurostars Universal Lisboa.</p>
+    </div>
+
+    <div class="logistics-card">
+      <div class="logistics-label">Option 1</div>
+      <h3>By Metro</h3>
+      <img src="img/lisbon-airport-1.webp" alt="Metro route from Aeroporto to Cabo Ruivo station" style="width:100%;border-radius:6px;margin-bottom:1rem;">
       <ul>
-        <li>Airport: Humberto Delgado (LIS) — ~20 min to city center</li>
-        <li>Metro, Uber/Bolt, and taxis all readily available</li>
-        <li>Venue transport guidance to follow from Melanie/Terry</li>
+        <li>Take the <strong>Red Line (Linha Vermelha)</strong> from <strong>Aeroporto Station</strong> (right at the airport, Arrivals Level)</li>
+        <li>Travel towards São Sebastião and get off at <strong>Cabo Ruivo Station</strong></li>
+        <li>From Cabo Ruivo, it's about a <strong>7-minute walk</strong> to Eurostars Universal Hotel</li>
+        <li><strong>Tickets:</strong> Buy a single journey ticket or a reloadable <strong>Viva Viagem card</strong> at the machines in the station (cash or card). A single journey costs around €1.50–€2</li>
       </ul>
     </div>
 
     <div class="logistics-card">
-      <div class="logistics-label">Evening</div>
-      <h3>Informal Arrival Gathering</h3>
-      <p>No formal programming. Use the evening to settle in and connect with early arrivals.</p>
-      <span class="logistics-tbd">Details TBD</span>
+      <div class="logistics-label">Option 2</div>
+      <h3>By Ride-Hailing (Uber or Bolt)</h3>
+      <img src="img/lisbon-airport-2.webp" alt="Uber and Bolt pickup points at Lisbon Airport" style="width:100%;border-radius:6px;margin-bottom:1rem;">
+      <ul>
+        <li>Both <strong>Uber</strong> and <strong>Bolt</strong> operate in Lisbon — pickup locations differ slightly:
+          <ul>
+            <li><strong>Uber:</strong> Dedicated rideshare pickup on <strong>Level 2, P2 parking garage (Arrivals level)</strong>. Follow signs for "Uber" or the "Kiss &amp; Fly" zone after exiting arrivals</li>
+            <li><strong>Bolt:</strong> Pickup at <strong>Parking Lot 2 (P2) on the Arrivals Level</strong>, just outside the main terminal in the outside parking area / short-stay lot</li>
+          </ul>
+        </li>
+        <li>Uber is in the garage area, Bolt is in the outside parking area — both on the Arrivals level</li>
+        <li>Estimated journey time: <strong>~15 minutes</strong>, depending on traffic</li>
+      </ul>
+    </div>
+
+    <div class="logistics-card">
+      <div class="logistics-label">Option 3</div>
+      <h3>By Car</h3>
+      <ul>
+        <li>The hotel offers <strong>200 parking spots</strong> at <strong>€10 per day</strong></li>
+        <li>Address for GPS: Eurostars Universal Hotel, Av. 5 de Outubro 107, 1050-059 Lisbon, Portugal</li>
+      </ul>
+    </div>
+
+    <div class="logistics-card">
+      <div class="transfer-note"><strong>Tips:</strong> Taxis are also available at the airport, but Uber/Bolt is often cheaper and easier to track via the app. Lisbon traffic can be heavy during rush hours (8–10 AM and 5–7 PM), so consider extra time during these periods. The airport is relatively small and well-signposted — just follow "Metro" or "Ride-Hailing" signs.</div>
+    </div>
+
+    <div class="logistics-card">
+      <div class="logistics-label">Breakfast</div>
+      <h3>All Days</h3>
+      <p>Breakfast is included every day and served at both hotel restaurants (Ikonik Lisboa &amp; Eurostars Universal).</p>
+      <ul>
+        <li><strong>Weekdays:</strong> 7:30 AM – 10:00 AM</li>
+        <li><strong>Weekends:</strong> 7:30 AM – 11:00 AM</li>
+      </ul>
+    </div>
+
+    <div class="logistics-card">
+      <div class="logistics-label">Evening · Wed Mar 4</div>
+      <h3>Welcome Dinner &amp; Drinks</h3>
+      <ul>
+        <li><strong>Restaurant:</strong> Páteo Restaurante</li>
+        <li><strong>Time:</strong> 7:00 PM</li>
+        <li><strong>Getting there:</strong> 2 min walk from the hotel</li>
+        <li><strong>Address:</strong> Edifício Adamastor, Av. Dom João II 11B, 1990-077 Lisboa, Portugal</li>
+      </ul>
     </div>
   </div>
 </div>
@@ -782,6 +835,51 @@
   </div>
 </section>
 
+<!-- ALL-HANDS MEALS & COFFEE -->
+<div class="logistics-page" style="padding-top:1rem;">
+  <h2>Meals & <em>Coffee</em></h2>
+  <p class="lp-sub">Thursday March 5 — All meals are provided on All-Hands day.</p>
+
+  <div class="logistics-card">
+    <div class="logistics-label">Morning</div>
+    <h3>Breakfast</h3>
+    <ul>
+      <li><strong>Time:</strong> 7:30 – 9:30 AM</li>
+      <li>Served at both hotel restaurants (Ikonik Lisboa &amp; Eurostars Universal)</li>
+    </ul>
+  </div>
+
+  <div class="logistics-card">
+    <div class="logistics-label">Midday</div>
+    <h3>Lunch</h3>
+    <ul>
+      <li><strong>Time:</strong> 12:30 – 2:00 PM</li>
+      <li>Served at both hotel restaurants (Eurostars Lisboa &amp; Ikonik)</li>
+    </ul>
+  </div>
+
+  <div class="logistics-card">
+    <div class="logistics-label">Evening</div>
+    <h3>Dinner</h3>
+    <ul>
+      <li><strong>Restaurant:</strong> Arigato Parque das Nações</li>
+      <li><strong>Time:</strong> 7:30 PM – 11:00 PM</li>
+      <li><strong>Getting there:</strong> 5 min walk from the hotel</li>
+      <li><strong>Address:</strong> Alameda dos Oceanos, Ed. Lisboa lote 2.11.01 Letras E/F, Parque das Nações, 1990-223 Lisboa, Portugal</li>
+    </ul>
+  </div>
+
+  <div class="logistics-card">
+    <div class="logistics-label">Coffee Breaks</div>
+    <h3>All-Hands Day (Mar 5)</h3>
+    <ul>
+      <li><strong>Morning break:</strong> 10:30 AM</li>
+      <li><strong>Afternoon break:</strong> 3:30 PM</li>
+      <li>All-day coffee station available</li>
+    </ul>
+  </div>
+</div>
+
 </div><!-- /panel-allhands -->
 
 <!-- ╔══════════════════════════════════════╗ -->
@@ -820,27 +918,132 @@
 
 <div class="ps1-schedule" id="ps1Schedule"></div>
 
+<!-- PS DAY 1 MEALS -->
+<div class="logistics-page" style="padding-top:1rem;">
+  <h2>Meals & <em>Coffee</em></h2>
+  <p class="lp-sub">Friday March 6 — Breakfast at the hotel. Lunch and dinner are open / self-organised.</p>
+
+  <div class="logistics-card">
+    <div class="logistics-label">Morning</div>
+    <h3>Breakfast</h3>
+    <ul>
+      <li><strong>Time:</strong> 7:30 – 9:30 AM</li>
+      <li>Served at both hotel restaurants</li>
+    </ul>
+  </div>
+
+  <div class="logistics-card">
+    <div class="logistics-label">Lunch &amp; Dinner</div>
+    <h3>Open — Self-Organised</h3>
+    <ul>
+      <li>Feel free to self-organise small group meals</li>
+      <li>Suggested areas: Parque das Nações / Waterfront</li>
+    </ul>
+  </div>
+
+  <div class="logistics-card">
+    <div class="logistics-label">Coffee</div>
+    <h3>PS Day 1 (Mar 6)</h3>
+    <ul>
+      <li>All-day coffee station available at the coworking area</li>
+    </ul>
+  </div>
+</div>
+
 </div><!-- /panel-ps1 -->
 
 <!-- ╔══════════════════════════════════════╗ -->
 <!-- ║       TAB: PS DAY 2 (Sat Mar 7)      ║ -->
 <!-- ╚══════════════════════════════════════╝ -->
 <div class="tab-panel" id="panel-ps2">
-  <div class="placeholder-page">
-    <div class="placeholder-icon">◈</div>
-    <h2>PS Day 2 — <em>Coming Soon</em></h2>
-    <p>Saturday March 7. Morning offsites at the PS venue (full exclusivity), followed by the music & arts festival from 13:00–03:00 at One 16. Schedule will be added once confirmed.</p>
+
+  <div class="logistics-page">
+    <h2>PS Day 2 — <em>Saturday March 7</em></h2>
+    <p class="lp-sub">Morning sessions at the hotel, followed by the music &amp; arts festival from 13:00–03:00 at One 16. Full hotel rooms are available all day — if the festival isn't your thing, come hang out and use the space however you like.</p>
+
+    <div class="logistics-card">
+      <div class="logistics-label">9:00 AM – 2:00 PM · Alfama (Co-working) Room</div>
+      <h3>Builder's House</h3>
+      <p>Internal Logos hacking session. Builders and leads across the stack in one room. Try stuff, build on top of Logos, break things, give feedback.</p>
+      <p>Low degree of organisation, steep learning curve, large optionality and freedom. Come with an idea, join someone else's experiment, stress-test assumptions, or just get familiar with the stack. You'll have the option to submit your project for a lightweight showcase.</p>
+      <p style="margin-top:0.5rem; font-size:0.8rem; color:var(--text-muted);">Contact <strong>Martin</strong> for questions.</p>
+    </div>
+
+    <div class="logistics-card">
+      <div class="logistics-label">1:00 PM – 3:00 AM</div>
+      <h3>Music &amp; Arts Festival</h3>
+      <p>At One 16. Schedule to be confirmed.</p>
+    </div>
   </div>
+
 </div>
 
 <!-- ╔══════════════════════════════════════╗ -->
 <!-- ║       TAB: OFFSITES (Sun–Mon)        ║ -->
 <!-- ╚══════════════════════════════════════╝ -->
 <div class="tab-panel" id="panel-offsites">
-  <div class="placeholder-page">
-    <div class="placeholder-icon">⊞</div>
-    <h2>Team Offsites — <em>Coming Soon</em></h2>
-    <p>Sunday March 8 – Monday March 9. Stream-level working sessions and cross-team collaboration. Start ≥10:30am Sunday (recovery from Day 2 festival). Locations and team assignments TBD.</p>
+
+  <div class="logistics-page">
+    <h2>Team Offsites — <em>Sun–Mon</em></h2>
+    <p class="lp-sub">Sunday March 8 – Monday March 9. Stream-level working sessions and cross-team collaboration. Start ≥10:30 AM Sunday (recovery from Day 2 festival).</p>
+
+    <div class="logistics-card">
+      <div class="logistics-label">Coordination</div>
+      <h3>Self-Organised Sessions</h3>
+      <p>The off-sites are mostly self-organised by teams based on their cross-collaboration needs. A shared Google Sheet has been started to coordinate planned sessions and estimated times. Contact <strong>Hanno</strong> for edit access if you'd like to add your plans or join something already listed.</p>
+      <p style="margin-top:0.5rem;"><a class="pw-link" href="https://docs.google.com/spreadsheets/d/1-lGsxUm8S_ApOd0megrUAFnfV9sUaGNbbEmvhgC6HDo/edit?gid=0#gid=0" target="_blank"><span class="pw-icon">◧</span> Offsite Coordination Sheet</a></p>
+    </div>
+
+    <div class="logistics-card">
+      <div class="logistics-label">Venue</div>
+      <h3>Room Setup</h3>
+      <ul>
+        <li>The main large room has been split into <strong>two separate rooms</strong> — one is set up for workshops and has recording equipment for posterity</li>
+        <li>Both rooms are purposefully open to encourage togetherness — please be respectful of others by keeping noise levels down</li>
+        <li>There are <strong>three smaller rooms</strong> on the 1st floor with varying availability. If you need a private room, contact one of the organisers to find a solution</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="logistics-page" style="padding-top:0;">
+    <h2>Meals & <em>Coffee</em></h2>
+    <p class="lp-sub">Sunday–Monday — Breakfast and lunch at the hotels. Dinners are self-organised.</p>
+
+    <div class="logistics-card">
+      <div class="logistics-label">Morning</div>
+      <h3>Breakfast</h3>
+      <ul>
+        <li><strong>Time:</strong> 7:30 – 9:30 AM</li>
+        <li>Served at both hotel restaurants</li>
+      </ul>
+    </div>
+
+    <div class="logistics-card">
+      <div class="logistics-label">Midday</div>
+      <h3>Lunch</h3>
+      <ul>
+        <li><strong>Time:</strong> 12:30 – 2:00 PM</li>
+        <li>Served at both hotel restaurants (Eurostars Lisboa &amp; Ikonik)</li>
+      </ul>
+    </div>
+
+    <div class="logistics-card">
+      <div class="logistics-label">Evening</div>
+      <h3>Dinner — Open / Self-Organised</h3>
+      <ul>
+        <li>Feel free to self-organise small group dinners</li>
+        <li>Suggested areas: Parque das Nações / Waterfront</li>
+      </ul>
+    </div>
+
+    <div class="logistics-card">
+      <div class="logistics-label">Coffee</div>
+      <h3>Team Collaboration Days</h3>
+      <ul>
+        <li><strong>Mar 8:</strong> Afternoon coffee break at 3:00 PM + all-day coffee station</li>
+        <li><strong>Mar 9:</strong> Afternoon coffee break at 3:00 PM + all-day coffee station</li>
+      </ul>
+    </div>
   </div>
 </div>
 
@@ -853,18 +1056,28 @@
     <p class="lp-sub">Tuesday March 10 — No scheduled programming. Safe travels.</p>
 
     <div class="logistics-card">
+      <div class="logistics-label">Morning</div>
+      <h3>Breakfast</h3>
+      <ul>
+        <li><strong>Time:</strong> 7:30 – 9:30 AM</li>
+        <li>Served at both hotel restaurants</li>
+      </ul>
+    </div>
+
+    <div class="logistics-card">
       <div class="logistics-label">Hotel Check-Out</div>
       <h3>Accommodation</h3>
-      <p>Standard check-out. Confirm timing with the hotel front desk or coordination team.</p>
+      <p>Check out is until <strong>12:00 PM</strong>. Confirm with the hotel front desk or coordination team.</p>
     </div>
 
     <div class="logistics-card">
       <div class="logistics-label">Transport</div>
       <h3>Getting to the Airport</h3>
       <ul>
-        <li>Lisbon Airport (LIS) — ~20 min from city centre</li>
-        <li>Metro Red Line runs directly to the airport</li>
-        <li>Uber/Bolt typically €10–15 from central Lisbon</li>
+        <li>Lisbon Airport (LIS) — ~15 min from the hotels</li>
+        <li><strong>Metro:</strong> Take the Red Line from <strong>Cabo Ruivo Station</strong> (7-min walk from hotel) to <strong>Aeroporto</strong></li>
+        <li><strong>Uber/Bolt:</strong> ~15 min drive. See the Arrivals tab for pickup point details</li>
+        <li><strong>Parking:</strong> If you drove, the hotel garage is €10/day</li>
         <li>Allow extra time — Tuesday morning traffic can be heavier</li>
       </ul>
     </div>

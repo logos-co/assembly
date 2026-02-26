@@ -49,6 +49,12 @@
 
   /* ── WIP BANNER ── */
   .wip-banner { background: rgba(245, 166, 35, 0.08); border-bottom: 1px solid rgba(245, 166, 35, 0.2); padding: 0.75rem 2rem; text-align: center; font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; color: var(--warm); }
+  .coda-banner { display: flex; align-items: center; justify-content: center; gap: 0.8rem; padding: 0.7rem 2rem; background: var(--accent-dim); border-bottom: 1px solid rgba(200, 245, 64, 0.18); text-align: center; }
+  .coda-banner a { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.04em; color: var(--accent); text-decoration: none; font-weight: 700; transition: all 0.2s; }
+  .coda-banner a:hover { color: #fff; }
+  .coda-banner .coda-hint { font-family: 'DM Sans', sans-serif; font-size: 0.78rem; color: var(--text-dim); }
+  .coda-banner .coda-arrow { font-size: 1rem; transition: transform 0.2s; }
+  .coda-banner a:hover .coda-arrow { transform: translateX(3px); }
 
   /* ── DAY TABS ── */
   .day-tabs { position: sticky; top: 0; z-index: 200; background: var(--bg); border-bottom: 1px solid var(--border); display: flex; overflow-x: auto; scrollbar-width: none; }
@@ -276,6 +282,11 @@
 </section>
 
 <div class="wip-banner">⚠ WORK IN PROGRESS — This agenda will update as new details come in. Check back regularly.</div>
+
+<div class="coda-banner">
+  <span class="coda-hint">Can't find what you're looking for?</span>
+  <a href="https://coda.io/d/All-Hands-2026-Lisbon_dxY8FtVeAl8/All-Hands-2026-Lisbon_suJDXVN2#_lumlWdMl" target="_blank">Open the Coda companion doc <span class="coda-arrow">&rarr;</span></a>
+</div>
 
 <!-- ══════════════ DAY TABS ══════════════ -->
 <nav class="day-tabs" id="dayTabs">

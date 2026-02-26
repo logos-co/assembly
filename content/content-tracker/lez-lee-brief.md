@@ -7,8 +7,16 @@ tags:
   - lez
   - lee
 type: article
-status: proposed
+status: blocked
 date: 2026-02-25
+updated: 2026-02-25
+---
+
+## Status
+
+> **Blocked — waiting on Parallel Societies event (Moody's talk)**
+> The LEZ technical lead has reviewed this brief and wants to hold publication until after the PS event talk is complete. The talk will surface additional details and updated framing that should be incorporated before writing begins. Revisit this brief post-event to update sources, key angles, and any demos or announcements from the talk before moving to draft.
+
 ---
 
 ## Summary

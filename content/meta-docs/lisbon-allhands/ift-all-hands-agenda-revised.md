@@ -291,7 +291,7 @@ Lou needs: number of sessions to record, number of edited outputs.
 
 **Summary for Lou:** 3–4 sessions to record, 3 edited outputs, fixed camera + operator for main stage.
 
-**Note from Lou:** Wednesday evening should be fine for dinner/pre-event socializing. Thursday (PS Day 1) will be a heavy production day — load-in schedule pending from Portuguese sub-vendors.
+**Note from Lou:** Thursday evening should be fine for dinner/pre-event socializing. Friday (PS Day 1) will be a heavy production day — load-in schedule pending from Portuguese sub-vendors.
 
 ---
 
@@ -326,13 +326,13 @@ The following details need to be finalized and added:
 
 | Date | Event | Focus | Venue |
 |------|-------|-------|-------|
-| **March 4 (Tue)** | Load-in / Setup | PS venue preparation | One 16 Building |
-| **March 5 (Wed)** | IFT All-Hands | Internal alignment (4 × 90-min sessions) | Hotel conference rooms [TBD] |
-| **March 5 (Wed 19:30)** | Dinner | Pre-event socializing | Arigato Parque das Nações |
-| **March 6 (Thu)** | Parallel Societies Day 1 | Unconference: tech, hacktivism, community (9 zones) | One 16 Building + Fabrica Moderna |
-| **March 7 (Fri AM)** | Team Offsites / Working Morning | Meeting space available — full exclusivity before festival | PS venue meeting space |
-| **March 7 (Fri PM)** | Parallel Societies Day 2 | Music & arts festival (13:00–03:00) | One 16 Building |
-| **March 8–9 (Sat–Sun)** | Team Offsites | Stream-specific work, cross-team collaboration (start ≥10:30am Sat) | TBD |
+| **March 4 (Wed)** | Load-in / Setup | PS venue preparation | One 16 Building |
+| **March 5 (Thu)** | IFT All-Hands | Internal alignment (4 × 90-min sessions) | Hotel conference rooms [TBD] |
+| **March 5 (Thu 19:30)** | Dinner | Pre-event socializing | Arigato Parque das Nações |
+| **March 6 (Fri)** | Parallel Societies Day 1 | Unconference: tech, hacktivism, community (9 zones) | One 16 Building + Fabrica Moderna |
+| **March 7 (Sat AM)** | Team Offsites / Working Morning | Meeting space available — full exclusivity before festival | PS venue meeting space |
+| **March 7 (Sat PM)** | Parallel Societies Day 2 | Music & arts festival (13:00–03:00) | One 16 Building |
+| **March 8–9 (Sun–Mon)** | Team Offsites | Stream-specific work, cross-team collaboration (start ≥10:30am Sun) | TBD |
 
 **Note on pacing:** PS Day 2 runs until 03:00. Team offsites on March 8 should not start before 10:30am to allow recovery. March 7 morning is a valuable working window — use it for offsites or cross-team collaboration before the festival begins in the afternoon.
 
@@ -356,7 +356,7 @@ The following details need to be finalized and added:
 
 8. **PS Venue Orientation:** Who prepares the venue walkthrough/map for the Session 4 Bridge to PS segment?
 
-9. **March 7 AM Offsites:** Which teams should prioritize the Friday morning working window at the PS venue?
+9. **March 7 AM Offsites:** Which teams should prioritize the Saturday morning working window at the PS venue?
 
 ---
 

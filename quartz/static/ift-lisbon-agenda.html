@@ -1128,6 +1128,11 @@ const ZONES = {
 };
 
 const PS1_SCHEDULE = [
+  { time: 'All Day', label: 'IFT PS Stations · FOSS Zone', sessions: [
+    { zone: 'foss', title: 'Node Station', speaker: 'Running the Logos Node & joining Testnet', ift: true, type: 'open' },
+    { zone: 'foss', title: 'Builder Station', speaker: 'Building on Logos, λPrizes, PS Hacking Portal, helpdesk', ift: true, type: 'open' },
+    { zone: 'foss', title: 'Self Custody Station: Build Your Own Secure Element', speaker: 'Keycard — hands-on workshop', ift: true, type: 'open' },
+  ]},
   { time: '09:00 – 09:30', label: 'Opening & Coffee', sessions: [
     { zone: 'terminal', title: 'Coffee & Open Session', speaker: 'Attendee submissions welcome', type: 'open' },
     { zone: 'lab', title: 'Coffee & Open Session', speaker: '', type: 'open' },
@@ -1137,31 +1142,31 @@ const PS1_SCHEDULE = [
     { zone: 'privacy', title: 'Coffee & Open Session', speaker: '', type: 'open' },
     { zone: 'decentralised', title: 'Coffee & Open Session', speaker: '', type: 'open' },
   ]},
-  { time: '09:30 – 10:00', label: 'Keynote', sessions: [
-    { zone: 'terminal', title: 'Opening Keynote', speaker: 'Jarrad Hope (TBC)', ift: true, type: 'keynote' },
+  { time: '09:30 – 10:30', label: 'Keynote', sessions: [
+    { zone: 'terminal', title: 'Keynote', speaker: 'Jarrad Hope (TBC)', ift: true, type: 'keynote' },
   ]},
-  { time: '10:00 – 10:30', label: 'Morning Sessions Begin', sessions: [
+  { time: '10:30 – 11:00', label: 'Morning Sessions Begin', sessions: [
+    { zone: 'terminal', title: 'Logos Testnet Demo', speaker: 'Logos', ift: true, type: 'demo' },
+    { zone: 'community', title: 'Logos Circle: Blitz Session', speaker: 'Amelia Trapp, Santiago Carrión-Arcos', ift: true, type: 'workshop' },
     { zone: 'lab', title: "Let's Decentralise Education!", speaker: 'Han (dEdu)', ift: true, type: 'workshop' },
     { zone: 'privacy', title: 'ALL DAY: Privacy Health Checks', speaker: 'Drop-in — installations, 1:1s, library', type: 'open' },
-  ]},
-  { time: '10:30 – 11:00', label: '', sessions: [
-    { zone: 'terminal', title: 'Live Demo: Logos Testnet v0.1', speaker: 'Logos', ift: true, type: 'demo' },
-    { zone: 'community', title: 'Logos Circle: Blitz Session', speaker: 'Logos & Circle stewards', ift: true, type: 'workshop' },
     { zone: 'decentralised', title: 'Spritz', speaker: '', type: 'social' },
   ]},
   { time: '11:00 – 12:00', label: 'Late Morning Block', sessions: [
     { zone: 'lab', title: 'Thinking Sovereignty', speaker: 'Francesco Moiraghi', type: 'talk' },
-    { zone: 'foss', title: 'Workshop: Run Your Logos Node', speaker: 'Logos', ift: true, type: 'workshop' },
-    { zone: 'community', title: 'Logos Circle Lisbon: Supporting Community-Led Change in Quinta do Mocho', speaker: 'Lisbon Circle stewards', ift: true, type: 'talk' },
+    { zone: 'foss', title: 'Run Your Logos Node', speaker: 'Franck Royer, Vaclav Pavlin, Danish Arora, Shirly Valge', ift: true, type: 'workshop' },
     { zone: 'privacy', title: 'Privacy & Crypto in Latin America', speaker: 'Ernesto Huerta (Cryptospace & Cryptomex)', type: 'talk' },
     { zone: 'decentralised', title: 'Why Pop-Up Cities Are Governance Testbeds', speaker: 'Thou Ārt Pop-up City & ZuGrama', type: 'talk' },
     { zone: 'creative', title: 'Community Radio in Practice', speaker: 'Radio Quantica', type: 'workshop' },
+  ]},
+  { time: '11:30 – 12:00', label: '', sessions: [
+    { zone: 'community', title: 'Logos Circle Lisbon: Supporting Community-Led Change in Quinta do Mocho', speaker: 'Amelia Trapp, Vania Vanessa Vaz, Bangura, Tiago Arede', ift: true, type: 'talk' },
   ]},
   { time: '12:00 – 13:00', label: 'Lunch', isBreak: true, sessions: [
     { zone: 'terminal', title: 'Lunch', type: 'break' },
   ]},
   { time: '13:00 – 14:00', label: 'Afternoon Block 1', sessions: [
-    { zone: 'lab', title: 'Logos Execution Zone Architecture', speaker: 'Logos', ift: true, type: 'talk' },
+    { zone: 'lab', title: 'Logos Execution Zone Architecture', speaker: 'Moudy El Laz, Sergio Chouhy', ift: true, type: 'talk' },
     { zone: 'foss', title: 'FOSS War Room: Solving Big-Picture Challenges Together', speaker: 'Hakeem Anwar (Above)', type: 'workshop' },
     { zone: 'community', title: 'Cities and Advocacy: Enacting Digital Change to Defend Civil Rights', speaker: 'Instituto New.Economy, Crecimiento, CCI & Kleros', type: 'panel' },
     { zone: 'culture', title: 'Immersive Space', speaker: 'Storytelling, 3D printing, mesh Wi-Fi, broadcasting, creative workshops — check ticketing app', type: 'open', isCulture: true },
@@ -1172,7 +1177,7 @@ const PS1_SCHEDULE = [
   ]},
   { time: '14:00 – 15:00', label: 'Afternoon Block 2', sessions: [
     { zone: 'lab', title: 'How to Build a Country', speaker: 'Vit Jedlicka (Liberland)', type: 'talk' },
-    { zone: 'foss', title: 'Running Wallets for the Logos Execution Zone', speaker: 'Logos', ift: true, type: 'workshop' },
+    { zone: 'foss', title: 'Running Wallet for the Logos Execution Environment', speaker: 'Sergio Chouhy, Moudy El Laz', ift: true, type: 'workshop' },
     { zone: 'community', title: 'Permanent Hubs and Pop-Up Villages in India and Africa', speaker: 'ZuGrama & ZuAfrique', type: 'talk' },
     { zone: 'privacy', title: 'Privacy, Trust & the Narrative War: Tools for Information Freedom', speaker: 'Tor', type: 'talk' },
     { zone: 'decentralised', title: 'Decentralising and Advancing Psychedelic Science', speaker: 'PsyDao', type: 'talk' },
@@ -1181,27 +1186,27 @@ const PS1_SCHEDULE = [
   ]},
   { time: '15:00 – 16:00', label: 'Afternoon Block 3', sessions: [
     { zone: 'lab', title: 'Principles for Digital Civic Infrastructure', speaker: 'Agata Ferreira (IFT), Tommaso Astazi (BC4EU), Marina Markezic (EUCI)', ift: true, type: 'panel' },
-    { zone: 'foss', title: 'Writing Programs for the Logos Execution Zone', speaker: 'Logos', ift: true, type: 'workshop' },
+    { zone: 'foss', title: 'Writing Programs for the Logos Execution Environment', speaker: 'r4bbit, Andrea Franz', ift: true, type: 'workshop' },
     { zone: 'community', title: 'How to Build a Pop-Up City 101', speaker: 'Thou Ārt Pop-up City Research Initiative', type: 'workshop' },
     { zone: 'privacy', title: 'Workshop: NymVPN & Mixnet', speaker: 'Nym', type: 'workshop' },
     { zone: 'decentralised', title: 'Decentralised Dispute Resolution: Concept and Use Cases', speaker: 'Kleros', type: 'talk' },
-    { zone: 'faisca', title: 'Status Network Session', speaker: 'Status', ift: true, type: 'workshop' },
+    { zone: 'faisca', title: 'SN Lightning Talk Series', speaker: 'cyp (SN), Bermuda, Joseph (FIRM), Nate (punk.fun), Carlos Juar.eth (Aragon), Orvex', ift: true, type: 'lightning' },
   ]},
   { time: '16:00 – 16:30', label: 'Late Afternoon', sessions: [
     { zone: 'lab', title: 'Borderless Repression, Borderless Freedom / Decolonising the Mind', speaker: 'Bota Jardemalie · Fatemeh Fannizadeh', type: 'talk' },
-    { zone: 'foss', title: 'App Showcase: Sample Apps for the Logos Execution Zone', speaker: 'Logos', ift: true, type: 'demo' },
+    { zone: 'foss', title: 'Developing Applications for the Logos Execution Environment — Sample Apps Showcase', speaker: 'Franck Royer, Vaclav Pavlin, Danish Arora', ift: true, type: 'demo' },
     { zone: 'community', title: 'SolarpunkOS: Blueprint for Heart-Centred, Antifragile Societies', speaker: 'Agartha.One', type: 'talk' },
     { zone: 'privacy', title: 'Demo & Workshop', speaker: 'Zano', type: 'workshop' },
-    { zone: 'decentralised', title: 'Workshop: Build a Messaging App on Logos', speaker: 'Logos', ift: true, type: 'workshop' },
+    { zone: 'decentralised', title: 'How to Build a Messaging App on Logos', speaker: 'Igor Sirotin', ift: true, type: 'workshop' },
     { zone: 'creative', title: 'Workshop: Mission Design', speaker: '', type: 'workshop' },
   ]},
   { time: '16:30 – 17:00', label: '', sessions: [
     { zone: 'lab', title: 'The Future of Anonymity', speaker: 'Renata Avila (OKFN), Harry Halpin (Nym) & Iness Ben Guirat (ULB)', type: 'panel' },
-    { zone: 'decentralised', title: 'Decentralise the Log, Not the Server: Rethinking Open-Source Infrastructure', speaker: 'Logos', ift: true, type: 'talk' },
+    { zone: 'decentralised', title: 'Decentralize the Log, Not the Server: Rethinking Open Source Infrastructure with Logos', speaker: 'David Rusu', ift: true, type: 'talk' },
     { zone: 'faisca', title: 'Debate: Pop-Up Cities + Lightning Talks', speaker: 'Hugo, CCI & guests', type: 'debate' },
   ]},
-  { time: '17:00 – 17:15', label: 'Zone Closings', sessions: [
-    { zone: 'foss', title: 'Closing: Conclusions & Actions', speaker: '', type: 'closing' },
+  { time: '17:00 – 17:30', label: 'Zone Closings & Late Sessions', sessions: [
+    { zone: 'foss', title: 'Self Custody Must Be Open Source: Keycard & Shell Demo', speaker: 'Guy-Louis Grau', ift: true, type: 'demo' },
     { zone: 'community', title: 'Porto Circle: Campaign Stand Up & Zone Conclusions', speaker: 'Logos & Porto Circle stewards', ift: true, type: 'closing' },
     { zone: 'privacy', title: 'Closing: Conclusions & Actions', speaker: '', type: 'closing' },
     { zone: 'decentralised', title: 'Closing: Conclusions & Actions', speaker: '', type: 'closing' },

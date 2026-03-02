@@ -200,7 +200,7 @@ The key properties:
 
 **Onion encryption.** When a proposer creates a data message, they select a path through the blend network and encrypt the message in layers — each blend node on the path can only decrypt one layer, revealing the next hop. No node knows both the origin and the final destination.
 
-**Cover traffic.** Every core node generates **cover messages** at a constant rate, in every round, independent of whether they have a block to propose. Cover messages are cryptographically indistinguishable from data messages. This is essential: a mix network that only generates traffic when there is something to hide provides no cover at all.
+**Cover traffic.** Every core node generates **cover messages** at a constant rate, in every round, independent of whether they have a block to propose. Cover messages are cryptographically indistinguishable from data messages. This is essential: cover traffic provides limited protection when messages are common, but for Blend — where block proposals are rare — without constant background traffic there would be almost nothing to hide among.
 
 **Timing delays.** Each blend node holds messages for a random delay before forwarding. This disrupts traffic analysis that depends on correlating timing patterns across nodes.
 
@@ -218,7 +218,7 @@ Not every Logos node participates in blending. Core nodes — those that have de
 
 Blend's anonymity depends on all legitimate proposals flowing through it. An adversary who bypasses Blend entirely — submitting proposals directly to the gossip layer — immediately exposes themselves as the originating node, defeating any privacy the protocol provides.
 
-To enforce honest use, the protocol requires each message submission to carry a **Proof of Quota (PoQ)** — a zero-knowledge proof that the sender is within their allotted message budget. Each slot index within a quota period can be used at most once. Attempting to reuse an index generates a duplicate nullifier, which the Blend Network detects and uses to drop the message. There is no ban: the node remains in the network and can continue sending with non-duplicated indexes. The enforcement is per-message — only the duplicated proposal is discarded.
+To enforce honest use, the protocol requires each message submission to carry a **Proof of Quota (PoQ)** — a zero-knowledge proof that the sender is within their allotted message budget. Each key index within a quota period can be used at most once. Attempting to reuse an index generates a duplicate nullifier, which the Blend Network detects and uses to drop the message. There is no ban: the node remains in the network and can continue sending with non-duplicated indexes. The enforcement is per-message — only the duplicated proposal is discarded.
 
 The practical effect: rational proposers have a strong incentive to use Blend correctly. Bypassing it is not just a protocol violation — it is self-deanonymization.
 

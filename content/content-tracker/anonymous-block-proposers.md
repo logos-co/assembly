@@ -7,7 +7,7 @@ tags:
 type: article
 status: in-review
 date: 2026-02-10
-updated: 2026-02-25
+updated: 2026-03-02
 ---
 
 ## Summary
@@ -23,9 +23,9 @@ A technical document explaining *how* the Logos Blockchain achieves **Private Pr
 
 - Why public leader schedules in Ethereum/Gasper are an attack surface (censorship, coercion, DoS, stake inference)
 - How Cryptarchia's private leadership election works — note-based stake lottery, Proof of Leadership, one-time leader keys
-- The role of the Blend mixnet in anonymous block broadcasting — and why Cryptarchia alone isn't sufficient (IP triangulation, stake frequency inference)
-- **RLN as an additional Blend protection layer:** lottery winners route proposals through Blend using RLN tokens; reusing a token results in a Blend ban, forcing honest use of the anonymizing layer and rate-limiting abuse
-- **Security model comparison:** Cryptarchia is closer to Bitcoin's proof-of-work security model than to BFT. The honest majority threshold sits just below 51% (slightly reduced by double-proposal risk, which doesn't exist in PoW). BFT protocols assume only 1/3 faulty — Logos tolerates more. The ~18-hour finality window is a feature: a sustained attack is visible and there is time to respond.
+- The role of the Blend Network in anonymous block broadcasting — and why Cryptarchia alone isn't sufficient (IP triangulation, stake frequency inference)
+- **Proof of Quota (PoQ) as the Blend rate-limiting layer:** lottery winners route proposals through the Blend Network with a PoQ — a ZK proof of their message budget. Each slot index can be used at most once; reusing it generates a duplicate nullifier that causes the Blend Network to drop the message (no ban — the node can continue with unused indexes). This enforces honest use of the anonymizing layer.
+- **Security model comparison:** Cryptarchia is closer to Bitcoin's proof-of-work security model than to BFT. The honest majority threshold sits just below 51% (slightly reduced by double-proposal risk, which doesn't exist in PoW). BFT protocols assume only 1/3 faulty — Logos tolerates more. The ~18-hour economic finality is a characteristic of the probabilistic longest-chain model — an attacker must continuously outpace the honest chain. The low slot occupancy rate (roughly 1 in 30 slots contains a block) gives nodes time to synchronize between proposals.
 - **The payoff for all this complexity:** a very low-stress node operation UX — no slashing, not exposed to the open internet, no stake inference, no coercion surface. If your node goes down, you miss some block rewards. That's it.
 - Comparison with other approaches (e.g., Ethereum's single secret leader election proposals, which address censorship/coercion but leave stake inference unsolved)
 - **Try it yourself:** Internal devnet is live with faucet, Swagger API docs, Prometheus metrics, multiplatform Docker images
@@ -34,7 +34,7 @@ A technical document explaining *how* the Logos Blockchain achieves **Private Pr
 
 ### Presentations
 - Logos Team Update (Episode 2 of 3) — Logos Blockchain & LEZ, Feb 2026 (transcript on file)
-  - Covers PPoS system framing, security model Q&A (finality time, Bitcoin vs BFT comparison, RLN-Blend rate limiting), and Cryptarchia + Blend design rationale
+  - Covers PPoS system framing, security model Q&A (finality time, Bitcoin vs BFT comparison, PoQ-Blend quota enforcement), and Cryptarchia + Blend design rationale
 
 ### Published
 - Proposer Privacy blog post: https://press.logos.co/article/why-proposer-anonymity

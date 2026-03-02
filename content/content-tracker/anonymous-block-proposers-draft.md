@@ -15,7 +15,7 @@ Every ten minutes, Bitcoin miners compete to produce the next block. They do it 
 
 That advance disclosure is an attack surface. A known proposer can be censored before they get the chance to propose, DoS'd into missing their slot, or coerced — legally or physically — into excluding specific transactions. Over time, a patient adversary can observe the pattern of blocks and infer the proposer's stake, turning anonymity into a target.
 
-Logos takes a different approach. Block proposers in Logos are anonymous — not pseudonymous, not just unlinkable by one avenue, but unknown to the network until their block is already propagating. This is Private Proof of Stake (PPoS), and it is achieved through two interlocking systems: **Cryptarchia**, which runs the leadership lottery in zero-knowledge, and **Blend**, which anonymizes the broadcast.
+Logos takes a different approach. Block proposers in Logos are anonymous — not pseudonymous, not just unlinkable by one avenue, but unknown to the network even after their block has propagated. This is Private Proof of Stake (PPoS), and it is achieved through two interlocking systems: **Cryptarchia**, which runs the leadership lottery in zero-knowledge, and **Blend**, which anonymizes the broadcast.
 
 This article explains how each works, how they compose, and why the design is meaningful in practice.
 
@@ -43,7 +43,7 @@ Cryptarchia is the consensus protocol at the heart of Logos Blockchain. It is de
 
 ### How the Lottery Works
 
-Time is divided into one-second slots. At each slot, every holder of a sufficiently aged **note** (Logos' representation of stake) can check whether they have won the leadership lottery. The lottery is weighted by the value of the note — a larger note wins more often — but crucially, **the check happens entirely inside the validator's local state**. Nothing is broadcast to the network at the time of checking.
+Time is divided into one-second slots. At each slot, every holder of a sufficiently aged **note** (a UTXO token on Logos) can check whether they have won the leadership lottery. The lottery is weighted by the value of the note — a larger note wins more often — but crucially, **the check happens entirely inside the validator's local state**. Nothing is broadcast to the network at the time of checking.
 
 The lottery threshold is computed as:
 
@@ -78,7 +78,7 @@ This is a private coin flip. The validator knows they've won. No one else knows 
 
 % --- Row 1 continued: proof + broadcast ---
 \node[private, right=2cm of check] (zkp) {Construct\\[-2pt]ZK Proof};
-\node[public, right=of zkp] (blend) {Blend\\[-2pt]Mixnet};
+\node[public, right=of zkp] (blend) {Blend\\[-2pt]Network};
 \node[public, right=of blend] (network) {Network\\[-2pt]Verifies};
 
 % --- Outcome ---
@@ -119,8 +119,6 @@ They do this by constructing a **Proof of Leadership (PoL)** — a Groth16 zero-
 
 3. **The note won the lottery.** The hash of the note's identifier, the epoch nonce, and the slot number falls below the threshold — meaning this note legitimately won this slot.
 
-4. **The proposer knows the slot secret.** This is the adaptive adversary protection. The validator maintains a Merkle tree of one-time secrets, one per slot (derived via a hash chain from a random seed). To prove leadership in slot `sl`, they must reveal a Merkle path to the secret for that slot, while erasing previous slot secrets. An adversary who compromises the validator after the fact cannot reconstruct past proofs.
-
 The proof also binds a one-time **leader public key** (`P_LEAD`) that will be used to sign the block. The key is single-use by design — reusing it would let observers link multiple winning slots to the same proposer, enabling stake inference.
 
 The output is a 128-byte Groth16 proof that any node in the network can verify in milliseconds.
@@ -141,7 +139,7 @@ The Blend Protocol addresses this.
 
 ### How Blend Works
 
-Blend is a **mix network** — a privacy overlay for block proposals. Block proposals don't travel directly from the proposer to their peers. Instead, they are routed through a sequence of **blend nodes** (core Nomos nodes that have declared participation in the protocol), where they are cryptographically transformed and randomly delayed before being relayed onward.
+Blend is a **privacy network** for block proposals — distinct from classical mix networks in how messages propagate. Block proposals don't travel directly from the proposer to their peers. Instead, the proposer selects a path through the Blend Network and encrypts the proposal in layers. The message is then injected into the network, where each **blend node** (a core Blockchain   node that has declared participation in the protocol) receives the message, attempts to strip one encryption layer, and disseminates the result to all its peers. A node can only successfully decrypt if it is on the sender's intended path — all other nodes receive and pass on encrypted noise. The message propagates outward with one fewer layer at each hop until the final node in the path can read and forward the plaintext to the gossip layer.
 
 ```tikz
 \usepackage{tikz}
@@ -187,7 +185,7 @@ Blend is a **mix network** — a privacy overlay for block proposals. Block prop
 \draw[cover] (c2) -- (m2);
 
 % --- Labels ---
-\node[font=\small, text=black!70, below=0.4cm of m2] (note) {each node decrypts one layer, delays, forwards};
+\node[font=\small, text=black!70, below=0.4cm of m2] (note) {each node attempts to decrypt one layer (succeeds only if on path), disseminates to peers};
 \node[font=\small, text=black!70, above right=-0.1cm and 0.2cm of c1] {cover traffic};
 
 % --- Legend ---
@@ -214,13 +212,13 @@ The Blend specification states that the protocol increases the time required to 
 
 ### Edge and Core Nodes
 
-Not every Logos node participates in blending. Core nodes — those that have declared themselves as Blend participants via the Service Declaration Protocol — form the mix network and relay messages. Edge nodes connect to core nodes and inject their proposals into the blend network without running it themselves. The distinction allows lightweight nodes (e.g., validators running on consumer hardware) to benefit from the privacy of the mix without contributing to its bandwidth overhead.
+Not every Logos node participates in blending. Core nodes — those that have declared themselves as Blend participants via the Service Declaration Protocol — form the mix network and relay messages. Edge nodes connect to core nodes and inject their proposals into the blend network without running it themselves. Edge nodes connect to the Blend Network without running it, reducing bandwidth requirements for validators on consumer hardware. Currently, edge nodes receive less privacy protection than core nodes — from the Blend Network's perspective, an edge node sends a message in and a different message emerges after a delay, but the edge node's interaction with the network is not itself hidden. Research into improving edge-node privacy is ongoing.
 
-### Rate-Limiting via RLN
+### Rate-Limiting via Proof of Quota
 
 Blend's anonymity depends on all legitimate proposals flowing through it. An adversary who bypasses Blend entirely — submitting proposals directly to the gossip layer — immediately exposes themselves as the originating node, defeating any privacy the protocol provides.
 
-To make bypass expensive, block proposals are rate-limited through **RLN (Rate-Limiting Nullifiers)**: each lottery winner is issued a one-use RLN token authorizing a single proposal submission to the Blend network. Reusing an RLN token — attempting to flood Blend with multiple proposals from the same lottery win — triggers a Blend ban. Banned nodes' proposals will not be relayed. The only remaining option is to publish directly to the gossip layer, which exposes the node's network position.
+To enforce honest use, the protocol requires each message submission to carry a **Proof of Quota (PoQ)** — a zero-knowledge proof that the sender is within their allotted message budget. Each slot index within a quota period can be used at most once. Attempting to reuse an index generates a duplicate nullifier, which the Blend Network detects and uses to drop the message. There is no ban: the node remains in the network and can continue sending with non-duplicated indexes. The enforcement is per-message — only the duplicated proposal is discarded.
 
 The practical effect: rational proposers have a strong incentive to use Blend correctly. Bypassing it is not just a protocol violation — it is self-deanonymization.
 
@@ -250,9 +248,9 @@ Cryptarchia's security model is deliberately closer to Bitcoin's proof-of-work t
 
 BFT protocols tolerate up to one-third of nodes behaving maliciously — above that threshold they break. Cryptarchia's honest-majority threshold sits just below 51%, much closer to Bitcoin. The attack that differentiates it from pure PoW is **double-proposing**: a malicious node that wins a slot can broadcast two conflicting blocks from the same lottery win, creating a fork. In PoW, forking requires mining a full alternative block — expensive. In PoS, the conflicting proposal is cheap to create. This reduces the effective threshold slightly below 51%, but the protocol remains substantially more resilient than BFT.
 
-The practical consequence is **finality time**. Logos Blockchain targets approximately 18-hour economic finality — long enough for the longest-chain rule to resolve any fork caused by malicious behavior under realistic network conditions. Compared to BFT chains that finalize in seconds, this sounds slow. The trade-off is meaningful: a sustained attack on Cryptarchia is not silent. It requires continuous, observable behavior over many hours. The network has 18 hours to detect and respond. This is the same intuition behind Bitcoin's probabilistic finality — an attacker must continuously outpace the honest chain without being able to hide the attempt.
+The practical consequence is **finality time**. Logos Blockchain targets approximately 18-hour economic finality — long enough for the longest-chain rule to resolve any fork caused by malicious behavior under realistic network conditions. Compared to BFT chains that finalize in seconds, this is a meaningful trade-off: an attacker must continuously outpace the honest chain, and probabilistic finality accumulates block by block. The low slot occupancy rate — roughly one block every 30 slots — is a related design choice, giving nodes time to synchronize and propagate each block before the next slot arrives, which matters especially given Blend's routing delays.
 
-RLN reinforces this. An attacker attempting to flood Blend to overwhelm the anonymity properties triggers a ban and must fall back to direct gossip propagation — making the attack visible at exactly the moment it escalates. Deanonymizing the network and attacking the consensus simultaneously becomes far harder than either alone.
+An attacker attempting to flood Blend to overwhelm its anonymity properties will find their messages dropped by PoQ nullifier deduplication, or must fall back to direct gossip propagation — making the attack visible at exactly the moment it escalates. Deanonymizing the network and attacking the consensus simultaneously becomes far harder than either alone.
 
 ---
 

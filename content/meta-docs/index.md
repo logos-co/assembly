@@ -5,7 +5,7 @@ description: Internal coordination documents, alignment resources, and specifica
 
 ## IFT All-Hands — March 5, 2026
 
-- [IFT All-Hands Agenda (Interactive)](https://logos-co.github.io/assembly/static/ift-all-hands-agenda.html) — full visual agenda with session details
+- [IFT Lisbon Agenda (Interactive)](https://logos-co.github.io/assembly/static/ift-lisbon-agenda.html) — full visual agenda with session details
 - [[ift-all-hands-agenda-revised|IFT All-Hands Agenda (Revised)]] — restructured agenda (markdown)
 - [[ift-all-hands-change-log|Revision Change Log]] — change log and justifications across revision rounds
 - [[logos-all-hands-agenda-draft|Original Draft Agenda]] — initial planning draft

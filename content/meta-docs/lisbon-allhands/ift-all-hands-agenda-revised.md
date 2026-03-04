@@ -50,11 +50,12 @@ Quick intro, then showcase progress across the IFT family, then close with the L
 
 **Nimbus Update + Demo (~30 min)**
 
-- Status update on Nimbus progress
-- Demo of current work
-- How Nimbus fits into the broader IFT picture
+- Unified client
+- Verified proxy — live remote demo from Chirag
+- Q&A
+- Tying back to the broader org
 
-*Presenter: Dustin*
+*Presenter: Dustin · Demo: Chirag*
 
 **What is Logos (~25 min)**
 

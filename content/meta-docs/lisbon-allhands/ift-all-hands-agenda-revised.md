@@ -115,33 +115,26 @@ Panel-led session covering the Logos roadmap, testnet phases, and live testnet r
 
 From technology to movement to community, followed by tangible proof of progress.
 
-**Who We're Building For (50 min)**
+**Who We're Building For (45 min)**
 
-Strategic framing of the ecosystem and movement layers.
+Strategic framing — the why, not the how.
 
-- EcoDev activation strategy: how we grow the ecosystem from here to mainnet
-- Target community vision: what kind of builders, contributors, users are we trying to attract and serve?
-- **Panel: Bridging EcoDev and the Movement** — how the ecosystem development strategy connects to the Circles movement on the ground, the funnel from community to contributors
-- Circles strategic frame:
-  - Why the movement layer matters to Logos's mission
-  - What "winnable issues" look like in practice — the theory of change
-  - 2–3 stewards share stories from the ground (5–7 min each)
-  - What we've learned and what's working
+- Target community vision: builders, node operators, contributors
+- Circles strategic framework: why the movement layer matters
+- Winnable issues in practice: theory of change, where we are, where we are going
+- How Circles and EcoDev connect — from community to builders
+- Learnings from Circles: from the field in Lisbon and Florianópolis
+- Eco dev activations: ecosystem growth towards mainnet
 
-**Internal Showcases (40 min)**
+**Internal Showcases (45 min)**
 
-Arms the internal team with concrete reference points for PS conversations.
+Integrations, IRL impact, proofs-of-concept.
 
-- 2–3 demos of working applications or prototypes:
-  - Integration proof-of-concept (messaging + storage, or similar cross-stack demo)
-  - Circles use case implementation
-  - Other demos TBD
-- Brief context for each: what it is, why it matters, what it proves
-- Frame as: *"These are things you'll be able to point to when people ask 'what does Logos actually do?'"*
+- Logos Builder Hub: Ideas, RFPs, λPrize & dashboards
+- Circles use case implementations: Overview, Porto, Los Angeles
+- Integration proof-of-concept (cross stack demo)
 
-**Owner:** Santi (possibly EcoDev lead) + 2–3 Circle stewards; demo owners TBD
-**Format:** Mixed — presentation + short talks + live demos
-**Note:** PS Day 1 has dedicated Circles content in the Culture Zone (11:00) and dEdu/Circles in The Lab (10:00). Those sessions are operational and hands-on. This session is the strategic narrative — different audience framing, no duplication.
+**Owners (in order of appearance):** Marina — Santiago — Amelia — Joao/Fabio — Guru — Franck — Girl — Aaron — Franck
 
 ---
 
@@ -324,15 +317,15 @@ The following details need to be finalized and added:
 
 ## Week Overview
 
-| Date | Event | Focus | Venue |
-|------|-------|-------|-------|
-| **March 4 (Wed)** | Load-in / Setup | PS venue preparation | One 16 Building |
-| **March 5 (Thu)** | IFT All-Hands | Internal alignment (4 × 90-min sessions) | Hotel conference rooms [TBD] |
-| **March 5 (Thu 19:30)** | Dinner | Pre-event socializing | Arigato Parque das Nações |
-| **March 6 (Fri)** | Parallel Societies Day 1 | Unconference: tech, hacktivism, community (9 zones) | One 16 Building + Fabrica Moderna |
-| **March 7 (Sat AM)** | Team Offsites / Working Morning | Meeting space available — full exclusivity before festival | PS venue meeting space |
-| **March 7 (Sat PM)** | Parallel Societies Day 2 | Music & arts festival (13:00–03:00) | One 16 Building |
-| **March 8–9 (Sun–Mon)** | Team Offsites | Stream-specific work, cross-team collaboration (start ≥10:30am Sun) | TBD |
+| Date | Event | Location |
+|------|-------|----------|
+| **March 4 (Wed)** | Arrival Day & Welcome Dinner | |
+| **March 5 (Thu)** | IFT All-Hands Event | |
+| **March 6 (Fri)** | IFT Community Event — Parallel Society Day 1 | R. Pereira Henriques, 1950–242 Lisbon |
+| **March 7 (Sat)** | IFT Community Event — Parallel Society Day 2; IFT team conferences, collaborative workshops and team building events | R. Pereira Henriques, 1950–242 Lisbon |
+| **March 8 (Sun)** | IFT team conferences, collaborative workshops and team building events | |
+| **March 9 (Mon)** | IFT team conferences, collaborative workshops and team building events | |
+| **March 10 (Tue)** | Departure | |
 
 **Note on pacing:** PS Day 2 runs until 03:00. Team offsites on March 8 should not start before 10:30am to allow recovery. March 7 morning is a valuable working window — use it for offsites or cross-team collaboration before the festival begins in the afternoon.
 

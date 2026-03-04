@@ -266,6 +266,35 @@
     .ps1-controls { flex-direction: column; align-items: flex-start; }
     footer { flex-direction: column; padding: 1.5rem 2rem; }
   }
+  /* ══ WEEK OVERVIEW ══ */
+  .week-overview { border-bottom: 1px solid var(--border); }
+  .wo-toggle { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 4rem; cursor: pointer; user-select: none; transition: background 0.2s; gap: 1rem; }
+  .wo-toggle:hover { background: rgba(255,255,255,0.025); }
+  .wo-toggle:hover .wo-label { color: var(--text-dim); }
+  .wo-toggle:hover .wo-chevron { color: var(--text-dim); }
+  .week-overview.open .wo-toggle { border-bottom: 1px solid var(--border); }
+  .wo-toggle-left { display: flex; align-items: center; gap: 1.2rem; }
+  .wo-label { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); transition: color 0.2s; }
+  .week-overview.open .wo-label { color: var(--accent); }
+  .wo-range { font-family: 'Space Mono', monospace; font-size: 0.56rem; color: var(--text-muted); letter-spacing: 0.06em; opacity: 0.6; }
+  .wo-toggle-right { display: flex; align-items: center; gap: 0.7rem; }
+  .wo-expand-hint { font-family: 'Space Mono', monospace; font-size: 0.52rem; letter-spacing: 0.08em; color: var(--text-muted); }
+  .week-overview.open .wo-expand-hint { display: none; }
+  .wo-chevron { font-size: 1rem; color: var(--text-muted); display: inline-block; transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s; transform: rotate(90deg); line-height: 1; }
+  .week-overview.open .wo-chevron { transform: rotate(-90deg); color: var(--accent); }
+  .wo-grid { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+  .week-overview.open .wo-grid { max-height: 700px; }
+  .wo-grid-inner { padding: 0.6rem 4rem 1.2rem; display: flex; flex-direction: column; }
+  .wo-row { display: grid; grid-template-columns: 110px 1fr 1fr; align-items: baseline; padding: 0.4rem 0; border-top: 1px solid var(--border); gap: 1rem; }
+  .wo-date { font-family: 'Space Mono', monospace; font-size: 0.63rem; color: var(--text-muted); letter-spacing: 0.04em; }
+  .wo-event { font-size: 0.82rem; color: var(--text-dim); line-height: 1.5; }
+  .wo-loc { font-family: 'Space Mono', monospace; font-size: 0.58rem; color: var(--text-muted); letter-spacing: 0.03em; }
+  .wo-row.wo-community .wo-event { color: var(--text); }
+  .wo-row.wo-community .wo-date { color: var(--warm); }
+  .wo-row.wo-community .wo-loc { color: rgba(245, 166, 35, 0.65); }
+  @media (max-width: 900px) { .wo-toggle { padding: 0.75rem 2rem; } .wo-grid-inner { padding: 0.5rem 2rem 1rem; } .wo-row { grid-template-columns: 80px 1fr; } .wo-loc { grid-column: 2; font-size: 0.54rem; } }
+  @media (max-width: 600px) { .wo-expand-hint { display: none; } .wo-row { grid-template-columns: 70px 1fr; } }
+
   @media (max-width: 600px) {
     .ah-format-bar { grid-template-columns: 1fr; } .format-block { border-right: none; border-bottom: 1px solid var(--border); } .format-block:last-child { border-bottom: none; }
     .day-tab { padding: 0.8rem 1rem; } .day-tab .dt-name { font-size: 0.72rem; }
@@ -291,6 +320,59 @@
   <span class="coda-hint">Can't find what you're looking for?</span>
   <a href="https://coda.io/d/All-Hands-2026-Lisbon_dxY8FtVeAl8/All-Hands-2026-Lisbon_suJDXVN2#_lumlWdMl" target="_blank">Open the Coda companion doc <span class="coda-arrow">&rarr;</span></a>
 </div>
+
+<!-- ══════════════ WEEK OVERVIEW ══════════════ -->
+<section class="week-overview" id="weekOverview">
+  <div class="wo-toggle" onclick="toggleWeekOverview()" role="button" aria-expanded="false" aria-controls="woGrid">
+    <div class="wo-toggle-left">
+      <span class="wo-label">Week at a Glance</span>
+      <span class="wo-range">Mar 4–10 · 7 days</span>
+    </div>
+    <div class="wo-toggle-right">
+      <span class="wo-expand-hint">click to expand</span>
+      <span class="wo-chevron">›</span>
+    </div>
+  </div>
+  <div class="wo-grid" id="woGrid">
+    <div class="wo-grid-inner">
+      <div class="wo-row">
+        <div class="wo-date">Wed Mar 4</div>
+        <div class="wo-event">Arrival Day &amp; Welcome Dinner</div>
+        <div class="wo-loc"></div>
+      </div>
+      <div class="wo-row">
+        <div class="wo-date">Thu Mar 5</div>
+        <div class="wo-event">IFT All-Hands Event</div>
+        <div class="wo-loc"></div>
+      </div>
+      <div class="wo-row wo-community">
+        <div class="wo-date">Fri Mar 6</div>
+        <div class="wo-event">IFT Community Event — Parallel Society Day 1</div>
+        <div class="wo-loc">R. Pereira Henriques, 1950–242 Lisbon</div>
+      </div>
+      <div class="wo-row wo-community">
+        <div class="wo-date">Sat Mar 7</div>
+        <div class="wo-event">IFT Community Event — Parallel Society Day 2 &amp; IFT team conferences, collaborative workshops and team building events</div>
+        <div class="wo-loc">R. Pereira Henriques, 1950–242 Lisbon</div>
+      </div>
+      <div class="wo-row">
+        <div class="wo-date">Sun Mar 8</div>
+        <div class="wo-event">IFT team conferences, collaborative workshops and team building events</div>
+        <div class="wo-loc"></div>
+      </div>
+      <div class="wo-row">
+        <div class="wo-date">Mon Mar 9</div>
+        <div class="wo-event">IFT team conferences, collaborative workshops and team building events</div>
+        <div class="wo-loc"></div>
+      </div>
+      <div class="wo-row">
+        <div class="wo-date">Tue Mar 10</div>
+        <div class="wo-event">Departure</div>
+        <div class="wo-loc"></div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ══════════════ DAY TABS ══════════════ -->
 <nav class="day-tabs" id="dayTabs">
@@ -653,40 +735,36 @@
       </div>
       <div class="session-body"><div class="session-content">
         <div class="sub-block-title">Who We're Building For</div>
-        <div class="sub-block-meta">50 MINUTES · Strategic framing — the why, not the how</div>
+        <div class="sub-block-meta">45 MINUTES · Strategic framing — the why, not the how</div>
         <ul>
-          <li>EcoDev activation: ecosystem growth strategy to mainnet</li>
-          <li>Target community vision: builders, contributors, users</li>
-        </ul>
-        <div class="content-label">Panel: Bridging EcoDev & the Movement</div>
-        <ul>
-          <li>How ecosystem development strategy connects to the Circles movement on the ground</li>
-          <li>The funnel from community to contributors</li>
-        </ul>
-        <div class="content-label">Circles Strategic Frame</div>
-        <ul>
-          <li>Why the movement layer matters to Logos's mission</li>
-          <li>"Winnable issues" in practice — the theory of change</li>
-          <li>2–3 stewards share ground-level stories (5–7 min each)</li>
-          <li>What we've learned and what's working</li>
+          <li>Target community vision: builders, node operators, contributors</li>
+          <li>Circles strategic framework: why the movement layer matters</li>
+          <li>Winnable issues in practice: theory of change, where we are, where we are going</li>
+          <li>How Circles and EcoDev connect — from community to builders</li>
+          <li>Learnings from Circles: from the field in Lisbon and Florianópolis</li>
+          <li>Eco dev activations: ecosystem growth towards mainnet</li>
         </ul>
 
         <div class="sub-block">
           <div class="sub-block-title">Internal Showcases</div>
-          <div class="sub-block-meta">40 MINUTES · Concrete things to reference at PS</div>
+          <div class="sub-block-meta">45 MINUTES · Integrations, IRL impact, proofs-of-concept</div>
           <ul>
-            <li>Integration proof-of-concept (cross-stack demo)</li>
-            <li>Circles use case implementation</li>
-            <li>Other demos TBD</li>
+            <li>Logos Builder Hub: Ideas, RFPs, λPrize &amp; dashboards</li>
+            <li>Circles use case implementations: Overview, Porto, Los Angeles</li>
+            <li>Integration proof-of-concept (cross stack demo)</li>
           </ul>
-          <p>Frame: <em>"Things you can point to when people ask 'what does Logos actually do?'"</em></p>
         </div>
 
-        <div class="content-label">Owners</div>
-        <span class="owner-badge"><span class="dot"></span>Santi (possibly EcoDev)</span>
-        <span class="owner-badge"><span class="dot"></span>2–3 Circle stewards</span>
-        <span class="owner-badge"><span class="dot"></span>Demo owners TBD</span>
-        <div class="note-box"><strong>No duplication:</strong> PS Day 1 has operational Circles content. This covers strategic narrative and different showcases.</div>
+        <div class="content-label">Owners (in order of appearance)</div>
+        <span class="owner-badge"><span class="dot"></span>Marina</span>
+        <span class="owner-badge"><span class="dot"></span>Santiago</span>
+        <span class="owner-badge"><span class="dot"></span>Amelia</span>
+        <span class="owner-badge"><span class="dot"></span>Joao/Fabio</span>
+        <span class="owner-badge"><span class="dot"></span>Guru</span>
+        <span class="owner-badge"><span class="dot"></span>Franck</span>
+        <span class="owner-badge"><span class="dot"></span>Girl</span>
+        <span class="owner-badge"><span class="dot"></span>Aaron</span>
+        <span class="owner-badge"><span class="dot"></span>Franck</span>
       </div></div>
     </div>
   </div>
@@ -889,7 +967,7 @@
 
 <div class="ps1-header">
   <h2>Parallel Societies — <em>Day 1</em></h2>
-  <p class="ps1-sub">Friday March 6 · Unconference across 9 zones in two buildings · 09:00–20:00</p>
+  <p class="ps1-sub">Friday March 6 · Unconference across 9 zones in two buildings · 09:00–20:00 · R. Pereira Henriques, 1950–242 Lisbon</p>
 
   <div class="ps1-controls">
     <div class="ift-toggle" id="iftToggle" onclick="toggleIFT()">
@@ -960,7 +1038,7 @@
 
   <div class="logistics-page">
     <h2>PS Day 2 — <em>Saturday March 7</em></h2>
-    <p class="lp-sub">Morning sessions at the hotel, followed by the music &amp; arts festival from 13:00–03:00 at One 16. Full hotel conference space is available all day — if the festival isn't your thing, come hang out and use the space however you like.</p>
+    <p class="lp-sub">Morning sessions at the hotel, followed by the music &amp; arts festival from 13:00–03:00 at One 16 (R. Pereira Henriques, 1950–242 Lisbon). Full hotel conference space is available all day — if the festival isn't your thing, come hang out and use the space however you like.</p>
 
     <div class="logistics-card">
       <div class="logistics-label">9:00 AM – 2:00 PM · Alfama (Co-working) Room</div>
@@ -1114,6 +1192,14 @@
 
 <!-- ══════════════ SCRIPTS ══════════════ -->
 <script>
+// ── WEEK OVERVIEW TOGGLE ──
+function toggleWeekOverview() {
+  const el = document.getElementById('weekOverview');
+  const toggle = el.querySelector('.wo-toggle');
+  el.classList.toggle('open');
+  toggle.setAttribute('aria-expanded', el.classList.contains('open'));
+}
+
 // ── PS DAY 1 DATA ──
 const ZONES = {
   terminal:      { name: 'The Terminal',       short: 'Terminal',    building: 'one16',   num: 1, capacity: '100–200' },

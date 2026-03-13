@@ -9,7 +9,8 @@ It is important to have clarity on who is coordinating around any given [[artifa
 
 | Article | Component | Status | Target | Audience | Links |
 |---------|-----------|--------|--------|----------|-------|
-| [[anonymous-block-proposers\|Anonymous Block Proposers: How Logos Solves Leader Privacy in PoS]] | Blockchain | **In Review** — revised Mar 2 (technical feedback) | Next up | Protocol engineers, blockchain researchers | [[anonymous-block-proposers-draft\|Draft]] |
+| [[dispersive-medium\|The Dispersive Medium: How Platform Infrastructure Dissolved Civil Society's Coherence]] | Positioning / Philosophy | **In Review** — with Jarrad (Mar 13) | Next up | Civil society advocates, policy researchers, journalists, crypto-curious non-technical readers | [[dispersive-medium-draft\|Draft]] · [[dispersive-medium-resources\|Research]] |
+| [[anonymous-block-proposers\|Anonymous Block Proposers: How Logos Solves Leader Privacy in PoS]] | Blockchain | **In Review** — revised Mar 2 (technical feedback) | After above | Protocol engineers, blockchain researchers | [[anonymous-block-proposers-draft\|Draft]] |
 | [[logos-core-modular-architecture\|Building on Logos Core: The Modular Architecture and Package Manager]] | Logos Core | **First Draft** | After above | Application developers, C++/JS/Nim devs | [[logos-core-modular-architecture-draft\|Draft]] |
 | [[privacy-preserving-file-sharing\|Introducing Logos Storage: Decentralized Storage for the Logos Tech Stack]] | Storage | **First Draft** | After above | Developers, infrastructure engineers, privacy engineers | [[privacy-preserving-file-sharing-draft\|Draft]] |
 

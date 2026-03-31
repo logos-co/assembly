@@ -81,6 +81,33 @@ The v0.3 milestone is where Basecamp becomes a first-class user experience — n
 
 ---
 
+## Design Inspirations (from the Basecamp lead)
+
+Two explicit references shared by the lead developer:
+
+- **[Mist Browser](https://github.com/ethereum/mist)** — Ethereum's early browser/wallet launcher (now deprecated). Mist was the entry point to the Ethereum ecosystem; Basecamp is playing an analogous role for Logos. The ambition is to surpass it in capability and UX.
+- **[LeechCraft](https://leechcraft.org/)** — A free, open-source, cross-platform *modular live environment*. Plugin-based architecture where modules provide a browser, IM client, BitTorrent client, RSS reader, media player, package manager — all composable. Philosophically very close to how Basecamp loads UI plugins for Logos modules.
+
+The vision: something more capable than Mist, with the composability of LeechCraft, built on top of a privacy-preserving decentralized stack.
+
+---
+
+## Architecture Direction (from lead, March 2026)
+
+A significant architectural direction is in progress:
+
+**QML-only UI layer, C++ backend in a separate process.**
+
+- UI/Apps (module frontends loaded by Basecamp) will be **QML-only** — providing a more sandboxed, "locked down" surface for module UIs
+- The App C++ backend runs in a **separate process** from the UI layer
+- This separation improves security posture (a misbehaving UI can't directly access the C++ runtime) and consistency across modules
+
+**Developer implications:** The "easy path" is QML for UI. The goal is that examples, tutorials, and the module-builder all push QML-only as the default, making it the path of least resistance. Modules built this way will Just Work in Basecamp without additional integration effort.
+
+This is still actively being worked on — guarantees about the sandboxing model are TBD.
+
+---
+
 ## Key Technical Details (for accurate writing)
 
 | Detail | Value |

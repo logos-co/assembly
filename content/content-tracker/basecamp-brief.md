@@ -11,7 +11,7 @@
 
 **Basecamp** is the renamed, evolved version of **Logos App** (previously `logos-app-poc`). The rename happened in March 2026 ([PR #92](https://github.com/logos-co/logos-basecamp/pull/92) in the `logos-basecamp` repo).
 
-Basecamp is the **default launcher and application shell for the Logos stack**. It is a thin executable wrapper around `liblogos` (the Logos Kernel) that:
+Basecamp is the **default launcher and application shell for the Logos stack**. It is a thin executable wrapper around `liblogos` (the Logos Runtime) that:
 
 1. Initialises and starts the Logos Core runtime
 2. Detects and loads UI plugins (apps) from installed modules
@@ -76,7 +76,7 @@ The v0.3 milestone is where Basecamp becomes a first-class user experience — n
 
 - **Not** a wallet or messaging app itself — those are modules it loads
 - **Not** the Logos Node (headless server mode; no UI)
-- **Not** the Logos Kernel (`liblogos`) — Basecamp wraps it
+- **Not** the Logos Runtime (`liblogos`) — Basecamp wraps it
 - **Not** a replacement for the module ecosystem — it's the surface those modules expose themselves through
 
 ---
@@ -116,7 +116,7 @@ This is still actively being worked on — guarantees about the sandboxing model
 | New name | Basecamp / `logos-basecamp` |
 | Rename PR | [#92](https://github.com/logos-co/logos-basecamp/pull/92) — March 2026 |
 | Built with | Qt / QML, C++, Nix |
-| Kernel it wraps | `liblogos` |
+| Runtime it wraps | `liblogos` |
 | Module loading | Via `logos-package-manager-module` |
 | UI component library | `logos-design-system` (QML) |
 | Languages supported | C++, Rust (SDK), JS (SDK), Nim (SDK) |

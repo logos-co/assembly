@@ -119,8 +119,10 @@ This is still actively being worked on — guarantees about the sandboxing model
 | Runtime it wraps | `liblogos` |
 | Module loading | Via `logos-package-manager-module` |
 | UI component library | `logos-design-system` (QML) |
-| Languages supported | C++, Rust (SDK), JS (SDK), Nim (SDK) |
-| Platforms targeted | Linux, Windows, macOS, Android, iOS |
+| Languages supported (now) | C++ |
+| Languages supported (planned) | Rust (SDK), JS (SDK), Nim (SDK) |
+| Platforms supported (now) | Linux, macOS |
+| Platforms supported (planned) | Windows, Android, iOS |
 
 ---
 

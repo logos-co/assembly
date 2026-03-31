@@ -18,7 +18,7 @@ Basecamp is the **default launcher and application shell for the Logos stack**. 
 3. Provides a unified interface where users interact with all loaded modules
 4. Surfaces "Simple Apps" for each default module (chat, wallet, filesharing, blockchain explorer)
 
-Think of it as the **desktop environment** of the Logos OS — if Logos is Linux, Basecamp is GNOME or KDE. It doesn't do the work itself; it orchestrates the modules that do.
+Think of it as the **launcher and unified surface** of the Logos stack — module-agnostic, composable, and designed to surface whatever capabilities the loaded modules expose. It doesn't do the work itself; it orchestrates the modules that do.
 
 The repo is: [`github.com/logos-co/logos-basecamp`](https://github.com/logos-co/logos-basecamp)
 
@@ -40,7 +40,7 @@ The repo is: [`github.com/logos-co/logos-basecamp`](https://github.com/logos-co/
 └─────────────────────────────────────────────────────┘
 ```
 
-Basecamp is module-agnostic. It loads whatever module profile is configured — the same way a Linux desktop environment can run on any distribution. The *distribution* is defined by which modules are selected, not by the launcher itself.
+Basecamp is module-agnostic. It loads whatever module profile is configured. The *stack composition* is defined by which modules are selected, not by the launcher itself.
 
 ---
 
@@ -126,8 +126,8 @@ This is still actively being worked on — guarantees about the sandboxing model
 
 ## Narrative Angles
 
-### 1. The OS metaphor (established, owned by the Linux article)
-Basecamp = the desktop environment of the Logos OS. This is the most accessible angle and already has an anchor piece at press.logos.co. Future Basecamp content should reference or extend this metaphor, not repeat it wholesale.
+### 1. ~~The OS metaphor~~ — retire this framing ⚠️
+The strict "Linux" analogy (Logos = Linux, Basecamp = GNOME/KDE) has been used in published content but the team wants to move away from it. The published press.logos.co article leans on it heavily — future Basecamp-specific content should **not** extend or repeat this framing. Find analogies that stand on their own. The Mist + LeechCraft inspirations (see above) may offer better footing.
 
 ### 2. "Your stack, your choice"
 Basecamp is module-agnostic by design. The same launcher can run completely different Logos distributions. This is philosophically important — it separates the *experience* from the *infrastructure*, giving builders the freedom to assemble their own distributions.
@@ -144,7 +144,7 @@ With module-builder, `metadata.json` as single source of truth, the `lm` CLI, an
 
 | Piece | Where | Relevance |
 |-------|-------|-----------|
-| "The Logos Tech Stack: An Operating System for Sovereignty" | press.logos.co | Primary published anchor — establishes Logos App (now Basecamp) as the launcher |
+| "The Logos Tech Stack: An Operating System for Sovereignty" | press.logos.co | Published anchor — establishes Logos App (now Basecamp) as the launcher. **Note:** heavy Linux analogy throughout; new Basecamp content should not extend this framing |
 | Assembly draft: `logos-as-operating-system-draft.md` | assembly repo | Source draft of the above |
 | Assembly draft: `logos-core-modular-architecture-draft.md` | assembly repo | Developer-facing deep dive; references "Logos Basecamp package manager" explicitly |
 | Testnet v0.1 roadmap | roadmap repo | Technical scope of what Basecamp exposes at v0.1 |
@@ -156,7 +156,7 @@ With module-builder, `metadata.json` as single source of truth, the `lm` CLI, an
 
 1. **"Basecamp: The New Name for Logos App"** — short changelog/announcement post when v0.3 ships. Cover the rename, what changed, what's coming.
 2. **"Running Your First Module in Basecamp"** — developer tutorial building on the existing tutorial repo work.
-3. **"What Basecamp Is (and Isn't)"** — explainer piece for non-technical audiences. Leans on the OS metaphor, explains the launcher/module separation.
+3. **"What Basecamp Is (and Isn't)"** — explainer piece for non-technical audiences. Explains the launcher/module separation without leaning on the Linux/OS metaphor.
 4. **Basecamp section on build.logos.co** — if the builder hub doesn't already surface Basecamp as the primary way to *run* what you build, it should.
 
 ---

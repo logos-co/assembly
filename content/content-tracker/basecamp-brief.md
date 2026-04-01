@@ -128,6 +128,20 @@ This is still actively being worked on — guarantees about the sandboxing model
 
 ## Narrative Angles
 
+### 0. Frontier brand positioning (from Head of Comms & Marketing, April 2026) ⭐
+> *"Basecamp: The fully equipped base of operations for your journey into a new frontier. Basecamp bundles the kernel, core modules, and UI into a single, ready-to-run distribution — everything you need to break ground without building from scratch. Install it, and you are already on new territory: interacting with the stack, running applications, and exploring what the frontier makes possible from day one."*
+> — jonny.z
+
+This is the approved brand direction. The "Basecamp" name is no longer just a technical label — it's a deliberate nod to a base of operations before an expedition into new territory. Key beats:
+- **Single ready-to-run distribution** — lowers the barrier to entry
+- **"Break ground"** — action-first, explorer framing
+- **"New frontier"** — ties into the broader Logos brand positioning
+- **Day one productivity** — you're already doing things, not just setting up
+
+⚠️ **Terminology note:** The framing draft uses "kernel" — align to "Logos Runtime" in final copy per the team's terminology direction (see Architecture section).
+
+---
+
 ### 1. ~~The OS metaphor~~ — retire this framing ⚠️
 The strict "Linux" analogy (Logos = Linux, Basecamp = GNOME/KDE) has been used in published content but the team wants to move away from it. The published press.logos.co article leans on it heavily — future Basecamp-specific content should **not** extend or repeat this framing. Find analogies that stand on their own. The Mist + LeechCraft inspirations (see above) may offer better footing.
 

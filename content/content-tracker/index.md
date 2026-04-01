@@ -20,7 +20,7 @@ Sourced from weekly updates across all Logos components. **Updated Feb 25** with
 
 | Article | Component | Status | Audience |
 |---------|-----------|--------|----------|
-| [[basecamp-brief\|Basecamp (formerly Logos App): The Logos Stack Launcher]] | Logos Core | **Brief** — drafted Mar 31, pending content development | Developers, general users, ecosystem builders |
+| [[basecamp-draft\|Basecamp: Your Base of Operations on the Logos Frontier]] | Logos Core | **First Draft** — Apr 1 | Developers, general users, ecosystem builders | [[basecamp-brief\|Brief]] |
 | [[lez-lee-brief\|Logos Execution Zone: Composable Privacy by Default]] | Blockchain / LEZ | **Blocked** — post-PS event | App developers, ZK/DeFi engineers |
 | [[gasless-l2-rln\|Gasless L2 Transactions via RLN: A Zero-Knowledge Approach]] | AnonComms | Proposed | ZK/crypto engineers, L2 developers |
 | [[libchat-sdk\|libchat: Building E2E Encrypted Messaging with the Chat SDK]] | Messaging | Proposed | App developers, Rust/FFI devs |

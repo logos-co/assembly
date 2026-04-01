@@ -36,7 +36,7 @@ The repo is: [`github.com/logos-co/logos-basecamp`](https://github.com/logos-co/
 ├─────────────────────────────────────────────────────┤
 │         NETWORKING (Mixnet + Capability Discovery)   │
 ├─────────────────────────────────────────────────────┤
-│              LOGOS KERNEL (liblogos)                 │
+│              LOGOS RUNTIME (liblogos)                │
 └─────────────────────────────────────────────────────┘
 ```
 

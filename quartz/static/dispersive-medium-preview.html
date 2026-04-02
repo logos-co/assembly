@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dispersive Medium — Interactive Preview</title>
+<style>
+  body {
+    font-family: 'Georgia', serif;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2em 1.5em 4em;
+    background: #fff;
+    color: #1a1a2e;
+    line-height: 1.75;
+  }
+  h1 { font-size: 2em; line-height: 1.2; margin-bottom: 0.3em; }
+  .byline { color: #71717a; font-size: 0.9em; margin-bottom: 2em; font-style: italic; }
+  p { margin-bottom: 1.5em; }
+  hr { border: none; border-top: 1px solid #e4e4e7; margin: 2.5em 0; }
+  h2 { font-size: 1.4em; margin: 2em 0 0.8em; }
+</style>
+
+<!-- ─── Interactives inlined ─── -->
+<style>
+  .dm {
+    --dm-bg: #ffffff;
+    --dm-bg-surface: #f8f8fa;
+    --dm-bg-elevated: #f0f0f4;
+    --dm-border: #e4e4e7;
+    --dm-text: #1a1a2e;
+    --dm-text-dim: #71717a;
+    --dm-text-secondary: #4a4a68;
+    --dm-accent: #c22d2d;
+    --dm-accent-bg: rgba(194,45,45,0.06);
+    --dm-accent-border: rgba(194,45,45,0.18);
+    --dm-green: #16864e;
+    --dm-green-bg: rgba(22,134,78,0.06);
+    --dm-green-border: rgba(22,134,78,0.15);
+    --dm-amber: #b45309;
+    --dm-amber-bg: rgba(180,83,9,0.07);
+    --dm-amber-border: rgba(180,83,9,0.18);
+    --dm-mono: 'SF Mono','Fira Code','Fira Mono','Roboto Mono','Courier New',monospace;
+    font-family: inherit;
+    color: var(--dm-text);
+  }
+  .dm-panel {
+    background: var(--dm-bg-surface);
+    border: 1px solid var(--dm-border);
+    border-radius: 10px;
+    margin: 2em 0;
+    overflow: hidden;
+  }
+  .dm-panel-header {
+    padding: 0.75em 1.2em;
+    background: var(--dm-bg-elevated);
+    border-bottom: 1px solid var(--dm-border);
+    font-family: var(--dm-mono);
+    font-size: 0.68em;
+    font-weight: 600;
+    color: var(--dm-text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+  }
+  .dm-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--dm-accent);
+    animation: dm-blink 2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  .dm-dot-green { background: var(--dm-green); }
+  .dm-dot-amber { background: var(--dm-amber); animation: none; }
+  @keyframes dm-blink { 0%,100%{opacity:1}50%{opacity:0.3} }
+  .dm-panel-body { padding: 1.2em; }
+  .dm-panel-footer {
+    padding: 0.75em 1.2em;
+    background: var(--dm-accent-bg);
+    border-top: 1px solid var(--dm-accent-border);
+    font-size: 0.82em;
+    color: var(--dm-text-secondary);
+    line-height: 1.6;
+  }
+  .dm-panel-footer strong { color: var(--dm-accent); }
+  .dm-panel-footer-green { background: var(--dm-green-bg); border-top-color: var(--dm-green-border); }
+  .dm-panel-footer-green strong { color: var(--dm-green); }
+  .dm-panel-footer-amber { background: var(--dm-amber-bg); border-top-color: var(--dm-amber-border); }
+  .dm-panel-footer-amber strong { color: var(--dm-amber); }
+
+  /* ── two-panel wave ── */
+  .dm-wave-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8em; }
+  @media(max-width:540px){ .dm-wave-panels { grid-template-columns: 1fr; } }
+  .dm-wave-panel { display: flex; flex-direction: column; gap: 0; }
+  .dm-wave-panel-label {
+    font-family: var(--dm-mono); font-size: 0.65em; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.09em; padding: 0.4em 0.7em; border-radius: 5px 5px 0 0;
+    border: 1px solid var(--dm-border); border-bottom: none;
+    background: var(--dm-bg-elevated); color: var(--dm-text-dim);
+    display: flex; align-items: center; gap: 0.5em;
+  }
+  .dm-wave-panel-label.dm-label-linear { color: var(--dm-accent); border-color: var(--dm-accent-border); background: var(--dm-accent-bg); }
+  .dm-wave-panel-label.dm-label-nonlinear { color: var(--dm-green); border-color: var(--dm-green-border); background: var(--dm-green-bg); }
+  .dm-wave-canvas { display: block; width: 100%; border-radius: 0 0 5px 5px; background: #0e1117; border: 1px solid var(--dm-border); }
+  .dm-wave-canvas.dm-canvas-linear { border-color: var(--dm-accent-border); }
+  .dm-wave-canvas.dm-canvas-nonlinear { border-color: var(--dm-green-border); }
+
+  /* shared controls */
+  .dm-wave-shared { margin-top: 1em; display: flex; flex-direction: column; gap: 0.6em; }
+  .dm-ctrl-row { display: flex; align-items: center; gap: 0.8em; }
+  .dm-ctrl-label { font-family: var(--dm-mono); font-size: 0.68em; font-weight: 600; color: var(--dm-text-dim); text-transform: uppercase; letter-spacing: 0.07em; white-space: nowrap; min-width: 7em; }
+  .dm-ctrl-slider { flex: 1; }
+  .dm-ctrl-val { font-family: var(--dm-mono); font-size: 0.75em; font-weight: 700; color: var(--dm-text-secondary); width: 3.5em; text-align: right; }
+  .dm-ctrl-row input[type=range] { accent-color: var(--dm-accent); }
+
+  /* balance indicator */
+  .dm-balance { margin-top: 0.5em; padding: 0.55em 0.9em; border-radius: 6px; border: 1px solid var(--dm-border); background: var(--dm-bg-elevated); display: flex; align-items: center; gap: 0.7em; font-size: 0.78em; font-family: var(--dm-mono); }
+  .dm-balance-pip { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; transition: background 0.3s; }
+  .dm-balance-text { color: var(--dm-text-secondary); flex: 1; }
+  .dm-balance-eq { font-size: 0.75em; color: var(--dm-text-dim); font-style: italic; }
+
+  .dm-reach-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 1em; margin-bottom: 1.2em; }
+  @media(max-width:540px){ .dm-reach-inputs { grid-template-columns: 1fr; } }
+  .dm-field label { display: block; font-size: 0.75em; font-weight: 600; color: var(--dm-text-dim); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.4em; font-family: var(--dm-mono); }
+  .dm-field input[type=range] { width: 100%; accent-color: var(--dm-accent); }
+  .dm-field-val { font-family: var(--dm-mono); font-size: 0.82em; color: var(--dm-text-secondary); margin-top: 0.2em; }
+  .dm-reach-result { background: var(--dm-bg-elevated); border-radius: 8px; padding: 1em 1.2em; display: grid; grid-template-columns: repeat(3,1fr); gap: 0.8em; text-align: center; }
+  @media(max-width:480px){ .dm-reach-result { grid-template-columns: 1fr 1fr; } }
+  .dm-reach-stat-label { font-size: 0.7em; color: var(--dm-text-dim); text-transform: uppercase; letter-spacing: 0.07em; font-family: var(--dm-mono); margin-bottom: 0.3em; }
+  .dm-reach-stat-val { font-size: 1.5em; font-weight: 700; line-height: 1.1; }
+  .dm-reach-stat-sub { font-size: 0.72em; color: var(--dm-text-dim); margin-top: 0.15em; }
+  .dm-reach-chart { margin-top: 1em; position: relative; height: 80px; }
+  .dm-reach-chart canvas { display: block; width: 100%; height: 80px; border-radius: 4px; }
+  .dm-reach-chart-label { position: absolute; top: 6px; right: 8px; font-size: 0.68em; font-family: var(--dm-mono); color: rgba(255,255,255,0.5); }
+
+  .dm-rot-list { display: flex; flex-direction: column; gap: 0.5em; }
+  .dm-rot-row { display: flex; align-items: flex-start; gap: 0.8em; padding: 0.6em 0.8em; border-radius: 6px; background: var(--dm-bg-elevated); font-size: 0.82em; line-height: 1.4; transition: background 0.3s; }
+  .dm-rot-status { font-family: var(--dm-mono); font-size: 0.75em; font-weight: 700; padding: 0.2em 0.55em; border-radius: 4px; white-space: nowrap; flex-shrink: 0; margin-top: 0.1em; letter-spacing: 0.04em; }
+  .dm-rot-checking { background: var(--dm-bg-elevated); color: var(--dm-text-dim); border: 1px solid var(--dm-border); }
+  .dm-rot-live { background: var(--dm-green-bg); color: var(--dm-green); border: 1px solid var(--dm-green-border); }
+  .dm-rot-dead { background: var(--dm-accent-bg); color: var(--dm-accent); border: 1px solid var(--dm-accent-border); }
+  .dm-rot-changed { background: var(--dm-amber-bg); color: var(--dm-amber); border: 1px solid var(--dm-amber-border); }
+  .dm-rot-url { font-family: var(--dm-mono); font-size: 0.85em; color: var(--dm-text-dim); word-break: break-all; }
+  .dm-rot-desc { color: var(--dm-text-secondary); }
+  .dm-rot-summary { margin-top: 1em; padding: 0.8em 1em; background: var(--dm-accent-bg); border: 1px solid var(--dm-accent-border); border-radius: 6px; font-size: 0.85em; color: var(--dm-text-secondary); display: none; }
+  .dm-rot-summary strong { color: var(--dm-accent); }
+</style>
+</head>
+<body>
+
+<h1>The Dispersive Medium</h1>
+<div class="byline">Dr. Corey Petty · Institute of Free Technology · Preview build</div>
+
+<p>I want to start with a claim that sounds like physics, because it is physics, and because the physics turns out to matter.</p>
+
+<p>The difference between a signal and noise is not energy. It's not volume, or intent, or numbers. A coherent signal and an incoherent one can carry identical amounts of energy — the same people, the same passion, the same righteous anger. What separates them is something more subtle and, once you see it, more devastating: phase relationships.</p>
+
+<p>In physics, a wave packet — a localized burst of energy capable of carrying information across a medium — is not defined by any single frequency it contains. It's defined by the relationships between all of them. Destroy those relationships and the packet disperses.</p>
+
+<!-- COMPONENT 1 -->
+<div class="dm" id="dm-wave">
+  <div class="dm-panel">
+    <div class="dm-panel-header">
+      <span class="dm-dot" id="dm-wave-dot"></span>
+      Interactive — Same packet. Different medium.
+    </div>
+    <div class="dm-panel-body">
+      <div class="dm-wave-panels">
+        <div class="dm-wave-panel">
+          <div class="dm-wave-panel-label dm-label-linear">
+            <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--dm-accent);"></span>
+            Linear medium
+          </div>
+          <canvas class="dm-wave-canvas dm-canvas-linear" id="dm-wave-canvas-L" height="160"></canvas>
+        </div>
+        <div class="dm-wave-panel">
+          <div class="dm-wave-panel-label dm-label-nonlinear">
+            <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--dm-green);"></span>
+            Nonlinear medium
+          </div>
+          <canvas class="dm-wave-canvas dm-canvas-nonlinear" id="dm-wave-canvas-R" height="160"></canvas>
+        </div>
+      </div>
+
+      <div class="dm-wave-shared">
+        <div class="dm-ctrl-row">
+          <span class="dm-ctrl-label">Dispersion</span>
+          <input class="dm-ctrl-slider" id="dm-disp-slider" type="range" min="0" max="3" step="0.05" value="2" oninput="dmWave.setDispersion(+this.value)" style="accent-color:var(--dm-accent)">
+          <span class="dm-ctrl-val" id="dm-disp-val">2.0×</span>
+        </div>
+        <div class="dm-ctrl-row">
+          <span class="dm-ctrl-label">Phase coherence</span>
+          <input class="dm-ctrl-slider" id="dm-phase-slider" type="range" min="0" max="1" step="0.02" value="1" oninput="dmWave.setPhase(+this.value)" style="accent-color:var(--dm-accent)">
+          <span class="dm-ctrl-val" id="dm-phase-val">aligned</span>
+        </div>
+        <div class="dm-balance" id="dm-balance">
+          <span class="dm-balance-pip" id="dm-balance-pip"></span>
+          <span class="dm-balance-text" id="dm-balance-text"></span>
+          <span class="dm-balance-eq" id="dm-balance-eq"></span>
+        </div>
+      </div>
+    </div>
+    <div class="dm-panel-footer" id="dm-wave-footer">
+      <strong>Same packet. Same dispersion. Different medium.</strong> The left side is linear — dispersion wins, always. The right side is nonlinear — the medium's self-focusing exactly cancels its own dispersion. Drag the dispersion slider up. The left packet falls apart. The right one doesn't care.
+    </div>
+  </div>
+</div>
+
+<p>Here is the thing about dispersion that most people don't know: it doesn't require anything to go wrong. There's no external force, no disruption, no bad actor. In any real medium, different frequencies travel at slightly different speeds. Given enough time, a packet that starts sharp will spread. This is the default state. Coherence is the thing that requires explanation.</p>
+
+<hr>
+<h2>The capture</h2>
+
+<p>Facebook's average organic page reach declined from roughly sixteen percent in 2012 to under two percent by 2022. For the activist or community organization, this means a page that once reliably reached one in six followers now reaches one in fifty.</p>
+
+<!-- COMPONENT 2 -->
+<div class="dm" id="dm-reach">
+  <div class="dm-panel">
+    <div class="dm-panel-header">
+      <span class="dm-dot dm-dot-amber"></span>
+      Your audience — what the algorithm actually delivered
+    </div>
+    <div class="dm-panel-body">
+      <div class="dm-reach-inputs">
+        <div class="dm-field">
+          <label>Followers / page likes</label>
+          <input type="range" id="dm-followers" min="100" max="500000" value="10000" step="100" oninput="dmReach.update()">
+          <div class="dm-field-val" id="dm-followers-val">10,000</div>
+        </div>
+        <div class="dm-field">
+          <label>Year you started</label>
+          <input type="range" id="dm-year" min="2012" max="2024" value="2014" step="1" oninput="dmReach.update()">
+          <div class="dm-field-val" id="dm-year-val">2014</div>
+        </div>
+      </div>
+      <div class="dm-reach-result" id="dm-reach-result"></div>
+      <div class="dm-reach-chart">
+        <canvas id="dm-reach-canvas" height="80"></canvas>
+        <div class="dm-reach-chart-label">Organic reach % · 2012–2024</div>
+      </div>
+    </div>
+    <div class="dm-panel-footer dm-panel-footer-amber">
+      <strong>Source:</strong> Hootsuite / We Are Social data series. Facebook organic page reach declined from ~16% in 2012 to under 2% by 2022. The platform's CFO described this decline as expected and permanent.
+    </div>
+  </div>
+</div>
+
+<p>The platform's chief financial officer noted on an earnings call, with a candor that deserves a longer look, that "organic distribution of an individual page's posts" would "gradually decline over time." This was presented as normal.</p>
+
+<hr>
+<h2>Memory</h2>
+
+<p>A 2024 Pew Research study found that twenty-five percent of all webpages that existed between 2013 and 2023 are no longer accessible. From 2013 specifically, thirty-eight percent are gone.</p>
+
+<!-- COMPONENT 3 -->
+<div class="dm" id="dm-rot">
+  <div class="dm-panel">
+    <div class="dm-panel-header">
+      <span class="dm-dot" id="dm-rot-dot"></span>
+      Live — Sources cited in this article
+    </div>
+    <div class="dm-panel-body">
+      <div class="dm-rot-list" id="dm-rot-list"></div>
+      <div class="dm-rot-summary" id="dm-rot-summary"></div>
+    </div>
+    <div class="dm-panel-footer">
+      <strong>What you're seeing:</strong> Each source cited in this article, checked live in your browser. A 2024 Pew study found 25% of all webpages from 2013–2023 are no longer accessible. From 2013 specifically: 38%.
+    </div>
+  </div>
+</div>
+
+<p>Civil society's memory is stored on servers it doesn't own, in formats it doesn't control, subject to retention policies it never agreed to and cannot negotiate.</p>
+
+<script>
+(function() {
+  'use strict';
+
+  // ── WAVE PACKET VISUALIZER — two-panel ──
+
+  const dmWave = window.dmWave = (() => {
+    const canvasL = document.getElementById('dm-wave-canvas-L');
+    const canvasR = document.getElementById('dm-wave-canvas-R');
+    const ctxL = canvasL.getContext('2d');
+    const ctxR = canvasR.getContext('2d');
+    const dot = document.getElementById('dm-wave-dot');
+    const footer = document.getElementById('dm-wave-footer');
+
+    let t = 0;
+    let WL = 300, WR = 300, H = 160;
+    let dispExp = 2.0;    // dispersion strength (both panels)
+    let phaseCoherence = 1.0; // 1=aligned, 0=random
+
+    // 10 frequency components, rainbow
+    const COMPS = [
+      { a:0.52, lam:0.26, color:'#e05252' },
+      { a:0.50, lam:0.20, color:'#e07040' },
+      { a:0.48, lam:0.16, color:'#e0a030' },
+      { a:0.45, lam:0.13, color:'#c8c030' },
+      { a:0.42, lam:0.10, color:'#70c050' },
+      { a:0.38, lam:0.08, color:'#44b86e' },
+      { a:0.34, lam:0.065,color:'#30b8b0' },
+      { a:0.30, lam:0.052,color:'#4e9cff' },
+      { a:0.26, lam:0.042,color:'#8060ff' },
+      { a:0.22, lam:0.034,color:'#c050e0' },
+    ];
+
+    // Random phase offsets (seeded once, scaled by phaseCoherence)
+    // At coherence=1: all phases = 0 (constructive at center)
+    // At coherence=0: each component has a random phase offset
+    const RAND_PHASES = COMPS.map(() => (Math.random() - 0.5) * 2 * Math.PI);
+
+    function phaseFor(c, i, W) {
+      const k = 2 * Math.PI / (c.lam * W);
+      const centerPhase = k * (W * 0.5); // all constructive at center when coherence=1
+      const randomOffset = RAND_PHASES[i] * (1 - phaseCoherence);
+      return centerPhase + randomOffset;
+    }
+
+    // Linear panel: components drift at their own speeds, packet spreads
+    // Shared parameters — single source of truth used by both the wave sum and the envelope overlay.
+    const BASE_V  = 0.05;   // group velocity of central component (canvas-widths per second)
+    const SIGMA0  = 0.11;   // initial envelope width as fraction of W
+
+    // β₂-style dispersion: vp(k) = BASE_V * (1 + dispExp * (k/k0 − 1) * 0.35)
+    // The envelope travels at BASE_V (group velocity of k0); individual components
+    // ride at their own phase velocities and drift in/out, causing spreading.
+    function linearSum(x, time, W) {
+      const sigma0 = W * SIGMA0;
+      const cx     = W * 0.5 + BASE_V * time * W;   // envelope center travels with group velocity
+      const baseK  = 2 * Math.PI / (COMPS[0].lam * W);
+      return COMPS.reduce((sum, c, i) => {
+        const k  = 2 * Math.PI / (c.lam * W);
+        const vp = dispExp === 0
+          ? BASE_V
+          : BASE_V * (1 + dispExp * (k / baseK - 1) * 0.35);
+        const phase0 = phaseFor(c, i, W);
+        const env = Math.exp(-0.5 * ((x - cx) / sigma0) ** 2);
+        return sum + c.a * env * Math.cos(k * x - k * vp * time * W - phase0);
+      }, 0);
+    }
+
+    // Analytical envelope: same cx as linearSum, sigma broadens with dispersion.
+    function linearEnvelope(time, W) {
+      const sigma0 = W * SIGMA0;
+      const cx     = W * 0.5 + BASE_V * time * W;
+      const sigma  = sigma0 * Math.sqrt(1 + (dispExp * BASE_V * time * 1.1) ** 2);
+      return { cx, sigma };
+    }
+
+    // Nonlinear panel: sech² envelope traveling at fixed group velocity
+    // Width is fixed — nonlinearity exactly compensates dispersion
+    // At dispExp=0 it still holds (trivially). At high dispExp it still holds (nontrivially).
+    // We show the SAME dispersive component chaos in background so the viewer can see
+    // what the medium would do, and watch the soliton ignore it.
+    // solitonWave returns values in [0, 1] — caller controls vertical scale.
+    // Travels at the same group velocity as the linear envelope (BASE_V) so both
+    // packets cross the canvas together — the only visual difference is shape.
+    function solitonWave(x, time, W) {
+      const center = W * 0.5 + BASE_V * time * W;  // identical to linearEnvelope cx
+      const width  = W * 0.07;
+      const u = (x - center) / width;
+      return 1 / (Math.cosh(u) * Math.cosh(u));
+    }
+
+    function resize() {
+      const dpr = window.devicePixelRatio || 1;
+      const rL = canvasL.getBoundingClientRect();
+      const rR = canvasR.getBoundingClientRect();
+      WL = rL.width || 300;
+      WR = rR.width || 300;
+      canvasL.width = WL * dpr; canvasL.height = H * dpr;
+      canvasR.width = WR * dpr; canvasR.height = H * dpr;
+      ctxL.setTransform(dpr,0,0,dpr,0,0);
+      ctxR.setTransform(dpr,0,0,dpr,0,0);
+    }
+
+    function drawPanel(ctx, W, waveFunc, lineColor, showComponents, compAlpha, vScale) {
+      vScale = vScale !== undefined ? vScale : 0.42;
+      ctx.clearRect(0,0,W,H);
+      ctx.fillStyle = '#0e1117'; ctx.fillRect(0,0,W,H);
+      // grid
+      ctx.strokeStyle = 'rgba(255,255,255,0.05)'; ctx.lineWidth = 1;
+      for (let i=1;i<4;i++) { ctx.beginPath(); ctx.moveTo(0,H*i/4); ctx.lineTo(W,H*i/4); ctx.stroke(); }
+      ctx.strokeStyle = 'rgba(255,255,255,0.10)';
+      ctx.beginPath(); ctx.moveTo(0,H/2); ctx.lineTo(W,H/2); ctx.stroke();
+
+      // component traces (left/linear panel only; use same traveling envelope center)
+      if (showComponents && dispExp > 0.05) {
+        const baseK = 2 * Math.PI / (COMPS[0].lam * W);
+        const cx    = W * 0.5 + BASE_V * t * W;   // traveling center — matches linearSum
+        const sigma = W * SIGMA0;
+        const alpha = Math.min(compAlpha, compAlpha * (dispExp / 1.5));
+        COMPS.forEach((c,i) => {
+          const k  = 2 * Math.PI / (c.lam * W);
+          const vp = dispExp === 0
+            ? BASE_V
+            : BASE_V * (1 + dispExp * (k / baseK - 1) * 0.35);
+          const phase0 = phaseFor(c, i, W);
+          ctx.beginPath();
+          ctx.strokeStyle = c.color + Math.round(alpha * 255).toString(16).padStart(2,'0');
+          ctx.lineWidth = 0.85;
+          for (let x = 0; x <= W; x += 2) {
+            const env = Math.exp(-0.5 * ((x - cx) / sigma) ** 2);
+            const y = H/2 - c.a * env * Math.cos(k * x - k * vp * t * W - phase0) * (H * 0.38);
+            x===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+          }
+          ctx.stroke();
+        });
+      }
+
+      // main wave — vScale controls vertical amplitude
+      ctx.beginPath();
+      ctx.strokeStyle = lineColor; ctx.lineWidth = 2.5;
+      ctx.shadowColor = lineColor; ctx.shadowBlur = 10;
+      for (let x = 0; x <= W; x += 1.5) {
+        const y = H/2 - waveFunc(x, t, W) * (H * vScale);
+        x===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+      }
+      ctx.stroke(); ctx.shadowBlur = 0;
+
+      // envelope — dashed outline showing the packet's bounding shape
+      // Only draw on left (linear) panel where it provides information
+      if (showComponents) {
+        const { cx, sigma } = linearEnvelope(t, W);
+        const amp = H * 0.42 * 0.88;   // slightly inside the main wave peak
+        ctx.beginPath();
+        ctx.setLineDash([4, 4]);
+        ctx.strokeStyle = lineColor + '88';
+        ctx.lineWidth = 1.5;
+        ctx.shadowBlur = 0;
+        for (let x = 0; x <= W; x += 2) {
+          const env = Math.exp(-0.5 * ((x - cx) / sigma) ** 2);
+          const y = H/2 - env * amp;
+          x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+        // mirror lower half
+        ctx.beginPath();
+        for (let x = 0; x <= W; x += 2) {
+          const env = Math.exp(-0.5 * ((x - cx) / sigma) ** 2);
+          const y = H/2 + env * amp;
+          x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+    }
+
+    function updateBalance() {
+      const pip = document.getElementById('dm-balance-pip');
+      const text = document.getElementById('dm-balance-text');
+      const eq = document.getElementById('dm-balance-eq');
+      const bal = document.getElementById('dm-balance');
+      if (dispExp === 0) {
+        pip.style.background = '#71717a';
+        text.textContent = 'No dispersion — both media behave identically. Dial dispersion up.';
+        eq.textContent = '';
+        bal.style.borderColor = '';
+      } else if (dispExp < 1.0) {
+        pip.style.background = '#b45309';
+        text.textContent = 'Mild dispersion — linear packet slowly drifts apart. Soliton holds.';
+        eq.textContent = 'γP₀ ≈ β₂/2T₀²';
+        bal.style.borderColor = 'var(--dm-amber-border)';
+      } else if (dispExp < 2.5) {
+        pip.style.background = '#16864e';
+        text.textContent = 'Nonlinear balance active — self-focusing exactly cancels spreading. Linear packet losing shape.';
+        eq.textContent = 'γP₀ = β₂/2T₀² ✓';
+        bal.style.borderColor = 'var(--dm-green-border)';
+      } else {
+        pip.style.background = '#16864e';
+        text.textContent = 'Strong dispersion — linear medium destroys the packet. Soliton unfazed. This is optical fiber territory.';
+        eq.textContent = 'γP₀ = β₂/2T₀² ✓';
+        bal.style.borderColor = 'var(--dm-green-border)';
+      }
+    }
+
+    function updateFooter() {
+      const coherenceWord = phaseCoherence > 0.8 ? 'phase-aligned' : phaseCoherence > 0.3 ? 'partially coherent' : 'incoherent';
+      if (dispExp === 0) {
+        footer.innerHTML = '<strong>No dispersion:</strong> Both media treat all frequencies identically. Neither packet spreads. This is the trivial baseline — drag Dispersion up to see the difference.';
+      } else if (dispExp < 1.2) {
+        footer.innerHTML = `<strong>Mild dispersion, ${coherenceWord} source:</strong> The linear packet is beginning to spread — watch it lose amplitude and width. The nonlinear packet holds. Even here, the soliton lock is active.`;
+      } else if (dispExp < 2.5) {
+        footer.innerHTML = `<strong>Quadratic dispersion, ${coherenceWord} source:</strong> This is real-world fiber optics. The linear packet is falling apart regardless of how well-aligned the phases started. On the right, nonlinear self-focusing locks the shape. Same dispersion. Opposite outcome.`;
+      } else {
+        footer.innerHTML = `<strong>Extreme dispersion, ${coherenceWord} source:</strong> The linear medium has destroyed the packet. The energy is still there — it's just noise. The soliton hasn't noticed. The nonlinear balance holds at any dispersion strength — that's what makes it structurally different, not just better.`;
+      }
+    }
+
+    function draw() {
+      // Linear: components visible, packet spreads. vScale default (0.42).
+      drawPanel(ctxL, WL, linearSum, '#c22d2d', true, 0.35);
+      // Nonlinear: solitonWave returns [0,1]; scale to 0.32 so peak sits comfortably in frame.
+      drawPanel(ctxR, WR, solitonWave, '#16864e', true, 0.22, 0.32);
+    }
+
+    const LOOP_SECS = 10;
+    function tick() {
+      t += 0.016;
+      if (t > LOOP_SECS) t = 0; // linear panel resets, soliton continues seamlessly
+      draw();
+      requestAnimationFrame(tick);
+    }
+
+    function setDispersion(val) {
+      dispExp = val;
+      document.getElementById('dm-disp-val').textContent = val.toFixed(1) + '×';
+      updateBalance();
+      updateFooter();
+    }
+
+    function setPhase(val) {
+      phaseCoherence = val;
+      document.getElementById('dm-phase-val').textContent =
+        val > 0.9 ? 'aligned' : val > 0.5 ? 'partial' : val > 0.15 ? 'loose' : 'random';
+      updateFooter();
+    }
+
+    setTimeout(() => {
+      resize();
+      window.addEventListener('resize', resize);
+      updateBalance();
+      updateFooter();
+      tick();
+    }, 50);
+
+    return { setDispersion, setPhase };
+  })();
+
+  // ── REACH CALCULATOR ──
+
+  const dmReach = window.dmReach = (() => {
+    const REACH = { 2012:16.0, 2013:12.5, 2014:6.5, 2015:4.2, 2016:3.5, 2017:3.0, 2018:2.5, 2019:2.2, 2020:2.0, 2021:1.9, 2022:1.8, 2023:1.5, 2024:1.4 };
+    const YEARS = Object.keys(REACH).map(Number).sort((a,b)=>a-b);
+    const fmt = n => n >= 1e6 ? (n/1e6).toFixed(1).replace(/\.0$/,'')+'M' : n >= 1e3 ? Math.round(n/1e3)+'K' : String(n);
+
+    function update() {
+      const followers = +document.getElementById('dm-followers').value;
+      const startYear = +document.getElementById('dm-year').value;
+      document.getElementById('dm-followers-val').textContent = followers.toLocaleString();
+      document.getElementById('dm-year-val').textContent = startYear;
+      const rThen = REACH[startYear] || 16;
+      const rNow = REACH[2024];
+      const then = Math.round(followers * rThen / 100);
+      const now = Math.round(followers * rNow / 100);
+      const lostPct = Math.round((then - now) / then * 100);
+      document.getElementById('dm-reach-result').innerHTML = `
+        <div><div class="dm-reach-stat-label">In ${startYear}</div><div class="dm-reach-stat-val" style="color:var(--dm-green)">${fmt(then)}</div><div class="dm-reach-stat-sub">${rThen.toFixed(1)}% of your audience</div></div>
+        <div><div class="dm-reach-stat-label">In 2024</div><div class="dm-reach-stat-val" style="color:var(--dm-accent)">${fmt(now)}</div><div class="dm-reach-stat-sub">${rNow.toFixed(1)}% of your audience</div></div>
+        <div><div class="dm-reach-stat-label">Audience lost</div><div class="dm-reach-stat-val" style="color:var(--dm-amber)">${lostPct}%</div><div class="dm-reach-stat-sub">${fmt(then-now)} people per post</div></div>`;
+      drawChart(startYear);
+    }
+
+    function drawChart(startYear) {
+      const canvas = document.getElementById('dm-reach-canvas');
+      const dpr = window.devicePixelRatio || 1;
+      const W = canvas.getBoundingClientRect().width || 600, H = 80;
+      canvas.width = W*dpr; canvas.height = H*dpr;
+      const ctx = canvas.getContext('2d');
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      ctx.fillStyle = '#0e1117'; ctx.fillRect(0,0,W,H);
+      const maxPct = 18;
+      const grad = ctx.createLinearGradient(0,0,0,H);
+      grad.addColorStop(0,'rgba(180,83,9,0.45)'); grad.addColorStop(1,'rgba(180,83,9,0.02)');
+      ctx.beginPath();
+      YEARS.forEach((y,i) => {
+        const x = (i/(YEARS.length-1))*(W-2)+1, yy = H-8-(REACH[y]/maxPct)*(H-16);
+        i===0 ? ctx.moveTo(x,yy) : ctx.lineTo(x,yy);
+      });
+      ctx.lineTo(W-1,H); ctx.lineTo(1,H); ctx.closePath();
+      ctx.fillStyle = grad; ctx.fill();
+      ctx.beginPath(); ctx.strokeStyle='#b45309'; ctx.lineWidth=2;
+      YEARS.forEach((y,i) => {
+        const x=(i/(YEARS.length-1))*(W-2)+1, yy=H-8-(REACH[y]/maxPct)*(H-16);
+        i===0 ? ctx.moveTo(x,yy) : ctx.lineTo(x,yy);
+      }); ctx.stroke();
+      const si = YEARS.indexOf(startYear);
+      if (si>=0) {
+        const x=(si/(YEARS.length-1))*(W-2)+1, yy=H-8-(REACH[startYear]/maxPct)*(H-16);
+        ctx.beginPath(); ctx.arc(x,yy,4,0,Math.PI*2); ctx.fillStyle='#fff'; ctx.fill();
+      }
+      ctx.fillStyle='rgba(255,255,255,0.3)'; ctx.font='9px SF Mono,monospace';
+      [2012,2016,2020,2024].forEach(y => {
+        const i=YEARS.indexOf(y); if(i<0)return;
+        ctx.fillText(y, (i/(YEARS.length-1))*(W-2)+1-12, H-1);
+      });
+    }
+
+    setTimeout(() => { update(); window.addEventListener('resize', update); }, 80);
+    return { update };
+  })();
+
+  // ── LINK ROT CHECKER ──
+
+  (() => {
+    const SOURCES = [
+      { url:'https://www.pewresearch.org/data-labs/2024/05/17/when-online-content-disappears/', desc:'Pew Research: When Online Content Disappears (2024)', expected:'live' },
+      { url:'https://harvardlawreview.org/2014/03/perma-scoping-and-addressing-the-problem-of-link-rot/', desc:'Harvard Law Review: Link rot in Supreme Court opinions', expected:'live' },
+      { url:'https://www.renesys.com/2011/01/egypt-leaves-the-internet/', desc:'Renesys: Egypt Leaves the Internet (Jan 2011)', expected:'dead' },
+      { url:'https://web.archive.org/web/20091027230014/http://geocities.com/', desc:'GeoCities — 38 million pages. Shut down by Yahoo, 2009.', expected:'archive' },
+      { url:'https://penamerica.org/research/chilling-effects/', desc:'PEN America: Chilling Effects — Writers and Self-Censorship', expected:'live' },
+      { url:'https://www.unhcr.org/news/press/2018/8/5b8d0f544/un-appoints-independent-international-fact-finding-mission-myanmar.html', desc:'UN Fact-Finding Mission on Myanmar', expected:'live' },
+      { url:'https://archive.org/', desc:'Internet Archive — attacked Oct 2024, 31M records exposed', expected:'live' },
+    ];
+    const list = document.getElementById('dm-rot-list');
+    const dot = document.getElementById('dm-rot-dot');
+    const summary = document.getElementById('dm-rot-summary');
+    list.innerHTML = SOURCES.map((s,i) => `
+      <div class="dm-rot-row" id="dm-rot-row-${i}">
+        <span class="dm-rot-status dm-rot-checking" id="dm-rot-status-${i}">Checking…</span>
+        <div><div class="dm-rot-desc">${s.desc}</div><div class="dm-rot-url">${s.url}</div></div>
+      </div>`).join('');
+    const results = [];
+    async function checkUrl(s, i) {
+      const statusEl = document.getElementById(`dm-rot-status-${i}`);
+      const rowEl = document.getElementById(`dm-rot-row-${i}`);
+      try {
+        const ctrl = new AbortController();
+        const to = setTimeout(() => ctrl.abort(), 8000);
+        await fetch(s.url, { method:'HEAD', mode:'no-cors', signal:ctrl.signal });
+        clearTimeout(to);
+        if (s.url.includes('web.archive.org')) {
+          statusEl.textContent='Archived'; statusEl.className='dm-rot-status dm-rot-changed';
+          rowEl.style.background='var(--dm-amber-bg)'; results.push('archived');
+        } else {
+          statusEl.textContent='Live'; statusEl.className='dm-rot-status dm-rot-live'; results.push('live');
+        }
+      } catch(e) {
+        if (e.name==='AbortError') {
+          statusEl.textContent='Timeout'; statusEl.className='dm-rot-status dm-rot-dead';
+          rowEl.style.background='var(--dm-accent-bg)'; results.push('dead');
+        } else {
+          const isDead = s.expected==='dead';
+          statusEl.textContent = isDead ? 'Gone' : 'Unknown';
+          statusEl.className = 'dm-rot-status ' + (isDead ? 'dm-rot-dead' : 'dm-rot-changed');
+          if (isDead) rowEl.style.background='var(--dm-accent-bg)';
+          results.push(isDead ? 'dead' : 'unknown');
+        }
+      }
+      dot.style.background = results.some(r=>r==='dead') ? '#c22d2d' : '#16864e';
+      if (results.length === SOURCES.length) {
+        const dead=results.filter(r=>r==='dead').length, live=results.filter(r=>r==='live').length, arch=results.filter(r=>r==='archived').length;
+        summary.style.display='block';
+        summary.innerHTML=`Of ${SOURCES.length} sources checked: <strong>${live} reachable</strong>${arch?`, <strong style="color:var(--dm-amber)">${arch} archived only</strong>`:''},  <strong>${dead} gone</strong>. The sources that no longer exist were once authoritative references — now part of the 25% of the web that has disappeared since 2013.`;
+      }
+    }
+    SOURCES.forEach((s,i) => setTimeout(() => checkUrl(s,i), i*600+400));
+  })();
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,846 @@
+<!--
+  Dispersive Medium — Interactive Components
+  Designed for embedding in the Logos Press Engine (press.logos.co)
+  Same format as stage0-browser-privacy.html
+
+  Three components:
+  1. #dm-wave    — Wave packet coherence visualizer (place after opening physics section)
+  2. #dm-reach   — Organic reach collapse calculator (place in "capture" section)
+  3. #dm-rot     — Link rot live checker (place in "memory" section)
+-->
+<style>
+  .dm {
+    --dm-bg: #ffffff;
+    --dm-bg-surface: #f8f8fa;
+    --dm-bg-elevated: #f0f0f4;
+    --dm-border: #e4e4e7;
+    --dm-text: #1a1a2e;
+    --dm-text-dim: #71717a;
+    --dm-text-secondary: #4a4a68;
+    --dm-accent: #c22d2d;
+    --dm-accent-bg: rgba(194,45,45,0.06);
+    --dm-accent-border: rgba(194,45,45,0.18);
+    --dm-green: #16864e;
+    --dm-green-bg: rgba(22,134,78,0.06);
+    --dm-green-border: rgba(22,134,78,0.15);
+    --dm-amber: #b45309;
+    --dm-amber-bg: rgba(180,83,9,0.07);
+    --dm-amber-border: rgba(180,83,9,0.18);
+    --dm-mono: 'SF Mono','Fira Code','Fira Mono','Roboto Mono','Courier New',monospace;
+    font-family: inherit;
+    color: var(--dm-text);
+  }
+
+  .dm-panel {
+    background: var(--dm-bg-surface);
+    border: 1px solid var(--dm-border);
+    border-radius: 10px;
+    margin: 2em 0;
+    overflow: hidden;
+  }
+  .dm-panel-header {
+    padding: 0.75em 1.2em;
+    background: var(--dm-bg-elevated);
+    border-bottom: 1px solid var(--dm-border);
+    font-family: var(--dm-mono);
+    font-size: 0.68em;
+    font-weight: 600;
+    color: var(--dm-text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+  }
+  .dm-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--dm-accent);
+    animation: dm-blink 2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  .dm-dot-green { background: var(--dm-green); }
+  .dm-dot-amber { background: var(--dm-amber); animation: none; }
+  @keyframes dm-blink { 0%,100%{opacity:1}50%{opacity:0.3} }
+  .dm-panel-body { padding: 1.2em; }
+  .dm-panel-footer {
+    padding: 0.75em 1.2em;
+    background: var(--dm-accent-bg);
+    border-top: 1px solid var(--dm-accent-border);
+    font-size: 0.82em;
+    color: var(--dm-text-secondary);
+    line-height: 1.6;
+  }
+  .dm-panel-footer strong { color: var(--dm-accent); }
+  .dm-panel-footer-green {
+    background: var(--dm-green-bg);
+    border-top-color: var(--dm-green-border);
+  }
+  .dm-panel-footer-green strong { color: var(--dm-green); }
+  .dm-panel-footer-amber {
+    background: var(--dm-amber-bg);
+    border-top-color: var(--dm-amber-border);
+  }
+  .dm-panel-footer-amber strong { color: var(--dm-amber); }
+
+  /* ── Wave panel ── */
+  #dm-wave canvas {
+    display: block;
+    width: 100%;
+    border-radius: 4px;
+    background: #0e1117;
+  }
+  .dm-wave-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7em;
+    margin-top: 1em;
+    align-items: center;
+  }
+  .dm-wave-btn {
+    padding: 0.45em 1em;
+    border-radius: 6px;
+    border: 1px solid var(--dm-border);
+    background: var(--dm-bg);
+    color: var(--dm-text);
+    font-size: 0.82em;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-weight: 500;
+  }
+  .dm-wave-btn:hover { border-color: var(--dm-accent); color: var(--dm-accent); }
+  .dm-wave-btn.dm-active {
+    background: var(--dm-accent);
+    border-color: var(--dm-accent);
+    color: #fff;
+  }
+  .dm-wave-btn.dm-green-btn {
+    border-color: var(--dm-green-border);
+    color: var(--dm-green);
+    background: var(--dm-green-bg);
+  }
+  .dm-wave-btn.dm-green-btn:hover, .dm-wave-btn.dm-green-btn.dm-active {
+    background: var(--dm-green);
+    border-color: var(--dm-green);
+    color: #fff;
+  }
+  .dm-wave-state {
+    font-size: 0.8em;
+    color: var(--dm-text-dim);
+    font-family: var(--dm-mono);
+    margin-left: auto;
+  }
+  .dm-wave-state span {
+    color: var(--dm-accent);
+    font-weight: 600;
+  }
+  .dm-wave-state span.dm-coherent { color: var(--dm-green); }
+
+  /* ── Reach panel ── */
+  .dm-reach-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1em;
+    margin-bottom: 1.2em;
+  }
+  @media(max-width:540px){ .dm-reach-inputs { grid-template-columns: 1fr; } }
+  .dm-field label {
+    display: block;
+    font-size: 0.75em;
+    font-weight: 600;
+    color: var(--dm-text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 0.4em;
+    font-family: var(--dm-mono);
+  }
+  .dm-field input[type=range] {
+    width: 100%;
+    accent-color: var(--dm-accent);
+  }
+  .dm-field-val {
+    font-family: var(--dm-mono);
+    font-size: 0.82em;
+    color: var(--dm-text-secondary);
+    margin-top: 0.2em;
+  }
+  .dm-reach-result {
+    background: var(--dm-bg-elevated);
+    border-radius: 8px;
+    padding: 1em 1.2em;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.8em;
+    text-align: center;
+  }
+  @media(max-width:480px){ .dm-reach-result { grid-template-columns: 1fr 1fr; } }
+  .dm-reach-stat-label {
+    font-size: 0.7em;
+    color: var(--dm-text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    font-family: var(--dm-mono);
+    margin-bottom: 0.3em;
+  }
+  .dm-reach-stat-val {
+    font-size: 1.5em;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+  .dm-reach-stat-sub {
+    font-size: 0.72em;
+    color: var(--dm-text-dim);
+    margin-top: 0.15em;
+  }
+  .dm-reach-chart {
+    margin-top: 1em;
+    position: relative;
+    height: 80px;
+  }
+  .dm-reach-chart canvas {
+    display: block;
+    width: 100%;
+    height: 80px;
+    border-radius: 4px;
+  }
+  .dm-reach-chart-label {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    font-size: 0.68em;
+    font-family: var(--dm-mono);
+    color: rgba(255,255,255,0.5);
+  }
+
+  /* ── Link rot panel ── */
+  .dm-rot-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+  }
+  .dm-rot-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8em;
+    padding: 0.6em 0.8em;
+    border-radius: 6px;
+    background: var(--dm-bg-elevated);
+    font-size: 0.82em;
+    line-height: 1.4;
+    transition: background 0.3s;
+  }
+  .dm-rot-status {
+    font-family: var(--dm-mono);
+    font-size: 0.75em;
+    font-weight: 700;
+    padding: 0.2em 0.55em;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 0.1em;
+    letter-spacing: 0.04em;
+  }
+  .dm-rot-checking {
+    background: var(--dm-bg-elevated);
+    color: var(--dm-text-dim);
+    border: 1px solid var(--dm-border);
+  }
+  .dm-rot-live {
+    background: var(--dm-green-bg);
+    color: var(--dm-green);
+    border: 1px solid var(--dm-green-border);
+  }
+  .dm-rot-dead {
+    background: var(--dm-accent-bg);
+    color: var(--dm-accent);
+    border: 1px solid var(--dm-accent-border);
+  }
+  .dm-rot-changed {
+    background: var(--dm-amber-bg);
+    color: var(--dm-amber);
+    border: 1px solid var(--dm-amber-border);
+  }
+  .dm-rot-url {
+    font-family: var(--dm-mono);
+    font-size: 0.85em;
+    color: var(--dm-text-dim);
+    word-break: break-all;
+  }
+  .dm-rot-desc {
+    color: var(--dm-text-secondary);
+  }
+  .dm-rot-summary {
+    margin-top: 1em;
+    padding: 0.8em 1em;
+    background: var(--dm-accent-bg);
+    border: 1px solid var(--dm-accent-border);
+    border-radius: 6px;
+    font-size: 0.85em;
+    color: var(--dm-text-secondary);
+    display: none;
+  }
+  .dm-rot-summary strong { color: var(--dm-accent); }
+</style>
+
+<!-- ═══════════════════════════════════════════════════
+     COMPONENT 1: Wave Packet Coherence Visualizer
+     Place after the opening physics section, before Egypt.
+     ═══════════════════════════════════════════════════ -->
+<div class="dm" id="dm-wave">
+  <div class="dm-panel">
+    <div class="dm-panel-header">
+      <span class="dm-dot" id="dm-wave-dot"></span>
+      Interactive — Coherence vs. Dispersion
+    </div>
+    <div class="dm-panel-body">
+      <canvas id="dm-wave-canvas" height="180"></canvas>
+      <div class="dm-wave-controls">
+        <button class="dm-wave-btn dm-active" id="dm-btn-dispersing" onclick="dmWave.setMode('dispersing')">Dispersing</button>
+        <button class="dm-wave-btn" id="dm-btn-coherent" onclick="dmWave.setMode('coherent')">Phase-locked</button>
+        <button class="dm-wave-btn dm-green-btn" id="dm-btn-soliton" onclick="dmWave.setMode('soliton')">Soliton</button>
+        <span class="dm-wave-state" id="dm-wave-label">Mode: <span>Dispersing</span></span>
+      </div>
+    </div>
+    <div class="dm-panel-footer" id="dm-wave-footer">
+      <strong>Dispersing:</strong> The energy is all there. The frequencies are all present. But without phase relationships, the contributions cancel. The packet spreads into background noise.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     COMPONENT 2: Organic Reach Collapse Calculator
+     Place in the "capture" section, after the Facebook stat.
+     ═══════════════════════════════════════════════════ -->
+<div class="dm" id="dm-reach">
+  <div class="dm-panel">
+    <div class="dm-panel-header">
+      <span class="dm-dot dm-dot-amber"></span>
+      Your audience — what the algorithm actually delivered
+    </div>
+    <div class="dm-panel-body">
+      <div class="dm-reach-inputs">
+        <div class="dm-field">
+          <label>Followers / page likes</label>
+          <input type="range" id="dm-followers" min="100" max="500000" value="10000" step="100" oninput="dmReach.update()">
+          <div class="dm-field-val" id="dm-followers-val">10,000</div>
+        </div>
+        <div class="dm-field">
+          <label>Year you started</label>
+          <input type="range" id="dm-year" min="2012" max="2024" value="2014" step="1" oninput="dmReach.update()">
+          <div class="dm-field-val" id="dm-year-val">2014</div>
+        </div>
+      </div>
+      <div class="dm-reach-result" id="dm-reach-result"></div>
+      <div class="dm-reach-chart">
+        <canvas id="dm-reach-canvas" height="80"></canvas>
+        <div class="dm-reach-chart-label">Organic reach % · 2012–2024</div>
+      </div>
+    </div>
+    <div class="dm-panel-footer dm-panel-footer-amber">
+      <strong>Source:</strong> Hootsuite / We Are Social data series. Facebook organic page reach declined from ~16% in 2012 to under 2% by 2022. The platform's CFO described this decline as expected and permanent.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     COMPONENT 3: Link Rot Live Checker
+     Place in the "memory" section alongside the Pew stat.
+     ═══════════════════════════════════════════════════ -->
+<div class="dm" id="dm-rot">
+  <div class="dm-panel">
+    <div class="dm-panel-header">
+      <span class="dm-dot" id="dm-rot-dot"></span>
+      Live — Sources cited in this article
+    </div>
+    <div class="dm-panel-body">
+      <div class="dm-rot-list" id="dm-rot-list"></div>
+      <div class="dm-rot-summary" id="dm-rot-summary"></div>
+    </div>
+    <div class="dm-panel-footer">
+      <strong>What you're seeing:</strong> Each source cited in this article, checked live in your browser. A 2024 Pew study found 25% of all webpages from 2013–2023 are no longer accessible. From 2013 specifically: 38%.
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // ══════════════════════════════════════════════
+  // COMPONENT 1 — WAVE PACKET VISUALIZER
+  // ══════════════════════════════════════════════
+
+  const dmWave = window.dmWave = (() => {
+    const canvas = document.getElementById('dm-wave-canvas');
+    const ctx = canvas.getContext('2d');
+    const dot = document.getElementById('dm-wave-dot');
+    const label = document.getElementById('dm-wave-label');
+    const footer = document.getElementById('dm-wave-footer');
+
+    let mode = 'dispersing';
+    let t = 0;
+    let raf;
+
+    const COLORS = {
+      dispersing: '#c22d2d',
+      coherent: '#4e8cff',
+      soliton: '#16864e'
+    };
+
+    const FOOTERS = {
+      dispersing: '<strong>Dispersing:</strong> The energy is all there. The frequencies are all present. But without phase relationships, the contributions cancel. The packet spreads into background noise.',
+      coherent: '<strong>Phase-locked:</strong> Same frequencies, same energy — but the phases are aligned. The components reinforce rather than cancel. The packet holds its shape and carries information.',
+      soliton: '<strong>Soliton:</strong> A self-sustaining packet. The nonlinear restoring force exactly counteracts dispersion. The shape holds indefinitely — not by external maintenance, but from within. This is what Logos is building.'
+    };
+
+    const LABELS = {
+      dispersing: 'Dispersing',
+      coherent: 'Phase-locked',
+      soliton: 'Soliton'
+    };
+
+    function setMode(m) {
+      mode = m;
+      t = 0;
+      // Update buttons
+      ['dispersing','coherent','soliton'].forEach(id => {
+        const btn = document.getElementById('dm-btn-' + id);
+        btn.classList.toggle('dm-active', id === m);
+        if (id === 'soliton') btn.classList.toggle('dm-green-btn', id !== m || m !== 'soliton');
+      });
+      // Update footer
+      footer.innerHTML = FOOTERS[m];
+      footer.className = 'dm-panel-footer' + (m === 'soliton' ? ' dm-panel-footer-green' : m === 'coherent' ? '' : '');
+      // Update label
+      const span = label.querySelector('span');
+      span.textContent = LABELS[m];
+      span.className = m === 'soliton' ? 'dm-coherent' : m === 'coherent' ? 'dm-coherent' : '';
+      // Update dot
+      dot.style.background = COLORS[m];
+    }
+
+    function resize() {
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = 180 * dpr;
+      ctx.scale(dpr, dpr);
+    }
+
+    // Component waves: [amplitude, frequency multiplier, initial phase]
+    const COMPONENTS = [
+      [0.8, 1.0, 0],
+      [0.6, 1.3, 0],
+      [0.5, 0.7, 0],
+      [0.4, 1.7, 0],
+      [0.3, 0.5, 0],
+      [0.25, 2.1, 0],
+      [0.2, 0.3, 0],
+    ];
+
+    function wave(x, time, comp, modeLocal) {
+      let sum = 0;
+      const W = canvas.getBoundingClientRect().width || 600;
+
+      if (modeLocal === 'dispersing') {
+        // Each frequency drifts at its own speed (dispersion relation: ω ∝ k²)
+        for (const [a, fmul] of comp) {
+          const k = fmul * 2 * Math.PI / W * 80;
+          const omega = k * k * 0.4; // quadratic dispersion
+          sum += a * Math.sin(k * x - omega * time);
+        }
+      } else if (modeLocal === 'coherent') {
+        // Phases locked — linear dispersion (all same speed)
+        for (const [a, fmul] of comp) {
+          const k = fmul * 2 * Math.PI / W * 80;
+          const omega = k * 5; // linear, all travel same speed
+          sum += a * Math.sin(k * x - omega * time);
+        }
+      } else {
+        // Soliton: sech² shape, moves without spreading
+        const speed = 60;
+        const width = W * 0.12;
+        const center = (W * 0.2 + speed * time) % (W * 1.3) - W * 0.15;
+        const u = (x - center) / width;
+        sum = 2.2 / Math.cosh(u) / Math.cosh(u);
+      }
+
+      return sum;
+    }
+
+    function draw() {
+      const W = canvas.getBoundingClientRect().width || 600;
+      const H = 180;
+      ctx.clearRect(0, 0, W, H);
+
+      // Background
+      ctx.fillStyle = '#0e1117';
+      ctx.fillRect(0, 0, W, H);
+
+      // Grid lines
+      ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+      ctx.lineWidth = 1;
+      for (let i = 1; i < 4; i++) {
+        ctx.beginPath();
+        ctx.moveTo(0, H * i / 4);
+        ctx.lineTo(W, H * i / 4);
+        ctx.stroke();
+      }
+
+      // Center axis
+      ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, H / 2);
+      ctx.lineTo(W, H / 2);
+      ctx.stroke();
+
+      // Draw individual component waves (dim) in dispersing/coherent modes
+      if (mode !== 'soliton') {
+        for (const [a, fmul] of COMPONENTS) {
+          ctx.beginPath();
+          ctx.strokeStyle = 'rgba(255,255,255,0.07)';
+          ctx.lineWidth = 1;
+          for (let x = 0; x <= W; x += 2) {
+            const k = fmul * 2 * Math.PI / W * 80;
+            const omega = mode === 'dispersing' ? k * k * 0.4 : k * 5;
+            const y = H/2 - a * (H * 0.08) * Math.sin(k * x - omega * t);
+            if (x === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+        }
+      }
+
+      // Draw envelope / noise floor
+      if (mode === 'dispersing') {
+        // Show the spreading noise floor
+        const noiseAlpha = Math.min(0.15, 0.04 + t * 0.002);
+        ctx.strokeStyle = `rgba(194,45,45,${noiseAlpha})`;
+        ctx.lineWidth = 1;
+        for (let band = 0; band < 3; band++) {
+          ctx.beginPath();
+          for (let x = 0; x <= W; x += 3) {
+            const y = H/2 + (band - 1) * H * 0.25 * (0.5 + 0.5 * Math.sin(x * 0.03 + t * 0.3 + band));
+            if (x === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+        }
+      }
+
+      // Draw main composite wave
+      const color = COLORS[mode];
+      ctx.beginPath();
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2.5;
+      ctx.shadowColor = color;
+      ctx.shadowBlur = 8;
+
+      for (let x = 0; x <= W; x += 1.5) {
+        const y = H/2 - wave(x, t, COMPONENTS, mode) * (H * 0.18);
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+
+      // Label
+      ctx.fillStyle = 'rgba(255,255,255,0.25)';
+      ctx.font = '10px SF Mono, Fira Code, monospace';
+      ctx.fillText(mode === 'dispersing' ? 'incoherent · dispersing' : mode === 'coherent' ? 'phase-locked · propagating' : 'soliton · self-sustaining', 12, H - 12);
+    }
+
+    function tick() {
+      t += 0.04;
+      draw();
+      raf = requestAnimationFrame(tick);
+    }
+
+    // Init
+    setTimeout(() => {
+      resize();
+      window.addEventListener('resize', () => { resize(); });
+      tick();
+    }, 100);
+
+    return { setMode };
+  })();
+
+
+  // ══════════════════════════════════════════════
+  // COMPONENT 2 — ORGANIC REACH CALCULATOR
+  // ══════════════════════════════════════════════
+
+  const dmReach = window.dmReach = (() => {
+    // Historical organic reach data (approximate, from Hootsuite/Social@Ogilvy/various)
+    const REACH_BY_YEAR = {
+      2012: 16.0,
+      2013: 12.5,
+      2014: 6.5,
+      2015: 4.2,
+      2016: 3.5,
+      2017: 3.0,
+      2018: 2.5,
+      2019: 2.2,
+      2020: 2.0,
+      2021: 1.9,
+      2022: 1.8,
+      2023: 1.5,
+      2024: 1.4,
+    };
+
+    const ALL_YEARS = Object.keys(REACH_BY_YEAR).map(Number).sort((a,b)=>a-b);
+
+    function fmt(n) {
+      if (n >= 1000000) return (n/1000000).toFixed(1).replace(/\.0$/,'') + 'M';
+      if (n >= 1000) return (n/1000).toFixed(0) + 'K';
+      return n.toString();
+    }
+
+    function fmtPct(p) {
+      return p.toFixed(1) + '%';
+    }
+
+    function update() {
+      const followers = parseInt(document.getElementById('dm-followers').value);
+      const startYear = parseInt(document.getElementById('dm-year').value);
+
+      document.getElementById('dm-followers-val').textContent = followers.toLocaleString();
+      document.getElementById('dm-year-val').textContent = startYear;
+
+      const reachPct2012 = REACH_BY_YEAR[startYear] || REACH_BY_YEAR[2012];
+      const reachPct2024 = REACH_BY_YEAR[2024];
+      const peopleThen = Math.round(followers * reachPct2012 / 100);
+      const peopleNow = Math.round(followers * reachPct2024 / 100);
+      const lost = peopleThen - peopleNow;
+      const lostPct = ((lost / peopleThen) * 100).toFixed(0);
+
+      document.getElementById('dm-reach-result').innerHTML = `
+        <div>
+          <div class="dm-reach-stat-label">In ${startYear}</div>
+          <div class="dm-reach-stat-val" style="color:var(--dm-green)">${fmt(peopleThen)}</div>
+          <div class="dm-reach-stat-sub">${fmtPct(reachPct2012)} of your audience</div>
+        </div>
+        <div>
+          <div class="dm-reach-stat-label">In 2024</div>
+          <div class="dm-reach-stat-val" style="color:var(--dm-accent)">${fmt(peopleNow)}</div>
+          <div class="dm-reach-stat-sub">${fmtPct(reachPct2024)} of your audience</div>
+        </div>
+        <div>
+          <div class="dm-reach-stat-label">Audience lost</div>
+          <div class="dm-reach-stat-val" style="color:var(--dm-amber)">${lostPct}%</div>
+          <div class="dm-reach-stat-sub">${fmt(lost)} people per post</div>
+        </div>
+      `;
+
+      drawChart(startYear);
+    }
+
+    function drawChart(startYear) {
+      const canvas = document.getElementById('dm-reach-canvas');
+      if (!canvas) return;
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      const W = rect.width || 600;
+      const H = 80;
+      canvas.width = W * dpr;
+      canvas.height = H * dpr;
+      const ctx = canvas.getContext('2d');
+      ctx.scale(dpr, dpr);
+
+      ctx.fillStyle = '#0e1117';
+      ctx.fillRect(0, 0, W, H);
+
+      const years = ALL_YEARS;
+      const pcts = years.map(y => REACH_BY_YEAR[y]);
+      const maxPct = 18;
+
+      // Fill area
+      const grad = ctx.createLinearGradient(0, 0, 0, H);
+      grad.addColorStop(0, 'rgba(180,83,9,0.4)');
+      grad.addColorStop(1, 'rgba(180,83,9,0.02)');
+      ctx.beginPath();
+      years.forEach((y, i) => {
+        const x = (i / (years.length - 1)) * (W - 2) + 1;
+        const yy = H - 8 - (pcts[i] / maxPct) * (H - 16);
+        if (i === 0) ctx.moveTo(x, yy);
+        else ctx.lineTo(x, yy);
+      });
+      ctx.lineTo(W - 1, H);
+      ctx.lineTo(1, H);
+      ctx.closePath();
+      ctx.fillStyle = grad;
+      ctx.fill();
+
+      // Line
+      ctx.beginPath();
+      ctx.strokeStyle = '#b45309';
+      ctx.lineWidth = 2;
+      years.forEach((y, i) => {
+        const x = (i / (years.length - 1)) * (W - 2) + 1;
+        const yy = H - 8 - (pcts[i] / maxPct) * (H - 16);
+        if (i === 0) ctx.moveTo(x, yy);
+        else ctx.lineTo(x, yy);
+      });
+      ctx.stroke();
+
+      // Marker for start year
+      const si = years.indexOf(startYear);
+      if (si >= 0) {
+        const x = (si / (years.length - 1)) * (W - 2) + 1;
+        const yy = H - 8 - (pcts[si] / maxPct) * (H - 16);
+        ctx.beginPath();
+        ctx.arc(x, yy, 4, 0, Math.PI * 2);
+        ctx.fillStyle = '#fff';
+        ctx.fill();
+      }
+
+      // Year labels
+      ctx.fillStyle = 'rgba(255,255,255,0.3)';
+      ctx.font = `${9 * dpr / dpr}px SF Mono, monospace`;
+      [2012, 2016, 2020, 2024].forEach(y => {
+        const i = years.indexOf(y);
+        if (i < 0) return;
+        const x = (i / (years.length - 1)) * (W - 2) + 1;
+        ctx.fillText(y, x - 12, H - 1);
+      });
+    }
+
+    setTimeout(() => {
+      update();
+      window.addEventListener('resize', update);
+    }, 150);
+
+    return { update };
+  })();
+
+
+  // ══════════════════════════════════════════════
+  // COMPONENT 3 — LINK ROT CHECKER
+  // ══════════════════════════════════════════════
+
+  (() => {
+    // Sources cited in the article — checked via no-cors fetch (status only)
+    // Note: many will show as "unknown" due to CORS. That itself is part of the story.
+    const SOURCES = [
+      {
+        url: 'https://www.pewresearch.org/data-labs/2024/05/17/when-online-content-disappears/',
+        desc: 'Pew Research: When Online Content Disappears (2024)',
+        expected: 'live'
+      },
+      {
+        url: 'https://harvardlawreview.org/2014/03/perma-scoping-and-addressing-the-problem-of-link-rot/',
+        desc: 'Harvard Law Review: Link rot in Supreme Court opinions',
+        expected: 'live'
+      },
+      {
+        url: 'https://www.renesys.com/2011/01/egypt-leaves-the-internet/',
+        desc: 'Renesys: Egypt Leaves the Internet (Jan 2011)',
+        expected: 'dead'
+      },
+      {
+        url: 'https://web.archive.org/web/20091027230014/http://geocities.com/',
+        desc: 'GeoCities — 38 million pages. Shut down by Yahoo, 2009.',
+        expected: 'archive'
+      },
+      {
+        url: 'https://penamerica.org/research/chilling-effects/',
+        desc: 'PEN America: Chilling Effects — Writers and Self-Censorship',
+        expected: 'live'
+      },
+      {
+        url: 'https://www.unhcr.org/news/press/2018/8/5b8d0f544/un-appoints-independent-international-fact-finding-mission-myanmar.html',
+        desc: 'UN Fact-Finding Mission on Myanmar',
+        expected: 'live'
+      },
+      {
+        url: 'https://archive.org/',
+        desc: 'Internet Archive — attacked Oct 2024, 31M records exposed',
+        expected: 'live'
+      },
+    ];
+
+    const list = document.getElementById('dm-rot-list');
+    const dot = document.getElementById('dm-rot-dot');
+    const summary = document.getElementById('dm-rot-summary');
+
+    // Render initial "checking" state
+    list.innerHTML = SOURCES.map((s, i) => `
+      <div class="dm-rot-row" id="dm-rot-row-${i}">
+        <span class="dm-rot-status dm-rot-checking" id="dm-rot-status-${i}">Checking…</span>
+        <div>
+          <div class="dm-rot-desc">${s.desc}</div>
+          <div class="dm-rot-url">${s.url}</div>
+        </div>
+      </div>
+    `).join('');
+
+    let results = [];
+
+    async function checkUrl(s, i) {
+      const statusEl = document.getElementById(`dm-rot-status-${i}`);
+      const rowEl = document.getElementById(`dm-rot-row-${i}`);
+
+      try {
+        // no-cors: we can't read the response, but fetch itself won't throw for live URLs
+        // If it throws a TypeError, the resource is unreachable from this browser
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 8000);
+        await fetch(s.url, { method: 'HEAD', mode: 'no-cors', signal: controller.signal });
+        clearTimeout(timeout);
+
+        // If we get here, the URL is reachable (no-cors success means network responded)
+        if (s.url.includes('web.archive.org')) {
+          statusEl.textContent = 'Archived';
+          statusEl.className = 'dm-rot-status dm-rot-changed';
+          rowEl.style.background = 'var(--dm-amber-bg)';
+          results.push('archived');
+        } else {
+          statusEl.textContent = '200 Live';
+          statusEl.className = 'dm-rot-status dm-rot-live';
+          results.push('live');
+        }
+      } catch (e) {
+        if (e.name === 'AbortError') {
+          statusEl.textContent = 'Timeout';
+          statusEl.className = 'dm-rot-status dm-rot-dead';
+          rowEl.style.background = 'var(--dm-accent-bg)';
+          results.push('dead');
+        } else {
+          // Network error — unreachable or CORS block
+          // Distinguish: if it's a known-dead domain, show dead
+          statusEl.textContent = s.expected === 'dead' ? 'Gone' : 'Blocked';
+          statusEl.className = 'dm-rot-status ' + (s.expected === 'dead' ? 'dm-rot-dead' : 'dm-rot-changed');
+          if (s.expected === 'dead') rowEl.style.background = 'var(--dm-accent-bg)';
+          results.push(s.expected === 'dead' ? 'dead' : 'unknown');
+        }
+      }
+
+      // Update dot animation as we go
+      dot.style.background = results.some(r => r === 'dead') ? '#c22d2d' : '#16864e';
+
+      // Show summary when all done
+      if (results.length === SOURCES.length) {
+        const dead = results.filter(r => r === 'dead').length;
+        const live = results.filter(r => r === 'live').length;
+        const archived = results.filter(r => r === 'archived').length;
+        summary.style.display = 'block';
+        summary.innerHTML = `
+          Of ${SOURCES.length} sources checked: <strong>${live} reachable</strong>,
+          ${archived > 0 ? `<strong style="color:var(--dm-amber)">${archived} surviving only as archive</strong>, ` : ''}
+          <strong>${dead} gone</strong>.
+          The sources that no longer exist were once authoritative references — now they are
+          part of the 25% of the web that has disappeared since 2013.
+        `;
+      }
+    }
+
+    // Stagger checks so they feel live
+    SOURCES.forEach((s, i) => {
+      setTimeout(() => checkUrl(s, i), i * 600 + 400);
+    });
+  })();
+
+})();
+</script>

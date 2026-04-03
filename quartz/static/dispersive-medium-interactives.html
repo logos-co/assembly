@@ -290,7 +290,7 @@
   <div class="dm-panel">
     <div class="dm-panel-header">
       <span class="dm-dot" id="dm-wave-dot"></span>
-      Interactive — Coherence vs. Dispersion
+      Figure 1 — Coherence vs. Dispersion
     </div>
     <div class="dm-panel-body">
       <canvas id="dm-wave-canvas" height="180"></canvas>
@@ -302,7 +302,7 @@
       </div>
     </div>
     <div class="dm-panel-footer" id="dm-wave-footer">
-      <strong>Dispersing:</strong> The energy is all there. The frequencies are all present. But without phase relationships, the contributions cancel. The packet spreads into background noise.
+      <strong>Dispersing (Figure 1a):</strong> The energy is all there. The frequencies are all present. But without phase relationships, the contributions cancel — the packet spreads into background noise. This is the default state of any real medium: coherence requires explanation; dispersion does not.
     </div>
   </div>
 </div>
@@ -315,7 +315,7 @@
   <div class="dm-panel">
     <div class="dm-panel-header">
       <span class="dm-dot dm-dot-amber"></span>
-      Your audience — what the algorithm actually delivered
+      Figure 2 — Your audience, after the algorithm
     </div>
     <div class="dm-panel-body">
       <div class="dm-reach-inputs">
@@ -337,7 +337,7 @@
       </div>
     </div>
     <div class="dm-panel-footer dm-panel-footer-amber">
-      <strong>Source:</strong> Hootsuite / We Are Social data series. Facebook organic page reach declined from ~16% in 2012 to under 2% by 2022. The platform's CFO described this decline as expected and permanent.
+      <strong>Figure 2 · Source:</strong> Hootsuite / We Are Social data series. Facebook organic page reach declined from ~16% in 2012 to under 2% by 2022 — a change to the dispersion relation of the medium. Your community is still there. The platform changed the speed at which your frequencies travel.
     </div>
   </div>
 </div>
@@ -350,14 +350,14 @@
   <div class="dm-panel">
     <div class="dm-panel-header">
       <span class="dm-dot" id="dm-rot-dot"></span>
-      Live — Sources cited in this article
+      Figure 3 — Live: sources cited in this article
     </div>
     <div class="dm-panel-body">
       <div class="dm-rot-list" id="dm-rot-list"></div>
       <div class="dm-rot-summary" id="dm-rot-summary"></div>
     </div>
     <div class="dm-panel-footer">
-      <strong>What you're seeing:</strong> Each source cited in this article, checked live in your browser. A 2024 Pew study found 25% of all webpages from 2013–2023 are no longer accessible. From 2013 specifically: 38%.
+      <strong>Figure 3 · What you're seeing:</strong> Each source cited in this article, checked live in your browser right now. A 2024 Pew study found 25% of all webpages from 2013–2023 are no longer accessible. From 2013 specifically: 38%. Civil society's memory is stored on servers it doesn't own, subject to terms it didn't negotiate.
     </div>
   </div>
 </div>
@@ -388,9 +388,9 @@
     };
 
     const FOOTERS = {
-      dispersing: '<strong>Dispersing:</strong> The energy is all there. The frequencies are all present. But without phase relationships, the contributions cancel. The packet spreads into background noise.',
-      coherent: '<strong>Phase-locked:</strong> Same frequencies, same energy — but the phases are aligned. The components reinforce rather than cancel. The packet holds its shape and carries information.',
-      soliton: '<strong>Soliton:</strong> A self-sustaining packet. The nonlinear restoring force exactly counteracts dispersion. The shape holds indefinitely — not by external maintenance, but from within. This is what Logos is building.'
+      dispersing: '<strong>Dispersing (Figure 1a):</strong> The energy is all there. The frequencies are all present. But without phase relationships, the contributions cancel — the packet spreads into background noise. This is the default state of any real medium: coherence requires explanation; dispersion does not.',
+      coherent: '<strong>Phase-locked (Figure 1b):</strong> Same frequencies, same energy — but the phases are aligned. The components reinforce rather than cancel. The packet holds its shape and carries information. This is what civil society\'s coordination looked like before the medium changed.',
+      soliton: '<strong>Soliton (Figure 1c):</strong> A self-sustaining packet. The nonlinear restoring force exactly counteracts dispersion. The shape holds indefinitely — not by external maintenance, but by a structural property of the medium itself. A different medium, not a louder signal.'
     };
 
     const LABELS = {
@@ -548,7 +548,7 @@
       // Label
       ctx.fillStyle = 'rgba(255,255,255,0.25)';
       ctx.font = '10px SF Mono, Fira Code, monospace';
-      ctx.fillText(mode === 'dispersing' ? 'incoherent · dispersing' : mode === 'coherent' ? 'phase-locked · propagating' : 'soliton · self-sustaining', 12, H - 12);
+      ctx.fillText(mode === 'dispersing' ? 'fig 1a · incoherent · dispersing' : mode === 'coherent' ? 'fig 1b · phase-locked · propagating' : 'fig 1c · soliton · self-sustaining', 12, H - 12);
     }
 
     function tick() {

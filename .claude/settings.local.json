@@ -16,7 +16,17 @@
       "Bash(git stash:*)",
       "WebFetch(domain:coda.io)",
       "Bash(claude mcp list:*)",
-      "mcp__crawl4ai__md"
+      "mcp__crawl4ai__md",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "mcp__Claude_in_Chrome__navigate",
+      "mcp__Claude_in_Chrome__computer",
+      "mcp__Claude_in_Chrome__read_console_messages",
+      "mcp__Claude_in_Chrome__get_page_text",
+      "mcp__Claude_in_Chrome__read_page",
+      "mcp__Claude_in_Chrome__tabs_create_mcp",
+      "mcp__Claude_in_Chrome__tabs_close_mcp",
+      "mcp__Claude_in_Chrome__javascript_tool",
+      "Bash(kill %1)"
     ]
   }
 }

@@ -18,3 +18,4 @@ Here are the following sections of this site that need to be built out and a sho
 - [[resources/index|Resource Map]]
 - [[Coordination Proposals]]
 - [[Content Tracker]]
+- [[resources/repo-registry/index|Repository Registry]]

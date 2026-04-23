@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Basecamp Stack — Interactive Preview</title>
+<style>
+  body {
+    font-family: 'Georgia', serif;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 2em 1.5em 4em;
+    background: #fff;
+    color: #1a1a2e;
+    line-height: 1.75;
+  }
+  h1 { font-size: 2em; line-height: 1.2; margin-bottom: 0.2em; }
+  h3.subtitle { font-size: 1.05em; font-weight: 400; color: #4a4a68; margin-top: 0; margin-bottom: 0.3em; line-height: 1.4; }
+  .byline { color: #71717a; font-size: 0.9em; margin-bottom: 2em; font-style: italic; }
+  p { margin-bottom: 1.5em; }
+  hr { border: none; border-top: 1px solid #e4e4e7; margin: 2.5em 0; }
+</style>
+
+<!-- ─── Scoped styles for the Basecamp stack interactive ─── -->
+<style>
+  .bc {
+    --bc-text: #1a1a2e;
+    --bc-text-dim: #71717a;
+    --bc-text-secondary: #4a4a68;
+    --bc-border: #d4d4d8;
+    --bc-border-strong: #52525b;
+    --bc-border-soft: #b7b7bd;
+    --bc-bg: #ffffff;
+    --bc-bg-surface: #fafafa;
+    --bc-bg-elevated: #f4f4f5;
+
+    /* Entry zone tints (no borders; the tint + pill is the boundary) */
+    --bc-zone-basecamp: #f1f3f7;
+    --bc-zone-standalone: #edf3fb;
+    --bc-zone-headless: #f7f2e8;
+
+    /* Entry pill colors */
+    --bc-basecamp: #1f2937;
+    --bc-standalone: #1e5fa8;
+    --bc-headless: #8a6116;
+
+    /* Layer tints — lightest at top (apps), darkening toward the runtime */
+    --bc-layer-apps-bg: #fcfcfe;
+    --bc-layer-protocols-bg: #f4f5f9;
+    --bc-layer-modules-bg: #e8e9ee;
+    --bc-layer-network-bg: #dadce3;
+    --bc-layer-runtime-bg: #c7cad3;
+
+    /* Highlight accents */
+    --bc-accent: #c22d2d;
+    --bc-accent-bg: rgba(194, 45, 45, 0.09);
+    --bc-accent-text: #a12020;
+    --bc-green: #16864e;
+    --bc-green-bg: rgba(22, 134, 78, 0.09);
+    --bc-amber: #b45309;
+    --bc-amber-bg: rgba(180, 83, 9, 0.09);
+    --bc-blue: #1e5fa8;
+    --bc-blue-bg: rgba(30, 95, 168, 0.09);
+
+    --bc-mono: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', 'Courier New', monospace;
+    --bc-dim-opacity: 0.22;
+    font-family: inherit;
+    color: var(--bc-text);
+    margin: 2.2em 0;
+  }
+
+  .bc-panel {
+    background: var(--bc-bg);
+    border: 1px solid var(--bc-border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  }
+  .bc-panel-header {
+    padding: 0.75em 1.2em;
+    background: var(--bc-bg-elevated);
+    border-bottom: 1px solid var(--bc-border);
+    font-family: var(--bc-mono);
+    font-size: 0.72em;
+    font-weight: 600;
+    color: var(--bc-text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+  }
+  .bc-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--bc-accent);
+    flex-shrink: 0;
+    animation: bc-blink 2.2s ease-in-out infinite;
+  }
+  @keyframes bc-blink { 0%,100%{opacity:1}50%{opacity:0.35} }
+
+  /* ── Tab row ── */
+  .bc-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35em;
+    padding: 0.85em 1em;
+    background: var(--bc-bg-elevated);
+    border-bottom: 1px solid var(--bc-border);
+  }
+  .bc-tab {
+    font-family: inherit;
+    font-size: 0.82em;
+    font-weight: 500;
+    padding: 0.45em 0.9em;
+    border: 1px solid var(--bc-border);
+    background: #fff;
+    color: var(--bc-text-secondary);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    line-height: 1.25;
+  }
+  .bc-tab:hover { border-color: var(--bc-border-strong); color: var(--bc-text); }
+  .bc-tab[aria-selected="true"] {
+    background: var(--bc-text);
+    border-color: var(--bc-text);
+    color: #fff;
+  }
+
+  /* ── SVG stage ── */
+  .bc-stage {
+    padding: 1.4em 1em 1em;
+    background: #fff;
+  }
+  .bc-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+  }
+
+  /* ── Layer bands ── */
+  .bc-layer-bg { stroke: none; transition: all 0.35s ease; }
+  .bc-layer-apps      { fill: var(--bc-layer-apps-bg); }
+  .bc-layer-protocols { fill: var(--bc-layer-protocols-bg); }
+  .bc-layer-modules   { fill: var(--bc-layer-modules-bg); }
+  .bc-layer-network   { fill: var(--bc-layer-network-bg); }
+  .bc-layer-runtime   { fill: var(--bc-layer-runtime-bg); }
+
+  .bc-layer-label {
+    font-family: var(--bc-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    fill: var(--bc-text-dim);
+    text-transform: uppercase;
+    transition: all 0.35s ease;
+  }
+
+  /* ── Nodes ── */
+  .bc-node rect, .bc-node .bc-node-shape {
+    fill: #fff;
+    stroke: var(--bc-border-soft);
+    stroke-width: 1;
+    transition: all 0.35s ease;
+  }
+  .bc-node text {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    fill: var(--bc-text);
+    font-size: 12px;
+    text-anchor: middle;
+    dominant-baseline: middle;
+    transition: all 0.35s ease;
+  }
+  .bc-node-small text { font-size: 11px; }
+  .bc-node-tiny  text { font-size: 10px; }
+  .bc-node-large text { font-size: 13px; font-weight: 500; }
+
+  /* ── Entry zones (no border; colored header + tinted bg) ── */
+  .bc-entry rect.bc-entry-frame { stroke: none; transition: all 0.35s ease; }
+  .bc-entry rect.bc-entry-header { stroke: none; transition: all 0.35s ease; }
+
+  .bc-entry-basecamp   rect.bc-entry-frame  { fill: var(--bc-zone-basecamp); }
+  .bc-entry-standalone rect.bc-entry-frame  { fill: var(--bc-zone-standalone); }
+  .bc-entry-headless   rect.bc-entry-frame  { fill: var(--bc-zone-headless); }
+
+  .bc-entry-basecamp   rect.bc-entry-header { fill: var(--bc-basecamp); }
+  .bc-entry-standalone rect.bc-entry-header { fill: var(--bc-standalone); }
+  .bc-entry-headless   rect.bc-entry-header { fill: var(--bc-headless); }
+
+  .bc-entry text.bc-entry-title {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    fill: #fff;
+    text-anchor: middle;
+    dominant-baseline: middle;
+  }
+  .bc-entry text.bc-entry-sub {
+    font-family: var(--bc-mono);
+    font-size: 10px;
+    fill: var(--bc-text-dim);
+    text-anchor: middle;
+    dominant-baseline: middle;
+  }
+  .bc-entry text.bc-entry-inner {
+    font-family: var(--bc-mono);
+    font-size: 11px;
+    fill: var(--bc-text-dim);
+    text-anchor: middle;
+    dominant-baseline: middle;
+  }
+
+  /* ── Arrows (static + dynamic) ── */
+  .bc-arrow path {
+    fill: none;
+    stroke: var(--bc-border-strong);
+    stroke-width: 1.3;
+    transition: stroke 0.2s ease;
+  }
+  .bc-arrow-head { fill: var(--bc-border-strong); transition: fill 0.2s ease; }
+
+  /* Dynamic flow arrows (drawn per view) — slightly thicker, animated dash */
+  .bc-flow-arrow path {
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 5 4;
+    animation: bc-flow-dash 0.8s linear infinite;
+  }
+  @keyframes bc-flow-dash {
+    to { stroke-dashoffset: -18; }
+  }
+  .bc-flow-arrow .bc-arrow-head { transition: none; }
+
+  /* ── Dimming when a specific view is active ── */
+  .bc-svg[data-view]:not([data-view="overview"]) .bc-node:not(.bc-hl) rect,
+  .bc-svg[data-view]:not([data-view="overview"]) .bc-node:not(.bc-hl) .bc-node-shape,
+  .bc-svg[data-view]:not([data-view="overview"]) .bc-entry:not(.bc-hl) rect {
+    opacity: var(--bc-dim-opacity);
+  }
+  .bc-svg[data-view]:not([data-view="overview"]) .bc-node:not(.bc-hl) text,
+  .bc-svg[data-view]:not([data-view="overview"]) .bc-entry:not(.bc-hl) text {
+    opacity: var(--bc-dim-opacity);
+  }
+  .bc-svg[data-view]:not([data-view="overview"]) .bc-arrow-static:not(.bc-hl) path,
+  .bc-svg[data-view]:not([data-view="overview"]) .bc-arrow-static:not(.bc-hl) .bc-arrow-head {
+    opacity: calc(var(--bc-dim-opacity) * 0.7);
+  }
+  .bc-svg[data-view]:not([data-view="overview"]) .bc-layer-bg { opacity: 0.55; }
+  .bc-svg[data-view]:not([data-view="overview"]) .bc-layer-label { opacity: 0.55; }
+
+  /* ── Highlight accents ── */
+  .bc-svg .bc-hl.bc-accent-red rect,
+  .bc-svg .bc-hl.bc-accent-red .bc-node-shape {
+    fill: var(--bc-accent-bg);
+    stroke: var(--bc-accent);
+    stroke-width: 1.8;
+  }
+  .bc-svg .bc-hl.bc-accent-red text { fill: var(--bc-accent-text); font-weight: 600; }
+  .bc-svg .bc-entry.bc-hl.bc-accent-red rect.bc-entry-frame  { fill: var(--bc-accent-bg); }
+  .bc-svg .bc-entry.bc-hl.bc-accent-red rect.bc-entry-header { fill: var(--bc-accent); }
+
+  .bc-svg .bc-hl.bc-accent-green rect,
+  .bc-svg .bc-hl.bc-accent-green .bc-node-shape {
+    fill: var(--bc-green-bg);
+    stroke: var(--bc-green);
+    stroke-width: 1.8;
+  }
+  .bc-svg .bc-hl.bc-accent-green text { fill: var(--bc-green); font-weight: 600; }
+  .bc-svg .bc-entry.bc-hl.bc-accent-green rect.bc-entry-frame  { fill: var(--bc-green-bg); }
+  .bc-svg .bc-entry.bc-hl.bc-accent-green rect.bc-entry-header { fill: var(--bc-green); }
+
+  .bc-svg .bc-hl.bc-accent-blue rect,
+  .bc-svg .bc-hl.bc-accent-blue .bc-node-shape {
+    fill: var(--bc-blue-bg);
+    stroke: var(--bc-blue);
+    stroke-width: 1.8;
+  }
+  .bc-svg .bc-hl.bc-accent-blue text { fill: var(--bc-blue); font-weight: 600; }
+  .bc-svg .bc-entry.bc-hl.bc-accent-blue rect.bc-entry-frame  { fill: var(--bc-blue-bg); }
+  .bc-svg .bc-entry.bc-hl.bc-accent-blue rect.bc-entry-header { fill: var(--bc-blue); }
+
+  .bc-svg .bc-hl.bc-accent-amber rect,
+  .bc-svg .bc-hl.bc-accent-amber .bc-node-shape {
+    fill: var(--bc-amber-bg);
+    stroke: var(--bc-amber);
+    stroke-width: 1.8;
+  }
+  .bc-svg .bc-hl.bc-accent-amber text { fill: var(--bc-amber); font-weight: 600; }
+  .bc-svg .bc-entry.bc-hl.bc-accent-amber rect.bc-entry-frame  { fill: var(--bc-amber-bg); }
+  .bc-svg .bc-entry.bc-hl.bc-accent-amber rect.bc-entry-header { fill: var(--bc-amber); }
+
+  /* Dynamic flow arrow accents */
+  .bc-flow-arrow.bc-accent-red   path { stroke: var(--bc-accent); }
+  .bc-flow-arrow.bc-accent-red   .bc-arrow-head { fill: var(--bc-accent); }
+  .bc-flow-arrow.bc-accent-green path { stroke: var(--bc-green); }
+  .bc-flow-arrow.bc-accent-green .bc-arrow-head { fill: var(--bc-green); }
+  .bc-flow-arrow.bc-accent-blue  path { stroke: var(--bc-blue); }
+  .bc-flow-arrow.bc-accent-blue  .bc-arrow-head { fill: var(--bc-blue); }
+  .bc-flow-arrow.bc-accent-amber path { stroke: var(--bc-amber); }
+  .bc-flow-arrow.bc-accent-amber .bc-arrow-head { fill: var(--bc-amber); }
+
+  /* Static arrow highlighted (LEZ↔dec_seq, Storage↔Delivery) */
+  .bc-svg .bc-arrow-static.bc-hl.bc-accent-red   path { stroke: var(--bc-accent); stroke-width: 1.8; }
+  .bc-svg .bc-arrow-static.bc-hl.bc-accent-red   .bc-arrow-head { fill: var(--bc-accent); }
+  .bc-svg .bc-arrow-static.bc-hl.bc-accent-green path { stroke: var(--bc-green); stroke-width: 1.8; }
+  .bc-svg .bc-arrow-static.bc-hl.bc-accent-green .bc-arrow-head { fill: var(--bc-green); }
+  .bc-svg .bc-arrow-static.bc-hl.bc-accent-blue  path { stroke: var(--bc-blue); stroke-width: 1.8; }
+  .bc-svg .bc-arrow-static.bc-hl.bc-accent-blue  .bc-arrow-head { fill: var(--bc-blue); }
+  .bc-svg .bc-arrow-static.bc-hl.bc-accent-amber path { stroke: var(--bc-amber); stroke-width: 1.8; }
+  .bc-svg .bc-arrow-static.bc-hl.bc-accent-amber .bc-arrow-head { fill: var(--bc-amber); }
+
+  /* ── Caption ── */
+  .bc-caption {
+    padding: 1em 1.4em 1.2em;
+    border-top: 1px solid var(--bc-border);
+    background: var(--bc-bg-surface);
+  }
+  .bc-caption h3 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 1em;
+    font-weight: 600;
+    margin: 0 0 0.35em;
+    color: var(--bc-text);
+  }
+  .bc-caption p {
+    margin: 0;
+    font-size: 0.95em;
+    color: var(--bc-text-secondary);
+    line-height: 1.65;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  .bc-caption .bc-caption-tag {
+    display: inline-block;
+    font-family: var(--bc-mono);
+    font-size: 0.7em;
+    padding: 0.15em 0.55em;
+    border-radius: 3px;
+    background: var(--bc-bg-elevated);
+    border: 1px solid var(--bc-border);
+    color: var(--bc-text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-right: 0.5em;
+    vertical-align: 2px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Basecamp Stack — Interactive Preview</h1>
+<h3 class="subtitle">A diagram you can walk through. Pick a use case; the parts of the stack it leans on light up, with live flow arrows showing how data moves down the stack.</h3>
+<p class="byline">Draft preview — for the Basecamp article. Source file: <code>quartz/static/basecamp-stack-preview.html</code></p>
+
+<p>
+  The Logos stack reads bottom-up: runtime at the foundation, network on top, modules exposing capability, protocols composing those into something useful, applications at the apex. Each layer is narrower than the one below it, because each one <em>chooses</em> from what's beneath. The question is then: <em>how do users and developers actually reach into this stack?</em> Three entry points at the top answer that.
+</p>
+
+<div class="bc">
+  <div class="bc-panel">
+    <div class="bc-panel-header">
+      <span class="bc-dot"></span>
+      <span>Logos Stack · Interactive</span>
+    </div>
+
+    <div class="bc-tabs" role="tablist" id="bc-tabs">
+      <!-- populated by script -->
+    </div>
+
+    <div class="bc-stage">
+      <svg class="bc-svg" viewBox="0 0 960 600" data-view="overview" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Logos stack diagram">
+        <defs>
+          <marker id="bc-arrow-marker" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" class="bc-arrow-head"/>
+          </marker>
+          <marker id="bc-flow-marker" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" class="bc-arrow-head"/>
+          </marker>
+        </defs>
+
+        <!-- ═══════════════════════════════════════════════════════════════════
+             LAYER BACKGROUND BANDS — drawn first so everything else sits on top.
+             Spacing between bands (20px gaps) gives dynamic arrows clean gutters
+             to route their horizontal segments through.
+             ═══════════════════════════════════════════════════════════════════ -->
+        <rect class="bc-layer-bg bc-layer-apps"      x="20" y="200" width="920" height="60" rx="6"/>
+        <rect class="bc-layer-bg bc-layer-protocols" x="20" y="280" width="920" height="60" rx="6"/>
+        <rect class="bc-layer-bg bc-layer-modules"   x="20" y="360" width="920" height="70" rx="6"/>
+        <rect class="bc-layer-bg bc-layer-network"   x="20" y="450" width="920" height="40" rx="6"/>
+        <rect class="bc-layer-bg bc-layer-runtime"   x="20" y="510" width="920" height="40" rx="6"/>
+
+        <text class="bc-layer-label" x="34" y="216">APPS</text>
+        <text class="bc-layer-label" x="34" y="296">PROTOCOLS</text>
+        <text class="bc-layer-label" x="34" y="376">MODULES</text>
+        <text class="bc-layer-label" x="34" y="466">NETWORK</text>
+        <text class="bc-layer-label" x="34" y="526">RUNTIME</text>
+
+        <!-- ═══════════════════════════════════════════════════════════════════
+             ENTRY POINTS — tinted zones with bold colored header bands.
+             No frame borders; the tint + header is the boundary.
+             ═══════════════════════════════════════════════════════════════════ -->
+
+        <!-- ── Basecamp ── -->
+        <g class="bc-entry bc-entry-basecamp" data-id="basecamp">
+          <rect class="bc-entry-frame"  x="20" y="20" width="520" height="160" rx="8"/>
+          <rect class="bc-entry-header" x="20" y="20" width="520" height="32"  rx="8"/>
+          <rect class="bc-entry-header" x="20" y="40" width="520" height="12"/>
+          <text class="bc-entry-title"  x="280" y="37">Logos Basecamp</text>
+          <text class="bc-entry-sub"    x="280" y="67">default launcher · loads UI plugins</text>
+        </g>
+
+        <!-- Basecamp UI plugin boxes -->
+        <g class="bc-node bc-node-tiny" data-id="ui-package-manager">
+          <rect x="38" y="86" width="62" height="82" rx="3"/>
+          <text x="69" y="116">Package</text>
+          <text x="69" y="129">manager</text>
+          <text x="69" y="142">UI</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="ui-blockchain-dashboard">
+          <rect x="108" y="86" width="62" height="82" rx="3"/>
+          <text x="139" y="116">Blockchain</text>
+          <text x="139" y="129">Node</text>
+          <text x="139" y="142">Dashboard</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="ui-lez-wallet">
+          <rect x="178" y="86" width="62" height="82" rx="3"/>
+          <text x="209" y="122">LEZ Wallet</text>
+          <text x="209" y="135">UI</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="ui-lez-explorer">
+          <rect x="248" y="86" width="62" height="82" rx="3"/>
+          <text x="279" y="122">LEZ</text>
+          <text x="279" y="135">Explorer</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="ui-dex">
+          <rect x="318" y="86" width="62" height="82" rx="3"/>
+          <text x="349" y="129">DEX UI</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="ui-messaging">
+          <rect x="388" y="86" width="62" height="82" rx="3"/>
+          <text x="419" y="122">Messaging</text>
+          <text x="419" y="135">UI</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="ui-more">
+          <rect x="458" y="86" width="62" height="82" rx="3"/>
+          <text x="489" y="129">…</text>
+        </g>
+
+        <!-- ── Standalone App ── -->
+        <g class="bc-entry bc-entry-standalone" data-id="standalone">
+          <rect class="bc-entry-frame"  x="560" y="20" width="160" height="160" rx="8"/>
+          <rect class="bc-entry-header" x="560" y="20" width="160" height="32"  rx="8"/>
+          <rect class="bc-entry-header" x="560" y="40" width="160" height="12"/>
+          <text class="bc-entry-title"  x="640" y="37">Standalone App</text>
+          <text class="bc-entry-sub"    x="640" y="67">bundled UI · chosen modules</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="standalone-ui">
+          <rect x="582" y="86" width="116" height="82" rx="3"/>
+          <text x="640" y="118">Your app's UI</text>
+          <text x="640" y="132">(bundled)</text>
+          <text x="640" y="149" style="font-size:9px; fill:#71717a">ships as one binary</text>
+        </g>
+
+        <!-- ── Headless Node ── -->
+        <g class="bc-entry bc-entry-headless" data-id="headless">
+          <rect class="bc-entry-frame"  x="740" y="20" width="200" height="160" rx="8"/>
+          <rect class="bc-entry-header" x="740" y="20" width="200" height="32"  rx="8"/>
+          <rect class="bc-entry-header" x="740" y="40" width="200" height="12"/>
+          <text class="bc-entry-title"  x="840" y="37">Headless Node</text>
+          <text class="bc-entry-sub"    x="840" y="67">no UI · server / validator</text>
+          <text class="bc-entry-inner"  x="840" y="126">(no UI surface)</text>
+          <text class="bc-entry-inner"  x="840" y="148" style="font-size: 9px; opacity: 0.75">drives the core directly</text>
+        </g>
+
+        <!-- ═══════════════════════════════════════════════════════════════════
+             CORE STACK CONTENTS — node boxes sit on top of the layer bands.
+             Column alignment:
+               ▸ Dex / Stablecoin / LEZ Wallet sit directly above LEZ
+               ▸ Files directly above Storage
+               ▸ Chat directly above Delivery
+               ▸ Storage + Delivery are adjacent
+             ═══════════════════════════════════════════════════════════════════ -->
+
+        <!-- Apps layer -->
+        <g class="bc-node bc-node-tiny" data-id="app-dex">
+          <rect x="294" y="212" width="54" height="36" rx="3"/>
+          <text x="321" y="231">Dex</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="app-stablecoin">
+          <rect x="352" y="212" width="60" height="36" rx="3"/>
+          <text x="382" y="225">Stable</text>
+          <text x="382" y="237">coin</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="app-lez-wallet">
+          <rect x="416" y="212" width="60" height="36" rx="3"/>
+          <text x="446" y="225">LEZ</text>
+          <text x="446" y="237">Wallet</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="app-more">
+          <rect x="480" y="212" width="30" height="36" rx="3"/>
+          <text x="495" y="231">…</text>
+        </g>
+
+        <!-- Protocols layer -->
+        <g class="bc-node bc-node-tiny" data-id="lez-dec-seq">
+          <rect x="184" y="294" width="90" height="32" rx="3"/>
+          <text x="229" y="312">LEZ dec seq</text>
+        </g>
+        <g class="bc-node bc-node-small" data-id="lez">
+          <rect x="282" y="294" width="240" height="32" rx="3"/>
+          <text x="402" y="305">LEZ</text>
+          <text x="402" y="319">(token ops API + Indexer)</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="zones">
+          <rect x="532" y="294" width="58" height="32" rx="3"/>
+          <text x="561" y="312">&lt;zones&gt;</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="files">
+          <rect x="620" y="294" width="80" height="32" rx="3"/>
+          <text x="660" y="312">Files</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="chat">
+          <rect x="720" y="294" width="80" height="32" rx="3"/>
+          <text x="760" y="312">Chat</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="protocols-more">
+          <rect x="820" y="294" width="60" height="32" rx="3"/>
+          <text x="850" y="312">…</text>
+        </g>
+
+        <!-- Static arrow: LEZ → LEZ dec seq -->
+        <g class="bc-arrow bc-arrow-static" data-id="arrow-lez-decseq">
+          <path d="M 282 310 L 277 310" marker-end="url(#bc-arrow-marker)"/>
+        </g>
+
+        <!-- Modules layer -->
+        <g class="bc-node bc-node-tiny" data-id="package-manager">
+          <rect x="70" y="374" width="100" height="42" rx="3"/>
+          <text x="120" y="389">Package</text>
+          <text x="120" y="402">Manager</text>
+        </g>
+        <g class="bc-node bc-node-small" data-id="blockchain">
+          <rect x="190" y="374" width="420" height="42" rx="3"/>
+          <text x="400" y="396">Blockchain</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="storage">
+          <rect x="620" y="374" width="80" height="42" rx="3"/>
+          <text x="660" y="396">Storage</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="delivery">
+          <rect x="720" y="374" width="80" height="42" rx="3"/>
+          <text x="760" y="396">Delivery</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="modules-more">
+          <rect x="820" y="374" width="90" height="42" rx="3"/>
+          <text x="865" y="396">…</text>
+        </g>
+
+        <!-- Static arrow: Delivery → Storage (short, adjacent) -->
+        <g class="bc-arrow bc-arrow-static" data-id="arrow-delivery-storage">
+          <path d="M 720 395 L 703 395" marker-end="url(#bc-arrow-marker)"/>
+        </g>
+
+        <!-- Network layer: full-width P2P bar -->
+        <g class="bc-node bc-node-large" data-id="p2p">
+          <rect x="70" y="458" width="870" height="24" rx="3"/>
+          <text x="505" y="471">P2P · discovery · peering · mix</text>
+        </g>
+
+        <!-- Runtime layer: full-width runtime bar -->
+        <g class="bc-node bc-node-large" data-id="runtime">
+          <rect x="70" y="518" width="870" height="24" rx="3"/>
+          <text x="505" y="531">logos runtime</text>
+        </g>
+
+        <!-- ═══════════════════════════════════════════════════════════════════
+             DYNAMIC FLOW ARROWS — populated by script per view.
+             Drawn last so they render on top of everything else.
+             ═══════════════════════════════════════════════════════════════════ -->
+        <g class="bc-flow-arrows"></g>
+      </svg>
+    </div>
+
+    <div class="bc-caption">
+      <h3 id="bc-view-title">Full stack at a glance</h3>
+      <p id="bc-view-body">
+        <span class="bc-caption-tag">overview</span>
+        Three ways into the same stack. <strong>Basecamp</strong> is the default launcher: install it, get a unified UI that surfaces whatever modules you have. A <strong>Standalone App</strong> bundles a custom UI with just the modules it needs and ships as a single binary. A <strong>Headless Node</strong> skips the UI entirely and drives the core directly. Pick a use case above to see — with live flow arrows — which slice each one touches.
+      </p>
+    </div>
+  </div>
+</div>
+
+<p>
+  The arrows are the point: a chat user's bytes flow through Chat → Delivery → P2P, never touching the blockchain. A DEX trader's flow through LEZ → Blockchain, never touching Storage. A validator bypasses everything above the module layer. Same stack, different cross-sections — that's the composability pitch.
+</p>
+
+<script>
+(function () {
+  /* ─── View catalog ──────────────────────────────────────────────────────
+     Each view:
+       entry:   the entry point to highlight (basecamp | standalone | headless)
+       paths:   array of node-id sequences — flow arrows drawn between each
+                consecutive pair; all nodes along each path are highlighted
+       extras:  additional node ids to highlight (no arrows)
+       accent:  color family (red | green | blue | amber)
+     Add or reorder views by editing this array.
+  */
+  const VIEWS = [
+    {
+      id: 'overview',
+      label: 'Overview',
+      accent: 'red',
+      title: 'Full stack at a glance',
+      body: 'Three ways into the same stack. <strong>Basecamp</strong> is the default launcher. A <strong>Standalone App</strong> bundles a custom UI with chosen modules and ships as one binary. A <strong>Headless Node</strong> skips the UI entirely. Pick a use case above to see — with live flow arrows — which slice each one touches.',
+      entry: null,
+      paths: [],
+      extras: []
+    },
+    {
+      id: 'default-user',
+      label: 'Default Basecamp user',
+      accent: 'red',
+      title: 'Install Basecamp, start using the Simple Apps',
+      body: 'The out-of-the-box experience. Basecamp loads default UI plugins — wallet, messaging, explorer, dashboard — and each surfaces its own slice of the stack in parallel. A single launcher, multiple flows.',
+      entry: 'basecamp',
+      paths: [
+        ['ui-lez-wallet',  'app-lez-wallet', 'lez',      'blockchain', 'p2p', 'runtime'],
+        ['ui-messaging',   'chat',           'delivery', 'p2p'],
+        ['ui-blockchain-dashboard', 'blockchain']
+      ],
+      extras: ['lez-dec-seq', 'files', 'storage', 'arrow-lez-decseq']
+    },
+    {
+      id: 'dex-trader',
+      label: 'DEX trader',
+      accent: 'green',
+      title: 'Trade on the decentralised exchange',
+      body: 'The DEX UI surfaces the Dex application, which composes token operations on LEZ and settles on the blockchain. Storage and delivery stay idle — this is a chain-state path, straight through the network to the runtime.',
+      entry: 'basecamp',
+      paths: [
+        ['ui-dex', 'app-dex', 'lez', 'blockchain', 'p2p', 'runtime']
+      ],
+      extras: ['lez-dec-seq', 'arrow-lez-decseq']
+    },
+    {
+      id: 'messaging',
+      label: 'Private messaging',
+      accent: 'blue',
+      title: 'Encrypted chat over the mixnet',
+      body: 'The Chat protocol rides on the Delivery module and out through the mix-routed P2P layer. Nothing here touches the blockchain — messages are a data-plane concern, not a ledger concern.',
+      entry: 'basecamp',
+      paths: [
+        ['ui-messaging', 'chat', 'delivery', 'p2p', 'runtime']
+      ],
+      extras: []
+    },
+    {
+      id: 'file-sharing',
+      label: 'File sharing',
+      accent: 'blue',
+      title: 'Private, decentralised file storage',
+      body: 'Files ride on the adjacent pair: Storage holds data, Delivery moves it between peers. The Files protocol sits on top. Blockchain only enters if metadata needs chain anchoring.',
+      entry: 'basecamp',
+      paths: [
+        ['ui-more', 'files', 'storage', 'p2p', 'runtime'],
+        ['files', 'delivery']
+      ],
+      extras: ['arrow-delivery-storage']
+    },
+    {
+      id: 'module-dev',
+      label: 'Module developer',
+      accent: 'amber',
+      title: 'Build a module; Basecamp discovers it',
+      body: 'Scaffold with the <code>lm</code> CLI, ship. The Package Manager module detects the new module, the Package Manager UI lists it, and Basecamp auto-loads its QML UI on next launch. The rest of the stack is what your module <em>composes against</em>.',
+      entry: 'basecamp',
+      paths: [
+        ['ui-package-manager', 'package-manager', 'p2p', 'runtime']
+      ],
+      extras: []
+    },
+    {
+      id: 'headless',
+      label: 'Headless node',
+      accent: 'amber',
+      title: 'Run a node with no UI',
+      body: 'For servers, validators, infrastructure. The headless entry skips Apps and Protocols entirely and drives core modules directly — runtime up, P2P peers connected, Blockchain + Storage + Delivery serving the network.',
+      entry: 'headless',
+      paths: [
+        ['headless', 'blockchain', 'p2p', 'runtime'],
+        ['headless', 'storage'],
+        ['headless', 'delivery'],
+        ['headless', 'package-manager']
+      ],
+      extras: []
+    },
+    {
+      id: 'standalone',
+      label: 'Standalone app',
+      accent: 'blue',
+      title: 'Ship a single-purpose app, no launcher',
+      body: 'Sometimes you don\'t want a launcher — you want to ship <em>one</em> thing. A standalone app bundles its own UI with just the modules it needs (here: a focused DEX client) and ships as a single binary. Same stack, no Basecamp surface.',
+      entry: 'standalone',
+      paths: [
+        ['standalone-ui', 'app-dex', 'lez', 'blockchain', 'p2p', 'runtime']
+      ],
+      extras: ['lez-dec-seq', 'arrow-lez-decseq']
+    }
+  ];
+
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  const svg = document.querySelector('.bc-svg');
+  const tabs = document.getElementById('bc-tabs');
+  const titleEl = document.getElementById('bc-view-title');
+  const bodyEl = document.getElementById('bc-view-body');
+  const flowContainer = svg.querySelector('.bc-flow-arrows');
+
+  // ── Build tab row ────────────────────────────────────────────────────
+  VIEWS.forEach((v, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'bc-tab';
+    btn.textContent = v.label;
+    btn.setAttribute('role', 'tab');
+    btn.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+    btn.dataset.view = v.id;
+    btn.addEventListener('click', () => setView(v.id));
+    tabs.appendChild(btn);
+  });
+
+  // ── Geometry helpers ─────────────────────────────────────────────────
+  function getNodeBox(id) {
+    const group = svg.querySelector('[data-id="' + id + '"]');
+    if (!group) return null;
+    const rect = group.querySelector('rect');
+    if (!rect) return null;
+    const x = parseFloat(rect.getAttribute('x'));
+    const y = parseFloat(rect.getAttribute('y'));
+    const w = parseFloat(rect.getAttribute('width'));
+    const h = parseFloat(rect.getAttribute('height'));
+    return { x, y, w, h, cx: x + w / 2, cy: y + h / 2, top: y, bottom: y + h, left: x, right: x + w };
+  }
+
+  function buildArrow(sourceId, targetId, accent) {
+    const s = getNodeBox(sourceId);
+    const t = getNodeBox(targetId);
+    if (!s || !t) return null;
+
+    const sx = s.cx;
+    const sy = s.bottom;
+    const tx = t.cx;
+    const ty = t.top;
+
+    // Put the horizontal segment in the gap ABOVE the target, so the vertical
+    // stub into the target reads cleanly — keeps segments out of node boxes.
+    const minMid = sy + 6;
+    const maxMid = ty - 8;
+    const preferredMid = ty - 14;
+    const midY = Math.max(minMid, Math.min(preferredMid, maxMid));
+
+    let pathD;
+    if (Math.abs(sx - tx) < 2) {
+      pathD = 'M ' + sx + ' ' + sy + ' L ' + tx + ' ' + (ty - 2);
+    } else {
+      pathD = 'M ' + sx + ' ' + sy +
+              ' L ' + sx + ' ' + midY +
+              ' L ' + tx + ' ' + midY +
+              ' L ' + tx + ' ' + (ty - 2);
+    }
+
+    const g = document.createElementNS(SVG_NS, 'g');
+    g.setAttribute('class', 'bc-arrow bc-flow-arrow bc-accent-' + accent);
+    const path = document.createElementNS(SVG_NS, 'path');
+    path.setAttribute('d', pathD);
+    path.setAttribute('marker-end', 'url(#bc-flow-marker)');
+    g.appendChild(path);
+    return g;
+  }
+
+  function highlight(id, accentClass) {
+    const el = svg.querySelector('[data-id="' + id + '"]');
+    if (el) el.classList.add('bc-hl', accentClass);
+  }
+
+  // ── View setter ──────────────────────────────────────────────────────
+  function setView(viewId) {
+    const view = VIEWS.find(v => v.id === viewId) || VIEWS[0];
+    const accentClass = 'bc-accent-' + view.accent;
+
+    // Tabs
+    tabs.querySelectorAll('.bc-tab').forEach(btn => {
+      btn.setAttribute('aria-selected', btn.dataset.view === view.id ? 'true' : 'false');
+    });
+
+    // Clear prior highlights + prior flow arrows
+    svg.querySelectorAll('.bc-hl').forEach(el => {
+      el.classList.remove('bc-hl', 'bc-accent-red', 'bc-accent-green', 'bc-accent-blue', 'bc-accent-amber');
+    });
+    while (flowContainer.firstChild) flowContainer.removeChild(flowContainer.firstChild);
+
+    svg.setAttribute('data-view', view.id);
+
+    // Highlight entry point (if any)
+    if (view.entry) highlight(view.entry, accentClass);
+
+    // Paths: highlight every node, draw arrows between consecutive nodes
+    (view.paths || []).forEach(path => {
+      path.forEach(id => highlight(id, accentClass));
+      for (let i = 0; i < path.length - 1; i++) {
+        const arrow = buildArrow(path[i], path[i + 1], view.accent);
+        if (arrow) flowContainer.appendChild(arrow);
+      }
+    });
+
+    // Extras (highlight only, no arrows)
+    (view.extras || []).forEach(id => highlight(id, accentClass));
+
+    // Caption
+    titleEl.textContent = view.title;
+    bodyEl.innerHTML =
+      '<span class="bc-caption-tag">' + view.label + '</span>' + view.body;
+  }
+
+  setView(VIEWS[0].id);
+})();
+</script>
+
+</body>
+</html>

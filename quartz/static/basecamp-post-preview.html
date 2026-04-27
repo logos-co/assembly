@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Basecamp Stack — Interactive Preview</title>
+<title>Basecamp: Your Base of Operations on the Logos Frontier — Preview</title>
 <style>
   body {
     font-family: 'Georgia', serif;
@@ -15,10 +15,15 @@
     line-height: 1.75;
   }
   h1 { font-size: 2em; line-height: 1.2; margin-bottom: 0.2em; }
+  h2 { font-size: 1.4em; line-height: 1.25; margin-top: 2em; margin-bottom: 0.4em; }
   h3.subtitle { font-size: 1.05em; font-weight: 400; color: #4a4a68; margin-top: 0; margin-bottom: 0.3em; line-height: 1.4; }
   .byline { color: #71717a; font-size: 0.9em; margin-bottom: 2em; font-style: italic; }
   p { margin-bottom: 1.5em; }
+  ul { margin-bottom: 1.5em; }
+  li { margin-bottom: 0.4em; }
+  a { color: #1e5fa8; }
   hr { border: none; border-top: 1px solid #e4e4e7; margin: 2.5em 0; }
+  code { font-family: 'SF Mono', 'Fira Code', 'Roboto Mono', monospace; background: #f4f4f5; padding: 0.1em 0.35em; border-radius: 3px; font-size: 0.92em; }
 </style>
 
 <!-- ─── Scoped styles for the Basecamp stack interactive ─── -->
@@ -368,12 +373,45 @@
 </head>
 <body>
 
-<h1>Basecamp Stack — Interactive Preview</h1>
-<h3 class="subtitle">A diagram you can walk through. Pick a use case; the parts of the stack it leans on light up, with live flow arrows showing how data moves down the stack.</h3>
-<p class="byline">Draft preview — for the Basecamp article. Source file: <code>quartz/static/basecamp-stack-preview.html</code></p>
+<h1>Basecamp: Your Base of Operations on the Logos Frontier</h1>
+<p class="byline">First Draft — integrated with the interactive stack diagram. Source: <code>quartz/static/basecamp-post-preview.html</code></p>
 
 <p>
-  The Logos stack reads bottom-up: runtime at the foundation, network on top, modules stacked above (vertically higher modules depend on those beneath them, implicitly composing into something useful), and app backends at the apex. Each layer is narrower than the one below it, because each one <em>chooses</em> from what's beneath. Three entry points at the top answer the question of <em>how</em> you actually reach into the stack.
+  Every expedition needs a base of operations. A place that's already equipped — shelter, supplies, communication — so you can spend your time exploring, not building camp from scratch.
+</p>
+
+<p><strong>That's Basecamp.</strong></p>
+
+<p>
+  Basecamp is the ready-to-run distribution for the Logos stack. Install it and you land on new ground already equipped: the Logos Runtime is running, the core modules are loaded, and a set of applications — wallet, messenger, file sharing, blockchain explorer — are ready to use from day one. You don't have to assemble anything. You're already in.
+</p>
+
+<hr>
+
+<h2>What Basecamp Actually Is</h2>
+
+<p>
+  Basecamp is the launcher and unified surface of the Logos stack. It is a thin executable that wraps the Logos Runtime (<code>liblogos</code>) and does three things:
+</p>
+
+<ol>
+  <li>Initialises the Logos Core environment on startup</li>
+  <li>Discovers and loads UI plugins from whatever modules are installed</li>
+  <li>Presents a unified interface where users interact with everything</li>
+</ol>
+
+<p>
+  That last point matters: Basecamp doesn't <em>do</em> the work — it <em>surfaces</em> it. The wallet logic lives in the blockchain module. The messaging logic lives in the comms module. The file-sharing logic lives in the storage module. Basecamp is the place all of those show up, consistently, in one place.
+</p>
+
+<p>
+  Think of it as the launcher you didn't know you needed — the thing that turns a collection of powerful, interoperable modules into a coherent experience.
+</p>
+
+<h2>A Diagram You Can Walk Through</h2>
+
+<p>
+  The Logos stack is layered: the Logos Runtime at the foundation, the network on top, modules stacked above (each higher module depending on the ones beneath it, implicitly composing into something useful), and app backends at the apex. Basecamp is one of three ways in. The diagram below makes that concrete — pick a use case from the tabs and the slice of the stack it leans on lights up, with live arrows tracing the data flow.
 </p>
 
 <div class="bc">
@@ -396,19 +434,7 @@
           </marker>
         </defs>
 
-        <!-- ═══════════════════════════════════════════════════════════════════
-             LAYER BANDS — labels sit in a strip at the TOP of each band so
-             content boxes never overlap them. The merged Modules band holds
-             two rows that show composition implicitly: upper-row modules
-             depend on the lower-row modules sitting beneath them.
-
-             Bands:
-               App backends  y=200–266  (label y=212, content y=224–260)
-               Modules       y=286–444  (label y=298, upper row y=310–342,
-                                         lower row y=396–438)
-               Network       y=464–510  (label y=476, bar y=488–510)
-               Runtime       y=530–576  (label y=542, bar y=554–576)
-             ═══════════════════════════════════════════════════════════════════ -->
+        <!-- Layer bands: App backends, Modules, Network, Runtime. -->
         <rect class="bc-layer-bg bc-layer-apps"    x="20" y="200" width="920" height="66"  rx="6"/>
         <rect class="bc-layer-bg bc-layer-modules" x="20" y="286" width="920" height="158" rx="6"/>
         <rect class="bc-layer-bg bc-layer-network" x="20" y="464" width="920" height="54"  rx="6"/>
@@ -419,14 +445,7 @@
         <text class="bc-layer-label" x="34" y="476">NETWORK</text>
         <text class="bc-layer-label" x="34" y="550">RUNTIME</text>
 
-        <!-- ═══════════════════════════════════════════════════════════════════
-             ENTRY POINTS — tinted zones with bold colored headers. No borders.
-             Title text stays WHITE in all states (see CSS override).
-             ═══════════════════════════════════════════════════════════════════ -->
-
         <!-- ── Basecamp ── -->
-        <!-- Header is a single path (rounded top, flat bottom) so the dimmed
-             state composites cleanly with no overlap seam. -->
         <g class="bc-entry bc-entry-basecamp" data-id="basecamp">
           <rect class="bc-entry-frame"  x="20" y="20" width="520" height="160" rx="8"/>
           <path class="bc-entry-header" d="M 28 20 L 532 20 A 8 8 0 0 1 540 28 L 540 52 L 20 52 L 20 28 A 8 8 0 0 1 28 20 Z"/>
@@ -434,7 +453,6 @@
           <text class="bc-entry-sub"    x="280" y="66">default launcher · loads UI plugins</text>
         </g>
 
-        <!-- Basecamp UI plugin boxes — widened to 68px so labels don't clip -->
         <g class="bc-node bc-node-tiny" data-id="ui-package-manager">
           <rect x="30" y="82" width="68" height="88" rx="3"/>
           <text x="64" y="115">Package</text>
@@ -499,15 +517,7 @@
           <text x="840" y="151" style="font-size: 9px; fill: #71717a">drives the core directly</text>
         </g>
 
-        <!-- ═══════════════════════════════════════════════════════════════════
-             CORE STACK NODES — column alignment:
-               ▸ Dex / Stablecoin / LEZ Wallet sit above LEZ
-               ▸ Files directly above Storage
-               ▸ Chat directly above Delivery
-               ▸ Storage + Delivery are adjacent
-             ═══════════════════════════════════════════════════════════════════ -->
-
-        <!-- App backends layer (content y=224–260) -->
+        <!-- App backends layer -->
         <g class="bc-node bc-node-tiny" data-id="app-dex">
           <rect x="294" y="224" width="54" height="36" rx="3"/>
           <text x="321" y="242">Dex</text>
@@ -527,7 +537,7 @@
           <text x="495" y="242">…</text>
         </g>
 
-        <!-- Modules — upper row (composes the lower row), content y=310–342 -->
+        <!-- Modules — upper row -->
         <g class="bc-node bc-node-tiny" data-id="lez-dec-seq">
           <rect x="184" y="310" width="90" height="32" rx="3"/>
           <text x="229" y="326">LEZ dec seq</text>
@@ -562,7 +572,7 @@
           <path d="M 282 326 L 277 326" marker-end="url(#bc-arrow-marker)"/>
         </g>
 
-        <!-- Modules — lower row (the foundation that the upper row composes), content y=396–438 -->
+        <!-- Modules — lower row -->
         <g class="bc-node bc-node-tiny" data-id="package-manager">
           <rect x="70" y="396" width="100" height="42" rx="3"/>
           <text x="120" y="410">Package</text>
@@ -594,7 +604,7 @@
           <path d="M 720 418 L 703 418" marker-end="url(#bc-arrow-marker)"/>
         </g>
 
-        <!-- Network layer — bar below label strip -->
+        <!-- Network layer -->
         <g class="bc-node bc-node-large" data-id="p2p">
           <rect x="70" y="488" width="870" height="22" rx="3"/>
           <text x="505" y="500">P2P · discovery · peering · mix</text>
@@ -606,7 +616,6 @@
           <text x="505" y="573">logos runtime</text>
         </g>
 
-        <!-- Dynamic flow arrows — populated by script, rendered on top -->
         <g class="bc-flow-arrows"></g>
       </svg>
     </div>
@@ -615,14 +624,120 @@
       <h3 id="bc-view-title">Full stack at a glance</h3>
       <p id="bc-view-body">
         <span class="bc-caption-tag">overview</span>
-        Three ways into the same stack. <strong>Basecamp</strong> is the default launcher: install it, get a unified UI that surfaces whatever modules you have. A <strong>Standalone App</strong> bundles a custom UI with just the modules it needs and ships as a single binary. A <strong>Headless Node</strong> skips the UI entirely and drives the core directly. Pick a use case above to see — with live flow arrows — which slice each one touches.
+        Three ways into the same stack. <strong>Basecamp</strong> is the default launcher. A <strong>Standalone App</strong> bundles a custom UI with chosen modules and ships as one binary. A <strong>Headless Node</strong> skips the UI entirely. The diagram cycles through the use cases on its own; click any tab to pin it.
       </p>
     </div>
   </div>
 </div>
 
 <p>
-  The arrows are the point: a chat user's bytes flow through Chat → Delivery → P2P, never touching the blockchain. A DEX trader's flow through LEZ → Blockchain, never touching Storage. A headless validator bypasses the App Backends layer and reaches into modules at whatever depth the role demands. Same stack, different cross-sections — that's the composability pitch.
+  The diagram autoplays through every use case below; click any tab to pin it. The rest of this article points back at specific views to ground each idea in something visual.
+</p>
+
+<hr>
+
+<h2>What You Get Out of the Box</h2>
+
+<p>
+  The default Basecamp installation ships with <strong>Simple Apps</strong> for each core module:
+</p>
+
+<ul>
+  <li><strong>Wallet</strong> — managing accounts and assets on the Logos blockchain</li>
+  <li><strong>Chat interface</strong> — encrypted messaging via the Logos comms layer</li>
+  <li><strong>Filesharing tool</strong> — private, decentralised file storage and sharing</li>
+  <li><strong>Blockchain / LEZ explorer</strong> — inspect the chain, transactions, and execution zones</li>
+</ul>
+
+<p>
+  The <em>Default Basecamp user</em> tab in the diagram shows what this looks like in motion: each Simple App is a UI plugin at the top of the Basecamp zone, and each one lights up its own slice of the stack <em>in parallel</em>. The wallet rides LEZ → Blockchain. The messenger rides Chat → Delivery. The dashboard reads straight from the blockchain. Same launcher, several flows, no duplication.
+</p>
+
+<p>
+  The single-purpose tabs — <em>DEX trader</em>, <em>Private messaging</em>, <em>File sharing</em> — isolate each of those flows. The arrows are the point: a chat user's bytes flow through Chat → Delivery → P2P, never touching the blockchain. A trader's flow through LEZ → Blockchain, never touching Storage. Same stack, different cross-sections.
+</p>
+
+<p>
+  These aren't separate apps you stitch together. They load from Basecamp's unified shell, using a consistent design system, discovered automatically by the Package Manager.
+</p>
+
+<hr>
+
+<h2>Module-Agnostic by Design</h2>
+
+<p>
+  Basecamp doesn't care which modules are installed. It discovers them, loads their UI plugins, and surfaces them — whatever the configured profile contains.
+</p>
+
+<p>
+  This is intentional. The stack composition is defined by which modules are selected, not by the launcher. A developer building a specialised Logos distribution can swap the module set entirely; Basecamp loads what's there. One launcher. Many possible stacks.
+</p>
+
+<p>
+  The <em>Atomic swap</em> tab in the diagram makes the case visually. A trustless cross-chain swap composes the existing Swaps module on top of LEZ (Logos side) with a <em>proposed</em> Monero module (XMR side, shown with a dashed border). The DEX UI doesn't change; the user's path through the stack does. New module → new capability → no launcher work. The dashed Monero box is a deliberate hint that the slot for a new primitive is real, even before the primitive is.
+</p>
+
+<p>
+  This composability is where Basecamp draws from its inspirations: the <a href="https://github.com/ethereum/mist">Mist Browser</a> was an early reference point — an entry-level gateway into an ecosystem — and <a href="https://leechcraft.org/">LeechCraft</a>, a modular live environment where every capability is a plugin. Basecamp's ambition is to go further: composability at the ecosystem layer, built on a privacy-preserving, decentralised foundation.
+</p>
+
+<hr>
+
+<h2>Three Ways In, One Stack</h2>
+
+<p>
+  Basecamp is the default launcher, but it isn't the only way to reach the stack. The three header zones at the top of the diagram show the alternatives:
+</p>
+
+<ul>
+  <li><strong>Logos Basecamp</strong> — the unified launcher most users want. Discovers modules, surfaces their UIs, gets out of the way.</li>
+  <li><strong>Standalone App</strong> — when you don't want a launcher at all. A single binary ships with its own UI and just the modules it needs. Useful for purpose-built clients (the <em>Standalone app</em> tab walks through a focused DEX example) where Basecamp's discovery model would be overhead.</li>
+  <li><strong>Headless Node</strong> — no UI surface, just a CLI. Servers, validators, infrastructure. The <em>Headless node</em> tab shows that headless can drive modules at any depth — a validator drives LEZ on top of Blockchain, a storage provider drives Files on top of Storage, a relay drives Chat on top of Delivery. The CLI is the surface; the stack underneath is the same one Basecamp uses.</li>
+</ul>
+
+<p>
+  The choice between the three is about what <em>surface</em> you want — not what's underneath. That's the composability pitch in one sentence.
+</p>
+
+<hr>
+
+<h2>For Developers: QML Is the Easy Path</h2>
+
+<p>
+  Basecamp is also where the module-building story lands. Once you've scaffolded a module with the <code>lm</code> CLI and the module-builder tooling, Basecamp is how you actually run it. The <em>Module developer</em> tab in the diagram traces the path: the new module gets detected by the Package Manager module, listed in the Package Manager UI, and auto-loaded by Basecamp on next launch. The rest of the stack is what your module <em>composes against</em>.
+</p>
+
+<p>
+  The team is moving toward a QML-only UI layer for module frontends, with the C++ application backend running in a separate process. The practical upshot: if you build your module UI in QML, it works in Basecamp without friction. That's intentional — the examples and tooling are being built to make QML the path of least resistance.
+</p>
+
+<p>
+  Current support: <strong>Linux and macOS</strong>, with <strong>C++</strong> for module development. Windows, Android, iOS, and additional SDK languages (Rust, JS, Nim) are in active development.
+</p>
+
+<hr>
+
+<h2>The Road Ahead</h2>
+
+<p>
+  Basecamp is currently in active development on the Testnet v0.2 milestone, with Testnet v0.3 marking a significant UX step forward: a new docking widget system (KDDockWidgets), onboarding flows, and settings encryption. That's when Basecamp stops being a developer testing surface and becomes the first-class user experience the frontier deserves.
+</p>
+
+<hr>
+
+<h2>Start Here</h2>
+
+<p>
+  Basecamp is available now for Linux and macOS.
+</p>
+
+<ul>
+  <li><strong>Repository:</strong> <a href="https://github.com/logos-co/logos-basecamp">github.com/logos-co/logos-basecamp</a></li>
+  <li><strong>Builder Hub:</strong> <a href="https://build.logos.co">build.logos.co</a></li>
+</ul>
+
+<p>
+  The frontier is already there. Basecamp is how you get into it.
 </p>
 
 <script>
@@ -796,8 +911,6 @@
     return { x, y, w, h, cx: x + w / 2, cy: y + h / 2, top: y, bottom: y + h };
   }
 
-  // Route the arrow's horizontal segment into the inter-band gap above the
-  // target, so it never passes over a layer label or content box.
   function buildArrow(sourceId, targetId, accent) {
     const s = getNodeBox(sourceId);
     const t = getNodeBox(targetId);
@@ -808,8 +921,6 @@
 
     const minMid = sy + 6;
     const maxMid = ty - 6;
-    // Place horizontal ~30px above target so it lands in the gap above the
-    // target's band rather than inside it. Clamp to what's achievable.
     const preferredMid = ty - 30;
     const midY = Math.max(minMid, Math.min(preferredMid, maxMid));
 

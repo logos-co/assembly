@@ -9,7 +9,7 @@ It is important to have clarity on who is coordinating around any given [[artifa
 
 | Article | Component | Status | Target | Audience | Links |
 |---------|-----------|--------|--------|----------|-------|
-| [[dispersive-medium\|The Dispersive Medium: How Platform Infrastructure Dissolved Civil Society's Coherence]] | Positioning / Philosophy | **In Review** — with Jarrad (Mar 13) | Next up | Civil society advocates, policy researchers, journalists, crypto-curious non-technical readers | [[dispersive-medium-draft\|Draft]] · [[dispersive-medium-resources\|Research]] · [[dispersive-medium-handoff\|Handoff]] · [Preview](/static/dispersive-medium-preview.html) · [Visualizations](/static/dispersive-medium-interactives.html) |
+
 | [[logos-core-modular-architecture\|Building on Logos Core: The Modular Architecture and Package Manager]] | Logos Core | **First Draft** | After above | Application developers, C++/JS/Nim devs | [[logos-core-modular-architecture-draft\|Draft]] |
 | [[privacy-preserving-file-sharing\|Introducing Logos Storage: Decentralized Storage for the Logos Tech Stack]] | Storage | **First Draft** | After above | Developers, infrastructure engineers, privacy engineers | [[privacy-preserving-file-sharing-draft\|Draft]] |
 
@@ -28,6 +28,7 @@ Sourced from weekly updates across all Logos components. **Updated Feb 25** with
 
 | Content | Type | Notes |
 |---------|------|-------|
+| [[dispersive-medium\|The Dispersive Medium: How Platform Infrastructure Dissolved Civil Society's Coherence]] | Article | **Published:** [press.logos.co](https://press.logos.co/article/dispersive-medium) — Apr 27 |
 | [[anonymous-block-proposers\|Anonymous Block Proposers: How Logos Solves Leader Privacy in PoS]] | Article | **Published:** [press.logos.co](https://press.logos.co/article/anonymous-block-proposers) — Mar 23 |
 | [[logos-as-operating-system-draft\|Logos as an Operating System]] | Article | **Published:** [press.logos.co](https://press.logos.co/article/logos-as-an-operating-system) — Feb 22 |
 | [[browser-privacy-stage0\|Stage 0: Your Browser Has Already Betrayed You]] | Article | **Published:** [press.logos.co](https://press.logos.co/article/browser-betrayed-you) — fact-checked Feb 22 |

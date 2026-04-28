@@ -8,15 +8,16 @@ tags:
   - positioning
   - logos-core
 type: essay
-status: in-review
+status: published
 date: 2026-03-13
-updated: 2026-03-13
+updated: 2026-04-27
+published_url: https://press.logos.co/article/dispersive-medium
 ---
 
 ## Status
 
-> **In Review — with Jarrad**
-> First draft complete. Under review by Jarrad before moving forward. Adapted from Corey Petty's keynote at IFT All-Hands, Lisbon, March 2026. Do not distribute externally until review is complete.
+> **Published** — [press.logos.co/article/dispersive-medium](https://press.logos.co/article/dispersive-medium) — Apr 27, 2026
+> Adapted from Corey Petty's keynote at IFT All-Hands, Lisbon, March 2026.
 
 ---
 

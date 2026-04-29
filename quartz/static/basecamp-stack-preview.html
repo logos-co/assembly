@@ -748,6 +748,10 @@
   const bodyEl = document.getElementById('bc-view-body');
   const flowContainer = svg.querySelector('.bc-flow-arrows');
 
+  // Guard against double-initialisation (e.g. Quartz client-side re-renders).
+  if (tabs.dataset.initialized) return;
+  tabs.dataset.initialized = 'true';
+
   VIEWS.forEach((v, i) => {
     const btn = document.createElement('button');
     btn.className = 'bc-tab';

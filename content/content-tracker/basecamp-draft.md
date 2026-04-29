@@ -20,7 +20,7 @@ Basecamp is the ready-to-run distribution for the Logos stack. Install it and yo
 
 ## What Basecamp Actually Is
 
-Basecamp is the launcher and unified surface of the Logos stack. It is a thin executable that wraps the Logos Runtime (`liblogos`) and does three things:
+Basecamp is the launcher and unified surface of the Logos stack. It is an executable that wraps the Logos Runtime and does three things:
 
 1. Initialises the Logos Core environment on startup
 2. Discovers and loads UI plugins from whatever modules are installed

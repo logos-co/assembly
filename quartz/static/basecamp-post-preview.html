@@ -377,18 +377,18 @@
 <p class="byline">First Draft — integrated with the interactive stack diagram. Source: <code>quartz/static/basecamp-post-preview.html</code></p>
 
 <p>
-  Every expedition needs a base of operations. A place that's already equipped — shelter, supplies, communication — so you can spend your time exploring, not building camp from scratch.
+  Every expedition needs a base of operations. A place that's already equipped with shelter, supplies, and communication so you can spend your time exploring, not building an outpost from scratch.
 </p>
 
 <p><strong>That's Basecamp.</strong></p>
 
 <p>
-  Basecamp is the ready-to-run distribution for the Logos stack. Install it and you land on new ground already equipped: the Logos Runtime is running, the core modules are loaded, and a set of applications — wallet, messenger, file sharing, blockchain explorer — are ready to use from day one. You don't have to assemble anything. You're already in.
+  Basecamp is the ready-to-run distribution for the Logos stack. Install it and you land on new ground equipped with what you need to get started: the Logos Runtime is running, the core modules are loaded, and a set of applications — wallet, messenger, file sharing, blockchain explorer — are ready to use from day one.
 </p>
 
 <hr>
 
-<h2>What Basecamp Actually Is</h2>
+<h2>What Basecamp actually is</h2>
 
 <p>
   Basecamp is the launcher and unified surface of the Logos stack. It is an executable that wraps the Logos Runtime and does three things:
@@ -401,17 +401,17 @@
 </ol>
 
 <p>
-  That last point matters: Basecamp doesn't <em>do</em> the work — it <em>surfaces</em> it. The wallet logic lives in the blockchain module. The messaging logic lives in the comms module. The file-sharing logic lives in the storage module. Basecamp is the place all of those show up, consistently, in one place.
+  That last point is important to understand. Basecamp doesn't <em>do</em> the work, it <em>surfaces</em> it to users. The logic for the wallet lives in the blockchain module, messaging in comms, and file-sharing in storage. Basecamp is the place all of those show up, consistently, in one place.
 </p>
 
 <p>
-  Think of it as the launcher you didn't know you needed — the thing that turns a collection of powerful, interoperable modules into a coherent experience.
+  Think of it as the user-facing access point for a modular, unified stack — the thing that turns a collection of powerful, interoperable modules into a coherent experience.
 </p>
 
-<h2>A Diagram You Can Walk Through</h2>
+<h2>A diagram you can walk through</h2>
 
 <p>
-  The Logos stack is layered: the Logos Runtime at the foundation, the network on top, modules stacked above (each higher module depending on the ones beneath it, implicitly composing into something useful), and app backends at the apex. Basecamp is one of three ways in. The diagram below makes that concrete — pick a use case from the tabs and the slice of the stack it leans on lights up, with live arrows tracing the data flow.
+  The Logos stack is layered: the Logos Runtime at the foundation, the network on top, modules stacked above (each higher module depending on the ones beneath it, implicitly composing into something useful), and app backends at the apex. Basecamp is one of three ways in. The diagram illustrates this structure. Pick a use case from the tabs and the slice of the stack it leans on lights up, with live arrows tracing the data flow.
 </p>
 
 <div class="bc">
@@ -631,12 +631,12 @@
 </div>
 
 <p>
-  The diagram autoplays through every use case below; click any tab to pin it. The rest of this article points back at specific views to ground each idea in something visual.
+  The diagram autoplays through every use case defined below; click any tab to pin it as you continue reading. The rest of this article points back at specific views to ground each idea in something visual.
 </p>
 
 <hr>
 
-<h2>What You Get Out of the Box</h2>
+<h2>What you get out of the box</h2>
 
 <p>
   The default Basecamp installation ships with <strong>Simple Apps</strong> for each core module:
@@ -654,27 +654,27 @@
 </p>
 
 <p>
-  The single-purpose tabs — <em>DEX trader</em>, <em>Private messaging</em>, <em>File sharing</em> — isolate each of those flows. The arrows are the point: a chat user's bytes flow through Chat → Delivery → P2P, never touching the blockchain. A trader's flow through LEZ → Blockchain, never touching Storage. Same stack, different cross-sections.
+  The single-purpose tabs — such as <em>DEX trader</em>, <em>Private messaging</em>, and <em>File sharing</em> — isolate each of those flows. The arrows show the direction of dependency: a chat user's bytes flow through Chat → Delivery → P2P, never touching the blockchain. A trader's flow through LEZ → Blockchain, never touching Storage. This flow is what makes the Logos stack truly modular and interoperable.
 </p>
 
 <p>
-  These aren't separate apps you stitch together. They load from Basecamp's unified shell, using a consistent design system, discovered automatically by the Package Manager.
+  These aren't separate apps stitched together; they load from Basecamp's unified shell using a consistent design system and are discovered automatically by the Package Manager.
 </p>
 
 <hr>
 
-<h2>Module-Agnostic by Design</h2>
+<h2>Module-agnostic by design</h2>
 
 <p>
-  Basecamp doesn't care which modules are installed. It discovers them, loads their UI plugins, and surfaces them — whatever the configured profile contains.
+  Basecamp doesn't care which modules you have installed. It discovers them, loads their UI plugins, and surfaces them to you whatever the configured profile contains.
 </p>
 
 <p>
-  This is intentional. The stack composition is defined by which modules are selected, not by the launcher. A developer building a specialised Logos distribution can swap the module set entirely; Basecamp loads what's there. One launcher. Many possible stacks.
+  This is an intentional design feature. The stack composition is defined by which modules are selected, not by the launcher. This allows a developer building a specialised Logos distribution to swap the module set entirely, using only what they need. Basecamp simply loads what is there, offering one launcher for many possible stack configurations.
 </p>
 
 <p>
-  The <em>Atomic swap</em> tab in the diagram makes the case visually. A trustless cross-chain swap composes the existing Swaps module on top of LEZ (Logos side) with a <em>proposed</em> Monero module (XMR side, shown with a dashed border). The DEX UI doesn't change; the user's path through the stack does. New module → new capability → no launcher work. The dashed Monero box is a deliberate hint that the slot for a new primitive is real, even before the primitive is.
+  The <em>Atomic swap</em> tab in the diagram makes this case visually. A trustless cross-chain swap composes the existing Swaps module on top of LEZ (Logos side) with a <em>proposed</em> Monero module (XMR side, shown with a dashed border). The DEX UI doesn't change; the user's path through the stack does. Adding a new module with new capabilities requires no work on the part of the launcher, which just traces the data flow through the new stack configuration.
 </p>
 
 <p>
@@ -683,32 +683,32 @@
 
 <hr>
 
-<h2>Three Ways In, One Stack</h2>
+<h2>Three ways in, one stack</h2>
 
 <p>
-  Basecamp is the default launcher, but it isn't the only way to reach the stack. The three header zones at the top of the diagram show the alternatives:
+  Basecamp is the default launcher, but it is not the only way for users to access the Logos stack. The three header zones at the top of the diagram show the available options:
 </p>
 
 <ul>
   <li><strong>Logos Basecamp</strong> — the unified launcher most users want. Discovers modules, surfaces their UIs, gets out of the way.</li>
-  <li><strong>Standalone App</strong> — when you don't want a launcher at all. A single binary ships with its own UI and just the modules it needs. Useful for purpose-built clients (the <em>Standalone app</em> tab walks through a focused DEX example) where Basecamp's discovery model would be overhead.</li>
-  <li><strong>Headless Node</strong> — no UI surface, just a CLI. Servers, validators, infrastructure. The <em>Headless node</em> tab shows that headless can drive modules at any depth — a validator drives LEZ on top of Blockchain, a storage provider drives Files on top of Storage, a relay drives Chat on top of Delivery. The CLI is the surface; the stack underneath is the same one Basecamp uses.</li>
+  <li><strong>Standalone App</strong> — when you don't want a launcher at all. A single binary ships with its own UI and just the modules it needs. Useful for purpose-built clients (the <em>Standalone app</em> tab walks through a focused DEX example) where Basecamp's discovery model would be unnecessary overhead.</li>
+  <li><strong>Headless Node</strong> — no UI surface, just a CLI. Useful for servers, validators, or infrastructure. The <em>Headless node</em> tab shows that headless can drive modules at any depth — a validator drives LEZ on top of Blockchain, a storage provider drives Files on top of Storage, and a relay drives Chat on top of Delivery. Runtime up, P2P peers connected.</li>
 </ul>
 
 <p>
-  The choice between the three is about what <em>surface</em> you want — not what's underneath. That's the composability pitch in one sentence.
+  The choice between the three is about what <em>surface</em> you want, not what's underneath.
 </p>
 
 <hr>
 
-<h2>For Developers: QML Is the Easy Path</h2>
+<h2>For developers: QML is the easy path</h2>
 
 <p>
-  Basecamp is also where the module-building story lands. Once you've scaffolded a module with the <code>lm</code> CLI and the module-builder tooling, Basecamp is how you actually run it. The <em>Module developer</em> tab in the diagram traces the path: the new module gets detected by the Package Manager module, listed in the Package Manager UI, and auto-loaded by Basecamp on next launch. The rest of the stack is what your module <em>composes against</em>.
+  Basecamp is also where the module-building story meets deployment. Once you've scaffolded a module with the <code>lm</code> CLI and the module-builder tooling, Basecamp is how you actually run it. The <em>Module developer</em> tab in the diagram traces the path involved: the new module gets detected by the Package Manager module, listed in the Package Manager UI, and auto-loaded by Basecamp on its next launch. The rest of the stack is what your module <em>composes against</em>.
 </p>
 
 <p>
-  The team is moving toward a QML-only UI layer for module frontends, with the C++ application backend running in a separate process. The practical upshot: if you build your module UI in QML, it works in Basecamp without friction. That's intentional — the examples and tooling are being built to make QML the path of least resistance.
+  The team is moving toward a QML-only UI layer for module frontends, with the C++ application backend running in a separate process. The practical upshot of this approach is that if you build your module UI in QML, it works in Basecamp without friction. The system is intentionally designed this way — the examples and tooling are being built to make QML the path of least resistance.
 </p>
 
 <p>
@@ -717,15 +717,15 @@
 
 <hr>
 
-<h2>The Road Ahead</h2>
+<h2>The road ahead</h2>
 
 <p>
-  Basecamp is currently in active development on the Testnet v0.2 milestone, with Testnet v0.3 marking a significant UX step forward: a new docking widget system (KDDockWidgets), onboarding flows, and settings encryption. That's when Basecamp stops being a developer testing surface and becomes the first-class user experience the frontier deserves.
+  Basecamp is currently in active development on the Logos Testnet v0.2, with Testnet v0.3 set to mark a significant UX step forward, delivering a new docking widget system (KDDockWidgets), onboarding flows, and settings encryption. That's when Basecamp stops being a developer testing surface and begins to resemble the first-class user experience the frontier deserves.
 </p>
 
 <hr>
 
-<h2>Start Here</h2>
+<h2>Start here</h2>
 
 <p>
   Basecamp is available now for Linux and macOS.
@@ -737,7 +737,7 @@
 </ul>
 
 <p>
-  The frontier is already there. Basecamp is how you get into it.
+  The frontier awaits. Basecamp is how you reach it.
 </p>
 
 <script>

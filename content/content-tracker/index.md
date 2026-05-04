@@ -24,6 +24,12 @@ Sourced from weekly updates across all Logos components. **Updated Feb 25** with
 | [[gasless-l2-rln\|Gasless L2 Transactions via RLN: A Zero-Knowledge Approach]] | AnonComms | Proposed | ZK/crypto engineers, L2 developers |
 | [[libchat-sdk\|libchat: Building E2E Encrypted Messaging with the Chat SDK]] | Messaging | Proposed | App developers, Rust/FFI devs |
 
+## Talks & Interactive Pieces
+
+| Content | Type | Event | Notes |
+|---------|------|-------|-------|
+| [Living within the Truth — Jarrad Hope](/static/jarrad-parallel-society-speech.html) | Interactive speech | Parallel Society, Lisbon — March 2026 | Jarrad's keynote with data visualisations: mobility collapse, 1971 inflection, debt trajectory, Cantillon effect, two-futures toggle. Served from static. |
+
 ## Published
 
 | Content | Type | Notes |

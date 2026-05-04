@@ -1,0 +1,2188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Living within the Truth — Jarrad Hope</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,200..900,0..100,0..1;1,9..144,200..900,0..100,0..1&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0a0908;
+  --ink-2: #131211;
+  --ink-3: #1c1a18;
+  --bone: #e8e2d5;
+  --bone-dim: #b8b3a5;
+  --bone-faint: #6e6a60;
+  --blood: #a8201a;
+  --blood-dim: #6b1b18;
+  --amber: #c89b3c;
+  --amber-dim: #8a6a26;
+  --rust: #8b4513;
+  --sage: #7a9b6e;
+  --sage-bright: #9bc28a;
+  --steel: #4a6b7c;
+  --steel-bright: #7a9bb0;
+  --paper: #f5efdf;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--bone);
+  font-family: 'Newsreader', Georgia, serif;
+  font-weight: 380;
+  font-size: 18px;
+  line-height: 1.65;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Grain overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+/* Vignette */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.5) 100%);
+}
+
+::selection { background: var(--blood); color: var(--bone); }
+
+/* Layout */
+section {
+  position: relative;
+  padding: 8rem 0;
+  z-index: 1;
+}
+
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.container-wide {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Typography */
+h1, h2, h3, h4 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+p { margin-bottom: 1.5rem; }
+
+p strong {
+  font-weight: 500;
+  color: var(--paper);
+}
+
+em {
+  font-style: italic;
+  color: var(--bone);
+}
+
+/* Hero */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 4rem 0 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 30%, rgba(168, 32, 26, 0.08), transparent 70%),
+    radial-gradient(ellipse 80% 60% at 50% 80%, rgba(200, 155, 60, 0.04), transparent 70%);
+  z-index: 0;
+}
+
+.hero-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-meta-row {
+  display: flex;
+  gap: 2.5rem;
+}
+
+.hero-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-prefix {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.4em;
+  color: var(--blood);
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeIn 1.2s ease-out 0.3s forwards;
+}
+
+.hero-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(3.5rem, 9.5vw, 8.5rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+  color: var(--paper);
+  font-variation-settings: 'SOFT' 50, 'WONK' 1;
+  opacity: 0;
+  animation: heroTitle 1.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.5s forwards;
+}
+
+.hero-title .word { display: inline-block; }
+.hero-title .accent {
+  font-style: italic;
+  color: var(--amber);
+  font-weight: 200;
+}
+
+.hero-subtitle {
+  font-family: 'Newsreader', Georgia, serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--bone-dim);
+  margin-top: 3rem;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  animation: fadeIn 1.2s ease-out 1.4s forwards;
+}
+
+.hero-byline {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+  margin-top: 1rem;
+  opacity: 0;
+  animation: fadeIn 1.2s ease-out 1.7s forwards;
+}
+
+.hero-scroll {
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  color: var(--bone-faint);
+  text-transform: uppercase;
+  opacity: 0;
+  animation: fadeIn 1.2s ease-out 2.2s forwards;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, transparent, var(--bone-faint));
+  margin: 1rem auto 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-scroll-line::before {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent, var(--bone));
+  animation: scrollLine 2.5s ease-in-out infinite;
+}
+
+@keyframes scrollLine {
+  0% { top: -100%; }
+  100% { top: 100%; }
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+@keyframes heroTitle {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Section divider */
+.section-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--blood);
+  margin-bottom: 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.section-tag::before {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: var(--blood);
+}
+
+.chapter-heading {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+  font-weight: 300;
+  font-style: italic;
+  font-variation-settings: 'SOFT' 50;
+  letter-spacing: -0.035em;
+  color: var(--paper);
+  margin-bottom: 3rem;
+  line-height: 1;
+}
+
+/* Prose */
+.prose p {
+  font-size: 1.18rem;
+  line-height: 1.7;
+  color: var(--bone);
+  margin-bottom: 1.7rem;
+}
+
+.prose p:first-of-type::first-letter {
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  font-size: 4.5rem;
+  float: left;
+  line-height: 0.85;
+  margin: 0.4rem 0.7rem -0.2rem 0;
+  color: var(--amber);
+  font-weight: 300;
+}
+
+.prose .lead {
+  font-size: 1.4rem;
+  line-height: 1.55;
+  color: var(--paper);
+  font-style: italic;
+  font-weight: 380;
+  margin-bottom: 2.5rem;
+}
+
+/* Pull quote */
+.pullquote {
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  line-height: 1.25;
+  color: var(--paper);
+  font-weight: 300;
+  letter-spacing: -0.015em;
+  padding: 3rem 0 3rem 2.5rem;
+  border-left: 2px solid var(--blood);
+  margin: 4rem 0;
+  position: relative;
+}
+
+.pullquote-attr {
+  font-family: 'JetBrains Mono', monospace;
+  font-style: normal;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+  margin-top: 1.5rem;
+  display: block;
+}
+
+.pullquote::before {
+  content: '"';
+  position: absolute;
+  font-size: 6rem;
+  color: var(--blood);
+  top: -1rem;
+  left: -0.5rem;
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  opacity: 0.3;
+  line-height: 1;
+}
+
+/* Stat callouts */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  margin: 4rem 0;
+}
+
+.stat-card {
+  border-top: 1px solid var(--bone-faint);
+  padding-top: 1.2rem;
+}
+
+.stat-number {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(2.5rem, 4vw, 3.6rem);
+  font-weight: 300;
+  font-variation-settings: 'SOFT' 100;
+  color: var(--paper);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  display: block;
+  margin-bottom: 0.6rem;
+}
+
+.stat-number .unit {
+  font-size: 0.5em;
+  color: var(--bone-dim);
+  font-weight: 200;
+  margin-left: 0.1em;
+}
+
+.stat-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  line-height: 1.5;
+}
+
+.stat-card.accent .stat-number { color: var(--blood); }
+.stat-card.amber .stat-number { color: var(--amber); }
+.stat-card.sage .stat-number { color: var(--sage-bright); }
+
+/* Visualizations */
+.viz-frame {
+  background: var(--ink-2);
+  border: 1px solid rgba(232, 226, 213, 0.08);
+  padding: 3rem 2.5rem;
+  margin: 4rem 0;
+  position: relative;
+}
+
+.viz-frame::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 1px;
+  background: var(--blood);
+}
+
+.viz-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  margin-bottom: 0.5rem;
+}
+
+.viz-headline {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.7rem;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--paper);
+  margin-bottom: 0.4rem;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.viz-source {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: var(--bone-faint);
+  text-transform: uppercase;
+  margin-top: 1.5rem;
+  border-top: 1px solid rgba(232, 226, 213, 0.08);
+  padding-top: 1rem;
+}
+
+svg { display: block; max-width: 100%; height: auto; overflow: visible; }
+
+/* Story callout */
+.story {
+  background: linear-gradient(180deg, var(--ink-2) 0%, var(--ink) 100%);
+  border-left: 2px solid var(--amber);
+  padding: 2.5rem 2.5rem;
+  margin: 3rem 0;
+  font-size: 1.1rem;
+}
+
+.story-name {
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: var(--amber);
+  margin-bottom: 0.3rem;
+  display: block;
+  letter-spacing: -0.02em;
+}
+
+.story-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+  margin-bottom: 1.5rem;
+}
+
+/* The greengrocer's window */
+.greengrocer-scene {
+  margin: 5rem 0;
+  position: relative;
+  padding: 4rem 0;
+}
+
+.window-frame {
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+  aspect-ratio: 4/5;
+  background: linear-gradient(180deg, #2a2520 0%, #1a1612 100%);
+  border: 14px solid #3a2f24;
+  position: relative;
+  box-shadow:
+    0 0 60px rgba(0, 0, 0, 0.8),
+    inset 0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+.window-frame::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 14px;
+  background: #3a2f24;
+  transform: translateY(-50%);
+}
+
+.window-frame::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 14px;
+  background: #3a2f24;
+  transform: translateX(-50%);
+}
+
+.window-pane {
+  position: absolute;
+  background:
+    linear-gradient(135deg,
+      rgba(255, 245, 220, 0.05) 0%,
+      rgba(255, 245, 220, 0.02) 50%,
+      rgba(255, 245, 220, 0.06) 100%);
+  width: calc(50% - 14px);
+  height: calc(50% - 14px);
+}
+
+.window-pane.tl { top: 0; left: 0; }
+.window-pane.tr { top: 0; right: 0; }
+.window-pane.bl { bottom: 0; left: 0; }
+.window-pane.br { bottom: 0; right: 0; }
+
+.sign {
+  position: absolute;
+  background: var(--paper);
+  color: #2a1a0a;
+  padding: 1rem 1.4rem;
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-align: center;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transform: rotate(-2deg);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.4);
+  user-select: none;
+  z-index: 5;
+}
+
+.sign:hover { transform: rotate(-1deg) scale(1.02); }
+
+.sign-1 { top: 12%; left: 10%; }
+.sign-2 { top: 40%; right: 12%; transform: rotate(3deg); }
+.sign-3 { bottom: 16%; left: 18%; transform: rotate(-1deg); }
+.sign-2:hover { transform: rotate(2deg) scale(1.02); }
+.sign-3:hover { transform: rotate(0deg) scale(1.02); }
+
+.sign.removed {
+  opacity: 0;
+  transform: translateY(120px) rotate(-25deg) !important;
+  pointer-events: none;
+}
+
+.greengrocer-instruction {
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+  margin-top: 2rem;
+  transition: opacity 0.6s, color 0.6s;
+}
+
+.greengrocer-instruction.complete {
+  color: var(--sage-bright);
+}
+
+/* The 1971 chart - special multi-panel layout */
+.chart-1971 {
+  background: var(--ink-2);
+  padding: 3rem 2rem;
+  border: 1px solid rgba(232, 226, 213, 0.08);
+  margin: 4rem 0;
+}
+
+.chart-1971-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: rgba(232, 226, 213, 0.05);
+  margin-top: 2rem;
+}
+
+.chart-mini {
+  background: var(--ink-2);
+  padding: 1.2rem 1rem 0.8rem;
+  position: relative;
+}
+
+.chart-mini-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  margin-bottom: 0.3rem;
+}
+
+.chart-mini-value {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--paper);
+  font-weight: 300;
+}
+
+/* Two futures comparison */
+.futures {
+  margin: 5rem 0;
+}
+
+.futures-toggle {
+  display: flex;
+  border: 1px solid rgba(232, 226, 213, 0.15);
+  background: var(--ink-2);
+  margin-bottom: 0;
+  position: relative;
+}
+
+.futures-tab {
+  flex: 1;
+  padding: 1.4rem 1.5rem;
+  background: transparent;
+  border: none;
+  color: var(--bone-dim);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.4s;
+  text-align: left;
+  border-bottom: 1px solid transparent;
+}
+
+.futures-tab.active.dystopia {
+  color: var(--blood);
+  border-bottom-color: var(--blood);
+}
+
+.futures-tab.active.parallel {
+  color: var(--sage-bright);
+  border-bottom-color: var(--sage-bright);
+}
+
+.futures-tab span {
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  font-size: 1.2rem;
+  letter-spacing: -0.02em;
+  text-transform: none;
+  display: block;
+  margin-top: 0.4rem;
+  font-weight: 300;
+  color: inherit;
+}
+
+.futures-content {
+  background: var(--ink-2);
+  border: 1px solid rgba(232, 226, 213, 0.15);
+  border-top: none;
+  padding: 3rem 2.5rem;
+  min-height: 360px;
+  position: relative;
+  overflow: hidden;
+}
+
+.futures-panel {
+  display: none;
+}
+
+.futures-panel.active {
+  display: block;
+  animation: fadeSlide 0.6s ease-out;
+}
+
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.futures-year {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 5rem;
+  font-weight: 200;
+  font-style: italic;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  margin-bottom: 1.5rem;
+}
+
+.futures-panel.dystopia .futures-year { color: var(--blood); }
+.futures-panel.parallel .futures-year { color: var(--sage-bright); }
+
+.futures-list {
+  list-style: none;
+}
+
+.futures-list li {
+  padding: 1rem 0;
+  border-top: 1px solid rgba(232, 226, 213, 0.1);
+  font-size: 1.05rem;
+  line-height: 1.55;
+  display: flex;
+  gap: 1.2rem;
+  align-items: baseline;
+}
+
+.futures-list li:last-child { border-bottom: 1px solid rgba(232, 226, 213, 0.1); }
+
+.futures-list li::before {
+  content: attr(data-marker);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--bone-faint);
+  letter-spacing: 0.1em;
+  flex-shrink: 0;
+  width: 30px;
+}
+
+.dystopia .futures-list li::before { color: var(--blood-dim); }
+.parallel .futures-list li::before { color: var(--sage); }
+
+/* The Logos sword visualization */
+.sword-section {
+  margin: 5rem 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.sword-principles {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.principle {
+  border-left: 2px solid var(--steel);
+  padding-left: 1.5rem;
+  position: relative;
+  transition: border-color 0.4s;
+}
+
+.principle:hover { border-color: var(--amber); }
+
+.principle-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--bone-faint);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.principle-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--amber);
+  margin-bottom: 0.6rem;
+  letter-spacing: -0.02em;
+}
+
+.principle-desc {
+  font-size: 1rem;
+  color: var(--bone-dim);
+  line-height: 1.55;
+}
+
+/* Closing manifesto */
+.manifesto {
+  text-align: center;
+  padding: 10rem 0 8rem;
+  background: linear-gradient(180deg, var(--ink) 0%, var(--ink-3) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.manifesto::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 50% 30% at 50% 50%, rgba(200, 155, 60, 0.06), transparent 70%);
+}
+
+.manifesto-statement {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(2.8rem, 6vw, 5.5rem);
+  font-weight: 200;
+  font-style: italic;
+  font-variation-settings: 'SOFT' 100, 'WONK' 1;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--paper);
+  margin-bottom: 3rem;
+  position: relative;
+  z-index: 1;
+}
+
+.manifesto-statement .strike {
+  position: relative;
+  display: inline-block;
+}
+
+.manifesto-statement .strike::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -5%;
+  right: -5%;
+  height: 4px;
+  background: var(--blood);
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: strikeOut 1.2s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+  animation-play-state: paused;
+}
+
+.manifesto.visible .strike::after { animation-play-state: running; }
+
+@keyframes strikeOut {
+  to { transform: scaleX(1); }
+}
+
+.manifesto-coda {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--amber);
+  position: relative;
+  z-index: 1;
+}
+
+/* Footer */
+.colophon {
+  padding: 4rem 0;
+  border-top: 1px solid rgba(232, 226, 213, 0.1);
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+  line-height: 2;
+}
+
+.colophon a { color: var(--bone-dim); text-decoration: none; transition: color 0.3s; border-bottom: 1px dotted var(--bone-faint); }
+.colophon a:hover { color: var(--amber); border-color: var(--amber); }
+
+/* Reveal on scroll */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Progress indicator */
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(232, 226, 213, 0.05);
+  z-index: 100;
+}
+
+.progress-bar {
+  height: 100%;
+  background: var(--blood);
+  width: 0;
+  transition: width 0.1s linear;
+}
+
+/* Chapter indicator */
+.chapter-indicator {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+  z-index: 100;
+  background: rgba(10, 9, 8, 0.85);
+  padding: 0.7rem 1rem;
+  border: 1px solid rgba(232, 226, 213, 0.1);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+
+.chapter-indicator.visible { opacity: 1; }
+
+.chapter-indicator span { color: var(--amber); }
+
+/* Network diagram nodes */
+.network-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  margin: 4rem 0;
+}
+
+.network-side h4 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.3rem;
+  font-weight: 300;
+  font-style: italic;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.network-side.captured h4 { color: var(--blood); }
+.network-side.parallel h4 { color: var(--sage-bright); }
+
+.network-side p {
+  font-size: 0.95rem;
+  color: var(--bone-dim);
+  margin-top: 0.5rem;
+}
+
+/* Cantillon flow */
+.cantillon-flow {
+  margin: 4rem 0;
+  background: var(--ink-2);
+  padding: 3rem 2rem;
+  border: 1px solid rgba(232, 226, 213, 0.08);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  body { font-size: 16px; }
+  section { padding: 5rem 0; }
+  .container, .container-wide { padding: 0 1.5rem; }
+  .hero { padding: 2rem 0; }
+  .hero-meta-row { gap: 1.2rem; flex-wrap: wrap; }
+  .hero-meta { padding: 0 1.5rem; }
+  .hero-scroll { padding: 0 1.5rem; }
+  .pullquote { padding: 2rem 0 2rem 1.5rem; margin: 3rem 0; }
+  .stat-grid { grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+  .chart-1971-grid { grid-template-columns: 1fr 1fr; }
+  .sword-section { grid-template-columns: 1fr; gap: 2rem; }
+  .network-section { grid-template-columns: 1fr; gap: 2rem; }
+  .viz-frame { padding: 2rem 1.2rem; }
+  .story { padding: 2rem 1.5rem; }
+  .chapter-indicator { display: none; }
+  .futures-tab { font-size: 0.65rem; padding: 1rem 0.8rem; }
+  .futures-tab span { font-size: 0.95rem; }
+  .futures-content { padding: 2rem 1.2rem; }
+  .futures-year { font-size: 3.5rem; }
+  .window-frame { max-width: 100%; }
+  .sign { font-size: 0.75rem; padding: 0.7rem 1rem; }
+  .prose p:first-of-type::first-letter { font-size: 3.5rem; }
+  .stat-number { font-size: 2.4rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+<div class="chapter-indicator" id="chapterIndicator"><span id="chapterNum">00</span> / 12 — <span id="chapterName">PROLOGUE</span></div>
+
+<!-- HERO -->
+<section class="hero" data-chapter="00" data-chapter-name="PROLOGUE">
+  <div class="container hero-meta">
+    <div class="hero-meta-row">
+      <span>VOL. I</span>
+      <span>MARCH 2026</span>
+    </div>
+    <div class="hero-meta-row">
+      <span>PARALLEL SOCIETY</span>
+    </div>
+  </div>
+
+  <div class="container hero-center">
+    <div class="hero-prefix">— A SPEECH BY JARRAD HOPE —</div>
+    <h1 class="hero-title"><span class="word">Living</span> <span class="word accent">within</span> <span class="word">the</span> <span class="word">Truth</span></h1>
+    <p class="hero-subtitle">On the machine, the sign in the window,<br>and the parallel society we must build.</p>
+    <p class="hero-byline">Delivered at the opening of Parallel Society</p>
+  </div>
+
+  <div class="hero-scroll">
+    <span>Begin</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- I. AWAKENING -->
+<section data-chapter="01" data-chapter-name="AWAKENING">
+  <div class="container">
+    <div class="section-tag reveal">I &nbsp;·&nbsp; The Awakening</div>
+    <div class="prose reveal">
+      <p>I've spent fifteen years building in this space. I was there when we thought Bitcoin would change everything, Ethereum too. Under Snowden's slogan <em>"Fix the Money, Fix the State,"</em> and under Occupy's banners <em>"We Are the 99%,"</em> we worked to build the future. Back then, I watched the regime masterfully dissolve the Left's economic argument and replace it with identity politics. From then, I watched the future we were building get captured, co-opted, and as the general public flooded in, crypto too lost its way.</p>
+      <p>Somewhere in the past decade, I became disillusioned with this space. I stopped being able to maintain the comfortable fiction that things would work out on their own. There was a period — and I won't pretend it was brief — where I questioned whether any of this was real. Whether crypto could truly cut the head off the snake.</p>
+      <p>I questioned whether I was building monuments to my own naivety.</p>
+      <p>And what brought me back was not money. It certainly wasn't optimism. It was <strong>duty</strong>. The realisation that if the people who understand this technology — and are willing to build against the will of tyrants — if we don't build the alternative, then no one will. And we, as a society, will get what we deserve.</p>
+    </div>
+
+    <div class="pullquote reveal">
+      Deep down, you know that something about our society is deeply, structurally, and irreversibly wrong.
+      <span class="pullquote-attr">— J.H.</span>
+    </div>
+
+    <div class="prose reveal">
+      <p>I stopped pretending. I stopped being afraid of what I'd find, of what I would say, and I stopped being afraid of what could happen.</p>
+      <p>Let me tell you what I found.</p>
+    </div>
+  </div>
+</section>
+
+<!-- II. THE MOBILITY CLIFF -->
+<section data-chapter="02" data-chapter-name="MATERIAL BETRAYAL">
+  <div class="container">
+    <div class="section-tag reveal">II &nbsp;·&nbsp; The Material Betrayal</div>
+    <h2 class="chapter-heading reveal">A coin flip,<br>where there once was a dream.</h2>
+
+    <div class="prose reveal">
+      <p>An economist named Raj Chetty asked a simple question: what fraction of children earn more than their parents? For children born in the 1940s, the answer was <strong>ninety percent</strong>. That is a society of prosperity — the mythical American Dream.</p>
+      <p>For children born in the 1980s — your generation, my generation — the answer is <strong>fifty percent</strong>. A coin flip. For future generations, that number is still falling.</p>
+    </div>
+
+    <!-- MOBILITY CHART -->
+    <div class="viz-frame reveal">
+      <div class="viz-title">Figure 01 — Absolute Income Mobility</div>
+      <div class="viz-headline">The collapse of the American Dream</div>
+      <p style="color: var(--bone-dim); font-size: 0.95rem; margin-bottom: 1rem;">Share of children earning more than their parents at age 30, by birth cohort.</p>
+      <svg viewBox="0 0 800 380" id="mobilityChart">
+        <defs>
+          <linearGradient id="mobGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#a8201a" stop-opacity="0.45"/>
+            <stop offset="100%" stop-color="#a8201a" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+
+        <!-- gridlines -->
+        <g stroke="#3a3530" stroke-width="0.5" stroke-dasharray="2,3">
+          <line x1="80" y1="60" x2="760" y2="60"/>
+          <line x1="80" y1="120" x2="760" y2="120"/>
+          <line x1="80" y1="180" x2="760" y2="180"/>
+          <line x1="80" y1="240" x2="760" y2="240"/>
+          <line x1="80" y1="300" x2="760" y2="300"/>
+        </g>
+
+        <!-- y-axis labels -->
+        <g font-family="JetBrains Mono" font-size="10" fill="#6e6a60">
+          <text x="70" y="64" text-anchor="end">100%</text>
+          <text x="70" y="124" text-anchor="end">80%</text>
+          <text x="70" y="184" text-anchor="end">60%</text>
+          <text x="70" y="244" text-anchor="end">40%</text>
+          <text x="70" y="304" text-anchor="end">20%</text>
+        </g>
+
+        <!-- x-axis labels -->
+        <g font-family="JetBrains Mono" font-size="10" fill="#6e6a60" text-anchor="middle">
+          <text x="80" y="335">1940</text>
+          <text x="216" y="335">1950</text>
+          <text x="352" y="335">1960</text>
+          <text x="488" y="335">1970</text>
+          <text x="624" y="335">1980</text>
+          <text x="760" y="335">1990 (proj.)</text>
+        </g>
+
+        <!-- area under curve -->
+        <path id="mobArea" d="M 80,90 L 216,135 L 352,225 L 488,250 L 624,180 L 760,210 L 760,300 L 80,300 Z"
+              fill="url(#mobGrad)" opacity="0"/>
+
+        <!-- the line -->
+        <path id="mobLine"
+              d="M 80,90 C 130,90 170,110 216,135 C 260,160 308,205 352,225 C 400,245 450,255 488,250 L 624,180 L 760,210"
+              stroke="#a8201a" stroke-width="2.5" fill="none"
+              stroke-dasharray="2000" stroke-dashoffset="2000"/>
+
+        <!-- key points -->
+        <g id="mobPoints" opacity="0">
+          <g transform="translate(80, 90)">
+            <circle r="6" fill="#0a0908" stroke="#a8201a" stroke-width="2"/>
+            <text x="14" y="5" font-family="Fraunces" font-style="italic" font-size="22" fill="#e8e2d5">90%</text>
+            <text x="14" y="22" font-family="JetBrains Mono" font-size="9" fill="#b8b3a5" letter-spacing="1">BORN 1940s</text>
+          </g>
+          <g transform="translate(488, 250)">
+            <circle r="6" fill="#0a0908" stroke="#c89b3c" stroke-width="2"/>
+            <text x="14" y="5" font-family="Fraunces" font-style="italic" font-size="22" fill="#e8e2d5">50%</text>
+            <text x="14" y="22" font-family="JetBrains Mono" font-size="9" fill="#b8b3a5" letter-spacing="1">BORN 1980s</text>
+          </g>
+          <g transform="translate(760, 210)">
+            <circle r="6" fill="#0a0908" stroke="#a8201a" stroke-width="2"/>
+            <text x="-12" y="-12" font-family="JetBrains Mono" font-size="9" fill="#a8201a" letter-spacing="1" text-anchor="end">FALLING</text>
+          </g>
+        </g>
+
+        <!-- the dream banner -->
+        <g opacity="0" id="mobDream">
+          <text x="80" y="50" font-family="Fraunces" font-style="italic" font-size="11" fill="#c89b3c">THE AMERICAN DREAM</text>
+        </g>
+      </svg>
+      <div class="viz-source">Source: Chetty et al., "The Fading American Dream" (Science, 2017) — share of children earning more than their parents at age 30, by birth cohort.</div>
+    </div>
+
+    <div class="prose reveal">
+      <p>In 1978, a single income could support a family. A house, a car, children, a pension. Today, despite the doubling of the workforce, two incomes often cannot even cover rent. Our wages have barely moved in real terms for nearly fifty years — while housing costs ten times more, education five times more, healthcare four times more.</p>
+      <p>This has been done systematically. It's been done over decades. <strong>And it's been done by design.</strong></p>
+    </div>
+
+    <!-- COST OF LIVING -->
+    <div class="viz-frame reveal">
+      <div class="viz-title">Figure 02 — The Squeeze</div>
+      <div class="viz-headline">Wages stagnated. Everything else didn't.</div>
+      <p style="color: var(--bone-dim); font-size: 0.95rem; margin-bottom: 1.5rem;">Approximate cost increase across essentials since 1978, in nominal terms.</p>
+      <svg viewBox="0 0 800 320" id="costChart">
+        <g font-family="JetBrains Mono" font-size="11" fill="#b8b3a5">
+          <!-- Housing -->
+          <text x="0" y="50" letter-spacing="1.5">HOUSING</text>
+          <rect x="120" y="34" width="0" height="22" fill="#a8201a" data-final="600" class="cost-bar"/>
+          <text x="0" y="70" font-size="9" fill="#6e6a60" letter-spacing="1">10× MORE EXPENSIVE</text>
+
+          <!-- Education -->
+          <text x="0" y="120" letter-spacing="1.5">EDUCATION</text>
+          <rect x="120" y="104" width="0" height="22" fill="#a8201a" data-final="300" class="cost-bar"/>
+          <text x="0" y="140" font-size="9" fill="#6e6a60" letter-spacing="1">5× MORE EXPENSIVE</text>
+
+          <!-- Healthcare -->
+          <text x="0" y="190" letter-spacing="1.5">HEALTHCARE</text>
+          <rect x="120" y="174" width="0" height="22" fill="#a8201a" data-final="240" class="cost-bar"/>
+          <text x="0" y="210" font-size="9" fill="#6e6a60" letter-spacing="1">4× MORE EXPENSIVE</text>
+
+          <!-- Wages -->
+          <text x="0" y="260" letter-spacing="1.5">WAGES (real)</text>
+          <rect x="120" y="244" width="0" height="22" fill="#c89b3c" data-final="60" class="cost-bar"/>
+          <text x="0" y="280" font-size="9" fill="#6e6a60" letter-spacing="1">FLAT — IN REAL TERMS</text>
+        </g>
+
+        <!-- Multiplier labels -->
+        <g font-family="Fraunces" font-style="italic" fill="#e8e2d5">
+          <text x="730" y="51" font-size="22" text-anchor="end" class="cost-mult" data-final="10×" opacity="0">10×</text>
+          <text x="430" y="121" font-size="22" text-anchor="end" class="cost-mult" data-final="5×" opacity="0">5×</text>
+          <text x="370" y="191" font-size="22" text-anchor="end" class="cost-mult" data-final="4×" opacity="0">4×</text>
+          <text x="190" y="261" font-size="22" text-anchor="end" class="cost-mult" fill="#c89b3c" data-final="~1×" opacity="0">~1×</text>
+        </g>
+
+        <!-- baseline -->
+        <line x1="120" y1="295" x2="780" y2="295" stroke="#3a3530" stroke-width="0.5"/>
+        <text x="120" y="312" font-family="JetBrains Mono" font-size="9" fill="#6e6a60" letter-spacing="1">1978</text>
+        <text x="780" y="312" font-family="JetBrains Mono" font-size="9" fill="#6e6a60" letter-spacing="1" text-anchor="end">2026</text>
+      </svg>
+      <div class="viz-source">Source: BLS, FRED, FHFA, NCES, BEA. Approximate magnitudes; visualisation conveys order-of-magnitude divergence between essentials and median real wages.</div>
+    </div>
+
+    <div class="stat-grid reveal">
+      <div class="stat-card accent">
+        <span class="stat-number">40<span class="unit">yrs</span></span>
+        <span class="stat-label">Median age of the<br>first-time homebuyer</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">25<span class="unit">yrs</span></span>
+        <span class="stat-label">Same metric,<br>our parents' generation</span>
+      </div>
+      <div class="stat-card accent">
+        <span class="stat-number">38<span class="unit">%</span></span>
+        <span class="stat-label">Of homes in some Indianapolis neighbourhoods bought by Wall Street</span>
+      </div>
+      <div class="stat-card accent">
+        <span class="stat-number">40–50<span class="unit">%</span></span>
+        <span class="stat-label">Projected corporate share of single-family rentals by 2030</span>
+      </div>
+    </div>
+
+    <div class="story reveal">
+      <span class="story-name">Ashley Maxwell</span>
+      <span class="story-meta">Indianapolis, IN &nbsp;·&nbsp; Eighty showings, three children, one need.</span>
+      <p>She spent months driving around Indianapolis with her three children in the backseat. House after house. Eighty homes. Each time she would arrive, hopeful, only to find a hedge fund had already made a cash offer thirty minutes earlier. No inspection. No mortgage. Just a wire transfer.</p>
+      <p>A city employee in Fishers, Indiana started writing personal letters to homeowners — begging them to sell to a family before the investors came. <em>That's where we are.</em> Public servants writing love letters to strangers, pleading with them not to sell to BlackRock.</p>
+    </div>
+  </div>
+</section>
+
+<!-- III. THE QUIETER BETRAYAL -->
+<section data-chapter="03" data-chapter-name="QUIETER BETRAYAL">
+  <div class="container">
+    <div class="section-tag reveal">III &nbsp;·&nbsp; The Quieter Betrayal</div>
+    <h2 class="chapter-heading reveal">An entire generation,<br>memory-holed.</h2>
+
+    <div class="prose reveal">
+      <p class="lead">They say we are the most connected people, but in reality, we are the most atomised people that have ever lived.</p>
+      <p>Sixty-one percent of young adults report chronic loneliness — chronically, persistently lonely. Half of them said no one in recent weeks had even taken more than a few minutes to ask how they were doing in a way that felt caring.</p>
+      <p>We are spending a thousand fewer hours per year with our friends than we did twenty years ago. That's <strong>forty-two days</strong> of human connection — gone. Our pubs, once the centre of social life, are empty. We are algorithmically partitioned, and we are memory-holed.</p>
+    </div>
+
+    <div class="stat-grid reveal">
+      <div class="stat-card accent">
+        <span class="stat-number">+66<span class="unit">%</span></span>
+        <span class="stat-label">Antidepressant prescriptions, ages 12–25</span>
+      </div>
+      <div class="stat-card accent">
+        <span class="stat-number">+130<span class="unit">%</span></span>
+        <span class="stat-label">Same, for teenage girls</span>
+      </div>
+      <div class="stat-card accent">
+        <span class="stat-number">80<span class="unit">%</span></span>
+        <span class="stat-label">Of US suicide deaths<br>are men</span>
+      </div>
+      <div class="stat-card accent">
+        <span class="stat-number">−20<span class="unit">%</span></span>
+        <span class="stat-label">US fertility rate,<br>since 2007</span>
+      </div>
+    </div>
+
+    <!-- LONELINESS / FERTILITY -->
+    <div class="viz-frame reveal">
+      <div class="viz-title">Figure 03 — Atomisation</div>
+      <div class="viz-headline">Hours per year spent socially with friends</div>
+      <svg viewBox="0 0 800 280" id="lonelinessChart">
+        <g font-family="JetBrains Mono" font-size="10" fill="#6e6a60">
+          <line x1="80" y1="40" x2="80" y2="220" stroke="#3a3530" stroke-width="0.5"/>
+          <line x1="80" y1="220" x2="760" y2="220" stroke="#3a3530" stroke-width="0.5"/>
+
+          <text x="120" y="245">2003</text>
+          <text x="400" y="245" text-anchor="middle">2013</text>
+          <text x="700" y="245" text-anchor="end">2023</text>
+
+          <text x="70" y="60" text-anchor="end">2,000h</text>
+          <text x="70" y="140" text-anchor="end">1,500h</text>
+          <text x="70" y="220" text-anchor="end">1,000h</text>
+        </g>
+
+        <!-- The loss area -->
+        <path id="lonelinessArea" d="M 120,55 C 250,55 300,80 400,130 C 500,180 600,200 700,210 L 700,55 L 120,55 Z"
+              fill="#a8201a" fill-opacity="0" class="loneliness-area"/>
+
+        <path id="lonelinessLine"
+              d="M 120,55 C 250,55 300,80 400,130 C 500,180 600,200 700,210"
+              stroke="#c89b3c" stroke-width="2.5" fill="none"
+              stroke-dasharray="1500" stroke-dashoffset="1500"/>
+
+        <!-- Endpoints -->
+        <g class="lon-pts" opacity="0">
+          <circle cx="120" cy="55" r="5" fill="#0a0908" stroke="#c89b3c" stroke-width="2"/>
+          <circle cx="700" cy="210" r="5" fill="#0a0908" stroke="#a8201a" stroke-width="2"/>
+
+          <text x="135" y="50" font-family="Fraunces" font-style="italic" font-size="14" fill="#e8e2d5">~2,000h with friends</text>
+          <text x="690" y="200" font-family="Fraunces" font-style="italic" font-size="14" fill="#e8e2d5" text-anchor="end">−1,000h. Forty-two days, gone.</text>
+        </g>
+      </svg>
+      <div class="viz-source">Source: American Time Use Survey (BLS) — synthesised. Hours per year US adults spent socialising in person with friends.</div>
+    </div>
+
+    <div class="story reveal">
+      <span class="story-name">Alexis Spence</span>
+      <span class="story-meta">Long Island, NY &nbsp;·&nbsp; "We were fighting a multibillion-dollar corporation."</span>
+      <p>A confident, happy girl. Eleven years old when she created an Instagram account, two years below the minimum age. The platform's AI engine immediately began steering her toward "thinspo" — images glorifying anorexia. It recommended accounts offering instructions for purging, extreme dieting, and self-cutting.</p>
+      <p>At twelve, she drew a picture of herself crying on the floor next to her phone, with the words <em>"stupid, ugly, fat"</em> on the screen and <em>"kill yourself"</em> in a thought bubble. By fifteen, she was hospitalised.</p>
+      <p>Meta's own internal research — leaked by Frances Haugen — showed they knew. Internal documents described tweens as <em>"herd animals."</em></p>
+    </div>
+
+    <div class="story reveal">
+      <span class="story-name">Layla Soifer</span>
+      <span class="story-meta">Las Vegas, NV &nbsp;·&nbsp; "It would be better if she had never been born."</span>
+      <p>Layla had ADD. She wasn't stupid — she was bright, and she was creative. The school system could not accommodate her. While the other kids did maths, Layla drew patterns. Day after day, she sat in a classroom being told, in a thousand small ways, that she was broken.</p>
+      <p>Then one day, as her mother Ashley was driving home, Layla in the backseat tried to open the car door on the freeway. Thankfully, the child safety locks were on. When her mother asked what she was doing, Layla responded that <em>it would be better if she had never been born.</em></p>
+    </div>
+
+    <div class="prose reveal">
+      <p>Suicide is now the biggest killer of young men in the United Kingdom. In the United States, men account for eighty percent of all suicide deaths — nearly forty thousand souls a year. <strong>More Americans died by suicide last year than in car accidents.</strong></p>
+      <p>An entire peoples — South Korea, the West — have collectively chosen not to perpetuate themselves, to go against their very survival instincts. And it's not because they don't want children. It's that the economic conditions make it irrational to bring new life into the world.</p>
+    </div>
+  </div>
+</section>
+
+<!-- IV. THE MACHINE -->
+<section data-chapter="04" data-chapter-name="THE MACHINE" style="background: linear-gradient(180deg, var(--ink) 0%, var(--ink-2) 50%, var(--ink) 100%);">
+  <div class="container">
+    <div class="section-tag reveal">IV &nbsp;·&nbsp; The Machine</div>
+    <h2 class="chapter-heading reveal">Every metric breaks<br>in the same year.</h2>
+
+    <div class="prose reveal">
+      <p>Housing. Wages. Loneliness. Suicide. Fertility. Mental health. Debt. These look like separate crises. They're handled by different agencies, covered by different journalists, debated by different politicians. <strong>But they are not separate.</strong> They are symptoms of the same machine.</p>
+      <p>Every metric I described — and more — wages, productivity, inequality, debt, divorce, housing, incarceration — every single one of them breaks in the same year.</p>
+      <p class="lead">They all fracture in 1971.</p>
+    </div>
+
+    <!-- THE 1971 CHART -->
+    <div class="chart-1971 reveal">
+      <div class="viz-title">Figure 04 — The Inflection</div>
+      <div class="viz-headline" style="margin-bottom: 0.4rem;">What happened in 1971?</div>
+      <p style="color: var(--bone-dim); font-size: 0.95rem; margin-bottom: 1.5rem;">Six independent metrics. One year. The brakes came off when the dollar was decoupled from gold on August 15, 1971.</p>
+
+      <div class="chart-1971-grid">
+        <!-- Wages vs Productivity -->
+        <div class="chart-mini">
+          <div class="chart-mini-label">Wages vs Productivity</div>
+          <div class="chart-mini-value">Diverged at 1971</div>
+          <svg viewBox="0 0 320 110" style="margin-top: 0.5rem;">
+            <line x1="170" y1="10" x2="170" y2="100" stroke="#a8201a" stroke-width="0.5" stroke-dasharray="2,2"/>
+            <text x="172" y="22" font-family="JetBrains Mono" font-size="8" fill="#a8201a">'71</text>
+            <path d="M 10,80 L 100,72 L 170,60 L 240,30 L 310,12" stroke="#c89b3c" stroke-width="1.8" fill="none"/>
+            <path d="M 10,80 L 100,73 L 170,62 L 240,58 L 310,55" stroke="#7a9bb0" stroke-width="1.8" fill="none"/>
+            <text x="312" y="14" font-family="JetBrains Mono" font-size="7" fill="#c89b3c" text-anchor="end">Productivity</text>
+            <text x="312" y="65" font-family="JetBrains Mono" font-size="7" fill="#7a9bb0" text-anchor="end">Wages</text>
+          </svg>
+        </div>
+
+        <!-- Money supply -->
+        <div class="chart-mini">
+          <div class="chart-mini-label">M2 Money Supply</div>
+          <div class="chart-mini-value">Exponential after 1971</div>
+          <svg viewBox="0 0 320 110" style="margin-top: 0.5rem;">
+            <line x1="120" y1="10" x2="120" y2="100" stroke="#a8201a" stroke-width="0.5" stroke-dasharray="2,2"/>
+            <text x="122" y="22" font-family="JetBrains Mono" font-size="8" fill="#a8201a">'71</text>
+            <path d="M 10,95 L 60,90 L 120,82 C 180,70 240,40 310,10" stroke="#a8201a" stroke-width="1.8" fill="none"/>
+          </svg>
+        </div>
+
+        <!-- Top 1% income share -->
+        <div class="chart-mini">
+          <div class="chart-mini-label">Top 1% Income Share</div>
+          <div class="chart-mini-value">Inflection at 1971</div>
+          <svg viewBox="0 0 320 110" style="margin-top: 0.5rem;">
+            <line x1="120" y1="10" x2="120" y2="100" stroke="#a8201a" stroke-width="0.5" stroke-dasharray="2,2"/>
+            <text x="122" y="22" font-family="JetBrains Mono" font-size="8" fill="#a8201a">'71</text>
+            <path d="M 10,40 L 60,75 L 120,80 L 200,55 L 310,25" stroke="#c89b3c" stroke-width="1.8" fill="none"/>
+          </svg>
+        </div>
+
+        <!-- Federal Debt to GDP -->
+        <div class="chart-mini">
+          <div class="chart-mini-label">Federal Debt / GDP</div>
+          <div class="chart-mini-value">Bottomed and reversed in 1971</div>
+          <svg viewBox="0 0 320 110" style="margin-top: 0.5rem;">
+            <line x1="120" y1="10" x2="120" y2="100" stroke="#a8201a" stroke-width="0.5" stroke-dasharray="2,2"/>
+            <text x="122" y="22" font-family="JetBrains Mono" font-size="8" fill="#a8201a">'71</text>
+            <path d="M 10,30 L 50,55 L 120,82 L 200,55 L 310,15" stroke="#a8201a" stroke-width="1.8" fill="none"/>
+          </svg>
+        </div>
+
+        <!-- House price to median income -->
+        <div class="chart-mini">
+          <div class="chart-mini-label">House Price / Median Income</div>
+          <div class="chart-mini-value">Inflection at 1971</div>
+          <svg viewBox="0 0 320 110" style="margin-top: 0.5rem;">
+            <line x1="120" y1="10" x2="120" y2="100" stroke="#a8201a" stroke-width="0.5" stroke-dasharray="2,2"/>
+            <text x="122" y="22" font-family="JetBrains Mono" font-size="8" fill="#a8201a">'71</text>
+            <path d="M 10,72 L 60,76 L 120,76 L 200,52 L 310,18" stroke="#c89b3c" stroke-width="1.8" fill="none"/>
+          </svg>
+        </div>
+
+        <!-- Marriage / family formation -->
+        <div class="chart-mini">
+          <div class="chart-mini-label">Marriage Rate</div>
+          <div class="chart-mini-value">Decline begins post-1971</div>
+          <svg viewBox="0 0 320 110" style="margin-top: 0.5rem;">
+            <line x1="120" y1="10" x2="120" y2="100" stroke="#a8201a" stroke-width="0.5" stroke-dasharray="2,2"/>
+            <text x="122" y="22" font-family="JetBrains Mono" font-size="8" fill="#a8201a">'71</text>
+            <path d="M 10,30 L 60,28 L 120,32 L 200,55 L 310,90" stroke="#7a9bb0" stroke-width="1.8" fill="none"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="viz-source">August 15, 1971 — President Nixon ends the convertibility of the US dollar to gold. Source motif: wtfhappenedin1971.com. Series stylised.</div>
+    </div>
+
+    <div class="prose reveal">
+      <p>In 1913, a group of private bankers established the Federal Reserve — a central bank with the power to create money and lend it to government. It's called <em>"Federal,"</em> but it isn't federal. It's called a <em>"Reserve,"</em> but it holds no reserves.</p>
+      <p>For sixty years, the gold standard acted as a constraint. Then, on <strong>August 15th, 1971</strong>, the brakes came off. Governments could now print without limit, borrow without limit, spend without limit — and there was no external force to stop them.</p>
+      <p>Running alongside this engine, there is a political gear system that ensures nothing ever reverses. One party expands government, takes the blame, and gets voted out. The other party takes over, keeps every expansion, adds its own. <em>Two hands turning the same crank.</em></p>
+    </div>
+
+    <div class="pullquote reveal">
+      The perfect dictatorship would have the appearance of democracy, but would basically be a prison without walls in which the prisoners would not even dream of escaping.
+      <span class="pullquote-attr">— Aldous Huxley, 1931</span>
+    </div>
+  </div>
+</section>
+
+<!-- V. THE EMPIRE'S END -->
+<section data-chapter="05" data-chapter-name="DEBT DEATH SPIRAL">
+  <div class="container">
+    <div class="section-tag reveal">V &nbsp;·&nbsp; The Empire Approaches Its End</div>
+    <h2 class="chapter-heading reveal">There are no historical equivalents<br>to what is approaching.</h2>
+
+    <div class="prose reveal">
+      <p>Just last year, in 2025, the dollar fell <strong>thirty-nine percent</strong> against gold — the oldest store of value on Earth. The US Government Accountability Office said federal debt will surpass World War II levels by 2027. Not in a decade. <em>Next year.</em></p>
+    </div>
+
+    <!-- DEBT TRAJECTORY -->
+    <div class="viz-frame reveal">
+      <div class="viz-title">Figure 05 — The Debt Death Spiral</div>
+      <div class="viz-headline">US federal debt-to-GDP, projected</div>
+      <svg viewBox="0 0 800 380" id="debtChart">
+        <defs>
+          <linearGradient id="debtGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#a8201a" stop-opacity="0.5"/>
+            <stop offset="100%" stop-color="#a8201a" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+
+        <!-- gridlines -->
+        <g stroke="#3a3530" stroke-width="0.4" stroke-dasharray="2,3">
+          <line x1="60" y1="60" x2="780" y2="60"/>
+          <line x1="60" y1="130" x2="780" y2="130"/>
+          <line x1="60" y1="200" x2="780" y2="200"/>
+          <line x1="60" y1="270" x2="780" y2="270"/>
+        </g>
+
+        <g font-family="JetBrains Mono" font-size="10" fill="#6e6a60">
+          <text x="55" y="63" text-anchor="end">200%</text>
+          <text x="55" y="133" text-anchor="end">150%</text>
+          <text x="55" y="203" text-anchor="end">100%</text>
+          <text x="55" y="273" text-anchor="end">50%</text>
+
+          <text x="60" y="320">1945</text>
+          <text x="240" y="320">1971</text>
+          <text x="420" y="320">2008</text>
+          <text x="600" y="320">2026</text>
+          <text x="780" y="320" text-anchor="end">2055</text>
+        </g>
+
+        <!-- WWII level reference -->
+        <line x1="60" y1="100" x2="780" y2="100" stroke="#c89b3c" stroke-width="0.5" stroke-dasharray="3,3" opacity="0.6"/>
+        <text x="775" y="93" font-family="JetBrains Mono" font-size="9" fill="#c89b3c" text-anchor="end" letter-spacing="1">WWII PEAK · 119%</text>
+
+        <!-- 1971 marker -->
+        <line x1="240" y1="60" x2="240" y2="290" stroke="#a8201a" stroke-width="0.5" stroke-dasharray="2,3" opacity="0.5"/>
+        <text x="244" y="290" font-family="JetBrains Mono" font-size="9" fill="#a8201a">'71 GOLD WINDOW</text>
+
+        <!-- area -->
+        <path d="M 60,140 C 120,160 180,250 240,260 C 300,270 360,250 420,210 C 480,165 540,180 600,150 C 660,120 720,80 780,40 L 780,290 L 60,290 Z"
+              fill="url(#debtGrad)" opacity="0" class="debt-area"/>
+
+        <!-- the line -->
+        <path id="debtLine"
+              d="M 60,140 C 120,160 180,250 240,260 C 300,270 360,250 420,210 C 480,165 540,180 600,150 C 660,120 720,80 780,40"
+              stroke="#a8201a" stroke-width="2.5" fill="none"
+              stroke-dasharray="2000" stroke-dashoffset="2000"/>
+
+        <!-- Annotations -->
+        <g class="debt-pts" opacity="0">
+          <circle cx="600" cy="150" r="5" fill="#0a0908" stroke="#a8201a" stroke-width="2"/>
+          <text x="595" y="140" font-family="JetBrains Mono" font-size="9" fill="#e8e2d5" text-anchor="end" letter-spacing="1">2026 · 124%</text>
+
+          <circle cx="780" cy="40" r="5" fill="#0a0908" stroke="#a8201a" stroke-width="2"/>
+          <text x="775" y="34" font-family="Fraunces" font-style="italic" font-size="14" fill="#e8e2d5" text-anchor="end">156% by 2055</text>
+        </g>
+      </svg>
+      <div class="viz-source">Source: GAO, CBO Long-Term Budget Outlook, US Treasury Financial Report. Stylised.</div>
+    </div>
+
+    <div class="stat-grid reveal">
+      <div class="stat-card accent">
+        <span class="stat-number">$1<span class="unit">T+</span></span>
+        <span class="stat-label">Annual interest payments — exceeding the entire defence budget</span>
+      </div>
+      <div class="stat-card accent">
+        <span class="stat-number">61<span class="unit">%</span></span>
+        <span class="stat-label">Of marketable US debt matures within four years</span>
+      </div>
+      <div class="stat-card accent">
+        <span class="stat-number">2034</span>
+        <span class="stat-label">Social Security insolvency · automatic 28% benefit cut</span>
+      </div>
+      <div class="stat-card amber">
+        <span class="stat-number">16<span class="unit">%</span></span>
+        <span class="stat-label">Of under-30s believe democracy is working well for them</span>
+      </div>
+    </div>
+
+    <div class="prose reveal">
+      <p>The IMF projects global public debt approaching one hundred percent of GDP by 2030. Forty-five percent of all sovereign OECD debt matures by 2027. UK debt is set to nearly triple over the next fifty years.</p>
+      <p>The interconnectedness of global capital markets — the speed at which shocks move — means when this ratchet reaches its end, it reaches it everywhere at once. There is no precedent. <em>They are, in the most literal sense, winging it.</em></p>
+    </div>
+
+    <div class="pullquote reveal">
+      The world order has broken down. There will be a great clash of great powers.
+      <span class="pullquote-attr">— Ray Dalio, February 2026</span>
+    </div>
+  </div>
+</section>
+
+<!-- VI. THE GREENGROCER'S SIGN -->
+<section data-chapter="06" data-chapter-name="THE SIGN" style="background: linear-gradient(180deg, var(--ink) 0%, var(--ink-3) 100%);">
+  <div class="container">
+    <div class="section-tag reveal">VI &nbsp;·&nbsp; The Greengrocer's Sign</div>
+    <h2 class="chapter-heading reveal">"I am obedient.<br>I am beyond reproach.<br>Leave me alone."</h2>
+
+    <div class="prose reveal">
+      <p>In 1978, a Czech playwright named Václav Havel wrote an essay called <em>The Power of the Powerless</em>. In it, he describes a greengrocer in communist Czechoslovakia who places a sign in his shop window. This sign says: <strong>"Workers of the world, unite!"</strong></p>
+      <p>The greengrocer doesn't believe in the unification of the workers of the world. He's never given it a moment's thought. He puts the sign up because it was delivered with the onions and carrots. Because everyone else puts it up. Because that's what you do when you want to be left in peace.</p>
+    </div>
+
+    <!-- THE INTERACTIVE WINDOW -->
+    <div class="greengrocer-scene reveal">
+      <div class="window-frame">
+        <div class="window-pane tl"></div>
+        <div class="window-pane tr"></div>
+        <div class="window-pane bl"></div>
+        <div class="window-pane br"></div>
+        <div class="sign sign-1" data-removed="false">Workers of<br>the World,<br>Unite!</div>
+        <div class="sign sign-2" data-removed="false">Trust the<br>Experts</div>
+        <div class="sign sign-3" data-removed="false">You'll own<br>nothing &amp; be<br>happy</div>
+      </div>
+      <div class="greengrocer-instruction" id="signInstruction">
+        Click the signs to take them down — <span id="signCount">0</span> of 3 removed
+      </div>
+    </div>
+
+    <div class="prose reveal">
+      <p>In our system, the signs are different. The sign in the window doesn't say "Workers of the world, unite." It comes in rainbow flags. It's in the slogans that the economy is doing great, to trust the experts, that you'll own nothing and be happy.</p>
+      <p>But the signs aren't only slogans. They're ideological. Words like <em>racist, bigot, sexist, diversity, tolerance, equality</em>. In at least one of those words, I bet you felt something akin to a mental shock — something telling you that you shouldn't touch it.</p>
+      <p>Once noble ideas have become weaponised empathy. Comply with them and you're safe. Question them and you're punished.</p>
+    </div>
+
+    <div class="pullquote reveal">
+      My brothers and my sisters — we live in a prison. A prison of the mind. A virtual gulag.
+      <span class="pullquote-attr">— J.H.</span>
+    </div>
+
+    <div class="prose reveal">
+      <p>The system generates anxiety — through economic precarity, through social atomisation — and then it sells you the anaesthetic. Pornography. Video games. Algorithmic feeds. Fast food. Endless scrolling through content designed to fill the exact void the system created.</p>
+      <p>The same system that debases your money debases your mind.</p>
+      <p style="font-family: 'Fraunces', serif; font-style: italic; font-size: 1.6rem; color: var(--amber); margin-top: 2rem;">Stop putting up the sign.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VII. THE SYSTEM REACHES IN -->
+<section data-chapter="07" data-chapter-name="CANTILLON">
+  <div class="container">
+    <div class="section-tag reveal">VII &nbsp;·&nbsp; The System Reaches In</div>
+    <h2 class="chapter-heading reveal">New money benefits<br>whoever receives it first.</h2>
+
+    <div class="prose reveal">
+      <p>The government printed trillions during the crisis. The new money flowed to Wall Street first. Asset prices soared for the wealthy. And the inflation arrived at ordinary people's doors as doubled bills. <strong>That is the Cantillon Effect.</strong></p>
+    </div>
+
+    <!-- CANTILLON FLOW VIZ -->
+    <div class="cantillon-flow reveal">
+      <div class="viz-title">Figure 06 — The Cantillon Effect</div>
+      <div class="viz-headline">$22.4 trillion in stock-market gains. Where it went.</div>
+      <svg viewBox="0 0 800 320" id="cantillonChart" style="margin-top: 2rem;">
+        <!-- Source: Federal Reserve -->
+        <g>
+          <rect x="20" y="140" width="100" height="40" fill="#0a0908" stroke="#7a9bb0" stroke-width="1"/>
+          <text x="70" y="158" font-family="JetBrains Mono" font-size="9" fill="#7a9bb0" text-anchor="middle" letter-spacing="1">FED</text>
+          <text x="70" y="173" font-family="Fraunces" font-style="italic" font-size="11" fill="#e8e2d5" text-anchor="middle">prints</text>
+        </g>
+
+        <!-- Flows -->
+        <path d="M 120,160 Q 200,160 260,80" stroke="#a8201a" stroke-width="6" fill="none" opacity="0.85" class="cantillon-flow-1"/>
+        <path d="M 120,160 Q 200,160 260,160" stroke="#c89b3c" stroke-width="3" fill="none" opacity="0.7" class="cantillon-flow-2"/>
+        <path d="M 120,160 Q 200,160 260,240" stroke="#7a9bb0" stroke-width="1" fill="none" opacity="0.5" class="cantillon-flow-3"/>
+
+        <!-- Boxes -->
+        <g>
+          <rect x="260" y="55" width="240" height="50" fill="#1c1a18" stroke="#a8201a" stroke-width="1"/>
+          <text x="280" y="78" font-family="Fraunces" font-style="italic" font-size="20" fill="#a8201a">89%</text>
+          <text x="332" y="74" font-family="JetBrains Mono" font-size="9" fill="#b8b3a5" letter-spacing="1">→ TOP 10%</text>
+          <text x="332" y="92" font-family="Newsreader" font-size="11" fill="#e8e2d5">$19.9 trillion in gains</text>
+        </g>
+
+        <g>
+          <rect x="260" y="135" width="240" height="50" fill="#1c1a18" stroke="#c89b3c" stroke-width="1"/>
+          <text x="280" y="158" font-family="Fraunces" font-style="italic" font-size="20" fill="#c89b3c">~10%</text>
+          <text x="332" y="154" font-family="JetBrains Mono" font-size="9" fill="#b8b3a5" letter-spacing="1">→ NEXT 40%</text>
+          <text x="332" y="172" font-family="Newsreader" font-size="11" fill="#e8e2d5">$2.2 trillion in gains</text>
+        </g>
+
+        <g>
+          <rect x="260" y="215" width="240" height="50" fill="#1c1a18" stroke="#7a9bb0" stroke-width="1"/>
+          <text x="280" y="238" font-family="Fraunces" font-style="italic" font-size="20" fill="#7a9bb0">~1%</text>
+          <text x="332" y="234" font-family="JetBrains Mono" font-size="9" fill="#b8b3a5" letter-spacing="1">→ BOTTOM 50%</text>
+          <text x="332" y="252" font-family="Newsreader" font-size="11" fill="#e8e2d5">$0.2 trillion in gains</text>
+        </g>
+
+        <!-- Mary's bill -->
+        <g>
+          <rect x="540" y="215" width="240" height="50" fill="#1c1a18" stroke="#a8201a" stroke-width="1" stroke-dasharray="3,3"/>
+          <text x="555" y="232" font-family="JetBrains Mono" font-size="9" fill="#a8201a" letter-spacing="1">INFLATION ARRIVES HERE</text>
+          <text x="555" y="252" font-family="Newsreader" font-style="italic" font-size="11" fill="#e8e2d5">Mary's electric bill: doubled.</text>
+        </g>
+
+        <line x1="500" y1="240" x2="540" y2="240" stroke="#a8201a" stroke-width="1" stroke-dasharray="2,2"/>
+      </svg>
+      <div class="viz-source">Source: Federal Reserve Survey of Consumer Finances; post-COVID period.</div>
+    </div>
+
+    <div class="story reveal">
+      <span class="story-name">Mary Dres</span>
+      <span class="story-meta">Indiana &nbsp;·&nbsp; Respiratory therapist · Age 67</span>
+      <p>During COVID, she helped people breathe. She kept people alive. She stopped using the dishwasher. No television. Christmas lights into storage. She sits in the dark to save on electricity. And despite these efforts, her December bill <strong>doubled</strong> to $239. All she could say was: <em>"There's nothing else I can do."</em></p>
+      <p>A woman who kept people breathing cannot even keep her own lights on.</p>
+    </div>
+
+    <div class="story reveal">
+      <span class="story-name">Wina Tan</span>
+      <span class="story-meta">California &nbsp;·&nbsp; Job coach for adults with special needs · Age 59</span>
+      <p>Eleven thousand dollars in savings — mostly from tax refunds and stimulus cheques over her life. She didn't fall prey to speculation; she chose to save. The best interest rate her credit union could offer was half a percent — less than $60 a year.</p>
+      <p>Meanwhile, the same Federal Reserve policies that gave Wina sixty dollars generated <strong>$22.4 trillion</strong> in stock market gains. Eighty-nine percent of that went to the wealthiest ten percent.</p>
+      <p>Her entire financial future depends on Social Security — which the government's own actuaries say will be insolvent by 2034. <em>The one thing Wina is counting on is a promise the system has already confessed it cannot keep.</em></p>
+    </div>
+
+    <div class="story reveal">
+      <span class="story-name">Dimitris Christoulas</span>
+      <span class="story-meta">Athens, Greece &nbsp;·&nbsp; April 4, 2012 · Age 77</span>
+      <p>A retired pharmacist. He worked thirty-five years and paid his own pension — without state assistance. Then the Greek debt crisis hit. The same ratchet, further along. His pension was slashed.</p>
+      <p>He left a note: <em>"The government has annihilated all traces of my survival. I see no other solution than this dignified end to my life, so I don't find myself fishing through garbage cans."</em></p>
+      <p>Then, in Syntagma Square, in front of parliament, he shot himself.</p>
+    </div>
+
+    <div class="prose reveal">
+      <p>It happened in Argentina in 2001 — poverty surged from twenty-six to fifty-eight percent in just four years. It happened in Lebanon. It happened in Sri Lanka. It is happening right now in multiple countries. <strong>This trajectory is coming for the rest of us.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- VIII. THE PARALLEL POLIS -->
+<section data-chapter="08" data-chapter-name="PARALLEL POLIS">
+  <div class="container">
+    <div class="section-tag reveal" style="color: var(--sage-bright);">VIII &nbsp;·&nbsp; The Parallel Polis</div>
+    <h2 class="chapter-heading reveal" style="color: var(--paper);">From the furnace room<br><em style="color: var(--sage-bright);">to the foreign ministry.</em></h2>
+
+    <div class="prose reveal">
+      <p>One day, Havel says — if you recall the greengrocer — something snaps. Exhausted from maintaining the fiction, he stops putting up the sign. He stops voting in elections he knows are a farce. He begins to say what he really thinks. He steps out of living within the lie.</p>
+      <p>And in doing so, his life gets harder. His refusal cracks the surface of the lie. <strong>It demonstrates that another way of living is possible.</strong></p>
+      <p>Havel called this <em>"living within the truth."</em> The parallel polis begins there.</p>
+    </div>
+
+    <!-- NETWORK COMPARISON -->
+    <div class="viz-frame reveal">
+      <div class="viz-title">Figure 07 — Two Topologies</div>
+      <div class="viz-headline">The captured institution. The parallel society.</div>
+
+      <div class="network-section">
+        <div class="network-side captured">
+          <h4>Captured</h4>
+          <svg viewBox="0 0 320 240">
+            <!-- center node -->
+            <circle cx="160" cy="120" r="22" fill="#a8201a" opacity="0.9"/>
+            <text x="160" y="125" font-family="JetBrains Mono" font-size="8" fill="#0a0908" text-anchor="middle" letter-spacing="1">STATE</text>
+
+            <!-- spokes -->
+            <g stroke="#a8201a" stroke-width="0.8" opacity="0.5">
+              <line x1="160" y1="120" x2="60" y2="40"/>
+              <line x1="160" y1="120" x2="160" y2="20"/>
+              <line x1="160" y1="120" x2="260" y2="40"/>
+              <line x1="160" y1="120" x2="60" y2="120"/>
+              <line x1="160" y1="120" x2="260" y2="120"/>
+              <line x1="160" y1="120" x2="60" y2="200"/>
+              <line x1="160" y1="120" x2="160" y2="220"/>
+              <line x1="160" y1="120" x2="260" y2="200"/>
+            </g>
+
+            <!-- people -->
+            <g fill="#6e6a60">
+              <circle cx="60" cy="40" r="5"/>
+              <circle cx="160" cy="20" r="5"/>
+              <circle cx="260" cy="40" r="5"/>
+              <circle cx="60" cy="120" r="5"/>
+              <circle cx="260" cy="120" r="5"/>
+              <circle cx="60" cy="200" r="5"/>
+              <circle cx="160" cy="220" r="5"/>
+              <circle cx="260" cy="200" r="5"/>
+            </g>
+          </svg>
+          <p>One centre. Surveillance flows in. Authority flows out. Cut the centre and everything fails.</p>
+        </div>
+
+        <div class="network-side parallel">
+          <h4>Parallel</h4>
+          <svg viewBox="0 0 320 240" id="meshNetwork">
+            <g stroke="#7a9b6e" stroke-width="0.5" opacity="0.6">
+              <!-- mesh connections -->
+              <line x1="60" y1="50" x2="160" y2="40"/>
+              <line x1="160" y1="40" x2="260" y2="50"/>
+              <line x1="260" y1="50" x2="280" y2="130"/>
+              <line x1="280" y1="130" x2="240" y2="210"/>
+              <line x1="240" y1="210" x2="160" y2="220"/>
+              <line x1="160" y1="220" x2="80" y2="210"/>
+              <line x1="80" y1="210" x2="40" y2="130"/>
+              <line x1="40" y1="130" x2="60" y2="50"/>
+              <line x1="60" y1="50" x2="160" y2="120"/>
+              <line x1="160" y1="40" x2="160" y2="120"/>
+              <line x1="260" y1="50" x2="160" y2="120"/>
+              <line x1="280" y1="130" x2="160" y2="120"/>
+              <line x1="240" y1="210" x2="160" y2="120"/>
+              <line x1="160" y1="220" x2="160" y2="120"/>
+              <line x1="80" y1="210" x2="160" y2="120"/>
+              <line x1="40" y1="130" x2="160" y2="120"/>
+              <line x1="60" y1="50" x2="40" y2="130"/>
+              <line x1="60" y1="50" x2="80" y2="210"/>
+              <line x1="160" y1="40" x2="240" y2="210"/>
+              <line x1="260" y1="50" x2="160" y2="220"/>
+              <line x1="280" y1="130" x2="80" y2="210"/>
+            </g>
+            <g fill="#9bc28a">
+              <circle cx="60" cy="50" r="5"/>
+              <circle cx="160" cy="40" r="5"/>
+              <circle cx="260" cy="50" r="5"/>
+              <circle cx="280" cy="130" r="5"/>
+              <circle cx="240" cy="210" r="5"/>
+              <circle cx="160" cy="220" r="5"/>
+              <circle cx="80" cy="210" r="5"/>
+              <circle cx="40" cy="130" r="5"/>
+              <circle cx="160" cy="120" r="5"/>
+            </g>
+          </svg>
+          <p>Many centres. Trust flows peer-to-peer. Cut any node — the network heals around it.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="story reveal" style="border-left-color: var(--sage-bright);">
+      <span class="story-name" style="color: var(--sage-bright);">Jiří Dienstbier</span>
+      <span class="story-meta">Prague &nbsp;·&nbsp; 1968 — 1989 · Furnace stoker, Foreign Minister</span>
+      <p>Once one of Czechoslovakia's most respected foreign correspondents. When the Soviet tanks rolled into Prague in 1968 and the regime demanded he fall in line, he refused. For twenty years he worked as a furnace stoker, shovelling coal in the basement of a building on the Prague subway. He said it <em>"could have been worse — at least it gave him time to read."</em></p>
+      <p>He joined Charter 77. He kept the underground press alive. For twenty years, with no evidence that any of it would ever matter.</p>
+      <p>Then in December 1989, the Velvet Revolution came. One day, Dienstbier didn't show up for his shift. He was being sworn in as Foreign Minister of Czechoslovakia. During the negotiations, they say he broke off from the talks to go stoke his furnace one last time. Days later, he took a pair of bolt-cutters and personally chopped symbolic holes in the barbed-wire fence along the Czech-German border.</p>
+      <p style="font-style: italic; color: var(--paper);">From the furnace room to the foreign ministry. Twenty years of coal dust and patience. <strong style="color: var(--sage-bright);">When the wall fell, the parallel institutions were ready.</strong></p>
+    </div>
+
+    <div class="prose reveal">
+      <p>And it didn't end with the Czechs. In 1844, twenty-eight weavers in northern England were starving. Shopkeepers were adulterating food — adding chalk to flour, gravel to oatmeal. They pooled twenty-eight pounds and opened a cooperative shop with four items: butter, sugar, flour, oatmeal. They were laughed at.</p>
+      <p>Today, cooperatives based on the Rochdale Principles serve <strong>between seven hundred million and one billion people</strong> worldwide.</p>
+      <p>Benda was an unemployed mathematician at a kitchen table. Dienstbier was a furnace stoker. You have a laptop, the internet, and cryptographic tools these people could not even imagine. <em>The question has never been whether we can. The question is whether we will.</em></p>
+    </div>
+  </div>
+</section>
+
+<!-- IX. THE SWORD -->
+<section data-chapter="09" data-chapter-name="LOGOS">
+  <div class="container">
+    <div class="section-tag reveal" style="color: var(--amber);">IX &nbsp;·&nbsp; A Different Moral Choice</div>
+    <h2 class="chapter-heading reveal">The sword<br>must be forged right.</h2>
+
+    <div class="prose reveal">
+      <p>Technological advancement does not happen first in the material. <strong>Technology reflects moral choices.</strong> Look at what defines our age and ask yourself: what moral choices produced it?</p>
+      <p>Algorithms designed to addict. Platforms designed to surveil. Money designed to debase. CBDCs, designed for total surveillance and total control.</p>
+      <p class="lead">Logos is a different moral choice.</p>
+      <p>Crypto is a double-edged sword that can cut the head off the snake — the international fiat system, the surveillance apparatus, the machinery of control built on debased money. But we have to forge it right, and the truth is we haven't. <em>At least not yet.</em></p>
+    </div>
+
+    <div class="sword-section reveal">
+      <div>
+        <svg viewBox="0 0 280 480" id="swordSvg">
+          <defs>
+            <linearGradient id="bladeGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#3a4a5c"/>
+              <stop offset="50%" stop-color="#9bb5c8"/>
+              <stop offset="100%" stop-color="#3a4a5c"/>
+            </linearGradient>
+            <linearGradient id="hiltGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#5a4220"/>
+              <stop offset="50%" stop-color="#c89b3c"/>
+              <stop offset="100%" stop-color="#5a4220"/>
+            </linearGradient>
+            <filter id="swordGlow">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <!-- glow -->
+          <ellipse cx="140" cy="200" rx="80" ry="200" fill="url(#bladeGrad)" opacity="0.15"/>
+
+          <!-- blade -->
+          <polygon points="140,30 152,40 152,360 140,375 128,360 128,40" fill="url(#bladeGrad)"/>
+          <line x1="140" y1="35" x2="140" y2="370" stroke="#0a0908" stroke-width="0.5"/>
+
+          <!-- guard -->
+          <rect x="80" y="358" width="120" height="10" fill="url(#hiltGrad)"/>
+          <rect x="80" y="358" width="120" height="10" fill="none" stroke="#3a2e10" stroke-width="0.5"/>
+
+          <!-- grip -->
+          <rect x="132" y="368" width="16" height="80" fill="#3a2e10"/>
+          <g stroke="#1a1208" stroke-width="0.5">
+            <line x1="132" y1="378" x2="148" y2="378"/>
+            <line x1="132" y1="388" x2="148" y2="388"/>
+            <line x1="132" y1="398" x2="148" y2="398"/>
+            <line x1="132" y1="408" x2="148" y2="408"/>
+            <line x1="132" y1="418" x2="148" y2="418"/>
+            <line x1="132" y1="428" x2="148" y2="428"/>
+            <line x1="132" y1="438" x2="148" y2="438"/>
+          </g>
+
+          <!-- pommel -->
+          <circle cx="140" cy="455" r="14" fill="url(#hiltGrad)"/>
+          <circle cx="140" cy="455" r="14" fill="none" stroke="#3a2e10" stroke-width="0.5"/>
+          <circle cx="140" cy="455" r="6" fill="#3a2e10"/>
+
+          <!-- engravings on blade -->
+          <text x="140" y="120" font-family="Fraunces" font-style="italic" font-size="9" fill="#0a0908" text-anchor="middle" opacity="0.7">LIGHT</text>
+          <text x="140" y="200" font-family="Fraunces" font-style="italic" font-size="9" fill="#0a0908" text-anchor="middle" opacity="0.7">SHARP</text>
+          <text x="140" y="280" font-family="Fraunces" font-style="italic" font-size="9" fill="#0a0908" text-anchor="middle" opacity="0.7">HARD</text>
+
+          <!-- LOGOS marking on guard -->
+          <text x="140" y="367" font-family="JetBrains Mono" font-size="6" fill="#0a0908" text-anchor="middle" letter-spacing="2">LOGOS</text>
+        </svg>
+      </div>
+
+      <div class="sword-principles">
+        <div class="principle">
+          <div class="principle-num">— PRINCIPLE I</div>
+          <div class="principle-title">Light &amp; Swift</div>
+          <div class="principle-desc">Running on devices in your pockets, not on server farms owned by corporations. If only the powerful can wield it, it becomes another instrument of control.</div>
+        </div>
+        <div class="principle">
+          <div class="principle-num">— PRINCIPLE II</div>
+          <div class="principle-title">Sharp &amp; Piercing</div>
+          <div class="principle-desc">Effecting real sovereignty and real privacy — the kind capable of protecting you from another sovereign. If it is only compliance theatre, it becomes another instrument of control.</div>
+        </div>
+        <div class="principle">
+          <div class="principle-num">— PRINCIPLE III</div>
+          <div class="principle-title">Hard &amp; Strong</div>
+          <div class="principle-desc">Able to withstand coercion from the most powerful adversaries on earth. No office to raid. No server to seize. The strength comes from mathematics — and mathematics does not negotiate.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOGOS STACK -->
+    <div class="viz-frame reveal">
+      <div class="viz-title">Figure 08 — The Sovereign Stack</div>
+      <div class="viz-headline">A modular foundation for the modern parallel polis.</div>
+      <svg viewBox="0 0 800 320" id="stackChart">
+        <!-- Layer 1: Messaging -->
+        <g>
+          <rect x="80" y="40" width="640" height="68" fill="#1c1a18" stroke="#7a9b6e" stroke-width="1"/>
+          <text x="100" y="65" font-family="JetBrains Mono" font-size="9" fill="#7a9b6e" letter-spacing="2">— LAYER · MESSAGING</text>
+          <text x="100" y="92" font-family="Fraunces" font-style="italic" font-size="22" fill="#e8e2d5">Logos Messaging</text>
+          <text x="710" y="92" font-family="Newsreader" font-style="italic" font-size="13" fill="#b8b3a5" text-anchor="end">Private peer-to-peer · uncensorable · runs on your phone</text>
+        </g>
+
+        <!-- Layer 2: Storage -->
+        <g>
+          <rect x="80" y="120" width="640" height="68" fill="#1c1a18" stroke="#c89b3c" stroke-width="1"/>
+          <text x="100" y="145" font-family="JetBrains Mono" font-size="9" fill="#c89b3c" letter-spacing="2">— LAYER · STORAGE</text>
+          <text x="100" y="172" font-family="Fraunces" font-style="italic" font-size="22" fill="#e8e2d5">Logos Storage</text>
+          <text x="710" y="172" font-family="Newsreader" font-style="italic" font-size="13" fill="#b8b3a5" text-anchor="end">Decentralised · resistant to deletion · culture preserved</text>
+        </g>
+
+        <!-- Layer 3: Consensus -->
+        <g>
+          <rect x="80" y="200" width="640" height="68" fill="#1c1a18" stroke="#a8201a" stroke-width="1"/>
+          <text x="100" y="225" font-family="JetBrains Mono" font-size="9" fill="#a8201a" letter-spacing="2">— LAYER · CONSENSUS</text>
+          <text x="100" y="252" font-family="Fraunces" font-style="italic" font-size="22" fill="#e8e2d5">Logos Blockchain</text>
+          <text x="710" y="252" font-family="Newsreader" font-style="italic" font-size="13" fill="#b8b3a5" text-anchor="end">Sovereign money · privacy-preserving · programmable</text>
+        </g>
+
+        <!-- caption -->
+        <text x="400" y="300" font-family="JetBrains Mono" font-size="9" fill="#6e6a60" text-anchor="middle" letter-spacing="2">FOR THE FIRST TIME, INSTITUTIONS RESISTANT TO CORRUPTION BY DESIGN</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- X. TWO FUTURES -->
+<section data-chapter="10" data-chapter-name="TWO FUTURES" style="background: linear-gradient(180deg, var(--ink-2) 0%, var(--ink) 100%);">
+  <div class="container">
+    <div class="section-tag reveal">X &nbsp;·&nbsp; Two Futures</div>
+    <h2 class="chapter-heading reveal">Imagine the same year.<br><em>The same crisis.</em></h2>
+
+    <div class="prose reveal">
+      <p>It's 2034. The same debt spiral that broke Greece and Argentina has arrived. <em>The same crisis hits — because the same forces that have broken every over-indebted nation in history will not make an exception.</em></p>
+      <p>But the world the crisis arrives into is determined now, by what we build today.</p>
+    </div>
+
+    <div class="futures reveal">
+      <div class="futures-toggle">
+        <button class="futures-tab dystopia active" data-target="dystopia">
+          PATH A
+          <span>If we did nothing</span>
+        </button>
+        <button class="futures-tab parallel" data-target="parallel">
+          PATH B
+          <span>If we built the parallel polis</span>
+        </button>
+      </div>
+      <div class="futures-content">
+        <div class="futures-panel dystopia active">
+          <div class="futures-year">2034.</div>
+          <ul class="futures-list">
+            <li data-marker="01">Social Security has cut benefits by twenty-eight percent.</li>
+            <li data-marker="02">The government has frozen bank accounts to stabilise the system.</li>
+            <li data-marker="03">Your communications are monitored. Palantir has categorised you by your social graph.</li>
+            <li data-marker="04">Your transactions are tracked on a CBDC you never consented to.</li>
+            <li data-marker="05">If you are politically disfavoured, you are shut off.</li>
+            <li data-marker="06"><em>And there is no alternative — because the people who knew how to build them were too busy chasing yield.</em></li>
+          </ul>
+        </div>
+        <div class="futures-panel parallel">
+          <div class="futures-year">2034.</div>
+          <ul class="futures-list">
+            <li data-marker="01">A mother coordinates her child's education through a network no government holds the keys to.</li>
+            <li data-marker="02">A farmer sells directly to his neighbours — without a platform taking a cut or a payment processor deciding whether his politics are acceptable.</li>
+            <li data-marker="03">A dissident publishes the truth, and it cannot be deleted. It lives on a thousand machines across thirty countries.</li>
+            <li data-marker="04">A family's savings hold their value, denominated in something no central bank can print into oblivion.</li>
+            <li data-marker="05">A community organises mutual aid through infrastructure they own — that cannot be shut down by a terms-of-service update.</li>
+            <li data-marker="06"><em>This is not science fiction. The cryptography exists. What does not yet exist is the integrated, sovereign stack. That is what we are building.</em></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="story reveal" style="border-left-color: var(--sage-bright);">
+      <span class="story-name" style="color: var(--sage-bright);">Ashley Soifer</span>
+      <span class="story-meta">Las Vegas, NV &nbsp;·&nbsp; Mother of Layla</span>
+      <p>Ashley didn't wait for the system to fix itself. She didn't petition a school board. She built a school — the Southern Nevada Urban Micro Academy. Then she and her husband grew it into the National Microschooling Center. She now serves the entire country.</p>
+      <p>And Layla — the girl who wanted to disappear — is fourteen today. <strong style="color: var(--sage-bright);">She has recovered.</strong></p>
+      <p style="font-style: italic; color: var(--paper);">That is what the parallel society does. It's about people supporting people. And it doesn't ask for permission.</p>
+    </div>
+  </div>
+</section>
+
+<!-- XI. CALL TO ACTION -->
+<section data-chapter="11" data-chapter-name="THE ASK">
+  <div class="container">
+    <div class="section-tag reveal" style="color: var(--amber);">XI &nbsp;·&nbsp; The Ask</div>
+    <h2 class="chapter-heading reveal">Will you continue<br>to live in your<br><em style="color: var(--blood);">comfortable lies?</em></h2>
+
+    <div class="prose reveal">
+      <p>The West is in decline, and it will not collapse overnight. But today we can start building the support networks, the parallel institutions, the sovereign infrastructure. Today we can alleviate the consequences of the system. And in the ashes of the old order, we can create a renaissance of civil society — built by the people who refused to put up the sign.</p>
+      <p>That's what the Czech dissidents built in kitchens and basements. <strong>That's what we have the chance to build with tools they couldn't have dreamed of.</strong></p>
+    </div>
+
+    <div class="prose reveal" style="margin-top: 4rem;">
+      <p style="font-family: 'Fraunces', serif; font-style: italic; font-size: 1.4rem; color: var(--paper);">If you write code, look at the Logos stack. Read the specs. Run a node. Write a module.</p>
+      <p style="font-family: 'Fraunces', serif; font-style: italic; font-size: 1.4rem; color: var(--paper);">If you are a builder of any kind, come join a chapter. Find what your neighbourhood is missing — a school, a food network, a mutual aid system — and start there. The Rochdale weavers started with four items. You can start with one.</p>
+      <p style="font-family: 'Fraunces', serif; font-style: italic; font-size: 1.4rem; color: var(--paper);">But whether you write code, join a chapter, or simply carry this conversation forward — the deeper ask is the same for all of us. Stop organising your life around greed and status. Organise it around purpose, service, and the development of virtue and character.</p>
+    </div>
+  </div>
+</section>
+
+<!-- XII. MANIFESTO -->
+<section class="manifesto" data-chapter="12" data-chapter-name="MANIFESTO">
+  <div class="container">
+    <h1 class="manifesto-statement">
+      Stop putting up<br>the <span class="strike">sign</span>.
+    </h1>
+    <div class="manifesto-coda">— Living within the Truth —</div>
+  </div>
+</section>
+
+<!-- COLOPHON -->
+<footer class="colophon">
+  <div class="container">
+    A speech by Jarrad Hope &nbsp;·&nbsp; March 2026<br>
+    Delivered at <em>Parallel Society</em>, the opening of the IFT All-Hands<br><br>
+    <span style="color: var(--bone-faint);">Set in Fraunces, Newsreader, and JetBrains Mono.</span>
+  </div>
+</footer>
+
+<script>
+// Progress bar
+const progressBar = document.getElementById('progressBar');
+window.addEventListener('scroll', () => {
+  const scroll = window.scrollY;
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = (scroll / total) * 100;
+  progressBar.style.width = pct + '%';
+});
+
+// Chapter indicator
+const chapterIndicator = document.getElementById('chapterIndicator');
+const chapterNum = document.getElementById('chapterNum');
+const chapterName = document.getElementById('chapterName');
+const sections = document.querySelectorAll('section[data-chapter]');
+
+const chapterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const num = entry.target.dataset.chapter;
+      const name = entry.target.dataset.chapterName;
+      chapterNum.textContent = num;
+      chapterName.textContent = name;
+      if (num !== '00') {
+        chapterIndicator.classList.add('visible');
+      } else {
+        chapterIndicator.classList.remove('visible');
+      }
+    }
+  });
+}, { threshold: 0.3 });
+
+sections.forEach(s => chapterObserver.observe(s));
+
+// Reveal on scroll
+const revealEls = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+
+revealEls.forEach(el => revealObserver.observe(el));
+
+// Mobility chart animation
+const mobLine = document.getElementById('mobLine');
+const mobPoints = document.getElementById('mobPoints');
+const mobArea = document.getElementById('mobArea');
+const mobDream = document.getElementById('mobDream');
+
+const mobObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      mobLine.style.transition = 'stroke-dashoffset 2.4s cubic-bezier(0.4, 0, 0.2, 1)';
+      mobLine.style.strokeDashoffset = '0';
+      setTimeout(() => {
+        mobArea.style.transition = 'opacity 1.2s';
+        mobArea.style.opacity = '1';
+        mobPoints.style.transition = 'opacity 1s';
+        mobPoints.style.opacity = '1';
+        mobDream.style.transition = 'opacity 1s';
+        mobDream.style.opacity = '1';
+      }, 1500);
+      mobObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.4 });
+
+if (document.getElementById('mobilityChart')) mobObserver.observe(document.getElementById('mobilityChart'));
+
+// Cost chart animation
+const costObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const bars = entry.target.querySelectorAll('.cost-bar');
+      const mults = entry.target.querySelectorAll('.cost-mult');
+      bars.forEach((bar, i) => {
+        const final = parseFloat(bar.dataset.final);
+        setTimeout(() => {
+          bar.style.transition = 'width 1.6s cubic-bezier(0.2, 0.7, 0.2, 1)';
+          bar.setAttribute('width', final);
+        }, i * 300);
+      });
+      mults.forEach((mult, i) => {
+        setTimeout(() => {
+          mult.style.transition = 'opacity 0.8s';
+          mult.style.opacity = '1';
+        }, i * 300 + 1200);
+      });
+      costObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+
+if (document.getElementById('costChart')) costObserver.observe(document.getElementById('costChart'));
+
+// Loneliness chart animation
+const lonLine = document.getElementById('lonelinessLine');
+const lonArea = document.querySelector('.loneliness-area');
+const lonPts = document.querySelector('.lon-pts');
+
+const lonObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      if (lonLine) {
+        lonLine.style.transition = 'stroke-dashoffset 2s cubic-bezier(0.4, 0, 0.2, 1)';
+        lonLine.style.strokeDashoffset = '0';
+      }
+      setTimeout(() => {
+        if (lonArea) {
+          lonArea.style.transition = 'fill-opacity 1.2s';
+          lonArea.setAttribute('fill-opacity', '0.15');
+        }
+        if (lonPts) {
+          lonPts.style.transition = 'opacity 1s';
+          lonPts.style.opacity = '1';
+        }
+      }, 1300);
+      lonObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+
+if (document.getElementById('lonelinessChart')) lonObserver.observe(document.getElementById('lonelinessChart'));
+
+// Debt chart animation
+const debtLine = document.getElementById('debtLine');
+const debtArea = document.querySelector('.debt-area');
+const debtPts = document.querySelector('.debt-pts');
+
+const debtObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      if (debtLine) {
+        debtLine.style.transition = 'stroke-dashoffset 2.4s cubic-bezier(0.4, 0, 0.2, 1)';
+        debtLine.style.strokeDashoffset = '0';
+      }
+      setTimeout(() => {
+        if (debtArea) {
+          debtArea.style.transition = 'opacity 1.2s';
+          debtArea.style.opacity = '1';
+        }
+        if (debtPts) {
+          debtPts.style.transition = 'opacity 1s';
+          debtPts.style.opacity = '1';
+        }
+      }, 1700);
+      debtObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+
+if (document.getElementById('debtChart')) debtObserver.observe(document.getElementById('debtChart'));
+
+// Greengrocer signs interaction
+let signsRemoved = 0;
+const signs = document.querySelectorAll('.sign');
+const signCount = document.getElementById('signCount');
+const signInstruction = document.getElementById('signInstruction');
+
+signs.forEach(sign => {
+  sign.addEventListener('click', () => {
+    if (sign.dataset.removed === 'false') {
+      sign.classList.add('removed');
+      sign.dataset.removed = 'true';
+      signsRemoved++;
+      signCount.textContent = signsRemoved;
+      if (signsRemoved === 3) {
+        signInstruction.classList.add('complete');
+        signInstruction.innerHTML = "The window is clear. <em>Now, what comes next?</em>";
+      }
+    }
+  });
+});
+
+// Two futures toggle
+const futuresTabs = document.querySelectorAll('.futures-tab');
+const futuresPanels = document.querySelectorAll('.futures-panel');
+
+futuresTabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    const target = tab.dataset.target;
+    futuresTabs.forEach(t => t.classList.remove('active'));
+    futuresPanels.forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.querySelector(`.futures-panel.${target}`).classList.add('active');
+  });
+});
+
+// Manifesto strikethrough trigger
+const manifesto = document.querySelector('.manifesto');
+const manifestoObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.5 });
+
+if (manifesto) manifestoObserver.observe(manifesto);
+</script>
+
+</body>
+</html>

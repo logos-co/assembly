@@ -26,7 +26,8 @@
       "mcp__Claude_in_Chrome__tabs_create_mcp",
       "mcp__Claude_in_Chrome__tabs_close_mcp",
       "mcp__Claude_in_Chrome__javascript_tool",
-      "Bash(kill %1)"
+      "Bash(kill %1)",
+      "WebFetch(domain:blog.logos.co)"
     ]
   }
 }

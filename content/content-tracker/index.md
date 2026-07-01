@@ -10,6 +10,7 @@ It is important to have clarity on who is coordinating around any given [[artifa
 | Article | Component | Status | Target | Audience | Links |
 |---------|-----------|--------|--------|----------|-------|
 
+| [[validated-data-feeds-draft\|Validated by Default: Why Logos Treats Every Data Feed Like a Blockchain Transaction]] | Logos Core / Architecture | **First Draft** | TBD | Developers, cryptographers, protocol engineers | [[validated-data-feeds-draft\|Draft]] |
 | [[logos-core-modular-architecture\|Building on Logos Core: The Modular Architecture and Package Manager]] | Logos Core | **First Draft** | After above | Application developers, C++/JS/Nim devs | [[logos-core-modular-architecture-draft\|Draft]] |
 | [[privacy-preserving-file-sharing\|Introducing Logos Storage: Decentralized Storage for the Logos Tech Stack]] | Storage | **First Draft** | After above | Developers, infrastructure engineers, privacy engineers | [[privacy-preserving-file-sharing-draft\|Draft]] |
 

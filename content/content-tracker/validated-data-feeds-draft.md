@@ -1,7 +1,7 @@
 ---
 title: "Validated by Default: Why Logos Treats Every Data Feed Like a Blockchain Transaction"
 description: "Modularity makes systems flexible, not trustworthy. Logos closes that gap by making cryptographic validation the default for all inter-module communication."
-draft: true
+draft: false
 tags:
   - logos
   - architecture

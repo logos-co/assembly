@@ -18,7 +18,7 @@ Briefs scaffolded from the [Testnet v0.2 Comms Program messaging framework](http
 
 | Article | Component | Status | Target | Audience | Links |
 |---------|-----------|--------|--------|----------|-------|
-| [[logos-blockchain-testnet-v02-brief\|Logos Blockchain in Testnet v0.2: Privacy Reaches Consensus]] | Blockchain | **Brief — for review** | TBD | Protocol engineers, node operators, privacy researchers | [[logos-blockchain-testnet-v02-brief\|Brief]] |
+| [[logos-blockchain-testnet-v02-draft\|Logos Blockchain in Testnet v0.2: Privacy Reaches Consensus]] | Blockchain | **First Draft — for review** | TBD | Protocol engineers, node operators, privacy researchers | [[logos-blockchain-testnet-v02-brief\|Brief]], [[logos-blockchain-testnet-v02-draft\|Draft]] |
 | [[logos-messaging-testnet-v02-brief\|Logos Messaging in Testnet v0.2: A Real API Surface]] | Messaging | **Brief — for review** | TBD | App developers, Rust/FFI devs, protocol engineers | [[logos-messaging-testnet-v02-brief\|Brief]] |
 | [[logos-storage-testnet-v02-brief\|Logos Storage in Testnet v0.2: Hardening the Substrate]] | Storage | **Brief — for review** | TBD | Infrastructure engineers, privacy engineers, node operators | [[logos-storage-testnet-v02-brief\|Brief]] |
 | [[logos-core-testnet-v02-brief\|Logos Core in Testnet v0.2: The Microkernel Grows Up]] | Core | **Brief — for review** | TBD | App developers, systems programmers | [[logos-core-testnet-v02-brief\|Brief]] |

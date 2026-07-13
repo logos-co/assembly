@@ -19,10 +19,10 @@ Briefs scaffolded from the [Testnet v0.2 Comms Program messaging framework](http
 | Article | Component | Status | Target | Audience | Links |
 |---------|-----------|--------|--------|----------|-------|
 | [[logos-blockchain-testnet-v02-draft\|Logos Blockchain in Testnet v0.2: Privacy Reaches Consensus]] | Blockchain | **First Draft — for review** | TBD | Protocol engineers, node operators, privacy researchers | [[logos-blockchain-testnet-v02-brief\|Brief]], [[logos-blockchain-testnet-v02-draft\|Draft]] |
-| [[logos-messaging-testnet-v02-brief\|Logos Messaging in Testnet v0.2: A Real API Surface]] | Messaging | **Brief — for review** | TBD | App developers, Rust/FFI devs, protocol engineers | [[logos-messaging-testnet-v02-brief\|Brief]] |
-| [[logos-storage-testnet-v02-brief\|Logos Storage in Testnet v0.2: Hardening the Substrate]] | Storage | **Brief — for review** | TBD | Infrastructure engineers, privacy engineers, node operators | [[logos-storage-testnet-v02-brief\|Brief]] |
-| [[logos-core-testnet-v02-brief\|Logos Core in Testnet v0.2: The Microkernel Grows Up]] | Core | **Brief — for review** | TBD | App developers, systems programmers | [[logos-core-testnet-v02-brief\|Brief]] |
-| [[logos-basecamp-testnet-v02-brief\|Logos Basecamp in Testnet v0.2: The Whole Stack, One Window]] | Basecamp | **Brief — for review** | TBD | General/privacy-curious users, node operators | [[logos-basecamp-testnet-v02-brief\|Brief]] |
+| [[logos-messaging-testnet-v02-draft\|Logos Messaging in Testnet v0.2: A Real API Surface]] | Messaging | **First Draft — for review** | TBD | App developers, Rust/FFI devs, protocol engineers | [[logos-messaging-testnet-v02-brief\|Brief]], [[logos-messaging-testnet-v02-draft\|Draft]] |
+| [[logos-storage-testnet-v02-draft\|Logos Storage in Testnet v0.2: Hardening the Substrate]] | Storage | **First Draft — for review** | TBD | Infrastructure engineers, privacy engineers, node operators | [[logos-storage-testnet-v02-brief\|Brief]], [[logos-storage-testnet-v02-draft\|Draft]] |
+| [[logos-core-testnet-v02-draft\|Logos Core in Testnet v0.2: The Microkernel Grows Up]] | Core | **First Draft — for review** | TBD | App developers, systems programmers | [[logos-core-testnet-v02-brief\|Brief]], [[logos-core-testnet-v02-draft\|Draft]] |
+| [[logos-basecamp-testnet-v02-draft\|Logos Basecamp in Testnet v0.2: The Whole Stack, One Window]] | Basecamp | **First Draft — for review** | TBD | General/privacy-curious users, node operators | [[logos-basecamp-testnet-v02-brief\|Brief]], [[logos-basecamp-testnet-v02-draft\|Draft]] |
 
 ## Proposed Articles (Feb 2026)
 

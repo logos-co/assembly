@@ -37,7 +37,7 @@ All of it testnet software: test tokens, rough edges, things will break. But eve
 
 > **Demo:** [Guru's walkthrough of the modules in Basecamp](https://x.com/hackyguru/status/2074092719773773957) — chat, storage, and the LEZ wallet in one pass through the shell.
 >
-> *(Placeholder — I can't view X.com or the Drive folder from here to confirm this is the right clip. Swap in whichever of Guru's three posts actually shows the general walkthrough.)*
+> *(Confirmed with Corey: the source clip is `basecamp1-final.mp4` from Guru's Drive folder, the general walkthrough. Still need to confirm which of Guru's three X posts is the public version of this specific clip before publishing — the URL above is a best guess, not verified.)*
 
 The App Manager and refreshed Package Manager are the adoption story: install, update, and remove apps from release repositories through a UI, with proper upgrade-state handling. Combined with the standard module publishing path that landed in [Core](https://docs.logos.co/core/build-modules/install-and-load-a-module-in-logos-basecamp), the third-party story is now end-to-end: a developer publishes a module to a release index, a user adds the repository and installs it. No blessed app store, no gatekeeper.
 
@@ -49,9 +49,7 @@ UI apps now load their Qt plugins in separate processes, so an app that crashes 
 
 Full disclosure on maturity: this is testnet software and I'm not going to pretend the sandbox has survived a decade of adversarial attention like a browser's has. What I'll say is the threat model is the honest one (assume apps are hostile), and the v0.2 release notes read boundary-first: process isolation, sandbox hardening, auth-token fixes, API access restrictions. Judge for yourself whether that's where the effort went; the changelog is public.
 
-> **Demo:** [Rahul got Doom running inside Basecamp](https://x.com/hackyguru/status/2076631857374851179) — as good a proof as any that the app model isn't limited to wallets and explorers. If a shell can run that, the isolation work above is what keeps it from touching anything else.
->
-> *(Placeholder — same caveat: pick whichever of Guru's posts is actually the Doom clip once you've watched them.)*
+There's no dedicated demo for this, but the walkthrough above has a moment where Rahul gets Doom running inside Basecamp, which is as good a proof as any that the app model isn't limited to wallets and explorers. If a shell can run that, the isolation work above is what keeps it from touching anything else.
 
 ## The operator story
 
@@ -67,4 +65,4 @@ If you install v0.2, the thing I most want to hear about is friction: where you 
 
 *Added per Jonny's request (2026-07-13/14), cross-checked against the "Basecamp Ideology Blog Brief" (Notion) and the "Basecamp v0.2 Article" plan to merge that brief into this draft: ideological-spice paragraphs on JavaScript's execution model and browser/web centralization, completing the brief's four messaging points (native/local and browser-not-neutral were already in the draft). Privacy Sandbox shutdown (Oct 2025) and cookie opt-in default per web search Jul 2026; confirm before publishing.*
 
-*Two demo embeds added as placeholders, sourced from Guru's Drive folder per the same brief. I couldn't view the actual clips (X.com is JS-rendered, Drive needs your login, Chrome extension wasn't connected this session) — confirm each is the right clip before handoff, and swap URLs if not.*
+*Demo embed updated 2026-07-14 with Google Drive connector access: confirmed the Drive folder holds four files (`basecamp1-final.mp4`, `basecamp2.mp4`, `basecamp3.mp4`, `basecamp4.mp4`, all from guru@status.im), and per Corey, `basecamp1-final.mp4` is the general walkthrough and the only one with Doom in it — there's no separate Doom-specific clip. Dropped the second demo callout accordingly and referenced the Doom moment in prose instead. Still open: which of Guru's three X post URLs is the public version of `basecamp1-final.mp4` — the link in the demo callout above is unverified; confirm before publishing.*

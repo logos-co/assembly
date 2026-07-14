@@ -10,6 +10,8 @@ Here's a test I apply to every privacy project: how many terminal windows does i
 
 Basecamp is the Logos attempt at the harder test, and in v0.2 the answer is: zero terminal windows on macOS, one `chmod +x` on Linux (AppImages gonna AppImage). [Install Basecamp](https://docs.logos.co/basecamp/get-started/install-logos-basecamp), and the full stack (blockchain, messaging, storage, the Logos Execution Zone) is there in one desktop app, including running your own node.
 
+> **Demo:** [Guru walks through installing Basecamp](https://x.com/hackyguru/status/2075525817682039245).
+
 ## Why a desktop app, of all things
 
 A desktop distribution sounds almost old-fashioned, so it's worth stating why it's a deliberate architecture call and not nostalgia.
@@ -35,9 +37,7 @@ v0.1 packaged the stack with alpha UIs, and alpha meant it: chat required swappi
 
 All of it testnet software: test tokens, rough edges, things will break. But every item above is something you can poke at from Basecamp today.
 
-> **Demo:** [Guru's walkthrough of the modules in Basecamp](https://x.com/hackyguru/status/2074092719773773957) — chat, storage, and the LEZ wallet in one pass through the shell.
->
-> *(Confirmed with Corey: the source clip is `basecamp1-final.mp4` from Guru's Drive folder, the general walkthrough. Still need to confirm which of Guru's three X posts is the public version of this specific clip before publishing — the URL above is a best guess, not verified.)*
+> **Demo:** [Guru's general overview of Basecamp](https://x.com/hackyguru/status/2074092719773773957) — chat, storage, and the LEZ wallet in one pass through the shell.
 
 The App Manager and refreshed Package Manager are the adoption story: install, update, and remove apps from release repositories through a UI, with proper upgrade-state handling. Combined with the standard module publishing path that landed in [Core](https://docs.logos.co/core/build-modules/install-and-load-a-module-in-logos-basecamp), the third-party story is now end-to-end: a developer publishes a module to a release index, a user adds the repository and installs it. No blessed app store, no gatekeeper.
 
@@ -65,4 +65,4 @@ If you install v0.2, the thing I most want to hear about is friction: where you 
 
 *Added per Jonny's request (2026-07-13/14), cross-checked against the "Basecamp Ideology Blog Brief" (Notion) and the "Basecamp v0.2 Article" plan to merge that brief into this draft: ideological-spice paragraphs on JavaScript's execution model and browser/web centralization, completing the brief's four messaging points (native/local and browser-not-neutral were already in the draft). Privacy Sandbox shutdown (Oct 2025) and cookie opt-in default per web search Jul 2026; confirm before publishing.*
 
-*Demo embed updated 2026-07-14 with Google Drive connector access: confirmed the Drive folder holds four files (`basecamp1-final.mp4`, `basecamp2.mp4`, `basecamp3.mp4`, `basecamp4.mp4`, all from guru@status.im), and per Corey, `basecamp1-final.mp4` is the general walkthrough and the only one with Doom in it — there's no separate Doom-specific clip. Dropped the second demo callout accordingly and referenced the Doom moment in prose instead. Still open: which of Guru's three X post URLs is the public version of `basecamp1-final.mp4` — the link in the demo callout above is unverified; confirm before publishing.*
+*Demo embeds resolved 2026-07-14. Corey confirmed all three of Guru's X posts: [general overview](https://x.com/hackyguru/status/2074092719773773957) (= `basecamp1-final.mp4` from the Drive folder, includes the Doom cameo, no separate Doom clip exists), [install tutorial](https://x.com/hackyguru/status/2075525817682039245), and [LGX format overview](https://x.com/hackyguru/status/2076631857374851179) (a different topic, not used here — may fit the separate "LGX Format and Why" blog on the comms roadmap). Two embeds now in the draft: general overview under "What's actually in it now," install tutorial up top next to the install link.*

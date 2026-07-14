@@ -16,6 +16,10 @@ A desktop distribution sounds almost old-fashioned, so it's worth stating why it
 
 The browser is enemy territory for privacy software. I've written about this before ([your browser has already betrayed you](https://blog.logos.co/article/browser-betrayed-you)): fingerprinting, extension spyware, the fact that every "decentralised" web app still loads its code from someone's server on every visit. You might object that Basecamp comes from someone's server too, and you'd be right: it's a binary off a release page, and updates re-trust that repository each time you take one. The difference is you take them explicitly, when you choose, and every launch in between runs code already on your disk. A web app re-trusts its server silently on every page load; a compromised server today rewrites the app you run today. That's a real distinction, not a rhetorical one, and it's why local-first is the call even though downloads aren't magic.
 
+Two more browser problems, and they're structural, not incidental. JavaScript itself: every mainstream browser executes whatever script a page hands it, on every visit, because the standard was built for compatibility, not security. A binary on disk gets reviewed once, when you choose to run it; a script re-fetched on each page load gets no review, ever, and you can't diff today's version against yesterday's. That script is frequently there to fingerprint you and phone the result home to a server that profits from the record: the same tracking problem as the browser itself, one layer down in the stack.
+
+Then there's the scale of it. A handful of companies now decide what the web is, and your speech, your money, and your social graph run through infrastructure you don't own and can lose access to without appeal. Chrome, the browser most people run, killed its own replacement for third-party cookies (the Privacy Sandbox APIs) in October 2025 and left the cookies in place, opt-in by default for whoever clicks through the prompt, because the company selling the browser also sells ads against your behavior. A vendor whose revenue depends on watching you isn't going to ship anonymity as the default, and a web built on a handful of platforms isn't built to let you leave.
+
 Local-first means your node, your keys, and your data live on hardware you control. When you send a message or a transaction from Basecamp, it enters the p2p network from your own machine, as a peer. Other nodes relay your traffic, and on testnet your first hop is bootstrap infrastructure the project runs. What no relay gets is the gateway view: a hosted RPC provider sees your queries in the clear and logs which address asked for what, and that log is the thing no later privacy layer can fix. Basecamp is where the transaction lifecycle starts, and a step-zero record tying your identity to your intent stays tied no matter how well the later stages mix.
 
 One shell for all modules, rather than one app per module, is the other half of the design. The obvious alternative is separate apps sharing a local daemon, which is how half of crypto works today (a wallet pointed at your node). That gets you shared infrastructure but leaves every app shipping its own updater, its own auth story, and its own opinion about module versions. The shell solves those once, and it makes composition a first-class thing: the AMM app runs on the LEZ module, the filesharing app runs on Storage, and modules call each other's APIs through one runtime that permissions the calls (Core's token exchange and caller allow lists restrict module API access).
@@ -31,6 +35,10 @@ v0.1 packaged the stack with alpha UIs, and alpha meant it: chat required swappi
 
 All of it testnet software: test tokens, rough edges, things will break. But every item above is something you can poke at from Basecamp today.
 
+> **Demo:** [Guru's walkthrough of the modules in Basecamp](https://x.com/hackyguru/status/2074092719773773957) — chat, storage, and the LEZ wallet in one pass through the shell.
+>
+> *(Placeholder — I can't view X.com or the Drive folder from here to confirm this is the right clip. Swap in whichever of Guru's three posts actually shows the general walkthrough.)*
+
 The App Manager and refreshed Package Manager are the adoption story: install, update, and remove apps from release repositories through a UI, with proper upgrade-state handling. Combined with the standard module publishing path that landed in [Core](https://docs.logos.co/core/build-modules/install-and-load-a-module-in-logos-basecamp), the third-party story is now end-to-end: a developer publishes a module to a release index, a user adds the repository and installs it. No blessed app store, no gatekeeper.
 
 ## Isolation, because apps are strangers
@@ -40,6 +48,10 @@ That "no gatekeeper" sentence should make you slightly nervous. If anyone can pu
 UI apps now load their Qt plugins in separate processes, so an app that crashes (or misbehaves on purpose) doesn't take the shell or its siblings with it. The QML sandbox got hardened and auth-token handling for UI backends corrected, which pairs with the runtime-level work in Core (token exchange and caller allow lists on module APIs) to give the same shape of boundary at two layers: the process level for UI code, the API level for modules. This is what an open app model costs. You don't get to skip building isolation; you have to be better at it than the walled gardens, because you can't fall back on review-and-ban.
 
 Full disclosure on maturity: this is testnet software and I'm not going to pretend the sandbox has survived a decade of adversarial attention like a browser's has. What I'll say is the threat model is the honest one (assume apps are hostile), and the v0.2 release notes read boundary-first: process isolation, sandbox hardening, auth-token fixes, API access restrictions. Judge for yourself whether that's where the effort went; the changelog is public.
+
+> **Demo:** [Rahul got Doom running inside Basecamp](https://x.com/hackyguru/status/2076631857374851179) — as good a proof as any that the app model isn't limited to wallets and explorers. If a shell can run that, the isolation work above is what keeps it from touching anything else.
+>
+> *(Placeholder — same caveat: pick whichever of Guru's posts is actually the Doom clip once you've watched them.)*
 
 ## The operator story
 
@@ -52,3 +64,7 @@ If you install v0.2, the thing I most want to hear about is friction: where you 
 ---
 
 *Roadmap sources consulted (strip before publishing): `context/roadmap/content/testnets/v02.md`, `v02-release.md`, `v01.md`, `logos-node-operator-guide.md`. Lambda Prize mentioned per messaging framework; scope unconfirmed with comms; confirm before publishing.*
+
+*Added per Jonny's request (2026-07-13/14), cross-checked against the "Basecamp Ideology Blog Brief" (Notion) and the "Basecamp v0.2 Article" plan to merge that brief into this draft: ideological-spice paragraphs on JavaScript's execution model and browser/web centralization, completing the brief's four messaging points (native/local and browser-not-neutral were already in the draft). Privacy Sandbox shutdown (Oct 2025) and cookie opt-in default per web search Jul 2026; confirm before publishing.*
+
+*Two demo embeds added as placeholders, sourced from Guru's Drive folder per the same brief. I couldn't view the actual clips (X.com is JS-rendered, Drive needs your login, Chrome extension wasn't connected this session) — confirm each is the right clip before handoff, and swap URLs if not.*

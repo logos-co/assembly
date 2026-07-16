@@ -2,7 +2,7 @@
 title: "Interzone Bridging: Moving Value Between Zones Without Trusting Anyone New"
 ---
 
-Bridges are where crypto goes to get robbed. Ronin lost $625 million. Wormhole lost $325 million. Harmony's Horizon bridge, Nomad, Multichain, the list keeps going, and most of it traces to the same root cause: a trusted relayer or a multisig committee sitting between two chains, attesting that something happened on the other side. Compromise the committee, mint yourself infinite wrapped tokens. So when I say Logos zones can now bridge tokens and messages between each other, I get why your first reaction might be "oh no."
+Bridges are where crypto goes to get robbed. Ronin lost \$625 million. Wormhole lost \$325 million. Harmony's Horizon bridge, Nomad, Multichain, the list keeps going, and most of it traces to the same root cause: a trusted relayer or a multisig committee sitting between two chains, attesting that something happened on the other side. Compromise the committee, mint yourself infinite wrapped tokens. So when I say Logos zones can now bridge tokens and messages between each other, I get why your first reaction might be "oh no."
 
 Cool. Let me explain why this one is different, because the difference is the whole point.
 

@@ -9,6 +9,7 @@ It is important to have clarity on who is coordinating around any given [[artifa
 
 | Article | Component | Status | Target | Audience | Links |
 |---------|-----------|--------|--------|----------|-------|
+| [[prifi-supply-chain-tweetstorm-draft\|PriFi Tweet Storm: The Transaction Supply Chain, Module by Module]] | All modules / PriFi narrative | **First Draft** | After testnet v0.2 announce posts (placeholder link in tweet 11) | X audience, crypto-privacy general | [[prifi-supply-chain-tweetstorm-draft\|Draft]] |
 | [[validated-data-feeds-draft\|Validated by Default: Why Logos Treats Every Data Feed Like a Blockchain Transaction]] | Logos Core / Architecture | **First Draft** | TBD | Developers, cryptographers, protocol engineers | [[validated-data-feeds-draft\|Draft]] |
 | [[privacy-preserving-file-sharing\|Introducing Logos Storage: Decentralized Storage for the Logos Tech Stack]] | Storage | **First Draft** | After above | Developers, infrastructure engineers, privacy engineers | [[privacy-preserving-file-sharing-draft\|Draft]] |
 | [[bota-jardemalie-interview-companion-draft\|She Checked the File Properties: Bota Jardemalie on What Happens When You Don't Control Your Channels]] | N/A (interview companion) | **First Draft** | Pending post-production of interview video | Civil liberties communities, privacy-curious general audience | [[bota-jardemalie-interview-companion-draft\|Draft]] |

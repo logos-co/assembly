@@ -5,17 +5,24 @@ It does three things and holds the two secrets that can't live in the browser:
 
 | Route                    | Purpose                                                                   |
 | ------------------------ | ------------------------------------------------------------------------- |
-| `GET /api/auth/login`    | Redirect to GitHub's OAuth authorize URL                                  |
-| `GET /api/auth/callback` | Exchange `code` → user token, `postMessage` it back to the opener         |
+| `GET /api/auth/login`    | Redirect to GitHub's authorize URL                                        |
+| `GET /api/auth/callback` | Exchange `code` → user session, `postMessage` it back to the opener       |
+| `POST /api/auth/refresh` | Exchange a refresh token for a fresh user token                           |
 | `GET /api/comments`      | Anonymous read proxy (server token) so logged-out visitors see highlights |
 
 **Writes never touch this worker** — the browser posts comments straight to
 GitHub's GraphQL API with the signed-in user's own token.
 
-> **Order matters.** The OAuth App's callback URL must contain the worker's
-> URL, and the worker's URL doesn't exist until it's deployed — so deploy
-> first. Deploying without secrets is fine; those endpoints simply error until
-> you add them.
+Auth is a **GitHub App**, not an OAuth App. That matters: an OAuth App would
+have to request the `public_repo` scope, which grants write access to _every_
+public repo the commenter owns. A GitHub App's permissions are fixed by the App
+definition, so commenters grant only **`Discussions: write` on this one repo**.
+No `scope` is sent on the authorize URL as a result.
+
+> **Order matters.** The App's callback URL must contain the worker's URL, and
+> the worker's URL doesn't exist until it's deployed — so deploy first.
+> Deploying without secrets is fine; those endpoints simply error until you
+> add them.
 
 ## 1. Deploy the worker (Cloudflare Workers)
 
@@ -33,28 +40,46 @@ is `name` in `wrangler.toml`. For this repo it is:
 https://inline-comments.inline-assembly.workers.dev
 ```
 
-## 2. Create a GitHub OAuth App
+## 2. Create a GitHub App
 
-<https://github.com/settings/developers> → **New OAuth App**
+Create it **under the `logos-co` org** so ownership isn't tied to one person:
 
-- **Homepage URL:** the site, `https://logos-co.github.io/assembly/`
-- **Authorization callback URL:** the worker URL + `/api/auth/callback`, i.e.
-  `https://inline-comments.inline-assembly.workers.dev/api/auth/callback`
+<https://github.com/organizations/logos-co/settings/apps> → **New GitHub App**
 
-Register, copy the **Client ID**, then **Generate a new client secret** and copy
-it immediately (shown once).
+| Setting                                                    | Value                                                                   |
+| ---------------------------------------------------------- | ----------------------------------------------------------------------- |
+| **GitHub App name**                                        | `Assembly Inline Comments`                                              |
+| **Homepage URL**                                           | `https://logos-co.github.io/assembly/`                                  |
+| **Callback URL**                                           | `https://inline-comments.inline-assembly.workers.dev/api/auth/callback` |
+| **Request user authorization (OAuth) during installation** | ✅ **check this**                                                       |
+| **Expire user authorization tokens**                       | ✅ leave checked (see below)                                            |
+| **Webhook → Active**                                       | ❌ uncheck — we don't use webhooks                                      |
+| **Repository permissions → Discussions**                   | **Read and write**                                                      |
+| **Where can this GitHub App be installed?**                | Only on this account                                                    |
 
-An OAuth App allows only **one** callback URL, so register a **second app** for
-local dev with callback `http://localhost:8787/api/auth/callback`.
+Everything else can stay at its default. Then:
 
-> Scope requested is `public_repo` — enough to comment on Discussions of a
-> public repo. For a stricter setup use a GitHub **App** with fine-grained
-> Discussion write (a follow-up in the design doc).
+1. **Create GitHub App.**
+2. Copy the **Client ID** (`Iv23li…`) and **Generate a new client secret** —
+   copy it immediately, it's shown once.
+3. **Install App** → install it on **`logos-co/assembly`** (choosing "Only
+   select repositories" and picking just that repo). Without this install step
+   the App can't touch the repo's Discussions.
+
+Add a **second callback URL** on the same App for local dev —
+`http://localhost:8787/api/auth/callback`. Unlike OAuth Apps, a GitHub App
+accepts multiple callback URLs, so one App covers both prod and dev.
+
+> **On token expiration.** With "Expire user authorization tokens" enabled,
+> user tokens last 8 hours and come with a ~6-month refresh token; the client
+> refreshes silently via `POST /api/auth/refresh`. If you disable expiration,
+> GitHub omits those fields and the client treats the token as non-expiring —
+> both paths work, so keep the secure default.
 >
-> `logos-co` is an org: if it enforces third-party application restrictions, an
-> owner must approve the app or posting will fail for members. Registering the
-> app **under the org** (Org Settings → Developer settings → OAuth Apps) avoids
-> tying ownership to one person's account.
+> A GitHub App is **not** subject to the org's OAuth App access restrictions;
+> it's governed by installation instead. That's why the previous "org must
+> approve the OAuth App" step is gone — installing it (step 3) is the
+> equivalent, and an org owner does it once.
 
 ## 3. Create the server read token
 
@@ -86,7 +111,7 @@ npm run dev                      # serves on http://localhost:8787
 
 `ALLOWED_ORIGINS` already includes `http://localhost:8080` (Quartz's dev server).
 
-## 4. Point Quartz at the worker
+## 5. Point Quartz at the worker
 
 In `quartz.layout.ts`:
 
@@ -98,8 +123,8 @@ Component.InlineComments({
     repoId: "R_kgDOQUhKqA",
     category: "Announcements",
     categoryId: "DIC_kwDOQUhKqM4Cxur2",
-    apiBase: "https://inline-comments.<you>.workers.dev",
-    mapping: "pathname",
+    apiBase: "https://inline-comments.inline-assembly.workers.dev",
+    mapping: "url", // must match giscus's mapping to share a discussion
   },
 })
 ```

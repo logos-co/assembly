@@ -50,14 +50,17 @@ per-page Discussion** (see "Coexistence").
 ```
 
 The only non-static piece is the **Worker** (Cloudflare Workers / Vercel /
-Netlify function). It does three things and holds the two secrets that can't live
-in the browser:
+Netlify function). It holds the two secrets that can't live in the browser and
+does four things:
 
-1. `GET /api/auth/login` → redirect to GitHub's OAuth authorize URL.
+1. `GET /api/auth/login` → redirect to GitHub's authorize URL (no `scope`; a
+   GitHub App's permissions come from the App definition).
 2. `GET /api/auth/callback` → exchange `code` (+ `client_secret`) for a user
-   access token; return a tiny HTML page that `postMessage`s the token to the
-   opener and closes.
-3. `GET /api/comments` → **anonymous read proxy**. Uses a _server-side_ token so
+   session; return a tiny HTML page that `postMessage`s it to the opener at the
+   state-embedded origin, then closes.
+3. `POST /api/auth/refresh` → exchange a refresh token for a fresh user token,
+   so an expiring GitHub App token renews without a visible re-login.
+4. `GET /api/comments` → **anonymous read proxy**. Uses a _server-side_ token so
    visitors who are not logged in can still see inline highlights. (Giscus solves
    the same problem behind its own backend; here we own it.)
 
@@ -129,22 +132,37 @@ list (the read proxy already returns them).
 
 ## Auth flow (detail)
 
-1. User selects text, clicks "Comment", writes, hits submit while logged out.
-2. Plugin opens a popup to `GET {apiBase}/api/auth/login?redirect=<worker>` with
-   a random `state` (stored in `sessionStorage`).
-3. Worker 302s to `https://github.com/login/oauth/authorize` with `client_id`,
-   `scope=public_repo`, `state`.
-4. GitHub redirects back to `GET {apiBase}/api/auth/callback?code&state`.
-5. Worker exchanges `code` + `client_secret` for a user token, returns HTML that
-   `window.opener.postMessage({ type: "inline-comments-token", token }, origin)`
-   and closes the popup.
-6. Plugin stores the token (`localStorage`, keyed per-origin) and retries the
-   pending submit.
+Identity is a **GitHub App**, not an OAuth App. An OAuth App can only ask for
+coarse scopes — the narrowest that permits commenting on a public repo's
+Discussions is `public_repo`, which grants write access to _every_ public repo
+the commenter owns. That's an unreasonable ask for a drive-by reader. A GitHub
+App's permissions are fixed by the App definition, so a commenter grants exactly
+**`Discussions: write` on `logos-co/assembly`** and nothing else.
 
-Trust model is identical to Giscus/utterances: the user posts **as themselves**
-with their own token; the site never posts on their behalf. `public_repo` is
-sufficient to comment on Discussions of a public repo. (A GitHub **App** with
-fine-grained Discussion write is a stricter alternative — noted as a follow-up.)
+1. User selects text, clicks "Comment", writes, hits submit while logged out.
+2. Plugin opens a popup to `GET {apiBase}/api/auth/login?state=&origin=` with a
+   random `state`.
+3. Worker 302s to `https://github.com/login/oauth/authorize` with `client_id`
+   and `state` — **no `scope`**, since the App defines its own permissions.
+4. GitHub redirects back to `GET {apiBase}/api/auth/callback?code&state`.
+5. Worker exchanges `code` + `client_secret`, returns HTML that
+   `postMessage`s the session to the opener at the state-embedded origin.
+6. Plugin stores the session in `localStorage` and retries the pending submit.
+
+**Token lifetime.** GitHub Apps issue user-to-server tokens that expire (8h by
+default) alongside a refresh token (~6 months). The client stores
+`{ token, expiresAt, refreshToken, refreshExpiresAt }` and refreshes silently
+through `POST {apiBase}/api/auth/refresh` (the worker holds the client secret)
+with a 60s skew so a request can't expire mid-flight. If the App has expiration
+disabled, GitHub omits those fields, `expiresAt` is `null`, and the token is
+treated as non-expiring — both configurations work unchanged.
+
+Trust model is the same as Giscus/utterances: the user posts **as themselves**
+with their own token; the site never posts on their behalf.
+
+The App must be **installed** on the repo by an org owner. This replaces the
+OAuth App access-restriction approval that `logos-co` would otherwise enforce —
+GitHub Apps are governed by installation, not by that policy.
 
 ## Component / config surface
 
@@ -194,7 +212,9 @@ is deployed.
 
 ## Open questions / follow-ups
 
-- GitHub **App** (fine-grained) vs **OAuth App** (`public_repo`) for writes.
+- Server read token is still a fine-grained PAT (tied to a person). Deriving an
+  installation access token from the App's private key would decouple it — needs
+  JWT signing in the worker via Web Crypto.
 - Whether to also render unanchored comments in-plugin and retire Giscus.
 - Fuzzy re-anchoring library choice (`dom-anchor-text-quote` + `diff-match-patch`).
 - Abuse/moderation: rely on GitHub Discussion moderation + repo permissions.

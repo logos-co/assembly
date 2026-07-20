@@ -307,8 +307,88 @@ function displayHTML(bodyHTML: string): string {
 
 // ─── auth ───────────────────────────────────────────────────────────────
 
+// A GitHub App issues user-to-server tokens that expire (8h by default) plus a
+// refresh token (~6 months). If the App has expiration disabled, GitHub omits
+// those fields and `expiresAt` stays null, meaning "never expires".
+type Session = {
+  token: string
+  expiresAt: number | null
+  refreshToken: string | null
+  refreshExpiresAt: number | null
+}
+
+// Refresh this far before actual expiry so a request can't die mid-flight.
+const EXPIRY_SKEW_MS = 60_000
+
+function readSession(): Session | null {
+  const raw = localStorage.getItem(TOKEN_KEY)
+  if (!raw) return null
+  try {
+    const parsed = JSON.parse(raw) as Partial<Session>
+    if (typeof parsed.token !== "string") return null
+    return {
+      token: parsed.token,
+      expiresAt: typeof parsed.expiresAt === "number" ? parsed.expiresAt : null,
+      refreshToken: typeof parsed.refreshToken === "string" ? parsed.refreshToken : null,
+      refreshExpiresAt:
+        typeof parsed.refreshExpiresAt === "number" ? parsed.refreshExpiresAt : null,
+    }
+  } catch {
+    // legacy format: a bare token string from the pre-GitHub-App version
+    return { token: raw, expiresAt: null, refreshToken: null, refreshExpiresAt: null }
+  }
+}
+
+function writeSession(s: Session): void {
+  localStorage.setItem(TOKEN_KEY, JSON.stringify(s))
+}
+
+function isExpired(at: number | null): boolean {
+  return at !== null && Date.now() >= at - EXPIRY_SKEW_MS
+}
+
+// The currently usable token, or null if absent/expired. Callers that can
+// perform a refresh should use InlineComments#ensureToken instead.
 function getToken(): string | null {
-  return localStorage.getItem(TOKEN_KEY)
+  const s = readSession()
+  if (!s || isExpired(s.expiresAt)) return null
+  return s.token
+}
+
+// True when we hold a token that's merely expired but still refreshable —
+// used to keep the composer showing "signed in" rather than flashing signed-out.
+function canRefresh(): boolean {
+  const s = readSession()
+  return !!s?.refreshToken && !isExpired(s.refreshExpiresAt)
+}
+
+function isSignedIn(): boolean {
+  return getToken() !== null || canRefresh()
+}
+
+async function refreshSession(cfg: Config): Promise<string | null> {
+  const s = readSession()
+  if (!s?.refreshToken || isExpired(s.refreshExpiresAt)) return null
+  try {
+    const res = await fetch(`${cfg.apiBase}/api/auth/refresh`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ refresh_token: s.refreshToken }),
+    })
+    if (!res.ok) {
+      clearToken()
+      return null
+    }
+    const next = (await res.json()) as Session
+    if (!next?.token) {
+      clearToken()
+      return null
+    }
+    writeSession(next)
+    return next.token
+  } catch {
+    return null
+  }
 }
 
 function clearToken(): void {
@@ -371,7 +451,7 @@ function login(cfg: Config): Promise<string> {
     }
     const onMessage = (e: MessageEvent) => {
       if (e.origin !== apiOrigin) return
-      const data = e.data as { type?: string; token?: string; state?: string }
+      const data = e.data as Partial<Session> & { type?: string; state?: string }
       if (data?.type !== "inline-comments-token") return
       window.removeEventListener("message", onMessage)
       if (data.state && data.state !== state) {
@@ -382,7 +462,12 @@ function login(cfg: Config): Promise<string> {
         reject(new Error("no token returned"))
         return
       }
-      localStorage.setItem(TOKEN_KEY, data.token)
+      writeSession({
+        token: data.token,
+        expiresAt: data.expiresAt ?? null,
+        refreshToken: data.refreshToken ?? null,
+        refreshExpiresAt: data.refreshExpiresAt ?? null,
+      })
       resolve(data.token)
     }
     window.addEventListener("message", onMessage)
@@ -575,12 +660,25 @@ class InlineComments {
     window.addCleanup(fn)
   }
 
-  // Returns a usable token, opening the sign-in popup if needed. `login()`
-  // must be reached synchronously from the originating click or the browser
-  // blocks the popup — hence no awaits before it.
+  // Returns a usable token: the current one, else a silent refresh, else the
+  // sign-in popup.
+  //
+  // `login()` must be reached synchronously from the originating click or the
+  // browser blocks the popup. A refresh is an await, so it is only attempted
+  // when we actually hold a refresh token — otherwise we go straight to
+  // login() with no await in front of it.
   private async ensureToken(): Promise<string> {
     const existing = getToken()
     if (existing) return existing
+
+    if (canRefresh()) {
+      const refreshed = await refreshSession(this.cfg)
+      if (refreshed) return refreshed
+      // refresh failed — fall through to sign-in. The popup may be blocked
+      // here since we've now awaited; the error surfaces in the composer and
+      // a second click (with no refresh token left) opens it cleanly.
+    }
+
     const token = await login(this.cfg)
     await fetchViewer(token)
     return token
@@ -770,8 +868,9 @@ class InlineComments {
 
     const renderAuth = () => {
       auth.replaceChildren()
-      const token = getToken()
-      if (!token) {
+      // an expired-but-refreshable session still counts as signed in, so the
+      // row doesn't flash "signed out" every 8 hours
+      if (!isSignedIn()) {
         const signIn = document.createElement("button")
         signIn.className = "inline-comment-signin"
         signIn.type = "button"
@@ -807,8 +906,11 @@ class InlineComments {
         who.append(avatar, document.createTextNode(`@${viewer.login}`))
       } else {
         who.textContent = "Signed in"
-        // resolve the login lazily, then re-render
-        void fetchViewer(token).then((v) => v && renderAuth())
+        // resolve the login lazily, then re-render. Only possible with a live
+        // token; if it's merely refreshable we'll fill this in after the next
+        // refresh rather than burning a round-trip here.
+        const live = getToken()
+        if (live) void fetchViewer(live).then((v) => v && renderAuth())
       }
       const signOut = document.createElement("button")
       signOut.className = "inline-comment-signout"

@@ -1,18 +1,29 @@
 // Inline Comments worker — the only non-static piece of the system.
 //
+// Auth is a **GitHub App** (not an OAuth App): permissions come from the App
+// definition, so users are asked for fine-grained `Discussions: write` on the
+// one repo the App is installed on — never `public_repo` across every public
+// repo they own. Consequently no `scope` is sent on the authorize URL.
+//
+// GitHub Apps issue user-to-server tokens that expire (8h by default) with a
+// refresh token (~6 months), hence /api/auth/refresh. If the App has token
+// expiration disabled, GitHub simply omits those fields and everything still
+// works — the client treats a missing expiry as "never expires".
+//
 // Endpoints:
-//   GET /api/auth/login?state=&origin=   → 302 to GitHub's OAuth authorize URL
-//   GET /api/auth/callback?code=&state=  → exchange code → postMessage token to opener
-//   GET /api/comments?repo=&category=&term=
+//   GET  /api/auth/login?state=&origin=  → 302 to GitHub's authorize URL
+//   GET  /api/auth/callback?code=&state= → exchange code → postMessage session to opener
+//   POST /api/auth/refresh               → refresh_token → new session (CORS)
+//   GET  /api/comments?repo=&category=&term=
 //                                        → anonymous read proxy (server token) so
 //                                          logged-out visitors can see highlights
 //
-// Secrets (wrangler secret put ...):
-//   GITHUB_CLIENT_ID       OAuth App client id
-//   GITHUB_CLIENT_SECRET   OAuth App client secret
+// Secrets (wrangler secret put ..., or the Cloudflare dashboard as encrypted):
+//   GITHUB_CLIENT_ID       GitHub App client id (Iv23li…)
+//   GITHUB_CLIENT_SECRET   GitHub App client secret
 //   GITHUB_TOKEN           server read token (fine-grained PAT: Discussions read)
 // Vars (wrangler.toml [vars]):
-//   ALLOWED_ORIGINS        comma-separated site origins, e.g. "https://assembly.logos.co"
+//   ALLOWED_ORIGINS        comma-separated site origins, e.g. "https://logos-co.github.io"
 
 export interface Env {
   GITHUB_CLIENT_ID: string
@@ -43,7 +54,7 @@ function corsHeaders(origin: string, env: Env): Record<string, string> {
   return {
     "Access-Control-Allow-Origin": allow,
     "Access-Control-Allow-Headers": "Authorization, Content-Type",
-    "Access-Control-Allow-Methods": "GET, OPTIONS",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
     Vary: "Origin",
   }
 }
@@ -92,7 +103,9 @@ function handleLogin(url: URL, env: Env): Response {
   const authorize = new URL("https://github.com/login/oauth/authorize")
   authorize.searchParams.set("client_id", env.GITHUB_CLIENT_ID)
   authorize.searchParams.set("redirect_uri", redirectUri)
-  authorize.searchParams.set("scope", "public_repo")
+  // NOTE: deliberately no `scope` — a GitHub App's permissions are fixed by
+  // the App definition. Sending a scope here is what made the OAuth App ask
+  // for `public_repo` across all of the user's public repositories.
   authorize.searchParams.set("state", ghState)
   authorize.searchParams.set("allow_signup", "true")
   return Response.redirect(authorize.toString(), 302)
@@ -100,12 +113,42 @@ function handleLogin(url: URL, env: Env): Response {
 
 // ─── auth: callback ───────────────────────────────────────────────────────
 
-function callbackPage(token: string, clientState: string, origin: string): Response {
+// GitHub's token response. `expires_in` / `refresh_token` are present only
+// when the App has expiring user tokens enabled (the default for new Apps).
+type TokenResponse = {
+  access_token?: string
+  expires_in?: number
+  refresh_token?: string
+  refresh_token_expires_in?: number
+  error?: string
+  error_description?: string
+}
+
+// Absolute epoch-ms expiry, or null when the token never expires.
+function absoluteExpiry(seconds: number | undefined, now: number): number | null {
+  return typeof seconds === "number" ? now + seconds * 1000 : null
+}
+
+function sessionFrom(t: TokenResponse, now: number) {
+  return {
+    token: t.access_token,
+    expiresAt: absoluteExpiry(t.expires_in, now),
+    refreshToken: t.refresh_token ?? null,
+    refreshExpiresAt: absoluteExpiry(t.refresh_token_expires_in, now),
+  }
+}
+
+function callbackPage(
+  t: TokenResponse,
+  clientState: string,
+  origin: string,
+  now: number,
+): Response {
   // JSON-encode + neutralize "</script>" so nothing can break out of the tag.
   const payload = JSON.stringify({
     type: "inline-comments-token",
-    token,
     state: clientState,
+    ...sessionFrom(t, now),
   }).replace(/</g, "\\u003c")
   const targetOrigin = JSON.stringify(origin).replace(/</g, "\\u003c")
   const html = `<!doctype html><meta charset="utf-8"><title>Signing in…</title>
@@ -148,11 +191,53 @@ async function handleCallback(url: URL, env: Env): Promise<Response> {
       redirect_uri: `${url.origin}/api/auth/callback`,
     }),
   })
-  const tokenJson = (await res.json()) as { access_token?: string; error?: string }
+  const tokenJson = (await res.json()) as TokenResponse
   if (!tokenJson.access_token) {
-    return new Response(`oauth error: ${tokenJson.error ?? "unknown"}`, { status: 400 })
+    const detail = tokenJson.error_description ?? tokenJson.error ?? "unknown"
+    return new Response(`oauth error: ${detail}`, { status: 400 })
   }
-  return callbackPage(tokenJson.access_token, clientState, origin)
+  return callbackPage(tokenJson, clientState, origin, Date.now())
+}
+
+// ─── auth: refresh ────────────────────────────────────────────────────────
+
+// Exchanges a refresh token for a fresh user-to-server token. Needs the client
+// secret, which is why it lives here rather than in the browser.
+async function handleRefresh(request: Request, env: Env): Promise<Response> {
+  const origin = request.headers.get("Origin") ?? ""
+  const cors = corsHeaders(origin, env)
+  if (!isAllowed(origin, env)) return json({ error: "origin not allowed" }, 403, cors)
+
+  let refreshToken = ""
+  try {
+    const body = (await request.json()) as { refresh_token?: string }
+    refreshToken = body.refresh_token ?? ""
+  } catch {
+    return json({ error: "invalid body" }, 400, cors)
+  }
+  if (!refreshToken) return json({ error: "missing refresh_token" }, 400, cors)
+
+  const res = await fetch("https://github.com/login/oauth/access_token", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "User-Agent": USER_AGENT,
+    },
+    body: JSON.stringify({
+      client_id: env.GITHUB_CLIENT_ID,
+      client_secret: env.GITHUB_CLIENT_SECRET,
+      grant_type: "refresh_token",
+      refresh_token: refreshToken,
+    }),
+  })
+  const tokenJson = (await res.json()) as TokenResponse
+  if (!tokenJson.access_token) {
+    // refresh token expired or revoked — the client should re-run sign-in
+    const detail = tokenJson.error_description ?? tokenJson.error ?? "unknown"
+    return json({ error: detail }, 401, cors)
+  }
+  return json(sessionFrom(tokenJson, Date.now()), 200, cors)
 }
 
 // ─── read proxy: comments ──────────────────────────────────────────────────
@@ -273,6 +358,9 @@ export default {
         return handleLogin(url, env)
       case "/api/auth/callback":
         return handleCallback(url, env)
+      case "/api/auth/refresh":
+        if (request.method !== "POST") return new Response("method not allowed", { status: 405 })
+        return handleRefresh(request, env)
       case "/api/comments":
         return handleComments(request, url, env)
       default:

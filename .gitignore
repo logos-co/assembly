@@ -11,3 +11,9 @@ private/
 replit.nix
 .quartz/
 quartz/cli/tui/dist/
+
+.gitnexus
+
+# serverless worker secrets
+.dev.vars
+.wrangler/

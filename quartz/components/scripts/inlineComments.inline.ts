@@ -53,6 +53,7 @@ type Config = {
 type TextSegment = { node: Text; start: number; end: number }
 
 const TOKEN_KEY = "inline-comments-gh-token"
+const VIEWER_KEY = "inline-comments-gh-viewer"
 const STATE_KEY = "inline-comments-oauth-state"
 const ANCHOR_RE = /<!--\s*quartz-anchor:\s*(\{[\s\S]*?\})\s*-->/
 const CONTEXT_LEN = 32
@@ -312,6 +313,42 @@ function getToken(): string | null {
 
 function clearToken(): void {
   localStorage.removeItem(TOKEN_KEY)
+  localStorage.removeItem(VIEWER_KEY)
+}
+
+// The signed-in user, cached so the composer can show "signed in as @x"
+// without a round-trip on every popover open.
+function getCachedViewer(): CommentAuthor | null {
+  const raw = localStorage.getItem(VIEWER_KEY)
+  if (!raw) return null
+  try {
+    return JSON.parse(raw) as CommentAuthor
+  } catch {
+    return null
+  }
+}
+
+async function fetchViewer(token: string): Promise<CommentAuthor | null> {
+  const cached = getCachedViewer()
+  if (cached) return cached
+  try {
+    const data = await graphql<{ viewer: CommentAuthor }>(
+      token,
+      `
+        query {
+          viewer {
+            login
+            avatarUrl
+          }
+        }
+      `,
+      {},
+    )
+    localStorage.setItem(VIEWER_KEY, JSON.stringify(data.viewer))
+    return data.viewer
+  } catch {
+    return null
+  }
 }
 
 function randomState(): string {
@@ -538,6 +575,17 @@ class InlineComments {
     window.addCleanup(fn)
   }
 
+  // Returns a usable token, opening the sign-in popup if needed. `login()`
+  // must be reached synchronously from the originating click or the browser
+  // blocks the popup — hence no awaits before it.
+  private async ensureToken(): Promise<string> {
+    const existing = getToken()
+    if (existing) return existing
+    const token = await login(this.cfg)
+    await fetchViewer(token)
+    return token
+  }
+
   async start() {
     this.setupSelectionUI()
     await this.render()
@@ -700,9 +748,7 @@ class InlineComments {
     const composer = document.createElement("div")
     composer.className = "inline-comment-composer"
     const textarea = document.createElement("textarea")
-    textarea.placeholder = getToken()
-      ? "Add a comment…"
-      : "Add a comment… (you'll sign in with GitHub to post)"
+    textarea.placeholder = "Add a comment…"
     const actions = document.createElement("div")
     actions.className = "inline-comment-actions"
     const hint = document.createElement("span")
@@ -712,10 +758,69 @@ class InlineComments {
     submit.textContent = submitLabel
     submit.disabled = true
 
+    // auth row — sign-in is offered here rather than only at the page bottom
+    const auth = document.createElement("div")
+    auth.className = "inline-comment-auth"
+
     const setBusy = (b: boolean) => {
       submit.disabled = b || textarea.value.trim().length === 0
       submit.textContent = b ? "Posting…" : submitLabel
     }
+    const showHint = (msg: string) => (hint.textContent = msg)
+
+    const renderAuth = () => {
+      auth.replaceChildren()
+      const token = getToken()
+      if (!token) {
+        const signIn = document.createElement("button")
+        signIn.className = "inline-comment-signin"
+        signIn.type = "button"
+        signIn.innerHTML =
+          `<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>` +
+          `<span>Sign in with GitHub</span>`
+        signIn.addEventListener("click", async () => {
+          // must call login() synchronously in the click handler or the
+          // popup gets blocked
+          try {
+            signIn.disabled = true
+            const t = await login(this.cfg)
+            await fetchViewer(t)
+            showHint("")
+            renderAuth()
+            textarea.focus()
+          } catch (err) {
+            signIn.disabled = false
+            showHint(err instanceof Error ? err.message : "Sign-in failed.")
+          }
+        })
+        auth.append(signIn)
+        return
+      }
+
+      const who = document.createElement("span")
+      who.className = "inline-comment-whoami"
+      const viewer = getCachedViewer()
+      if (viewer) {
+        const avatar = document.createElement("img")
+        avatar.src = viewer.avatarUrl
+        avatar.alt = viewer.login
+        who.append(avatar, document.createTextNode(`@${viewer.login}`))
+      } else {
+        who.textContent = "Signed in"
+        // resolve the login lazily, then re-render
+        void fetchViewer(token).then((v) => v && renderAuth())
+      }
+      const signOut = document.createElement("button")
+      signOut.className = "inline-comment-signout"
+      signOut.type = "button"
+      signOut.textContent = "Sign out"
+      signOut.addEventListener("click", () => {
+        clearToken()
+        renderAuth()
+      })
+      auth.append(who, signOut)
+    }
+
     textarea.addEventListener("input", () => {
       submit.disabled = textarea.value.trim().length === 0
     })
@@ -723,11 +828,12 @@ class InlineComments {
       const text = textarea.value.trim()
       if (text) onSubmit(text, setBusy)
     })
-    const showHint = (msg: string) => (hint.textContent = msg)
     ;(composer as HTMLElement & { showHint?: (m: string) => void }).showHint = showHint
+    ;(composer as HTMLElement & { refreshAuth?: () => void }).refreshAuth = renderAuth
 
+    renderAuth()
     actions.append(hint, submit)
-    composer.append(textarea, actions)
+    composer.append(textarea, auth, actions)
     return composer
   }
 
@@ -740,7 +846,7 @@ class InlineComments {
       const composer = this.composerEl("Comment", async (text, setBusy) => {
         setBusy(true)
         try {
-          const token = getToken() ?? (await login(this.cfg))
+          const token = await this.ensureToken()
           const discussionId = await ensureDiscussion(token, this.cfg, this.term, this.state)
           this.state.discussionId = discussionId
           await addComment(token, discussionId, formatBody(anchor, text))
@@ -776,7 +882,7 @@ class InlineComments {
       const composer = this.composerEl("Reply", async (text, setBusy) => {
         setBusy(true)
         try {
-          const token = getToken() ?? (await login(this.cfg))
+          const token = await this.ensureToken()
           const discussionId = this.state.discussionId
           if (!discussionId) throw new Error("missing discussion")
           await addComment(token, discussionId, text, replyTo.id)

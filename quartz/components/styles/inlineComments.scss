@@ -31,7 +31,10 @@
 
 // ─── floating "add comment" button that follows a selection ─────────────
 .inline-comment-add {
-  position: absolute;
+  // must match the `strategy: "fixed"` used by computePosition — with
+  // `absolute` the viewport-relative coords are read as document-relative,
+  // so the button flies off-screen as soon as the page is scrolled.
+  position: fixed;
   z-index: 998;
   display: flex;
   align-items: center;
@@ -184,6 +187,63 @@
       align-items: center;
       justify-content: space-between;
       gap: 0.5rem;
+    }
+
+    // auth row: sign in / who you are, offered inline with the composer
+    & .inline-comment-auth {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      min-height: 1.5rem;
+
+      & .inline-comment-signin {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.35rem 0.6rem;
+        font-family: var(--bodyFont);
+        font-size: 0.8rem;
+        color: var(--light);
+        background-color: var(--dark);
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: default;
+        }
+      }
+
+      & .inline-comment-whoami {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        font-size: 0.75rem;
+        color: var(--gray);
+
+        & img {
+          width: 1rem;
+          height: 1rem;
+          border-radius: 50%;
+        }
+      }
+
+      & .inline-comment-signout {
+        font-family: var(--bodyFont);
+        font-size: 0.75rem;
+        color: var(--gray);
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        text-decoration: underline;
+
+        &:hover {
+          color: var(--secondary);
+        }
+      }
     }
   }
 

@@ -4,8 +4,11 @@ compatibility_date = "2024-11-01"
 
 # Public site origin(s) allowed to use this worker (comma-separated).
 # Used for CORS on /api/comments and as the postMessage target on auth callback.
+# NOTE: origins only — scheme + host, no path. The site lives at
+# https://logos-co.github.io/assembly/ but the origin is the bare host.
+# Changing these requires a redeploy (`wrangler deploy`); secrets do not.
 [vars]
-ALLOWED_ORIGINS = "http://localhost:8080"
+ALLOWED_ORIGINS = "https://logos-co.github.io,http://localhost:8080"
 
 # Secrets are NOT set here. Set them with:
 #   wrangler secret put GITHUB_CLIENT_ID

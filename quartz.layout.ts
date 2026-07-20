@@ -31,7 +31,7 @@ export const sharedPageComponents: SharedLayout = {
         repoId: "R_kgDOQUhKqA",
         category: "Announcements",
         categoryId: "DIC_kwDOQUhKqM4Cxur2",
-        apiBase: "", // e.g. "https://inline-comments.<you>.workers.dev"
+        apiBase: "https://inline-comments.inline-assembly.workers.dev",
         mapping: "url", // match giscus's mapping to share the same discussion
       },
     }),

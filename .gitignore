@@ -10,3 +10,8 @@ private/
 .replit
 replit.nix
 .gitnexus
+
+# serverless worker secrets (nested .gitignore files are ignored by line 2,
+# so these rules must live here to travel with the repo)
+.dev.vars
+.wrangler/

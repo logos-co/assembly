@@ -257,7 +257,7 @@ type GHDiscussion = {
   number: number
   title: string
   category: { name: string }
-  comments: { nodes: GHComment[] }
+  comments: { totalCount: number; nodes: GHComment[] }
 }
 
 const SEARCH_DISCUSSION = `
@@ -270,6 +270,7 @@ query ($q: String!) {
         title
         category { name }
         comments(first: 100) {
+          totalCount
           nodes {
             id url createdAt bodyHTML body
             author { login avatarUrl }
@@ -320,12 +321,22 @@ async function handleComments(request: Request, url: URL, env: Env): Promise<Res
         q,
       },
     )
-    const match = data.search.nodes.find(
+    const matches = data.search.nodes.filter(
       (d) => d && d.title === term && (!category || d.category?.name === category),
     )
-    if (!match) {
+    if (matches.length === 0) {
       return json({ discussionId: null, discussionNumber: null, comments: [] }, 200, cors)
     }
+    // Two discussions can share a title — giscus races and creates a duplicate
+    // if a page is opened twice at once (see #11/#12 in this repo). Search
+    // order is not guaranteed, so picking the first match could silently land
+    // on the empty twin and show no comments at all. Prefer the one actually
+    // holding the conversation, tie-breaking on the lower number for stability.
+    const match = matches.reduce((best, d) => {
+      const better = d.comments.totalCount > best.comments.totalCount
+      const tie = d.comments.totalCount === best.comments.totalCount && d.number < best.number
+      return better || tie ? d : best
+    })
     return json(
       {
         discussionId: match.id,

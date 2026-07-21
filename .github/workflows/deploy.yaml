@@ -1,17 +1,13 @@
 name: Deploy Quartz site to GitHub Pages
 
-# NOTE: intentionally manual while v5 is being validated.
-#
-# GitHub Pages has a single production deployment, so a `push` trigger on this
-# branch would immediately replace the live v4 site. Until the cutover, run this
-# from the Actions tab (workflow_dispatch) to publish on purpose.
-#
-# At cutover: make v5 the repo default branch, then uncomment the push trigger.
+# Deploys the v5 site to production GitHub Pages on every push to v5, plus a
+# manual trigger. v4 is retained as a rollback branch (still allowed to deploy
+# in the github-pages environment).
 on:
   workflow_dispatch:
-  # push:
-  #   branches:
-  #     - v5
+  push:
+    branches:
+      - v5
 
 permissions:
   contents: read

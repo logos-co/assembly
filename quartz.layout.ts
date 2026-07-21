@@ -21,6 +21,20 @@ export const sharedPageComponents: SharedLayout = {
         lang: "en",
       },
     }),
+    // Inline (anchored) comments — shares the same GitHub Discussion as giscus
+    // above. No-ops until `apiBase` points at a deployed inline-comments worker
+    // (see serverless/inline-comments-worker + docs-internal/inline-comments-design.md).
+    Component.InlineComments({
+      provider: "github",
+      options: {
+        repo: "logos-co/assembly",
+        repoId: "R_kgDOQUhKqA",
+        category: "Announcements",
+        categoryId: "DIC_kwDOQUhKqM4Cxur2",
+        apiBase: "https://inline-comments.inline-assembly.workers.dev",
+        mapping: "url", // match giscus's mapping to share the same discussion
+      },
+    }),
   ],
   footer: Component.Footer({
     links: {

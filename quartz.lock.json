@@ -265,6 +265,12 @@
       "commit": "eabf3eec55c0bab7f49e69957341f34d2ae3c5a1",
       "installedAt": "2026-07-20T16:11:31.691Z"
     },
+    "tikz": {
+      "source": "./plugins/tikz",
+      "resolved": "./plugins/tikz",
+      "commit": "local",
+      "installedAt": "2026-07-21T12:52:25.532Z"
+    },
     "unlisted-pages": {
       "source": "github:quartz-community/unlisted-pages",
       "resolved": "https://github.com/quartz-community/unlisted-pages.git",

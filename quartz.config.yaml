@@ -41,6 +41,9 @@ configuration:
         highlight: rgba(143, 159, 169, 0.15)
         textHighlight: "#b3aa0288"
 plugins:
+  - source: ./plugins/tikz
+    enabled: true
+    order: 15
   - source: ./plugins/inline-comments
     enabled: true
     options:

@@ -137,21 +137,38 @@ Any Quartz 5 site can then adopt this in one command. The worker can be shared
 across sites (add the new origin to `ALLOWED_ORIGINS`, install the GitHub App on
 the new repo, widen the read PAT) or deployed per-site.
 
-## Open questions to resolve during the port
+## Open questions — resolved during the port
 
-1. **Is the anchoring root still `<article class="popover-hint">`?**
-   `getRoot()` depends on it. Explorer is a sidebar component so it tells us
-   nothing here. This is the single highest-risk unknown; if the markup changed
-   it is a one-line fix, but it must be checked on a running v5 site.
-2. **Does `dist/` need to be committed?** Explorer commits its `dist/`, and
-   `quartz plugin add` installs over git rather than npm, which implies built
-   output must be present in the repo. Confirm on first install; if so, add a
-   CI workflow that builds and commits `dist/` on release.
-3. **Does `optionSchema` support required fields / defaults?** `repo`, `repoId`
-   and `apiBase` have no sensible default; ideally the schema can mark them
-   required rather than failing at runtime.
-4. **Where should the repo live?** Under `logos-co`, or published to
-   `quartz-community` so other Quartz sites can use it.
+1. **Anchoring root — ✅ unchanged.** v5 still emits
+   `<article class="popover-hint">` (verified in built output), so `getRoot()`
+   needs no change. This was the highest-risk unknown.
+2. **`dist/` — ✅ not committed.** For a **local** source, `quartz plugin
+   install` symlinks the plugin into `.quartz/plugins/` and runs
+   `npm install --ignore-scripts && npm run build` in place, so `dist/` is built
+   on demand and stays git-ignored. When this moves to its own repo installed
+   via `github:`, revisit: either commit `dist/` (as explorer does) or add a
+   release workflow that builds it — the installer only builds when `dist/` is
+   absent (`hasPrebuiltDist`).
+3. **Layout position — ⚠ manifest default not applied.** The manifest's
+   `defaultPosition: afterBody` is *not* auto-applied to the layout; each plugin
+   entry in `quartz.config.yaml` needs an explicit `layout: { position: … }`
+   block (the built-in `comments` plugin does the same). All options are plain
+   strings and carried over to YAML unchanged.
+4. **CI / lockfile.** A local plugin's `quartz.lock.json` `resolved` path is
+   machine-specific; it is normalised to a relative path in the committed
+   lockfile, and the deploy workflow uses `quartz plugin install --from-config`
+   so the local source re-resolves on a fresh checkout.
+5. **Where should the repo live? — still open.** Currently a local source under
+   `plugins/inline-comments`. Publish to `logos-co/quartz-inline-comments` (or
+   `quartz-community`) once proven, then switch the config `source` to
+   `github:…`. Nothing else changes.
+
+## Follow-up: giscus is off on v5
+
+`quartz create` brought the built-in `comments` (giscus) plugin across as
+`enabled: false`, so page-bottom giscus is currently inactive. If you want the
+coexistence story (unanchored comments at the bottom, anchored ones inline),
+re-enable it with a matching `mapping`. Otherwise inline comments stand alone.
 
 ## Sequencing
 

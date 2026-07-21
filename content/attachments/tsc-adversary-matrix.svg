@@ -1,0 +1,26 @@
+<svg viewBox="0 0 640 430" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+<g fill="#888888" text-anchor="middle" font-size="13" font-weight="600">
+<text x="270" y="34">Archivist</text><text x="380" y="34">Extractor</text><text x="490" y="34">Predator</text><text x="600" y="34">Enforcer</text>
+</g>
+<g fill="#888888" font-size="12">
+<text x="40" y="74">Discovery</text><text x="40" y="124">Diligence</text><text x="40" y="174">Negotiation</text><text x="40" y="224">Contracting</text><text x="40" y="274">Ordering</text><text x="40" y="324">Settlement</text><text x="40" y="374">Enforcement</text>
+</g>
+<g fill="rgba(37,99,235,0.75)">
+<circle cx="270" cy="70" r="9"/><circle cx="490" cy="70" r="5"/>
+<circle cx="270" cy="120" r="9"/><circle cx="490" cy="120" r="9"/><circle cx="600" cy="120" r="5"/>
+<circle cx="270" cy="170" r="5"/><circle cx="380" cy="170" r="5"/><circle cx="490" cy="170" r="5"/>
+<circle cx="270" cy="220" r="9"/><circle cx="490" cy="220" r="9"/><circle cx="600" cy="220" r="5"/>
+<circle cx="270" cy="270" r="9"/><circle cx="380" cy="270" r="9"/><circle cx="600" cy="270" r="5"/>
+<circle cx="270" cy="320" r="9"/><circle cx="380" cy="320" r="5"/><circle cx="490" cy="320" r="5"/><circle cx="600" cy="320" r="5"/>
+<circle cx="600" cy="370" r="9"/>
+</g>
+<g fill="none" stroke="rgba(136,136,136,0.6)">
+<circle cx="380" cy="70" r="4"/><circle cx="600" cy="70" r="4"/>
+<circle cx="380" cy="120" r="4"/>
+<circle cx="600" cy="170" r="4"/>
+<circle cx="380" cy="220" r="4"/>
+<circle cx="490" cy="270" r="4"/>
+<circle cx="270" cy="370" r="4"/><circle cx="380" cy="370" r="4"/><circle cx="490" cy="370" r="4"/>
+</g>
+<text x="320" y="416" fill="#888888" font-size="10.5" text-anchor="middle">large = primary monetization &#183; small = secondary exposure &#183; hollow = minimal</text>
+</svg>

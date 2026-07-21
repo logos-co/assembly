@@ -8,6 +8,9 @@ Everyone in this industry threat-models the contract. Auditors crawl the bytecod
 
 A transaction is seven jobs: **discovery** (finding who has what you want), **diligence** (verifying they are who they claim), **negotiation** (agreeing price and terms), **contracting** (committing in enforceable form), **ordering** (deciding whose trade goes when), **settlement** (moving the value), and **enforcement** (making the outcome stick). Blockchains secured settlement. The other six run on infrastructure that watches, logs, and leaks.
 
+![[tsc-supply-chain-loop.svg]]
+*Figure 1. The supply chain is a cycle, not a line: leaks from every link land in a permanent archive that becomes the discovery and diligence input against the next transaction.*
+
 This post maps the threat model for the whole chain: who's watching each link, what they gain, what it costs you, and why the patches on offer keep failing in the same way. I'm deliberately not arguing what closing the chain is worth; that argument deserves its own treatment and it's coming. This is the map. I want the forum's help stress-testing it, so the last section is open questions, and I mean them as questions.
 
 ## The adversaries
@@ -23,6 +26,9 @@ Four classes, distinguished by what they want and how long they'll wait. A usefu
 **The enforcer** pressures identifiable operators. At the post-Merge peak, [nearly 80% of Ethereum blocks flowed through OFAC-compliant relays](https://www.mevwatch.info/), assembled one squeezable intermediary at a time. This class plays by different rules: it doesn't need to break anything technical, only to find a nameable operator with something to lose. Its defining property: leverage. It attacks the people and companies around the protocol, not the protocol.
 
 Notice what the four classes share. None of them breaks cryptography. The contract-level security this industry is good at is simply not where any of them operates.
+
+![[tsc-adversary-matrix.svg]]
+*Figure 2. Which adversary class monetizes which link. Every cell is a claim, defended in the link sections below; if you think a cell is wrong, that's a reply I want.*
 
 ## The chain, link by link
 
@@ -40,6 +46,9 @@ Verifying a counterparty onchain takes no work, because the archivist already bu
 
 Size, terms, and reservation price leak through the channels we negotiate in. Telegram retains metadata even when content is encrypted. Public mempools broadcast terms before execution. The market's revealed answer: [roughly 80% of Ethereum DeFi interactions now route through private RPCs](https://arxiv.org/abs/2505.19708), per a CoW DAO research paper. Watch what that mitigation did: it moved the flow from a public mempool to a handful of private operators who now see everything. Trust assumption: the RPC operator, who is an archivist with a service agreement.
 
+![[tsc-private-rpc.svg]]
+*Figure 3. The trust-swap migration, measured: DeFi flow leaving the public mempool for private operators ([Flashbots](https://writings.flashbots.net/illuminate-the-order-flow); [arXiv 2505.19708](https://arxiv.org/abs/2505.19708)).*
+
 ### 4. Contracting
 
 The moment of commitment is the moment of maximum exposure. The frontend you sign on is unverifiable: DNS, hosting, and script injection make every signature an act of faith, and the signing surface is where the money dies at scale ([Bybit](https://www.cnbc.com/2025/02/21/hackers-steal-1point5-billion-from-exchange-bybit-biggest-crypto-heist.html), [drainers](https://drops.scamsniffer.io/scam-sniffer-2024-web3-phishing-attacks-wallet-drainers-drain-494-million/)). These are integrity failures rather than privacy leaks; the chain has to hold against both reading and rewriting, and the same unverifiable infrastructure enables both. Today's mitigation: hardware wallets (protects the key, not the payload you're signing) and "verify the URL." Trust assumption: DNS, the host, the extension store, and every script the page loads.
@@ -48,6 +57,9 @@ The moment of commitment is the moment of maximum exposure. The frontend you sig
 
 Whose trade goes when is decided by whoever sees the pending flow, and the pending flow is public. Archivists store it, extractors trade against it, builders order it. Today's mitigation: private order flow to trusted builders, MEV-protection RPCs. Trust assumption: the builder duopoly you're routing around the mempool to reach.
 
+![[tsc-builder-share.svg]]
+*Figure 4. Block-building concentration, current snapshot ([rated.network](https://explorer.rated.network/builders)).*
+
 ### 6. Settlement
 
 The one link crypto secured, and it secured it by publishing everything. Balances, approvals, positions, and validators sit in public, permanently. The ledger is the disclosure: every transparent settlement layer is a standing feed to the archivist, forever, retroactively. Today's mitigation: opt-in privacy tools and mixers. Trust assumptions and failure modes: opt-in privacy marks you as someone with something to hide, the crowd you hide in is only the others who opted in, and the tooling around the private core still leaks (the RPC you queried, the explorer you checked, the frontend you used).
@@ -55,6 +67,9 @@ The one link crypto secured, and it secured it by publishing everything. Balance
 ### 7. Enforcement
 
 Making the outcome stick depends on operators, and identifiable operators get pressured one by one; the OFAC-relay numbers above are what that looks like in production. Today's mitigation: jurisdiction shopping and operator goodwill. Trust assumption: that the operators between you and finality keep resisting pressure they have no structural reason to resist.
+
+![[tsc-ofac-relays.svg]]
+*Figure 5. Enforcement pressure through identifiable relays over time ([mevwatch.info](https://www.mevwatch.info/)). The decline came from relay-mix changes and social pressure, not from removing the pressure surface; the intermediaries remain squeezable.*
 
 ### The pattern
 
@@ -74,6 +89,28 @@ Stating the goal precisely matters, because the sloppy version ("privacy") invit
 
 Mapped per link, control over disclosure requires: an interface that doesn't report you (discovery, diligence), coordination channels that don't leak intent (negotiation), signing surfaces you can verify (contracting), propagation that doesn't reveal origin (ordering), verifiability without disclosure at the ledger (settlement), and no single squeezable operator, with disclosure living at the application layer where it's chosen (enforcement). That property list is the requirements document for what we're building at Logos, and the honest status ledger lives in the docs and roadmap: [Basecamp](https://blog.logos.co/article/logos-basecamp) (local-first interface) is live; Messaging's protocol lineage runs in production; [Cryptarchia plus Blend](https://blog.logos.co/article/anonymous-block-proposers) delivers anonymous block proposals on testnet v0.2, with private transfers working in the execution zone; verifiable frontends, the networking-layer mixnet, and programmable privacy are roadmap. I'll take fire on any of that in the thread, but this post's claim is the threat model, not the product.
 
+## Measuring it: metrics, data, method
+
+A threat model you can't measure is a vibe. Here's the quantitative frame this analysis uses, so you can check it, extend it, or break it.
+
+**Terminology.** The properties at stake are the standard ones from the anonymity literature: anonymity set, unlinkability, unobservability (Pfitzmann & Hansen), applied per link. The adversary classes above are capability tuples in the LINDDUN sense: observation points, storage horizon, compute, and coercive leverage.
+
+**The defender metric: cost to deanonymize.** The single number that summarizes a link's protection is what it costs an adversary to link your activity to you. The literature's trajectory on that number is the strongest quantitative argument in this post:
+
+![[tsc-deanon-cost.svg]]
+*Figure 6. Published deanonymization results over time: from ~EUR 1,500 of active infrastructure ([Biryukov et al., CCS '14](https://arxiv.org/abs/1405.7418)) to passive AS-level observation covering a third of the network ([PERIMETER](https://collaborate.princeton.edu/en/publications/perimeter-a-network-layer-attack-on-the-anonymity-of-cryptocurren/)) to [90%+ cross-chain tracing](https://arxiv.org/html/2504.01822v1). The y-axis is qualitative; the claim is the ordering, not the magnitudes.*
+
+Falling attack cost against a record that can't decay is the asymmetric-time argument in one picture. Whatever your cost-to-deanonymize is today, it only goes down.
+
+**The damage ledger.** Measured, sourced losses where the chain's links failed, keeping secrecy failures and integrity failures distinct:
+
+![[tsc-extraction-ledger.svg]]
+*Figure 7. Measured losses by category and period; sources in the [figure sources file](https://github.com/logos-co/assembly/tree/v5/scripts/threat-model-figures/SOURCES.md). Categories are not directly comparable (different periods, different failure modes); the figure scopes the problem, it doesn't sum it.*
+
+**Concentration.** The trust-swap claim is quantifiable as market concentration: top-2 builder share (Figure 4), relay compliance share (Figure 5), and the RPC provider market would all support standard concentration indices (HHI, Nakamoto coefficient). I've used snapshots; time-series index plots are an obvious extension, and the data is public.
+
+**Reproducibility.** Every figure's datapoints and sources are in the repo alongside the generation script ([scripts/threat-model-figures](https://github.com/logos-co/assembly/tree/v5/scripts/threat-model-figures)). If a number is stale or wrong, the fix is a pull request away.
+
 ## Open questions, and I mean them as questions
 
 **Is the adversary ranking right?** I've implicitly ranked the archivist as the apex threat (patience plus a non-decaying record). You could argue the enforcer is, since it operates on people rather than systems and no protocol fully escapes its own developers. Which ordering should drive design priority?
@@ -85,6 +122,8 @@ Mapped per link, control over disclosure requires: an interface that doesn't rep
 **The scope limit.** The supply chain extends past any protocol: your OS, your browser, the group chat where the deal was first mentioned. If the unreachable links dominate the threat model, protocol-level coverage buys less than this post implies. Where's the crossover?
 
 **The bootstrap problem.** Anonymity sets are only as strong as the crowd, and the loop punishes late arrivals: every year of delay adds to the archive that gets replayed against them. How does a new private-by-default network bootstrap a crowd against incumbents with a liquidity head start?
+
+**A bits budget per link.** Deanonymization is accumulating identifying information: ~33 bits singles out a human, and a browser fingerprint alone carries ~18 of them ([Eckersley 2010](https://coveryourtracks.eff.org/static/browser-uniqueness.pdf)). Nobody has published a per-link accounting of bits leaked across a blockchain transaction's lifecycle. It would turn the weakest-link claim into arithmetic, and it looks tractable. If you want a research project out of this post, take this one.
 
 If you think the model's wrong, incomplete, or mis-ranked, that's exactly the feedback this post exists to collect. Bring the attack; the thread is the venue.
 
@@ -100,4 +139,4 @@ The full threat model, open for attack: [FORUM LINK]
 
 ---
 
-*Notes for reviewers: reworked from the earlier thesis draft per Jonny's feedback (2026-07-17): the economic/credible-commitment argument is deferred (whitepaper territory), the threat model is the piece. Carried over from the 3-round adversarial review: all primary-source links, the trust-swap framing, the per-property weakest-link claim, the loop, control-over-disclosure, and the open questions (which are the review's surviving attack surfaces, reframed as research questions for forum/KOL engagement). Capability claims per the public roadmap and v0.2 announce draft, 2026-07-17. The physical-coercion claim is deliberately unquantified pending a public source.*
+*Notes for reviewers: figures added 2026-07-21. Figures 1-2 are conceptual (hand-drawn SVG in content/attachments); Figures 3-7 are generated from cited datapoints by scripts/threat-model-figures/make_figures.py, with every number sourced in SOURCES.md there. Before publication: refresh the mevwatch and rated.network snapshot values. Reworked from the earlier thesis draft per Jonny's feedback (2026-07-17): the economic/credible-commitment argument is deferred (whitepaper territory), the threat model is the piece. Carried over from the 3-round adversarial review: all primary-source links, the trust-swap framing, the per-property weakest-link claim, the loop, control-over-disclosure, and the open questions (which are the review's surviving attack surfaces, reframed as research questions for forum/KOL engagement). Capability claims per the public roadmap and v0.2 announce draft, 2026-07-17. The physical-coercion claim is deliberately unquantified pending a public source.*

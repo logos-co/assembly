@@ -30,25 +30,22 @@ jobs:
         with:
           node-version: 22
 
-      # Quartz 5 resolves plugins from quartz.lock.json, so cache on that.
-      - name: Cache Quartz plugins
-        uses: actions/cache@v4
-        with:
-          path: .quartz/plugins
-          key: ${{ runner.os }}-plugins-${{ hashFiles('quartz.lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-plugins-
-
       - name: Install Dependencies
         run: npm ci
 
       # Required in v5: plugins are standalone repos and must be installed
       # before the build can resolve them. `--from-config` re-resolves every
-      # entry in quartz.config.yaml, which is what makes the repo-local
-      # `./plugins/inline-comments` source resolve on a fresh CI checkout
-      # (its lockfile path is machine-specific).
+      # entry in quartz.config.yaml and clones each github: source fresh.
+      #
+      # We do NOT cache .quartz/plugins: a partial (restore-keys) cache hit can
+      # carry stale plugin entries across a lockfile change — e.g. dangling
+      # symlinks from a since-removed local source — which crashes install with
+      # ENOENT. `.quartz` is git-ignored and the runner is ephemeral, so this
+      # rm is just belt-and-suspenders.
       - name: Install Quartz plugins
-        run: npx quartz plugin install --from-config
+        run: |
+          rm -rf .quartz/plugins
+          npx quartz plugin install --from-config
 
       - name: Build Quartz
         run: npx quartz build

@@ -117,12 +117,12 @@ it being a stock Quartz dep — a plugin cannot assume that).
 ## Consumer experience
 
 ```sh
-npx quartz plugin add github:logos-co/quartz-inline-comments
+npx quartz plugin add github:corpetty/quartz-inline-comments
 ```
 
 ```yaml
 plugins:
-  - source: github:logos-co/quartz-inline-comments
+  - source: github:corpetty/quartz-inline-comments
     enabled: true
     options:
       repo: logos-co/assembly
@@ -158,10 +158,14 @@ the new repo, widen the read PAT) or deployed per-site.
    machine-specific; it is normalised to a relative path in the committed
    lockfile, and the deploy workflow uses `quartz plugin install --from-config`
    so the local source re-resolves on a fresh checkout.
-5. **Where should the repo live? — still open.** Currently a local source under
-   `plugins/inline-comments`. Publish to `logos-co/quartz-inline-comments` (or
-   `quartz-community`) once proven, then switch the config `source` to
-   `github:…`. Nothing else changes.
+5. **Where should the repo live? — ✅ resolved.** Both plugins were extracted
+   to standalone public repos under the maintainer's account —
+   [`corpetty/quartz-inline-comments`](https://github.com/corpetty/quartz-inline-comments)
+   and [`corpetty/quartz-tikz`](https://github.com/corpetty/quartz-tikz) — and
+   the site's `quartz.config.yaml` sources point at `github:corpetty/…`. The
+   local `plugins/` directory was removed; `quartz plugin install --from-config`
+   clones and builds them (no committed `dist/`). Only the config `source`
+   changed to switch from local to GitHub.
 
 ## Follow-up: giscus is off on v5
 

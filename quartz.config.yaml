@@ -41,10 +41,10 @@ configuration:
         highlight: rgba(143, 159, 169, 0.15)
         textHighlight: "#b3aa0288"
 plugins:
-  - source: ./plugins/tikz
+  - source: github:corpetty/quartz-tikz
     enabled: true
     order: 15
-  - source: ./plugins/inline-comments
+  - source: github:corpetty/quartz-inline-comments
     enabled: true
     options:
       repo: logos-co/assembly

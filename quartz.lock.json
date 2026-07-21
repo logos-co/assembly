@@ -157,12 +157,6 @@
       "commit": "0d448f38a24c568c5539ff2cd57d813293430ccd",
       "installedAt": "2026-07-20T16:11:31.198Z"
     },
-    "inline-comments": {
-      "source": "./plugins/inline-comments",
-      "resolved": "./plugins/inline-comments",
-      "commit": "local",
-      "installedAt": "2026-07-21T12:25:11.057Z"
-    },
     "latex": {
       "source": "github:quartz-community/latex",
       "resolved": "https://github.com/quartz-community/latex.git",
@@ -198,6 +192,18 @@
       "resolved": "https://github.com/quartz-community/page-title.git",
       "commit": "a1c1fe0a9c6a5ce1acf6efa01d473a7d9850e2a3",
       "installedAt": "2026-07-20T16:11:31.695Z"
+    },
+    "quartz-inline-comments": {
+      "source": "github:corpetty/quartz-inline-comments",
+      "resolved": "https://github.com/corpetty/quartz-inline-comments.git",
+      "commit": "a9018fc344e861d7c6ae7304f52aa288283dfcf7",
+      "installedAt": "2026-07-21T13:04:49.835Z"
+    },
+    "quartz-tikz": {
+      "source": "github:corpetty/quartz-tikz",
+      "resolved": "https://github.com/corpetty/quartz-tikz.git",
+      "commit": "5164416c8a89ef35f332e97535b9fd5beec8457d",
+      "installedAt": "2026-07-21T13:04:49.796Z"
     },
     "reader-mode": {
       "source": "github:quartz-community/reader-mode",
@@ -264,12 +270,6 @@
       "resolved": "https://github.com/quartz-community/tag-page.git",
       "commit": "eabf3eec55c0bab7f49e69957341f34d2ae3c5a1",
       "installedAt": "2026-07-20T16:11:31.691Z"
-    },
-    "tikz": {
-      "source": "./plugins/tikz",
-      "resolved": "./plugins/tikz",
-      "commit": "local",
-      "installedAt": "2026-07-21T12:52:25.532Z"
     },
     "unlisted-pages": {
       "source": "github:quartz-community/unlisted-pages",

@@ -18,5 +18,3 @@ quartz/cli/tui/dist/
 .dev.vars
 .wrangler/
 
-# local plugin build output (source is committed, dist is built by `quartz plugin install`)
-plugins/*/dist/

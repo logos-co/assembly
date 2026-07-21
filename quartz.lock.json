@@ -157,6 +157,12 @@
       "commit": "0d448f38a24c568c5539ff2cd57d813293430ccd",
       "installedAt": "2026-07-20T16:11:31.198Z"
     },
+    "inline-comments": {
+      "source": "./plugins/inline-comments",
+      "resolved": "./plugins/inline-comments",
+      "commit": "local",
+      "installedAt": "2026-07-21T12:25:11.057Z"
+    },
     "latex": {
       "source": "github:quartz-community/latex",
       "resolved": "https://github.com/quartz-community/latex.git",

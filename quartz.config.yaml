@@ -41,6 +41,17 @@ configuration:
         highlight: rgba(143, 159, 169, 0.15)
         textHighlight: "#b3aa0288"
 plugins:
+  - source: ./plugins/inline-comments
+    enabled: true
+    options:
+      repo: logos-co/assembly
+      repoId: R_kgDOQUhKqA
+      category: Announcements
+      categoryId: DIC_kwDOQUhKqM4Cxur2
+      apiBase: https://inline-comments.inline-assembly.workers.dev
+      mapping: url
+    layout:
+      position: afterBody
   - source: github:quartz-community/created-modified-date
     enabled: true
     options:

@@ -47,9 +47,12 @@ jobs:
         run: npm ci
 
       # Required in v5: plugins are standalone repos and must be installed
-      # before the build can resolve them.
+      # before the build can resolve them. `--from-config` re-resolves every
+      # entry in quartz.config.yaml, which is what makes the repo-local
+      # `./plugins/inline-comments` source resolve on a fresh CI checkout
+      # (its lockfile path is machine-specific).
       - name: Install Quartz plugins
-        run: npx quartz plugin install
+        run: npx quartz plugin install --from-config
 
       - name: Build Quartz
         run: npx quartz build

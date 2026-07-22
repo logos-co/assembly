@@ -26,6 +26,7 @@ def style(ax):
 
 def save(fig, name):
     fig.savefig(OUT + name, transparent=True, bbox_inches="tight")
+    fig.savefig(OUT + name.replace(".svg", ".png"), transparent=True, bbox_inches="tight", dpi=200)
     plt.close(fig)
     print("wrote", name)
 

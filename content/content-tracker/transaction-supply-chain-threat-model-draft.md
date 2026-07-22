@@ -8,7 +8,7 @@ Everyone in this industry threat-models the contract. Auditors crawl the bytecod
 
 A transaction is seven jobs: **discovery** (finding who has what you want), **diligence** (verifying they are who they claim), **negotiation** (agreeing price and terms), **contracting** (committing in enforceable form), **ordering** (deciding whose trade goes when), **settlement** (moving the value), and **enforcement** (making the outcome stick). Blockchains secured settlement. The other six run on infrastructure that watches, logs, and leaks.
 
-![[tsc-supply-chain-loop.svg]]
+![[tsc-supply-chain-loop.png]]
 *Figure 1. The supply chain is a cycle, not a line: leaks from every link land in a permanent archive that becomes the discovery and diligence input against the next transaction.*
 
 This post maps the threat model for the whole chain: who's watching each link, what they gain, what it costs you, and why the patches on offer keep failing in the same way. I'm deliberately not arguing what closing the chain is worth; that argument deserves its own treatment and it's coming. This is the map. I want the forum's help stress-testing it, so the last section is open questions, and I mean them as questions.
@@ -27,7 +27,7 @@ Four classes, distinguished by what they want and how long they'll wait. A usefu
 
 Notice what the four classes share. None of them breaks cryptography. The contract-level security this industry is good at is simply not where any of them operates.
 
-![[tsc-adversary-matrix.svg]]
+![[tsc-adversary-matrix.png]]
 *Figure 2. Which adversary class monetizes which link. Every cell is a claim, defended in the link sections below; if you think a cell is wrong, that's a reply I want.*
 
 ## The chain, link by link
@@ -46,7 +46,7 @@ Verifying a counterparty onchain takes no work, because the archivist already bu
 
 Size, terms, and reservation price leak through the channels we negotiate in. Telegram retains metadata even when content is encrypted. Public mempools broadcast terms before execution. The market's revealed answer: [roughly 80% of Ethereum DeFi interactions now route through private RPCs](https://arxiv.org/abs/2505.19708), per a CoW DAO research paper. Watch what that mitigation did: it moved the flow from a public mempool to a handful of private operators who now see everything. Trust assumption: the RPC operator, who is an archivist with a service agreement.
 
-![[tsc-private-rpc.svg]]
+![[tsc-private-rpc.png]]
 *Figure 3. The trust-swap migration, measured: DeFi flow leaving the public mempool for private operators ([Flashbots](https://writings.flashbots.net/illuminate-the-order-flow); [arXiv 2505.19708](https://arxiv.org/abs/2505.19708)).*
 
 ### 4. Contracting
@@ -57,7 +57,7 @@ The moment of commitment is the moment of maximum exposure. The frontend you sig
 
 Whose trade goes when is decided by whoever sees the pending flow, and the pending flow is public. Archivists store it, extractors trade against it, builders order it. Today's mitigation: private order flow to trusted builders, MEV-protection RPCs. Trust assumption: the builder duopoly you're routing around the mempool to reach.
 
-![[tsc-builder-share.svg]]
+![[tsc-builder-share.png]]
 *Figure 4. Block-building concentration, current snapshot ([rated.network](https://explorer.rated.network/builders)).*
 
 ### 6. Settlement
@@ -68,7 +68,7 @@ The one link crypto secured, and it secured it by publishing everything. Balance
 
 Making the outcome stick depends on operators, and identifiable operators get pressured one by one; the OFAC-relay numbers above are what that looks like in production. Today's mitigation: jurisdiction shopping and operator goodwill. Trust assumption: that the operators between you and finality keep resisting pressure they have no structural reason to resist.
 
-![[tsc-ofac-relays.svg]]
+![[tsc-ofac-relays.png]]
 *Figure 5. Enforcement pressure through identifiable relays over time ([mevwatch.info](https://www.mevwatch.info/)). The decline came from relay-mix changes and social pressure, not from removing the pressure surface; the intermediaries remain squeezable.*
 
 ### The pattern
@@ -97,14 +97,14 @@ A threat model you can't measure is a vibe. Here's the quantitative frame this a
 
 **The defender metric: cost to deanonymize.** The single number that summarizes a link's protection is what it costs an adversary to link your activity to you. The literature's trajectory on that number is the strongest quantitative argument in this post:
 
-![[tsc-deanon-cost.svg]]
+![[tsc-deanon-cost.png]]
 *Figure 6. Published deanonymization results over time: from ~EUR 1,500 of active infrastructure ([Biryukov et al., CCS '14](https://arxiv.org/abs/1405.7418)) to passive AS-level observation covering a third of the network ([PERIMETER](https://collaborate.princeton.edu/en/publications/perimeter-a-network-layer-attack-on-the-anonymity-of-cryptocurren/)) to [90%+ cross-chain tracing](https://arxiv.org/html/2504.01822v1). The y-axis is qualitative; the claim is the ordering, not the magnitudes.*
 
 Falling attack cost against a record that can't decay is the asymmetric-time argument in one picture. Whatever your cost-to-deanonymize is today, it only goes down.
 
 **The damage ledger.** Measured, sourced losses where the chain's links failed, keeping secrecy failures and integrity failures distinct:
 
-![[tsc-extraction-ledger.svg]]
+![[tsc-extraction-ledger.png]]
 *Figure 7. Measured losses by category and period; sources in the [figure sources file](https://github.com/logos-co/assembly/tree/v5/scripts/threat-model-figures/SOURCES.md). Categories are not directly comparable (different periods, different failure modes); the figure scopes the problem, it doesn't sum it.*
 
 **Concentration.** The trust-swap claim is quantifiable as market concentration: top-2 builder share (Figure 4), relay compliance share (Figure 5), and the RPC provider market would all support standard concentration indices (HHI, Nakamoto coefficient). I've used snapshots; time-series index plots are an obvious extension, and the data is public.
@@ -139,4 +139,4 @@ The full threat model, open for attack: [FORUM LINK]
 
 ---
 
-*Notes for reviewers: figures added 2026-07-21. Figures 1-2 are conceptual (hand-drawn SVG in content/attachments); Figures 3-7 are generated from cited datapoints by scripts/threat-model-figures/make_figures.py, with every number sourced in SOURCES.md there. Before publication: refresh the mevwatch and rated.network snapshot values. Reworked from the earlier thesis draft per Jonny's feedback (2026-07-17): the economic/credible-commitment argument is deferred (whitepaper territory), the threat model is the piece. Carried over from the 3-round adversarial review: all primary-source links, the trust-swap framing, the per-property weakest-link claim, the loop, control-over-disclosure, and the open questions (which are the review's surviving attack surfaces, reframed as research questions for forum/KOL engagement). Capability claims per the public roadmap and v0.2 announce draft, 2026-07-17. The physical-coercion claim is deliberately unquantified pending a public source.*
+*Notes for reviewers: figures added 2026-07-21. Figures embed as PNG (this Quartz build drops SVG wikilink embeds); SVG originals sit alongside them in content/attachments. Figures 1-2 are conceptual (hand-drawn); Figures 3-7 are generated from cited datapoints by scripts/threat-model-figures/make_figures.py, with every number sourced in SOURCES.md there. Before publication: refresh the mevwatch and rated.network snapshot values. Reworked from the earlier thesis draft per Jonny's feedback (2026-07-17): the economic/credible-commitment argument is deferred (whitepaper territory), the threat model is the piece. Carried over from the 3-round adversarial review: all primary-source links, the trust-swap framing, the per-property weakest-link claim, the loop, control-over-disclosure, and the open questions (which are the review's surviving attack surfaces, reframed as research questions for forum/KOL engagement). Capability claims per the public roadmap and v0.2 announce draft, 2026-07-17. The physical-coercion claim is deliberately unquantified pending a public source.*

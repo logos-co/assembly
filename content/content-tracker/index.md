@@ -37,6 +37,16 @@ Sourced from weekly updates across all Logos components. **Updated Feb 25** with
 | [[lez-lee-brief\|Logos Execution Zone: Composable Privacy by Default]] | Blockchain / LEZ | **Blocked** — post-PS event | App developers, ZK/DeFi engineers |
 | [[libchat-sdk\|libchat: Building E2E Encrypted Messaging with the Chat SDK]] | Messaging | Proposed | App developers, Rust/FFI devs |
 
+## Video Explainer Series (Jul 2026)
+
+Welch Labs–style educational explainers, one hard idea per episode. Series overview and status at [[explainers/index|Logos Explainers]]. Lifecycle: treatment → script → technical review → storyboard → animation → edit → release. Ship order 01 → 02 → 03.
+
+| Episode | Component | Status | Target | Audience | Links |
+|---------|-----------|--------|--------|----------|-------|
+| [[explainer-ep01-million-strangers-treatment\|Ep. 01: How Do a Million Strangers Agree on Anything?]] | Blockchain / Cryptarchia | **Treatment** — pending Vac review | Video (20–24 min) | Technically curious general audience | [[explainer-ep01-million-strangers-treatment\|Treatment]] |
+| [[explainer-ep02-secret-ballot-treatment\|Ep. 02: Why Blockchains Need a Secret Ballot]] | Blockchain / Cryptarchia + Blend | **Treatment** — pending Vac review | Video (20–24 min) | Technically curious general audience | [[explainer-ep02-secret-ballot-treatment\|Treatment]] |
+| [[explainer-ep03-ai-agent-own-anything-treatment\|Ep. 03: Can an AI Agent Own Anything?]] | Blockchain / Storage | **Treatment** — pending Vac review | Video (18–22 min) | Technically curious general audience | [[explainer-ep03-ai-agent-own-anything-treatment\|Treatment]] |
+
 ## Talks & Interactive Pieces
 
 | Content | Type | Event | Notes |

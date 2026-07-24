@@ -27,6 +27,7 @@ Briefs scaffolded from the [Testnet v0.2 Comms Program messaging framework](http
 | [[logos-storage-testnet-v02-draft\|Logos Storage in Testnet v0.2: Hardening the Substrate]] | Storage | **First Draft — adversarially reviewed** | TBD | Infrastructure engineers, privacy engineers, node operators | [[logos-storage-testnet-v02-brief\|Brief]], [[logos-storage-testnet-v02-draft\|Draft]], [[logos-storage-testnet-v02-changelog\|Changelog]] |
 | [[logos-core-testnet-v02-draft\|Logos Core in Testnet v0.2: The Microkernel Grows Up]] | Core | **First Draft — adversarially reviewed** | TBD | App developers, systems programmers | [[logos-core-testnet-v02-brief\|Brief]], [[logos-core-testnet-v02-draft\|Draft]], [[logos-core-testnet-v02-changelog\|Changelog]] |
 | [[logos-basecamp-testnet-v02-draft\|Logos Basecamp in Testnet v0.2: The Whole Stack, One Window]] | Basecamp | **First Draft — adversarially reviewed** | TBD | General/privacy-curious users, node operators | [[logos-basecamp-testnet-v02-brief\|Brief]], [[logos-basecamp-testnet-v02-draft\|Draft]], [[logos-basecamp-testnet-v02-changelog\|Changelog]] |
+| [[logos-networking-testnet-v02-draft\|The Logos Networking Layer in Testnet v0.2: Everything Leaks Through Here]] | Networking (discovery, peering, mix) / AnonComms + P2P | **First Draft — adversarially reviewed** | TBD | Protocol engineers, privacy researchers, p2p developers | [[logos-networking-testnet-v02-draft\|Draft]], [[logos-networking-testnet-v02-changelog\|Changelog]] |
 
 ## Proposed Articles (Feb 2026)
 

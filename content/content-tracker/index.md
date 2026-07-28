@@ -15,6 +15,7 @@ It is important to have clarity on who is coordinating around any given [[artifa
 | [[privacy-preserving-file-sharing\|Introducing Logos Storage: Decentralized Storage for the Logos Tech Stack]] | Storage | **First Draft** | After above | Developers, infrastructure engineers, privacy engineers | [[privacy-preserving-file-sharing-draft\|Draft]] |
 | [[bota-jardemalie-interview-companion-draft\|She Checked the File Properties: Bota Jardemalie on What Happens When You Don't Control Your Channels]] | N/A (interview companion) | **First Draft** | Pending post-production of interview video | Civil liberties communities, privacy-curious general audience | [[bota-jardemalie-interview-companion-draft\|Draft]] |
 | [[interzone-bridging-draft\|Interzone Bridging: Moving Value Between Zones Without Trusting Anyone New]] | Blockchain / LEZ | **First Draft** | Follows the cross-zone messaging X post | App developers, protocol engineers, bridge-skeptical crypto audience | [[interzone-bridging-draft\|Draft]], [PR #542](https://github.com/logos-blockchain/logos-execution-zone/pull/542) |
+| [[empowering-pow-security-tuning-draft\|One Puzzle, Two Dials: How EmPoWering Lets Logos Tune Its Own Security]] | Blockchain / Cryptarchia + Blend + Mantle (EmPoWering proposal) | **First Draft** | TBD | Protocol engineers, privacy researchers, tokenomics-curious | [[empowering-pow-security-tuning-draft\|Draft]] |
 
 ## Testnet v0.2 Module Series (Jul 2026)
 

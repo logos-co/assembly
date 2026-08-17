@@ -109,5 +109,24 @@ Once complete, a new message is sent to the room that shows the associated infor
 
 More detail of this activities pipeline and what is triggered and the code it touches can be found in [Muster's documentation](https://github.com/corpetty/muster/tree/main/docs/posts/muster-connection-lifecycle.md) for those interested. 
 
+## Extrapolate that to other things
+If we take a look at this bundle of activites as "all the stuff you do before building a txn, we can see that a tremendous amount of coordination and activity is done that is almost utterly severed from the technology we use to actually use the blockchain, and it's almost all completely hosted, surveiled, and monetized by central parties. 
+
+If we increase the complexity of the activity to things like dapps (AMMs, DEX, NFTs, Multisigs, etc), then it gets worse. We introduce centralized technology like DNS, the web browser and necessary extensions, hosted webservices, RPC services, transparent blockchain data and associated convenience-based indexing services, etc. All in the name of just figuring out who we're engaging with and what information we need to build a transaction appropriately. And we must trust them all to function properly. 
 
 ## Ok, So what? What's new?
+Hopefully, your understanding. We walked through the simplest txn there is, albeit in a new privacy preserving manner enabled by the Logos techstack, the token transfer. While the idea is simple: send someone some tokens, we learned there is a lot more that goes into it than people typically consider, and we also learned that there is a tremendous amount of information that can be leaked during that process, which others find incredibly valuable and monetize in some fashion. Much of those decisions and possibilities are because of the chosen tech stack, and you never really had the option to do anything different. 
+
+As the technology hardens, Logos will give you the options to opt out and do what works for you instead of being only subject to infrastructure that makes those decisions for you and profits off of doing so. 
+
+For now, Logos gives us the ability to show you what's going on. Muster is purpose built to do that as best as I know how to and I have LOTS of plans to improve that over time. Both through looking at different tech stacks to do the same activity (looking at you ETH token transfer via Nimbos integration) as well as expanding all the possible things you can do in web3 (looking at you multisig and large file transfer). What's interesting to me about doing this is that the UI never changes. It's always just the same thing: pick an activity and who you want to do it with, open a secure communications room and do it with as much privacy, automation, and precision as possible. 
+
+Because we're buidling with Logos, we can watch what goes in and what out out across the entire txn lifecycle and how information leaks and gets exposed and what we can possibly do about it, and the trade-offs being made when we do various things about it. We (in the planned future) can also look at how we can _verify ever single peice of data that leads to important activities_ and provide the audit log of that data. This means when you're about to sign something or do an important activity, you'll be able to see the exact provenance of everything that contributed to the contract you're about to engage into. To me, that potential is exciting, and what I want when "using web3".
+
+## What's next?
+Like I said, I'm going to keep going. I'll continue explaining the nuances and details of the entire transaction pipeline and how information leaks across it traditionally. I'll explain how economies based in surveillance and data aggregation profit off those leaks. I'll explain how Logos is attempting to shore up those leaks with the tech stack being built, and I'll keep trying to make that easy and convenient to understand by expanding Muster's capabilities and UX. 
+
+Join me: 
+- Download Basecamp: https://logos.co/basecamp
+- Play with Muster: https://github.com/corpetty/muster
+- Engage with this post. Ask questions, tell me how I could do something better, tell me what I got wrong, tell me what you want to see next. Do something.

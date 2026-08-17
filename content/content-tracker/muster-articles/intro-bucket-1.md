@@ -30,17 +30,33 @@ Even more succinctly: My friend wanted some SNT, so I sent them some.
 
 Now think about all the technology we use in order to make those things happen, and how much of that stuff the blockchain _isn't_. Think about who owns that infrastructure and why they own it and how they profit off owning it. Once you've done that for a bit, I think you'll start to realize why everyone who isn't in crypto hates crypto and why we're failing as an industry compared to the ideals we all started out with. Almost all of the failings of crypto happen before anything hits the blockchain. 
 
-INSERT EXAMPLES HERE AND THEIR PLACE IN THE TXN LIFECYCLE
+Every stage of that lifecycle leaks something, and every leak has a price tag attached to it. Here's what transparent rails give away at each link, what it's cost in crypto, and what the same leak costs in the world that isn't crypto:
+
+| Stage | What transparent rails expose | Cost of leaks in crypto | Cost of leaks in the real world |
+|-------|-------------------------------|-------------------------|---------------------------------|
+| Discovery | Counterparties, intent | $100M+ losses from physical-coercion attacks, Jan–Apr 2026 | A single M&A leak in the UK added £42M to the acquisition cost |
+| Diligence | Address history, identity graph | $3B+ surveillance industry monetizes the graph; $84M lost in address-poisoning | $0.5B+ settlement for exposing 147M IDs |
+| Negotiation | Size, terms, reservation price | ~80% of ETH DeFi routes through private RPCs | >50% of US equity volume trades off-exchange |
+| Contracting | Frontend and signing context | ~$1.5B stolen from Bybit; ~$0.5B/yr lost to wallet-drainer phishing | $2.8B/yr lost to manipulated payment instructions |
+| Ordering | Pending order flow | $800M+ from sandwich and other attacks over 3 years | $5B/yr latency-arbitrage tax on global equities |
+| Settlement | Balances, approvals, positions | $4.3B lost across 49 cross-chain settlement attacks | $81M stolen through a forged SWIFT payment instruction |
+| Enforcement | Identifiable operators | $4.2B frozen post-settlement with selective enforcement | Breaking offshore and Swiss bank secrecy introduced $2B+ in enforcement costs |
+
+Look at where the money actually goes. Bybit was a signing-context problem, not a smart contract problem. Address poisoning works because your history is a public graph anyone can read. The private RPC number is my favorite one: roughly 80% of ETH DeFi volume already routes around the public mempool, which means the market has quietly admitted that the transparent version of ordering is unusable and has been paying a middleman to fix it.
+
+The real world column is there because none of this is a crypto-specific problem. Every one of these links leaks in traditional finance too, and the response has been decades of intermediaries whose entire business is plugging one hole and charging rent for it. 
+
+A single leak at any one of these links can deanonymize years of onchain activity. Patch one and attackers move to the next weakest one, because the chain is only as strong as its worst link. That's why the threat model has to cover the whole supply chain and not just the part that settles.
 
 I could literally go on ad nauseum about this (I have for years now). So instead, I'm going to "build an app" (read: vibe code the living shit out of it based on spec-based development practices) to show it, and then write about it in this forum for others to see, challenge, add to, contribute. That app is called "Muster." Why? Because I've always liked the idea of an app that is focused on rallying people together for the purpose of action, so "mustering up" feels like a good way to describe that, and also "Status" is taken already. I also don't want another chat app, but it's crucial to understand that the chat context _can also be the inherited security and privacy context of coordation_.  [I've written about this concept before in the Status forums](https://discuss.status.app/t/what-is-status/4903) and also when "announcing the new Status App" [years ago at EthDenver](https://www.youtube.com/watch?v=5UGqTbqKH90). This is not a new concept for me. You can find the [code in Github](https://github.com/corpetty/muster) and look at all the pretty diagrams that I vibe code along the way at [it's hosted Pages](https://corpetty.github.io/muster). 
 
 Please note, this app is created by me for a number of reasons, the main one being an educational and demonstrative tool to explore what's going on under the hood with our data and how well we can surface it to the user in a meaningful way. Along the way, I'm hoping it makes the decentralized application _I've always wanted_ and is useful to others in getting things done in "web3". Maybe it sucks and just surfaces bugs as I dogfood the Logos tech stack and see how far I can push it and look at its operation. Let's see.  
 
-Why use Logos? Simple. Logos as a technology concept is an attempt to cater to and secure the entire txn lifecycle within the same ecosystem, thus mitigating as much of the issues I've experienced in the industry this whole time. Additionally, it's modular and provides a good development experience which is amenable to vibe coding and at a stage where I can meaningfully build stuff without being on the core dev team. I also am paid to understand things and explain them within Logos and outside of it, and this helps me do that. Also, this is currently built as a standalone application using the Logos stack, but will very soon be offered as a module within basecamp so that you can move more easily between interdependent applications. So [go download Basecamp](https://logos.co/basecamp) and get used to it. Right now, architecturally, it's built this way:
+Why use Logos? Simple. Logos as a technology concept is an attempt to cater to and secure the entire txn lifecycle within the same ecosystem, thus mitigating as much of the issues I've experienced in the industry this whole time. Additionally, it's modular and provides a good development experience which is amenable to vibe coding and at a stage where I can meaningfully build stuff without being on the core dev team. I also am paid to understand things and explain them within Logos and outside of it, and this helps me do that. Also, this is currently built as a standalone application using the Logos stack, but will very soon be offered as a module within basecamp so that you can move more easily between interdependent applications. So [go download Basecamp](https://logos.co/basecamp) and get used to it. You can go check out how it's build on Logos specifically at the [hosted interactive diagram](https://corpetty.github.io/muster/substrate-stack.html#view=standalone).
 
-DIAGRAM OF MUSTER'S ARCHITECTURE
+So come with me as we look at the first bucket of activity. 
 
-So come with me as we look at the first bucket of activity: Coming together with an intended action.
+## Coming together with an intended action.
 
 I'm going to demonstrate this with one of the simplest and most common actions in crypto, sending someone some tokens. In Muster, I'll do this via a private-to-private LEZ transfer, but the concepts described through this particular action's txn lifecycle can be extrapolated to all transactions even though details of the pipeline are different. 
 

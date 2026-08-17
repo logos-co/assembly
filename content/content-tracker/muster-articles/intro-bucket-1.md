@@ -7,13 +7,16 @@ This forum post is the start of a series of me investigating this concept, provi
 I've always wanted to do this but never was quite sure how. Fortunately, Logos is at a point where it's so much easier to do this than it's ever been for me. I and AI development drastically leverages how fast I can build things on my own within the Logos ecosystem and what is already out there I can bring in as a module. 
 
 Breaking the txn lifecycle down into 7 stages, we have:
-- discovery
-- diligence
-- negotiation
-- contracting
-- ordering
-- settlement
-- enforcement
+
+| # | Stage | What happens |
+|---|-------|--------------|
+| 1 | Discovery | Finding who has what you want |
+| 2 | Diligence | Verifying they are who they claim |
+| 3 | Negotiation | Agreeing on price and terms |
+| 4 | Contracting | Committing in enforceable form |
+| 5 | Ordering | Deciding whose trade goes when |
+| 6 | Settlement | The only link where value moves |
+| 7 | Enforcement | Making the outcome stick |
 
 I personally like thinking about it in a layer of abstraction above that, bucketing some of them together around differentiated activity: 
 - coming together with an intended action - discover, diligence, negotiation
@@ -45,18 +48,66 @@ Typically for most, this part of the txn lifecycle isn't even thought of as part
 
 Because the industry has been so tunnel visioned on only the blockchain part of the pipeline, we've fostered a standard of use that leverages nothing but hosted platforms that feeds off your data for this part, and rarely if at all is the infrastructure being used remotely connected to the rest of the pipeline. What is beautiful about the Logos vision is that it's all the same infrastructure, so you never need to use different applications across the entire process. Let's walk through this process within Muster's initial demo application. 
 
-DIAGRAM OF PRIVATE TO PRIVATE TXN WITHIN LOGOS STACK
+![](pipeline-private-transfer-flow.png)
+
+Now let's see it in action with the built application and talk specifically about how we do it here and how it's normally done. Below you'll see what it looks like when you start the app. For the purposes of expedition, I've alredy clicked and initialized the wallet within the app, which generates a new wallet (if completely new) and then allows you to fund and sheild those funds from the faucet. I'll build out more robust features later so it's a fully featured wallet (or integrate with [guru's wallet module](https://github.com/hackyguru/logos-modules) which this is based off of!)
 
 ![](blank-app.png)
 
+You'll see the focus is to "start something" because that's what you should be thinking about doing in Muster, actionable things with people. Under the hood, you've already connected to the only things you'll ever connect to for this workflow: 
+- The messaging network (via the `delivery_module`) where we run a Logos Messaging node. 
+- The execution zone (via `lez_core`), which connects to a central sequencer at https://testnet.lez.logos.co. This part only happened _because I opened the wallet and initialized it_. It won't connect if it doesn't need to. But we need to read the blockchain and this demo doesn't run a full Logos Blockchain node or sequencer. We _could_ though if we wanted some additioal privacy. 
+
+The rest is local and private the machine it's run on (and the people's you talk to). 
+
+Let's click to start something. For the purposes of this demo and post, I want to send some testnet LEZ tokens from one person to another in a privacy preserving way. So I click the button. 
+
 ![](start-something.png)
+
+The initial app demo shows me a few simple options because that's all I've built into it so far. I can talk to someone or initiate a token transfer. It's all a chat room, because that's the best way to understand the security and privacy model. 
+
+The first thing I need to do when sending a transaction is understanding who I'm going to be participating with, and getting their relevant information. In this instance, I am running a second client. I copied the recipient's chat address (generated on start for now) and pasted it here, and chose the desired wallet I want to include into this (for later). 
+
+The app then creates a private E2EE room by fetching their key bundle on the Logos Messaging network, sends them a MLS cryptographic invite, and the app (for now) auto-accepts up on reciept on their end. Now we have a private communication channel to continue the rest of the txn pipeline. Because I chose the "Pay someone" option, upon room creation and acceptance from the recipient, the channel automatically sends a request for an address into the channel. We don't need to talk and figure ouw what is needed, the action dictated much of that so we can automate it and remove any ambiguity or miscommunication and all the time lost associated with it. 
+
+This functionality, to the network, _looks identical to regular messages because they are regular messages_. We are using the chatroom as our security and privacy model, and leveraging the encryption schemes and communication channels that come with it. Additionally, MLS allows us to rekey upon adding/leaving members of the room, which keeps history private for newcomers (including the action cards). 
+
+Normally, you're doing this in telegram/signal/discord/sms/matrix/email/whatever, and the security/privacy understanding is completely variable. Additionally, you can't do the actual action where you're having the conversation. We've all experienced this. What _is_ missing from the app right now is the diligence aspect of things. The communication of the recipient's chat address is out of band and thus unauthenticated by Muster. But this is easily fixed and can be included. We tend to trust the account creation or registries of other applications to do this (_e.g._ unique usernames in the centralizd app, ENS registrations, federated username registrations). These, historically, get spoofed or surveilled for activity. 
 
 ![](chat-channel-start.png)
 
+Ok, we're in the channel now. You'll notice a few things that aren't normal for a chat app. I've made a side panel that describes how the state of the room got to where it is, and what has changed over its lifeetime, and what information has leaked. Because we're doing everything within Logos, we can watch and monitor that in real time, verify all data sources that we use and introduce, and expose anything that _could_ have left the room. 
+
+If I'm going to be committing to some action with other parties, and I value those actions, it's imperative I'm able to actually track what is it I'm doing and committing to and who could possibly know about it. Why? So I can always make the appropriate decision about what I'm doing and the associated potential consequences. 
+
+I've been sure to list what is currently available within the Logos stack, what we have planned that improve the gaps identified, and things that are just out of our control with the technology. For instance, because Logos Mix isn't complete yet, there is a level of visibility on chat communications that will be mitigated when it's implemented end to end. 
+
 ![](chat-sent-address.png)
+
+The receiver on the other end got an immediate message with a card that asks to share their address. They just need to click the button. Once that happens, it populates a card on my end with relevant information, and all the follow-up actions that are possible. I built in a voting mechanism (only arbitrated by the room, no central authority or blockchain mechanism yet) which could be useful to "negotiate" how much and agree. 
+
+Up to this point, we have traversed the initial group of the txn pipeline for sending someone funds: 
+- discovered both their chat and blockchain addresses
+- diligence is left out of this one, but ostensibly for this demo, it's done out of band. What important here is that the app is clear about this in how it shows information to you and it can easily be added and improved because we're working completely within a confined ecosystem. 
+- negotiation has been undergone on what it is we're doing and for how much. Much of this was able to be automated based on the structure of the app when we created the room based on _an intended action with others_. 
+
+I'll now walk through the rest of the demo and txn pipeline but keep conversation relevant to this initial grouping. Future posts will delve deeper into the rest of the pipeline. 
+
+So we click the "Send" button because we have all the information we need to be able to send them information. 
 
 ![](chat-send-dialogue.png)
 
+The app presents the available options and consequences of each option with respect to information disclosure, allowing me to choose what's appropriate for me in this situation. I do the "Private to private" option and select an amount, then click "Send". 
+
 ![](chat-txn-sent.png)
 
+From here, we generate the appropriate zk-proof that sends a shielded txn in the background locally, with a small action dialoge in the bottom. This, currently on my machine, takes about 7 min. This is the cost of privacy in many cases. No additional information leaves this room, and we can track that, but it will take more time to do it. 
+
 ![](chat-txn-complete.png)
+
+Once complete, a new message is sent to the room that shows the associated information of what has happened, and what information has left the room. Additionally, post txn hooks trigger the wallet to re-sync and update balances automatically
+
+More detail of this activities pipeline and what is triggered and the code it touches can be found in [Muster's documentation](https://github.com/corpetty/muster/tree/main/docs/posts/muster-connection-lifecycle.md) for those interested. 
+
+
+## Ok, So what? What's new?

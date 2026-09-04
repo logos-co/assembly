@@ -33,7 +33,7 @@ Post 1's self-assessment (`docs/posts/01-discovery-supporting-material.md:93`) s
 
 > "Local-first by construction: a native client, no web frontend, no ambient leakage. But **the signing context is not verifiable** — the client does not re-derive what it signs (F-4/FS-6 are specified and unbuilt), so a user reviews an amount rather than a payload."
 
-**That justification is now out of date.** The clause "the client does not re-derive what it signs (F-4/FS-6 are specified and unbuilt)" is false on the current tree: F-4 re-derivation is built, non-bypassable in the module core, and probe-proven (§2). The honest updated line: *the mechanism moved from "specified and unbuilt" to "built and proven headless."* See §7 for how to re-score without overclaiming.
+**That justification is now out of date, and the cell moves ◑ → ● (2026-09-04).** The clause "the client does not re-derive what it signs (F-4/FS-6 are specified and unbuilt)" is false on the current tree: F-4 re-derivation is built, non-bypassable in the module core, and probe-proven (§2) — *and* the shipping Room card now renders those re-derived bytes on-display, asserted in the committed qt-mcp harness on a real basecamp host (suite 8/9; `VERIFY BOX OK`). So the move is the full distance: from "specified and unbuilt" through "built and proven headless" to **"rendered and asserted on the demo as it runs"** — the standard the matrix actually scores. See §7 for the strict chain (and the one caveat: provenance is *shown*, not yet *enforced*, in the live UI).
 
 ---
 
@@ -145,7 +145,7 @@ This is the piece that starts on the *context* wall, not just the action. Re-der
 
 | Gap | Where | Status |
 |---|---|---|
-| The re-derivation **verify box** in the shipping *Room* card (`shown → re-derived → domain`, "✓ your client re-derived this — the exact bytes you'd sign") is render-**unverified** — added 2026-08-24, after the 6/6 harness run, so on-display render is gated on the qt-mcp harness. | `ui/src/qml/MusterCard.qml:413-500`; `docs/02-implementation-plan.md:169` | **partial** — logic shipped + headless-asserted (`coordination_surface_test` step 6); render unverified. Fix: run qt-mcp against the bake. |
+| ~~The re-derivation **verify box** in the shipping *Room* card is render-unverified~~ — **CLOSED 2026-09-04.** The committed qt-mcp harness now asserts the Room card's verify box (`shown → re-derived → domain`, "✓ your client re-derived this") rendering on a real basecamp host, offscreen. | `ui/src/qml/MusterCard.qml:413-500`; `ui/tests/muster-ui-test.mjs` | **shipped** — render asserted (`VERIFY BOX OK`, suite 8/9). **[measured 2026-09-04]** |
 | The re-materialization strip that **is** harness-verified sits on the Account/propose surface, not the Room card. | `ui/tests/muster-ui-test.mjs:94-108`; `ui/tests/README.md:7-10` | **shipped** (propose strip). |
 | The UI acceptance harness is **not committed CI** (lifecycle 6/6 green 2026-08-21, offscreen, not in CI). | `ui/tests/README.md:44-47`; `docs/02-implementation-plan.md:201` | **partial**. |
 | `provenance.trySign` refuse-on-unaccountable is **not wired into the live signing path** (pasted signatures; live record `accountable:true` by construction). | `coordination/intents.nim:321-347` vs `provenance.nim:66-73` | **partial** — proven by 6 probes as a capability. |
@@ -157,14 +157,23 @@ This is the piece that starts on the *context* wall, not just the action. Re-der
 
 ## 7. The self-assessment cell — how to re-score without overclaiming
 
-Post 1 scored Contracting **◑**. The strict move for this post:
+Post 1 scored Contracting **◑**. As of **2026-09-04 this moves to ●**, and here is the strict chain that earns it:
 
 - **Retire the old justification.** "The client does not re-derive what it signs (F-4/FS-6 specified and unbuilt)" is now false — re-derivation is built, non-bypassable, and probe-proven (§2), and cross-validated on-chain (`safe_anvil_e2e`, [from source]).
-- **Argue ● on the *mechanism*, hold the *published* mark at ◑** under the matrix's own "shipped vs roadmap, strict, because an adversarial investor will" rule (`01-discovery-supporting-material.md:82`). The one strict reason it is not yet ●: the verifiable-signing-context is closed and proven *in the module core and headless tests*, but the **user-facing render of the re-derived bytes in the shipping Room card is not yet verified on-display** (qt-mcp harness not in CI). The matrix scores "the demo as it runs," and a reviewer cannot yet *see* the verify box asserted rendering.
+- **The last thing holding it at ◑ was on-display render, and that gap is now closed.** The earlier draft argued ● on the mechanism but held the published mark at ◑ because a reviewer could not yet *see* the re-derived bytes rendered in the shipping Room card (the matrix scores "the demo as it runs"). The committed qt-mcp harness now asserts exactly that, on a real logos-basecamp host, offscreen: the Room proposal card's verify box renders the client-re-derived `safeTxHash` bound to its domain. **[measured — 2026-09-04, `ui/tests/muster-ui-test.mjs` on the coherent basecamp bake]**:
 
-**The honest one-liner:** *◑ → because F-4 re-derivation and F-5 replay-binding are now built, non-bypassable, and test-proven in the core; the only reason it isn't ● is that the verify-box render in the shipping UI is not yet on-display-verified — a UI-harness gap, not a protocol gap.* ● becomes strictly defensible the moment the qt-mcp harness asserts the Room verify box on-display.
+  ```
+  [muster] VERIFY BOX OK — re-derived 0x7da6241b…df90b044
+           bound to anvil-31337 · chain 31337 · Safe 0x5fbdb2…180aa3
+  ```
 
-This is *stronger* than a bare ●: it is the exact discipline the matrix demands, applied to our own build.
+  Suite result **8/9 green** (render, health, room render, verify box, propose strip, lifecycle, reject+reset, walkthrough); the only failure is `submit`, and only for want of a live anvil — the on-chain settle is independently proven by `safe_anvil_e2e` / `coordinate_submit_anvil`. So it is *settlement infra*, not the contracting claim, that is ungated.
+
+**The honest one-liner:** *● — F-4 re-derivation and F-5 replay-binding are built, non-bypassable, and test-proven in the core, AND the shipping Room card renders the re-derived bytes on-display, asserted in the committed harness on a real host.* The one caveat worth keeping in prose: the deeper F-20 provenance *refusal* (invariant 10) is proven as a module capability but not yet wired into the pasted-signature path (§6) — provenance is *shown*, not yet *enforced*, in the live UI.
+
+This ● is *stronger* than a bare mark: it is the exact "default vs opt-in, shipped vs roadmap, strictly" discipline the matrix demands, applied to our own build — and it was held at ◑ until the render was literally asserted.
+
+> **Note on getting here (2026-09-04):** proving this on-display took clearing a real SDK-rev skew — muster's module builder had drifted to a newer module-load contract than the shipping basecamp host, so the module crashed on load and blanked the view. Fixed by rebuilding muster_module on basecamp's own SDK generation + the codegen patch. Detail: `corpetty/muster` `docs/labbook/basecamp-sdk-skew-unload-callback.md`. Mentioned because it *is* the contracting-stage thesis in miniature — a verifiable local client is only as good as the coherence of what actually loads on the user's machine.
 
 ---
 
@@ -190,7 +199,7 @@ Take these *after* running the whole journey once (empty states photograph badly
 | # | Shot | Why it earns its place |
 |---|---|---|
 | 1 | The propose surface with the **re-materialization strip** visible — "re-derived" next to "proposed" | The harness-verified proof of invariant 1 (`muster-ui-test.mjs:94-108`). This is the one that is *asserted*, so it is safe to lead with |
-| 2 | The Room card **verify box** — `shown → re-derived → domain`, with the "✓ your client re-derived this — the exact bytes you'd sign" line | The emotional core of the post. **Caveat honestly:** its on-display render is not yet harness-verified — so caption it as the design and say the strip in shot 1 is the asserted one |
+| 2 | The Room card **verify box** — `shown → re-derived → domain`, with the "✓ your client re-derived this — the exact bytes you'd sign" line | The emotional core of the post. **Now harness-asserted on a real host** (2026-09-04) — a captured render exists (`muster-ui-verify.png` from the offscreen run); this is the ● evidence, not just the design |
 | 3 | The approve affordance where a user pastes a signature, with the honest "sign on your own device" copy | The unusual, honest boundary (§6): the client verifies, it does not custody the Safe key |
 | 4 | The provenance / lineage view on an intent card | The context move (§5) made concrete — "how the data reached you," per input |
 | 5 | Two windows side by side, one room, a proposal collecting approvals | Establishing: contracting happens *inside the conversation*, no coordinator in frame |

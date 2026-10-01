@@ -1,5 +1,8 @@
 name: Build Preview Deployment
 
+# Upstream Quartz gated this job on `github.repository == 'jackyzha0/quartz'`.
+# That is permanently false in this fork, so the preview build never ran. The
+# gate is replaced with this repository's real identity.
 on:
   pull_request:
     types: [opened, synchronize]
@@ -7,7 +10,7 @@ on:
 
 jobs:
   build-preview:
-    if: ${{ github.repository == 'jackyzha0/quartz' }}
+    if: ${{ github.repository == 'logos-co/assembly' }}
     runs-on: ubuntu-latest
     name: Build Preview
     steps:

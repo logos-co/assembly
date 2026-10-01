@@ -1,5 +1,8 @@
 name: Docker build & push image
 
+# Upstream gates every job on `jackyzha0/quartz`, which is permanently false in
+# this fork. Publishing images for `logos-co/assembly` is the intended
+# behaviour, so the guard is replaced with this repository's real identity.
 on:
   push:
     branches: [v5]
@@ -13,7 +16,7 @@ on:
 
 jobs:
   build:
-    if: ${{ github.repository == 'jackyzha0/quartz' }} # Comment this out if you want to publish your own images on a fork!
+    if: ${{ github.repository == 'logos-co/assembly' }}
     runs-on: ubuntu-latest
     steps:
       - name: Set lowercase repository owner environment variable

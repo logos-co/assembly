@@ -1,4 +1,14 @@
 name: Upload Preview Deployment
+
+# Inherited from upstream Quartz. The deploy job was gated on
+# `github.repository == 'jackyzha0/quartz'`, which is permanently false here, so
+# the preview deployment never ran. The gate is now this fork's real identity.
+#
+# Security note: this workflow hands `CLOUDFLARE_API_TOKEN` and
+# `CLOUDFLARE_ACCOUNT_ID` to a third-party action. That action is pinned to an
+# immutable commit SHA rather than a floating tag, so the code receiving those
+# credentials cannot change without a visible diff in this file. Update the SHA
+# deliberately, via Dependabot or a reviewed manual bump.
 on:
   workflow_run:
     workflows: ["Build Preview Deployment"]
@@ -13,7 +23,7 @@ permissions:
 
 jobs:
   deploy-preview:
-    if: ${{ github.repository == 'jackyzha0/quartz' && github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.repository == 'logos-co/assembly' && github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     name: Deploy Preview to Cloudflare Pages
     steps:
@@ -27,7 +37,9 @@ jobs:
           run-id: ${{ github.event.workflow_run.id }}
 
       - name: Deploy to Cloudflare Pages
-        uses: AdrianGonz97/refined-cf-pages-action@v1
+        # Pinned to a commit SHA. The credential-bearing action below must never
+        # be referenced by a mutable tag or branch.
+        uses: AdrianGonz97/refined-cf-pages-action@45ea15c1c69a7bce8ffbb79ba114daa2b52f0cff # v1.3.0
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

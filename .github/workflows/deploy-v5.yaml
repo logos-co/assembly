@@ -1,5 +1,8 @@
 name: Deploy v5 Preview
 
+# Upstream Quartz gated this job on `github.repository == 'jackyzha0/quartz'`.
+# That is permanently false in this fork, so the v5 preview deploy never ran.
+# The gate is replaced with this repository's real identity.
 on:
   push:
     branches:
@@ -12,7 +15,7 @@ permissions:
 
 jobs:
   deploy-v5:
-    if: ${{ github.repository == 'jackyzha0/quartz' }}
+    if: ${{ github.repository == 'logos-co/assembly' }}
     runs-on: ubuntu-latest
     name: Deploy v5 to Cloudflare Pages
     steps:
@@ -53,7 +56,8 @@ jobs:
         run: npx quartz build -d docs -v
 
       - name: Deploy to Cloudflare Pages
-        uses: AdrianGonz97/refined-cf-pages-action@v1
+        # Pinned to a commit SHA: this action receives Cloudflare credentials.
+        uses: AdrianGonz97/refined-cf-pages-action@45ea15c1c69a7bce8ffbb79ba114daa2b52f0cff # v1.3.0
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

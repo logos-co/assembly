@@ -3,878 +3,607 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Basecamp Stack — Interactive Preview</title>
+<title>How Logos Basecamp Works</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+  :root {
+    --page: #f0efe9;
+    --ink: #161616;
+    --ink-2: #3a3a3a;
+    --card: #f7f6f2;
+    --card-line: #2a2a2a;
+
+    --panel: #1b1b1b;
+    --panel-line: #2f2f2f;
+    --panel-line-2: #3a3a3a;
+    --chip: #2a2a2a;
+    --chip-ink: #c9c9c9;
+    --chip-dim: #232323;
+    --chip-dim-ink: #686868;
+    --label: #8a8a8a;
+    --text: #e8e8e8;
+    --text-2: #bdbdbd;
+
+    --hot: #ff5f3a;
+    --hot-ink: #ff7a59;
+    --hot-tint: rgba(255, 95, 58, 0.13);
+    --hot-glow: 0 0 0 1px rgba(255, 95, 58, 0.25), 0 0 18px rgba(255, 95, 58, 0.22);
+
+    --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    --sans: 'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --serif: 'Instrument Serif', Georgia, serif;
+  }
+
+  * { box-sizing: border-box; }
   body {
-    font-family: 'Georgia', serif;
-    max-width: 920px;
+    margin: 0;
+    background: var(--page);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.5;
+  }
+
+  .wrap {
+    max-width: 1120px;
     margin: 0 auto;
-    padding: 2em 1.5em 4em;
-    background: #fff;
-    color: #1a1a2e;
-    line-height: 1.75;
-  }
-  h1 { font-size: 2em; line-height: 1.2; margin-bottom: 0.2em; }
-  h3.subtitle { font-size: 1.05em; font-weight: 400; color: #4a4a68; margin-top: 0; margin-bottom: 0.3em; line-height: 1.4; }
-  .byline { color: #71717a; font-size: 0.9em; margin-bottom: 2em; font-style: italic; }
-  p { margin-bottom: 1.5em; }
-  hr { border: none; border-top: 1px solid #e4e4e7; margin: 2.5em 0; }
-</style>
-
-<!-- ─── Scoped styles for the Basecamp stack interactive ─── -->
-<style>
-  .bc {
-    --bc-text: #1a1a2e;
-    --bc-text-dim: #71717a;
-    --bc-text-secondary: #4a4a68;
-    --bc-border: #d4d4d8;
-    --bc-border-strong: #52525b;
-    --bc-border-soft: #b7b7bd;
-    --bc-bg: #ffffff;
-    --bc-bg-surface: #fafafa;
-    --bc-bg-elevated: #f4f4f5;
-
-    /* Entry zone tints */
-    --bc-zone-basecamp: #f1f3f7;
-    --bc-zone-standalone: #edf3fb;
-    --bc-zone-headless: #f7f2e8;
-
-    /* Entry header colors — all three share a neutral base in the resting state.
-       Highlight accents (red/green/blue/amber) take over when an entry is selected. */
-    --bc-entry-header: #27272a;
-    --bc-basecamp: var(--bc-entry-header);
-    --bc-standalone: var(--bc-entry-header);
-    --bc-headless: var(--bc-entry-header);
-
-    /* Layer tints — lightest at top, darkening toward the runtime */
-    --bc-layer-apps-bg: #fcfcfe;
-    --bc-layer-modules-bg: #ecedf2;
-    --bc-layer-network-bg: #dadce3;
-    --bc-layer-runtime-bg: #c7cad3;
-
-    /* Highlight accents */
-    --bc-accent: #c22d2d;
-    --bc-accent-bg: rgba(194, 45, 45, 0.09);
-    --bc-accent-text: #a12020;
-    --bc-green: #16864e;
-    --bc-green-bg: rgba(22, 134, 78, 0.09);
-    --bc-amber: #b45309;
-    --bc-amber-bg: rgba(180, 83, 9, 0.09);
-    --bc-blue: #1e5fa8;
-    --bc-blue-bg: rgba(30, 95, 168, 0.09);
-
-    --bc-mono: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', 'Courier New', monospace;
-    --bc-dim-opacity: 0.25;
-    font-family: inherit;
-    color: var(--bc-text);
-    margin: 2.2em 0;
+    padding: 48px 28px 40px;
+    display: grid;
+    grid-template-columns: minmax(260px, 310px) 1fr;
+    gap: 40px;
+    align-items: start;
   }
 
-  .bc-panel {
-    background: var(--bc-bg);
-    border: 1px solid var(--bc-border);
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  /* ── Left column ── */
+  h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 54px;
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+    margin: 0 0 22px;
   }
-  .bc-panel-header {
-    padding: 0.75em 1.2em;
-    background: var(--bc-bg-elevated);
-    border-bottom: 1px solid var(--bc-border);
-    font-family: var(--bc-mono);
-    font-size: 0.72em;
+  .lede { font-size: 15px; color: var(--ink-2); margin: 0 0 22px; }
+
+  .cards { display: flex; flex-direction: column; gap: 12px; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-line);
+    border-radius: 8px;
+    padding: 14px 16px 15px;
+    cursor: default;
+    transition: box-shadow 0.2s ease, transform 0.2s ease, background 0.2s ease;
+  }
+  .card h2 {
+    font-family: var(--mono);
+    font-size: 17px;
     font-weight: 600;
-    color: var(--bc-text-dim);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    display: flex;
-    align-items: center;
-    gap: 0.6em;
+    margin: 0 0 6px;
+    letter-spacing: 0.01em;
   }
-  .bc-dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: var(--bc-accent);
-    flex-shrink: 0;
-    animation: bc-blink 2.2s ease-in-out infinite;
-  }
-  @keyframes bc-blink { 0%,100%{opacity:1}50%{opacity:0.35} }
-
-  /* ── Tabs ── */
-  .bc-tabs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.35em;
-    padding: 0.85em 1em;
-    background: var(--bc-bg-elevated);
-    border-bottom: 1px solid var(--bc-border);
-  }
-  .bc-tab {
-    font-family: inherit;
-    font-size: 0.82em;
-    font-weight: 500;
-    padding: 0.45em 0.9em;
-    border: 1px solid var(--bc-border);
+  .card p { margin: 0; font-size: 13.5px; color: var(--ink-2); line-height: 1.5; }
+  .card.on {
     background: #fff;
-    color: var(--bc-text-secondary);
-    border-radius: 999px;
-    cursor: pointer;
-    transition: all 0.15s ease;
-    line-height: 1.25;
+    box-shadow: 5px 5px 0 var(--hot);
+    transform: translate(-2px, -2px);
   }
-  .bc-tab:hover { border-color: var(--bc-border-strong); color: var(--bc-text); }
-  .bc-tab[aria-selected="true"] {
-    background: var(--bc-text);
-    border-color: var(--bc-text);
+
+  /* ── Panel ── */
+  .panel {
+    background: var(--panel);
+    color: var(--text);
+    border-radius: 14px;
+    padding: 22px 22px 18px;
+    min-width: 0;
+  }
+  .panel-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--label);
+    margin-bottom: 14px;
+  }
+  .panel-top .hint { text-transform: none; letter-spacing: 0.02em; font-size: 10.5px; }
+
+  /* Basecamp launcher */
+  .launcher {
+    border: 1px solid var(--panel-line);
+    border-radius: 10px;
+    padding: 12px 12px 10px;
+    background: #202020;
+  }
+  .launcher { transition: border-color 0.25s ease, box-shadow 0.25s ease; }
+  .launcher.hot { border-color: var(--hot); box-shadow: var(--hot-glow); }
+  .launcher-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+  .launcher-head strong { font-size: 15px; font-weight: 600; }
+  .launcher-head code { font-family: var(--mono); font-size: 10.5px; color: var(--label); }
+
+  .apps {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .app {
+    font-family: var(--sans);
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--text);
+    background: #262626;
+    border: 1px solid var(--panel-line-2);
+    border-radius: 6px;
+    padding: 9px 6px;
+    cursor: pointer;
+    text-align: center;
+    position: relative;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  }
+  .app:hover { border-color: #5a5a5a; background: #2c2c2c; }
+  .app:focus-visible { outline: 2px solid var(--hot); outline-offset: 2px; }
+  .app.bundled::after {
+    content: '';
+    position: absolute;
+    top: 6px; right: 6px;
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.55;
+  }
+  .app.sel { background: var(--hot); border-color: var(--hot); color: #1a1a1a; }
+  .app.sel:hover { background: var(--hot); }
+  .panel.tracing .app:not(.sel) { color: #9a9a9a; }
+
+  .app-more {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: #6f6f6f;
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+
+  /* Layers */
+  .layer {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    gap: 12px;
+    align-items: start;
+    margin-top: 10px;
+    padding: 10px 12px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+  }
+  .layer-label {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--label);
+    padding-top: 6px;
+    transition: color 0.25s ease;
+  }
+  .layer.hot {
+    border-color: var(--hot);
+    background: rgba(255, 95, 58, 0.06);
+    box-shadow: var(--hot-glow);
+  }
+  .layer.hot .layer-label { color: var(--hot-ink); }
+
+  .rows { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .row, .chips { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
+  .row:has(.group) { display: grid; grid-template-columns: 62px 1fr; gap: 0; align-items: start; }
+  .row:has(.group) .group { padding-top: 4px; }
+  .group {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    color: #5f5f5f;
+  }
+
+  .chip {
+    font-size: 11.5px;
+    color: var(--chip-ink);
+    background: var(--chip);
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 3px 8px;
+    white-space: nowrap;
+    transition: all 0.25s ease;
+  }
+  .chip.bundled::after { content: ' ●'; font-size: 7px; vertical-align: 2px; opacity: 0.55; }
+
+  .bar {
+    font-size: 11.5px;
+    color: var(--chip-ink);
+    background: var(--chip);
+    border: 1px solid transparent;
+    border-radius: 5px;
+    padding: 6px 10px;
+    text-align: center;
+    transition: all 0.25s ease;
+  }
+  .bar small { font-family: var(--mono); font-size: 10px; color: var(--label); }
+
+  .panel.tracing .chip, .panel.tracing .bar { background: var(--chip-dim); color: var(--chip-dim-ink); }
+  .panel.tracing .bar small { color: #555; }
+  .panel.tracing .chip.hot, .panel.tracing .bar.hot {
+    background: var(--hot-tint);
+    border-color: var(--hot);
     color: #fff;
   }
+  .panel.tracing .bar.hot small { color: var(--hot-ink); }
 
-  .bc-stage {
-    padding: 1.4em 1em 1em;
-    background: #fff;
+  /* Readout */
+  .readout {
+    border-top: 1px solid var(--panel-line);
+    margin-top: 14px;
+    padding-top: 12px;
+    min-height: 92px;
   }
-  .bc-svg {
-    display: block;
-    width: 100%;
-    height: auto;
-    max-width: 100%;
+  .path {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--hot-ink);
+    margin-bottom: 5px;
   }
+  .desc { margin: 0; font-size: 13.5px; color: var(--text-2); line-height: 1.55; }
+  .desc code { font-family: var(--mono); font-size: 12px; color: var(--text); }
 
-  /* ── Layer bands ── */
-  .bc-layer-bg { stroke: none; transition: all 0.35s ease; }
-  .bc-layer-apps      { fill: var(--bc-layer-apps-bg); }
-  .bc-layer-modules   { fill: var(--bc-layer-modules-bg); }
-  .bc-layer-network   { fill: var(--bc-layer-network-bg); }
-  .bc-layer-runtime   { fill: var(--bc-layer-runtime-bg); }
-
-  .bc-layer-label {
-    font-family: var(--bc-mono);
+  .legend {
+    font-family: var(--mono);
     font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    fill: var(--bc-text-dim);
-    text-transform: uppercase;
-    transition: all 0.35s ease;
+    color: #6f6f6f;
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 14px;
   }
 
-  /* ── Nodes ── */
-  .bc-node rect, .bc-node .bc-node-shape {
-    fill: #fff;
-    stroke: var(--bc-border-soft);
-    stroke-width: 1;
-    transition: all 0.35s ease;
-  }
-  .bc-node text {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    fill: var(--bc-text);
+  .source {
+    grid-column: 2;
     font-size: 12px;
-    text-anchor: middle;
-    dominant-baseline: middle;
-    transition: all 0.35s ease;
+    color: #6b6b6b;
+    margin-top: -24px;
   }
-  .bc-node-small text { font-size: 11px; }
-  .bc-node-tiny  text { font-size: 10px; }
-  .bc-node-large text { font-size: 13px; font-weight: 500; }
+  .source a { color: inherit; }
+  .source code { font-family: var(--mono); font-size: 11px; }
 
-  /* Proposed / forward-looking modules — dashed border, slightly muted text. */
-  .bc-node-proposed rect, .bc-node-proposed .bc-node-shape {
-    stroke-dasharray: 4 3;
-    fill: #fafafa;
+  @media (max-width: 900px) {
+    .wrap { grid-template-columns: 1fr; padding: 32px 16px; gap: 28px; }
+    h1 { font-size: 44px; }
+    .source { grid-column: 1; margin-top: -12px; }
   }
-  .bc-node-proposed text { fill: var(--bc-text-secondary); font-style: italic; }
-
-  /* ── Entry zones ── */
-  .bc-entry .bc-entry-frame  { stroke: none; transition: all 0.35s ease; }
-  .bc-entry .bc-entry-header { stroke: none; transition: all 0.35s ease; }
-
-  .bc-entry-basecamp   .bc-entry-frame  { fill: var(--bc-zone-basecamp); }
-  .bc-entry-standalone .bc-entry-frame  { fill: var(--bc-zone-standalone); }
-  .bc-entry-headless   .bc-entry-frame  { fill: var(--bc-zone-headless); }
-
-  .bc-entry-basecamp   .bc-entry-header { fill: var(--bc-basecamp); }
-  .bc-entry-standalone .bc-entry-header { fill: var(--bc-standalone); }
-  .bc-entry-headless   .bc-entry-header { fill: var(--bc-headless); }
-
-  .bc-entry text.bc-entry-title {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    fill: #fff;
-    text-anchor: middle;
-    dominant-baseline: middle;
+  @media (max-width: 560px) {
+    .apps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .layer { grid-template-columns: 1fr; gap: 6px; padding: 8px 10px; }
+    .layer-label { padding-top: 0; }
+    .row:has(.group) { grid-template-columns: 1fr; gap: 3px; }
+    .panel { padding: 16px 12px 14px; }
+    .panel-top .hint { display: none; }
   }
-  .bc-entry text.bc-entry-sub {
-    font-family: var(--bc-mono);
-    font-size: 9.5px;
-    fill: var(--bc-text-dim);
-    text-anchor: middle;
-    dominant-baseline: middle;
-  }
-  .bc-entry text.bc-entry-inner {
-    font-family: var(--bc-mono);
-    font-size: 10px;
-    fill: var(--bc-text-dim);
-    text-anchor: middle;
-    dominant-baseline: middle;
-  }
-
-  /* ── Arrows ── */
-  .bc-arrow path {
-    fill: none;
-    stroke: var(--bc-border-strong);
-    stroke-width: 1.3;
-    transition: stroke 0.2s ease;
-  }
-  .bc-arrow-head { fill: var(--bc-border-strong); transition: fill 0.2s ease; }
-
-  .bc-flow-arrow path {
-    fill: none;
-    stroke-width: 1.8;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-dasharray: 5 4;
-    animation: bc-flow-dash 0.8s linear infinite;
-  }
-  @keyframes bc-flow-dash { to { stroke-dashoffset: -18; } }
-  .bc-flow-arrow .bc-arrow-head { transition: none; }
-
-  /* ── Dimming ── */
-  .bc-svg[data-view]:not([data-view="overview"]) .bc-node:not(.bc-hl) rect,
-  .bc-svg[data-view]:not([data-view="overview"]) .bc-node:not(.bc-hl) .bc-node-shape {
-    opacity: var(--bc-dim-opacity);
-  }
-  .bc-svg[data-view]:not([data-view="overview"]) .bc-node:not(.bc-hl) text {
-    opacity: var(--bc-dim-opacity);
-  }
-  .bc-svg[data-view]:not([data-view="overview"]) .bc-entry:not(.bc-hl) .bc-entry-frame,
-  .bc-svg[data-view]:not([data-view="overview"]) .bc-entry:not(.bc-hl) .bc-entry-header {
-    opacity: 0.4;
-  }
-  /* Keep entry titles legible even when the entry is dimmed */
-  .bc-svg[data-view]:not([data-view="overview"]) .bc-entry:not(.bc-hl) text.bc-entry-title {
-    opacity: 0.65;
-  }
-  .bc-svg[data-view]:not([data-view="overview"]) .bc-entry:not(.bc-hl) text.bc-entry-sub,
-  .bc-svg[data-view]:not([data-view="overview"]) .bc-entry:not(.bc-hl) text.bc-entry-inner {
-    opacity: 0.4;
-  }
-  .bc-svg[data-view]:not([data-view="overview"]) .bc-arrow-static:not(.bc-hl) path,
-  .bc-svg[data-view]:not([data-view="overview"]) .bc-arrow-static:not(.bc-hl) .bc-arrow-head {
-    opacity: calc(var(--bc-dim-opacity) * 0.7);
-  }
-  .bc-svg[data-view]:not([data-view="overview"]) .bc-layer-bg { opacity: 0.6; }
-  .bc-svg[data-view]:not([data-view="overview"]) .bc-layer-label { opacity: 0.6; }
-
-  /* ── Highlight accents ── */
-  .bc-svg .bc-hl.bc-accent-red rect,
-  .bc-svg .bc-hl.bc-accent-red .bc-node-shape {
-    fill: var(--bc-accent-bg);
-    stroke: var(--bc-accent);
-    stroke-width: 1.8;
-  }
-  .bc-svg .bc-hl.bc-accent-red text { fill: var(--bc-accent-text); font-weight: 600; }
-  .bc-svg .bc-entry.bc-hl.bc-accent-red .bc-entry-frame  { fill: var(--bc-accent-bg); }
-  .bc-svg .bc-entry.bc-hl.bc-accent-red .bc-entry-header { fill: var(--bc-accent); }
-
-  .bc-svg .bc-hl.bc-accent-green rect,
-  .bc-svg .bc-hl.bc-accent-green .bc-node-shape {
-    fill: var(--bc-green-bg);
-    stroke: var(--bc-green);
-    stroke-width: 1.8;
-  }
-  .bc-svg .bc-hl.bc-accent-green text { fill: var(--bc-green); font-weight: 600; }
-  .bc-svg .bc-entry.bc-hl.bc-accent-green .bc-entry-frame  { fill: var(--bc-green-bg); }
-  .bc-svg .bc-entry.bc-hl.bc-accent-green .bc-entry-header { fill: var(--bc-green); }
-
-  .bc-svg .bc-hl.bc-accent-blue rect,
-  .bc-svg .bc-hl.bc-accent-blue .bc-node-shape {
-    fill: var(--bc-blue-bg);
-    stroke: var(--bc-blue);
-    stroke-width: 1.8;
-  }
-  .bc-svg .bc-hl.bc-accent-blue text { fill: var(--bc-blue); font-weight: 600; }
-  .bc-svg .bc-entry.bc-hl.bc-accent-blue .bc-entry-frame  { fill: var(--bc-blue-bg); }
-  .bc-svg .bc-entry.bc-hl.bc-accent-blue .bc-entry-header { fill: var(--bc-blue); }
-
-  .bc-svg .bc-hl.bc-accent-amber rect,
-  .bc-svg .bc-hl.bc-accent-amber .bc-node-shape {
-    fill: var(--bc-amber-bg);
-    stroke: var(--bc-amber);
-    stroke-width: 1.8;
-  }
-  .bc-svg .bc-hl.bc-accent-amber text { fill: var(--bc-amber); font-weight: 600; }
-  .bc-svg .bc-entry.bc-hl.bc-accent-amber .bc-entry-frame  { fill: var(--bc-amber-bg); }
-  .bc-svg .bc-entry.bc-hl.bc-accent-amber .bc-entry-header { fill: var(--bc-amber); }
-
-  /* Entry title stays WHITE even when highlighted — the highlight bg is dark/colored. */
-  .bc-svg .bc-entry.bc-hl text.bc-entry-title {
-    fill: #fff;
-    font-weight: 700;
-  }
-
-  /* Flow arrow accents */
-  .bc-flow-arrow.bc-accent-red   path { stroke: var(--bc-accent); }
-  .bc-flow-arrow.bc-accent-red   .bc-arrow-head { fill: var(--bc-accent); }
-  .bc-flow-arrow.bc-accent-green path { stroke: var(--bc-green); }
-  .bc-flow-arrow.bc-accent-green .bc-arrow-head { fill: var(--bc-green); }
-  .bc-flow-arrow.bc-accent-blue  path { stroke: var(--bc-blue); }
-  .bc-flow-arrow.bc-accent-blue  .bc-arrow-head { fill: var(--bc-blue); }
-  .bc-flow-arrow.bc-accent-amber path { stroke: var(--bc-amber); }
-  .bc-flow-arrow.bc-accent-amber .bc-arrow-head { fill: var(--bc-amber); }
-
-  .bc-svg .bc-arrow-static.bc-hl.bc-accent-red   path { stroke: var(--bc-accent); stroke-width: 1.8; }
-  .bc-svg .bc-arrow-static.bc-hl.bc-accent-red   .bc-arrow-head { fill: var(--bc-accent); }
-  .bc-svg .bc-arrow-static.bc-hl.bc-accent-green path { stroke: var(--bc-green); stroke-width: 1.8; }
-  .bc-svg .bc-arrow-static.bc-hl.bc-accent-green .bc-arrow-head { fill: var(--bc-green); }
-  .bc-svg .bc-arrow-static.bc-hl.bc-accent-blue  path { stroke: var(--bc-blue); stroke-width: 1.8; }
-  .bc-svg .bc-arrow-static.bc-hl.bc-accent-blue  .bc-arrow-head { fill: var(--bc-blue); }
-  .bc-svg .bc-arrow-static.bc-hl.bc-accent-amber path { stroke: var(--bc-amber); stroke-width: 1.8; }
-  .bc-svg .bc-arrow-static.bc-hl.bc-accent-amber .bc-arrow-head { fill: var(--bc-amber); }
-
-  /* ── Caption ── */
-  .bc-caption {
-    padding: 1em 1.4em 1.2em;
-    border-top: 1px solid var(--bc-border);
-    background: var(--bc-bg-surface);
-  }
-  .bc-caption h3 {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    font-size: 1em;
-    font-weight: 600;
-    margin: 0 0 0.35em;
-    color: var(--bc-text);
-  }
-  .bc-caption p {
-    margin: 0;
-    font-size: 0.95em;
-    color: var(--bc-text-secondary);
-    line-height: 1.65;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  }
-  .bc-caption .bc-caption-tag {
-    display: inline-block;
-    font-family: var(--bc-mono);
-    font-size: 0.7em;
-    padding: 0.15em 0.55em;
-    border-radius: 3px;
-    background: var(--bc-bg-elevated);
-    border: 1px solid var(--bc-border);
-    color: var(--bc-text-dim);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-right: 0.5em;
-    vertical-align: 2px;
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; }
   }
 </style>
 </head>
 <body>
 
-<h1>Basecamp Stack — Interactive Preview</h1>
-<h3 class="subtitle">A diagram you can walk through. Pick a use case; the parts of the stack it leans on light up, with live flow arrows showing how data moves down the stack.</h3>
-<p class="byline">Draft preview — for the Basecamp article. Source file: <code>quartz/static/basecamp-stack-preview.html</code></p>
+<main class="wrap">
+  <div>
+    <h1>How Logos Basecamp works.</h1>
+    <p class="lede">The Logos stack is layered: the Logos Runtime at the foundation, the network on top, modules stacked above.</p>
 
-<p>
-  The Logos stack reads bottom-up: runtime at the foundation, network on top, modules stacked above (vertically higher modules depend on those beneath them, implicitly composing into something useful), and app backends at the apex. Each layer is narrower than the one below it, because each one <em>chooses</em> from what's beneath. Three entry points at the top answer the question of <em>how</em> you actually reach into the stack.
-</p>
-
-<div class="bc">
-  <div class="bc-panel">
-    <div class="bc-panel-header">
-      <span class="bc-dot"></span>
-      <span>Logos Stack · Interactive</span>
-    </div>
-
-    <div class="bc-tabs" role="tablist" id="bc-tabs"></div>
-
-    <div class="bc-stage">
-      <svg class="bc-svg" viewBox="0 0 960 600" data-view="overview" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Logos stack diagram">
-        <defs>
-          <marker id="bc-arrow-marker" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M 0 0 L 10 5 L 0 10 z" class="bc-arrow-head"/>
-          </marker>
-          <marker id="bc-flow-marker" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M 0 0 L 10 5 L 0 10 z" class="bc-arrow-head"/>
-          </marker>
-        </defs>
-
-        <!-- ═══════════════════════════════════════════════════════════════════
-             LAYER BANDS — labels sit in a strip at the TOP of each band so
-             content boxes never overlap them. The merged Modules band holds
-             two rows that show composition implicitly: upper-row modules
-             depend on the lower-row modules sitting beneath them.
-
-             Bands:
-               App backends  y=200–266  (label y=212, content y=224–260)
-               Modules       y=286–444  (label y=298, upper row y=310–342,
-                                         lower row y=396–438)
-               Network       y=464–510  (label y=476, bar y=488–510)
-               Runtime       y=530–576  (label y=542, bar y=554–576)
-             ═══════════════════════════════════════════════════════════════════ -->
-        <rect class="bc-layer-bg bc-layer-apps"    x="20" y="200" width="920" height="66"  rx="6"/>
-        <rect class="bc-layer-bg bc-layer-modules" x="20" y="286" width="920" height="158" rx="6"/>
-        <rect class="bc-layer-bg bc-layer-network" x="20" y="464" width="920" height="54"  rx="6"/>
-        <rect class="bc-layer-bg bc-layer-runtime" x="20" y="538" width="920" height="54"  rx="6"/>
-
-        <text class="bc-layer-label" x="34" y="212">APP BACKENDS</text>
-        <text class="bc-layer-label" x="34" y="298">MODULES</text>
-        <text class="bc-layer-label" x="34" y="476">NETWORK</text>
-        <text class="bc-layer-label" x="34" y="550">RUNTIME</text>
-
-        <!-- ═══════════════════════════════════════════════════════════════════
-             ENTRY POINTS — tinted zones with bold colored headers. No borders.
-             Title text stays WHITE in all states (see CSS override).
-             ═══════════════════════════════════════════════════════════════════ -->
-
-        <!-- ── Basecamp ── -->
-        <!-- Header is a single path (rounded top, flat bottom) so the dimmed
-             state composites cleanly with no overlap seam. -->
-        <g class="bc-entry bc-entry-basecamp" data-id="basecamp">
-          <rect class="bc-entry-frame"  x="20" y="20" width="520" height="160" rx="8"/>
-          <path class="bc-entry-header" d="M 28 20 L 532 20 A 8 8 0 0 1 540 28 L 540 52 L 20 52 L 20 28 A 8 8 0 0 1 28 20 Z"/>
-          <text class="bc-entry-title"  x="280" y="36">Logos Basecamp</text>
-          <text class="bc-entry-sub"    x="280" y="66">default launcher · loads UI plugins</text>
-        </g>
-
-        <!-- Basecamp UI plugin boxes — widened to 68px so labels don't clip -->
-        <g class="bc-node bc-node-tiny" data-id="ui-package-manager">
-          <rect x="30" y="82" width="68" height="88" rx="3"/>
-          <text x="64" y="115">Package</text>
-          <text x="64" y="128">manager</text>
-          <text x="64" y="141">UI</text>
-        </g>
-        <g class="bc-node bc-node-tiny" data-id="ui-blockchain-dashboard">
-          <rect x="102" y="82" width="68" height="88" rx="3"/>
-          <text x="136" y="115">Blockchain</text>
-          <text x="136" y="128">Node</text>
-          <text x="136" y="141">Dashboard</text>
-        </g>
-        <g class="bc-node bc-node-tiny" data-id="ui-lez-wallet">
-          <rect x="174" y="82" width="68" height="88" rx="3"/>
-          <text x="208" y="121">LEZ Wallet</text>
-          <text x="208" y="135">UI</text>
-        </g>
-        <g class="bc-node bc-node-tiny" data-id="ui-lez-explorer">
-          <rect x="246" y="82" width="68" height="88" rx="3"/>
-          <text x="280" y="121">LEZ</text>
-          <text x="280" y="135">Explorer</text>
-        </g>
-        <g class="bc-node bc-node-tiny" data-id="ui-dex">
-          <rect x="318" y="82" width="68" height="88" rx="3"/>
-          <text x="352" y="128">DEX UI</text>
-        </g>
-        <g class="bc-node bc-node-tiny" data-id="ui-messaging">
-          <rect x="390" y="82" width="68" height="88" rx="3"/>
-          <text x="424" y="121">Messaging</text>
-          <text x="424" y="135">UI</text>
-        </g>
-        <g class="bc-node bc-node-tiny" data-id="ui-more">
-          <rect x="462" y="82" width="68" height="88" rx="3"/>
-          <text x="496" y="128">…</text>
-        </g>
-
-        <!-- ── Standalone App ── -->
-        <g class="bc-entry bc-entry-standalone" data-id="standalone">
-          <rect class="bc-entry-frame"  x="560" y="20" width="160" height="160" rx="8"/>
-          <path class="bc-entry-header" d="M 568 20 L 712 20 A 8 8 0 0 1 720 28 L 720 52 L 560 52 L 560 28 A 8 8 0 0 1 568 20 Z"/>
-          <text class="bc-entry-title"  x="640" y="36">Standalone App</text>
-          <text class="bc-entry-sub"    x="640" y="66">one binary · no launcher</text>
-        </g>
-        <g class="bc-node bc-node-tiny" data-id="standalone-ui">
-          <rect x="578" y="82" width="124" height="88" rx="3"/>
-          <text x="640" y="115">Your app's UI</text>
-          <text x="640" y="129">(bundled)</text>
-          <text x="640" y="148" style="font-size:9px; fill:#71717a">ships as one binary</text>
-        </g>
-
-        <!-- ── Headless Node ── -->
-        <g class="bc-entry bc-entry-headless" data-id="headless">
-          <rect class="bc-entry-frame"  x="740" y="20" width="200" height="160" rx="8"/>
-          <path class="bc-entry-header" d="M 748 20 L 932 20 A 8 8 0 0 1 940 28 L 940 52 L 740 52 L 740 28 A 8 8 0 0 1 748 20 Z"/>
-          <text class="bc-entry-title"  x="840" y="36">Headless Node</text>
-          <text class="bc-entry-sub"    x="840" y="66">server / validator · CLI</text>
-        </g>
-        <g class="bc-node bc-node-tiny" data-id="headless-cli">
-          <rect x="758" y="82" width="164" height="88" rx="3"/>
-          <text x="840" y="115" style="font-family: var(--bc-mono); font-size: 13px;">$ logos-node</text>
-          <text x="840" y="132">CLI (or no UI at all)</text>
-          <text x="840" y="151" style="font-size: 9px; fill: #71717a">drives the core directly</text>
-        </g>
-
-        <!-- ═══════════════════════════════════════════════════════════════════
-             CORE STACK NODES — column alignment:
-               ▸ Dex / Stablecoin / LEZ Wallet sit above LEZ
-               ▸ Files directly above Storage
-               ▸ Chat directly above Delivery
-               ▸ Storage + Delivery are adjacent
-             ═══════════════════════════════════════════════════════════════════ -->
-
-        <!-- App backends layer (content y=224–260) -->
-        <g class="bc-node bc-node-tiny" data-id="app-dex">
-          <rect x="294" y="224" width="54" height="36" rx="3"/>
-          <text x="321" y="242">Dex</text>
-        </g>
-        <g class="bc-node bc-node-tiny" data-id="app-stablecoin">
-          <rect x="352" y="224" width="60" height="36" rx="3"/>
-          <text x="382" y="236">Stable</text>
-          <text x="382" y="248">coin</text>
-        </g>
-        <g class="bc-node bc-node-tiny" data-id="app-lez-wallet">
-          <rect x="416" y="224" width="60" height="36" rx="3"/>
-          <text x="446" y="236">LEZ</text>
-          <text x="446" y="248">Wallet</text>
-        </g>
-        <g class="bc-node bc-node-tiny" data-id="app-more">
-          <rect x="480" y="224" width="30" height="36" rx="3"/>
-          <text x="495" y="242">…</text>
-        </g>
-
-        <!-- Modules — upper row (composes the lower row), content y=310–342 -->
-        <g class="bc-node bc-node-tiny" data-id="lez-dec-seq">
-          <rect x="184" y="310" width="90" height="32" rx="3"/>
-          <text x="229" y="326">LEZ dec seq</text>
-        </g>
-        <g class="bc-node bc-node-small" data-id="lez">
-          <rect x="282" y="310" width="240" height="32" rx="3"/>
-          <text x="402" y="319">LEZ</text>
-          <text x="402" y="333">(token ops API + Indexer)</text>
-        </g>
-        <g class="bc-node bc-node-tiny" data-id="zones">
-          <rect x="532" y="310" width="58" height="32" rx="3"/>
-          <text x="561" y="326">&lt;zones&gt;</text>
-        </g>
-        <g class="bc-node bc-node-tiny" data-id="files">
-          <rect x="620" y="310" width="80" height="32" rx="3"/>
-          <text x="660" y="326">Files</text>
-        </g>
-        <g class="bc-node bc-node-tiny" data-id="chat">
-          <rect x="720" y="310" width="80" height="32" rx="3"/>
-          <text x="760" y="326">Chat</text>
-        </g>
-        <g class="bc-node bc-node-tiny" data-id="swaps">
-          <rect x="820" y="310" width="80" height="32" rx="3"/>
-          <text x="860" y="326">Swaps</text>
-        </g>
-        <g class="bc-node bc-node-tiny" data-id="protocols-more">
-          <rect x="908" y="310" width="22" height="32" rx="3"/>
-          <text x="919" y="326">…</text>
-        </g>
-
-        <g class="bc-arrow bc-arrow-static" data-id="arrow-lez-decseq">
-          <path d="M 282 326 L 277 326" marker-end="url(#bc-arrow-marker)"/>
-        </g>
-
-        <!-- Modules — lower row (the foundation that the upper row composes), content y=396–438 -->
-        <g class="bc-node bc-node-tiny" data-id="package-manager">
-          <rect x="70" y="396" width="100" height="42" rx="3"/>
-          <text x="120" y="410">Package</text>
-          <text x="120" y="424">Manager</text>
-        </g>
-        <g class="bc-node bc-node-small" data-id="blockchain">
-          <rect x="190" y="396" width="420" height="42" rx="3"/>
-          <text x="400" y="418">Blockchain</text>
-        </g>
-        <g class="bc-node bc-node-tiny" data-id="storage">
-          <rect x="620" y="396" width="80" height="42" rx="3"/>
-          <text x="660" y="418">Storage</text>
-        </g>
-        <g class="bc-node bc-node-tiny" data-id="delivery">
-          <rect x="720" y="396" width="80" height="42" rx="3"/>
-          <text x="760" y="418">Delivery</text>
-        </g>
-        <g class="bc-node bc-node-tiny bc-node-proposed" data-id="monero">
-          <rect x="820" y="396" width="80" height="42" rx="3"/>
-          <text x="860" y="412">Monero</text>
-          <text x="860" y="426" style="font-size: 8.5px;">(proposed)</text>
-        </g>
-        <g class="bc-node bc-node-tiny" data-id="modules-more">
-          <rect x="908" y="396" width="22" height="42" rx="3"/>
-          <text x="919" y="418">…</text>
-        </g>
-
-        <g class="bc-arrow bc-arrow-static" data-id="arrow-delivery-storage">
-          <path d="M 720 418 L 703 418" marker-end="url(#bc-arrow-marker)"/>
-        </g>
-
-        <!-- Network layer — bar below label strip -->
-        <g class="bc-node bc-node-large" data-id="p2p">
-          <rect x="70" y="488" width="870" height="22" rx="3"/>
-          <text x="505" y="500">P2P · discovery · peering · mix</text>
-        </g>
-
-        <!-- Runtime layer -->
-        <g class="bc-node bc-node-large" data-id="runtime">
-          <rect x="70" y="562" width="870" height="22" rx="3"/>
-          <text x="505" y="573">logos runtime</text>
-        </g>
-
-        <!-- Dynamic flow arrows — populated by script, rendered on top -->
-        <g class="bc-flow-arrows"></g>
-      </svg>
-    </div>
-
-    <div class="bc-caption">
-      <h3 id="bc-view-title">Full stack at a glance</h3>
-      <p id="bc-view-body">
-        <span class="bc-caption-tag">overview</span>
-        Three ways into the same stack. <strong>Basecamp</strong> is the default launcher: install it, get a unified UI that surfaces whatever modules you have. A <strong>Standalone App</strong> bundles a custom UI with just the modules it needs and ships as a single binary. A <strong>Headless Node</strong> skips the UI entirely and drives the core directly. Pick a use case above to see — with live flow arrows — which slice each one touches.
-      </p>
+    <div class="cards">
+      <div class="card" data-card="apps">
+        <h2>Apps</h2>
+        <p>Basecamp is a dynamic interface for applications built on the private, decentralised internet. It ships with the Package Manager; 17 more apps install from the default catalog.</p>
+      </div>
+      <div class="card" data-card="modules">
+        <h2>Modules</h2>
+        <p>Modules deliver the functionality of the Logos stack: private storage, messaging, blockchain, and wallets for LEZ, Ethereum and Monero. The package manager installs them, and each one loads when an app that needs it opens.</p>
+      </div>
+      <div class="card" data-card="runtime">
+        <h2>Runtime</h2>
+        <p>At its core is a lightweight runtime that manages self-contained modules. It loads them, tracks their state, and issues the capability token that every call between modules carries.</p>
+      </div>
     </div>
   </div>
-</div>
 
-<p>
-  The arrows are the point: a chat user's bytes flow through Chat → Delivery → P2P, never touching the blockchain. A DEX trader's flow through LEZ → Blockchain, never touching Storage. A headless validator bypasses the App Backends layer and reaches into modules at whatever depth the role demands. Same stack, different cross-sections — that's the composability pitch.
-</p>
+  <section class="panel" id="stack" aria-label="Logos stack, interactive">
+    <div class="panel-top">
+      <span>Logos Stack · Interactive</span>
+      <span class="hint" id="hint">Hover an app · click to pin</span>
+    </div>
+
+    <div class="launcher" data-layer="apps">
+      <div class="launcher-head">
+        <strong>Logos Basecamp</strong>
+        <code>default launcher · loads UI plugins</code>
+      </div>
+      <div class="apps" id="apps"></div>
+      <div class="app-more">+ settings &amp; approval surfaces: Keystore · Signer · Ethereum RPC · Token Lists · Verified Proxy · Delivery Demo</div>
+    </div>
+
+    <div class="layer" data-layer="backends">
+      <div class="layer-label">App backends</div>
+      <div class="rows">
+        <div class="row">
+          <span class="chip" data-n="amm">DEX core</span>
+          <span class="chip" data-n="ethb">Ethereum wallet backend</span>
+          <span class="chip" data-n="unib">Uniswap backend</span>
+          <span class="chip" data-n="xmrb">Monero wallet backend</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer" data-layer="modules">
+      <div class="layer-label">Modules</div>
+      <div class="rows">
+        <div class="row">
+          <span class="group">chain</span>
+          <span class="chips">
+          <span class="chip" data-n="lez">LEZ Core</span>
+          <span class="chip" data-n="lezi">LEZ Indexer</span>
+          <span class="chip" data-n="node">Blockchain node</span>
+          </span>
+        </div>
+        <div class="row">
+          <span class="group">comms</span>
+          <span class="chips">
+          <span class="chip" data-n="chat">Chat</span>
+          <span class="chip" data-n="delivery">Delivery</span>
+          <span class="chip" data-n="rln">RLN</span>
+          <span class="chip" data-n="libp2p">libp2p</span>
+          <span class="chip bundled" data-n="storage">Storage</span>
+          </span>
+        </div>
+        <div class="row">
+          <span class="group">evm</span>
+          <span class="chips">
+          <span class="chip" data-n="unim">Uniswap</span>
+          <span class="chip" data-n="txs">Tx Sender</span>
+          <span class="chip" data-n="assets">Assets</span>
+          <span class="chip" data-n="tokens">Token List</span>
+          <span class="chip" data-n="fee">Fees</span>
+          <span class="chip" data-n="rpc">Ethereum RPC</span>
+          <span class="chip" data-n="vproxy">Verified Proxy</span>
+          <span class="chip" data-n="ks">Keystore</span>
+          </span>
+        </div>
+        <div class="row">
+          <span class="group">monero</span>
+          <span class="chips">
+          <span class="chip" data-n="xmrcore">Wallet Core</span>
+          <span class="chip" data-n="xmrnode">Node RPC</span>
+          <span class="chip" data-n="monerod">monerod</span>
+          </span>
+        </div>
+        <div class="row">
+          <span class="group">platform</span>
+          <span class="chips">
+          <span class="chip bundled" data-n="pm">Package Manager</span>
+          <span class="chip bundled" data-n="pd">Package Downloader</span>
+          <span class="chip bundled" data-n="cap">Capabilities</span>
+          <span class="chip bundled" data-n="ms">Module State</span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer" data-layer="network">
+      <div class="layer-label">Network</div>
+      <div class="rows">
+        <div class="bar" data-n="p2p">P2P · discovery · peering · mix</div>
+        <div class="bar" data-n="ext">HTTPS / RPC <small>· package catalog · LEZ sequencer · EVM endpoints · Monero</small></div>
+      </div>
+    </div>
+
+    <div class="layer" data-layer="runtime">
+      <div class="layer-label">Runtime</div>
+      <div class="rows">
+        <div class="bar" data-n="runtime">Logos Runtime</div>
+      </div>
+    </div>
+
+    <div class="readout" aria-live="polite">
+      <div class="path" id="path">Pick an app to trace it down the stack</div>
+      <p class="desc" id="desc">Every app is a thin UI over modules, and each module reaches the network its own way. The same Basecamp shell touches a different slice of the stack depending on what you open.</p>
+    </div>
+
+    <div class="legend">
+      <span>● bundled with Basecamp 0.3.2</span>
+      <span>everything else installs from the default catalog</span>
+    </div>
+  </section>
+
+  <p class="source">Module names, dependencies and network paths from <a href="https://github.com/corpetty/logos-module-atlas">logos-module-atlas</a>, Basecamp 0.3.2 registry (2026-10-13). Source: <code>quartz/static/basecamp-stack-preview.html</code></p>
+</main>
 
 <script>
 (function () {
-  const VIEWS = [
+  // Each app's slice of the stack, from the atlas registry's manifest
+  // dependencies and the stack docs' network paths (Basecamp 0.3.2).
+  // Every path also carries a capability token, so 'cap' and 'runtime' are always on.
+  const APPS = [
     {
-      id: 'overview',
-      label: 'Overview',
-      accent: 'red',
-      title: 'Full stack at a glance',
-      body: 'Three ways into the same stack. <strong>Basecamp</strong> is the default launcher. A <strong>Standalone App</strong> bundles a custom UI with chosen modules and ships as one binary. A <strong>Headless Node</strong> skips the UI entirely. Pick a use case above to see — with live flow arrows — which slice each one touches.',
-      entry: null, paths: [], extras: []
+      id: 'pm', label: 'Package Manager', bundled: true,
+      nodes: ['pm', 'pd', 'storage', 'ms', 'p2p', 'ext'],
+      path: 'Package Manager UI → Package Manager + Downloader → Storage / HTTPS → Runtime',
+      desc: 'The downloader merges the catalogs and fetches each package over Logos Storage when the node is on the right network, falling back to HTTPS. Nothing loads on install: a module loads when an app that needs it opens.'
     },
     {
-      id: 'default-user',
-      label: 'Default Basecamp user',
-      accent: 'red',
-      title: 'Install Basecamp, start using the Simple Apps',
-      body: 'The out-of-the-box experience. Basecamp loads default UI plugins — wallet, messaging, explorer, dashboard — and each surfaces its own slice of the stack in parallel. A single launcher, multiple flows.',
-      entry: 'basecamp',
-      paths: [
-        ['ui-lez-wallet',  'app-lez-wallet', 'lez',      'blockchain', 'p2p', 'runtime'],
-        ['ui-messaging',   'chat',           'delivery', 'p2p'],
-        ['ui-blockchain-dashboard', 'blockchain']
-      ],
-      extras: ['lez-dec-seq', 'files', 'storage', 'arrow-lez-decseq']
+      id: 'node', label: 'Node Dashboard',
+      nodes: ['node', 'p2p'],
+      path: 'Node Dashboard → Blockchain node → P2P → Runtime',
+      desc: 'The blockchain module runs a full Bedrock L1 node in-process and holds the node keystore. The dashboard drives onboarding, mining, the node wallet and deposits into LEZ.'
     },
     {
-      id: 'dex-trader',
-      label: 'DEX trader',
-      accent: 'green',
-      title: 'Trade on the decentralised exchange',
-      body: 'The DEX UI surfaces the Dex application, which composes token operations on LEZ and settles on the blockchain. Storage and delivery stay idle — this is a chain-state path, straight through the network to the runtime.',
-      entry: 'basecamp',
-      paths: [
-        ['ui-dex', 'app-dex', 'lez', 'blockchain', 'p2p', 'runtime']
-      ],
-      extras: ['lez-dec-seq', 'arrow-lez-decseq']
+      id: 'lezw', label: 'LEZ Wallet',
+      nodes: ['lez', 'ext'],
+      path: 'LEZ Wallet → LEZ Core → LEZ sequencer (HTTPS) → Runtime',
+      desc: 'LEZ Core holds the wallet’s key tree and sends transactions to the LEZ sequencer, which inscribes them into an L1 channel. The wallet never needs a local blockchain node.'
     },
     {
-      id: 'atomic-swap',
-      label: 'Atomic swap',
-      accent: 'green',
-      title: 'Cross-chain atomic swap (LOGOS ↔ XMR)',
-      body: 'The Swaps module orchestrates a trustless cross-chain swap. The Logos side rides on LEZ and settles on Blockchain; the XMR side rides on a <em>proposed</em> Monero module. Both sides reach their networks through the shared P2P layer. Same DEX entry as a normal trade — the user picks the pair, the stack picks the path.',
-      entry: 'basecamp',
-      paths: [
-        ['ui-dex', 'app-dex', 'swaps', 'lez', 'blockchain', 'p2p', 'runtime'],
-        ['swaps', 'monero', 'p2p']
-      ],
-      extras: ['lez-dec-seq', 'arrow-lez-decseq']
+      id: 'leze', label: 'LEZ Explorer',
+      nodes: ['lezi', 'node', 'p2p'],
+      path: 'LEZ Explorer → LEZ Indexer → Blockchain node → P2P → Runtime',
+      desc: 'The indexer reads a LEZ channel out of an L1 node into a local database, and the explorer browses it. Read-only: there are no keys anywhere on this path.'
     },
     {
-      id: 'messaging',
-      label: 'Private messaging',
-      accent: 'blue',
-      title: 'Encrypted chat over the mixnet',
-      body: 'The Chat module rides on the Delivery module beneath it and out through the mix-routed P2P layer. Nothing here touches the blockchain — messages are a data-plane concern, not a ledger concern.',
-      entry: 'basecamp',
-      paths: [
-        ['ui-messaging', 'chat', 'delivery', 'p2p', 'runtime']
-      ],
-      extras: []
+      id: 'dex', label: 'Logos DEX',
+      nodes: ['amm', 'lez', 'ext'],
+      path: 'Logos DEX → DEX core → LEZ Core → LEZ sequencer → Runtime',
+      desc: 'The DEX core quotes swaps and manages liquidity on the on-chain AMM pools, then signs through LEZ Core. It holds no keys of its own.'
     },
     {
-      id: 'file-sharing',
-      label: 'File sharing',
-      accent: 'blue',
-      title: 'Private, decentralised file storage',
-      body: 'Files ride on the adjacent pair beneath them: Storage holds data, Delivery moves it between peers. The Files module sits on top of both. Blockchain only enters if metadata needs chain anchoring.',
-      entry: 'basecamp',
-      paths: [
-        ['ui-more', 'files', 'storage', 'p2p', 'runtime'],
-        ['files', 'delivery']
-      ],
-      extras: ['arrow-delivery-storage']
+      id: 'chat', label: 'Chat',
+      nodes: ['chat', 'delivery', 'libp2p', 'rln', 'p2p', 'ext'],
+      path: 'Chat → Chat module → Delivery → P2P → Runtime   (+ RLN membership on LEZ)',
+      desc: 'Chat encrypts end to end and hands messages to Delivery, which relays them across the P2P network. On the test network Delivery rate-limits with RLN, so sending needs a membership registered on LEZ.'
     },
     {
-      id: 'module-dev',
-      label: 'Module developer',
-      accent: 'amber',
-      title: 'Build a module; Basecamp discovers it',
-      body: 'Scaffold with the <code>lm</code> CLI, ship. The Package Manager module detects the new module, the Package Manager UI lists it, and Basecamp auto-loads its QML UI on next launch. The rest of the stack is what your module <em>composes against</em>.',
-      entry: 'basecamp',
-      paths: [
-        ['ui-package-manager', 'package-manager', 'p2p', 'runtime']
-      ],
-      extras: []
+      id: 'storage', label: 'Storage',
+      nodes: ['storage', 'p2p'],
+      path: 'Storage → Storage module → P2P · DHT · mix → Runtime',
+      desc: 'Upload a file, get a content ID. Anyone on the network downloads by that ID, which also replicates the file. The storage node ships inside Basecamp and starts at launch; the Storage app attaches to it.'
     },
     {
-      id: 'headless',
-      label: 'Headless node',
-      accent: 'amber',
-      title: 'Run a node with no UI',
-      body: 'For servers, validators, infrastructure. The headless entry skips the App Backends layer entirely but reaches into modules at any depth — a validator drives LEZ on top of Blockchain, a storage provider drives Files on top of Storage, a relay drives Chat on top of Delivery. Runtime up, P2P peers connected.',
-      entry: 'headless',
-      paths: [
-        ['headless-cli', 'lez',   'blockchain', 'p2p', 'runtime'],
-        ['headless-cli', 'files', 'storage',    'p2p'],
-        ['headless-cli', 'chat',  'delivery',   'p2p'],
-        ['headless-cli', 'package-manager']
-      ],
-      extras: []
+      id: 'accounts', label: 'Accounts',
+      nodes: ['ext'],
+      path: 'Accounts → own vault → AccountLog (HTTPS) → Runtime',
+      desc: 'Accounts keeps its own sealed vault, one file per account, and publishes AccountLogs over HTTPS. No other module sits underneath it.'
     },
     {
-      id: 'standalone',
-      label: 'Standalone app',
-      accent: 'blue',
-      title: 'Ship a single-purpose app, no launcher',
-      body: 'Sometimes you don\'t want a launcher — you want to ship <em>one</em> thing. A standalone app bundles its own UI with just the modules it needs (here: a focused DEX client) and ships as a single binary. Same stack, no Basecamp surface.',
-      entry: 'standalone',
-      paths: [
-        ['standalone-ui', 'app-dex', 'lez', 'blockchain', 'p2p', 'runtime']
-      ],
-      extras: ['lez-dec-seq', 'arrow-lez-decseq']
+      id: 'eth', label: 'Ethereum Wallet',
+      nodes: ['ethb', 'txs', 'assets', 'tokens', 'fee', 'rpc', 'vproxy', 'ks', 'ext'],
+      path: 'Ethereum Wallet → Wallet backend → Tx Sender · Keystore · Ethereum RPC → EVM endpoints',
+      desc: 'One keystore and one transaction sender serve every EVM app on the device. Nothing signs until a person types the vault password into the Signer. All RPC goes through Ethereum RPC, which fails closed, is Tor-ready, and can verify through a light client.'
+    },
+    {
+      id: 'uni', label: 'Uniswap',
+      nodes: ['unib', 'unim', 'txs', 'assets', 'tokens', 'fee', 'rpc', 'ks', 'ext'],
+      path: 'Uniswap → Uniswap backend → Uniswap · Tx Sender · Ethereum RPC → EVM endpoints',
+      desc: 'Same reusable EVM modules, a different composer. The Uniswap backend adds price quotes and swap routing, and reuses the wallet’s keystore, sender and RPC.'
+    },
+    {
+      id: 'xmr', label: 'Monero Wallet',
+      nodes: ['xmrb', 'xmrcore', 'xmrnode', 'monerod', 'ext'],
+      path: 'Monero Wallet → Wallet backend → Wallet Core + Node RPC → monerod',
+      desc: 'Wallet Core wraps Monero’s own wallet2 and is the only module that ever sees the seed or password. The backend runs build → review → broadcast; Node RPC picks a remote or local daemon and fails closed behind a proxy.'
+    },
+    {
+      id: 'xmrd', label: 'Monero Node',
+      nodes: ['monerod', 'ext'],
+      path: 'Monero Node → monerod module → Monero network → Runtime',
+      desc: 'Runs a full Monero node in-process. Point the wallet at it and the wallet’s daemon traffic stays on your machine.'
     }
   ];
+  const ALWAYS = ['cap', 'runtime'];
 
-  const SVG_NS = 'http://www.w3.org/2000/svg';
-  const svg = document.querySelector('.bc-svg');
-  const tabs = document.getElementById('bc-tabs');
-  const titleEl = document.getElementById('bc-view-title');
-  const bodyEl = document.getElementById('bc-view-body');
-  const flowContainer = svg.querySelector('.bc-flow-arrows');
+  const panel = document.getElementById('stack');
+  const appsEl = document.getElementById('apps');
+  const pathEl = document.getElementById('path');
+  const descEl = document.getElementById('desc');
+  const hintEl = document.getElementById('hint');
 
   // Guard against double-initialisation (e.g. Quartz client-side re-renders).
-  if (tabs.dataset.initialized) return;
-  tabs.dataset.initialized = 'true';
+  if (appsEl.dataset.initialized) return;
+  appsEl.dataset.initialized = 'true';
 
-  VIEWS.forEach((v, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'bc-tab';
-    btn.textContent = v.label;
-    btn.setAttribute('role', 'tab');
-    btn.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
-    btn.dataset.view = v.id;
-    btn.addEventListener('click', () => {
+  const DEFAULT_PATH = pathEl.textContent;
+  const DEFAULT_DESC = descEl.textContent;
+
+  let pinned = null;
+  let autoplayTimer = null;
+  let autoplayIdx = 0;
+
+  const buttons = APPS.map(app => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'app' + (app.bundled ? ' bundled' : '');
+    b.textContent = app.label;
+    b.dataset.app = app.id;
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('mouseenter', () => { stopAutoplay(); show(app.id); });
+    b.addEventListener('mouseleave', () => show(pinned));
+    b.addEventListener('focus', () => { stopAutoplay(); show(app.id); });
+    b.addEventListener('click', () => {
       stopAutoplay();
-      setView(v.id);
+      pinned = pinned === app.id ? null : app.id;
+      show(pinned || app.id);
     });
-    tabs.appendChild(btn);
+    appsEl.appendChild(b);
+    return b;
   });
 
-  // ── Autoplay: rotate through views on initial load. Any tab click stops it. ──
-  const AUTOPLAY_INTERVAL_MS = 4500;
-  let autoplayTimer = null;
-  let autoplayActive = true;
-
-  function nextAutoplayView() {
-    if (!autoplayActive) return;
-    const currentId = svg.getAttribute('data-view');
-    const currentIdx = VIEWS.findIndex(v => v.id === currentId);
-    const nextIdx = (currentIdx + 1) % VIEWS.length;
-    setView(VIEWS[nextIdx].id);
-    autoplayTimer = setTimeout(nextAutoplayView, AUTOPLAY_INTERVAL_MS);
+  function setCards(names) {
+    document.querySelectorAll('.card').forEach(c => {
+      c.classList.toggle('on', names.includes(c.dataset.card));
+    });
   }
 
+  function show(appId) {
+    const app = APPS.find(a => a.id === appId);
+    panel.querySelectorAll('.hot').forEach(el => el.classList.remove('hot'));
+    buttons.forEach(b => {
+      const on = !!app && b.dataset.app === app.id;
+      b.classList.toggle('sel', on);
+      b.setAttribute('aria-pressed', on && pinned === app.id ? 'true' : 'false');
+    });
+
+    if (!app) {
+      panel.classList.remove('tracing');
+      pathEl.textContent = DEFAULT_PATH;
+      descEl.textContent = DEFAULT_DESC;
+      hintEl.textContent = 'Hover an app · click to pin';
+      setCards([]);
+      return;
+    }
+
+    panel.classList.add('tracing');
+    app.nodes.concat(ALWAYS).forEach(n => {
+      const el = panel.querySelector('[data-n="' + n + '"]');
+      if (!el) return;
+      el.classList.add('hot');
+      el.closest('.layer').classList.add('hot');
+    });
+    pathEl.textContent = app.path;
+    descEl.textContent = app.desc;
+    hintEl.textContent = pinned ? 'Pinned · click another app' : 'Hover an app · click to pin';
+    setCards(['apps']);
+  }
+
+  // Hovering a card outlines the layers it describes.
+  const CARD_LAYERS = { apps: ['apps', 'backends'], modules: ['modules'], runtime: ['network', 'runtime'] };
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      stopAutoplay();
+      show(null);
+      setCards([card.dataset.card]);
+      CARD_LAYERS[card.dataset.card].forEach(l => {
+        const el = panel.querySelector('[data-layer="' + l + '"]');
+        if (el) el.classList.add('hot');
+      });
+    });
+    card.addEventListener('mouseleave', () => show(pinned));
+  });
+
+  // Autoplay through the apps until the reader interacts.
   function stopAutoplay() {
-    autoplayActive = false;
-    if (autoplayTimer) {
-      clearTimeout(autoplayTimer);
-      autoplayTimer = null;
-    }
+    if (autoplayTimer) { clearInterval(autoplayTimer); autoplayTimer = null; }
   }
-
-  function getNodeBox(id) {
-    const group = svg.querySelector('[data-id="' + id + '"]');
-    if (!group) return null;
-    const rect = group.querySelector('rect');
-    if (!rect) return null;
-    const x = parseFloat(rect.getAttribute('x'));
-    const y = parseFloat(rect.getAttribute('y'));
-    const w = parseFloat(rect.getAttribute('width'));
-    const h = parseFloat(rect.getAttribute('height'));
-    return { x, y, w, h, cx: x + w / 2, cy: y + h / 2, top: y, bottom: y + h };
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduceMotion) {
+    autoplayTimer = setInterval(() => {
+      show(APPS[autoplayIdx].id);
+      autoplayIdx = (autoplayIdx + 1) % APPS.length;
+    }, 3500);
   }
-
-  // Route the arrow's horizontal segment into the inter-band gap above the
-  // target, so it never passes over a layer label or content box.
-  function buildArrow(sourceId, targetId, accent) {
-    const s = getNodeBox(sourceId);
-    const t = getNodeBox(targetId);
-    if (!s || !t) return null;
-
-    const sx = s.cx, sy = s.bottom;
-    const tx = t.cx, ty = t.top;
-
-    const minMid = sy + 6;
-    const maxMid = ty - 6;
-    // Place horizontal ~30px above target so it lands in the gap above the
-    // target's band rather than inside it. Clamp to what's achievable.
-    const preferredMid = ty - 30;
-    const midY = Math.max(minMid, Math.min(preferredMid, maxMid));
-
-    let pathD;
-    if (Math.abs(sx - tx) < 2) {
-      pathD = 'M ' + sx + ' ' + sy + ' L ' + tx + ' ' + (ty - 2);
-    } else {
-      pathD = 'M ' + sx + ' ' + sy +
-              ' L ' + sx + ' ' + midY +
-              ' L ' + tx + ' ' + midY +
-              ' L ' + tx + ' ' + (ty - 2);
-    }
-
-    const g = document.createElementNS(SVG_NS, 'g');
-    g.setAttribute('class', 'bc-arrow bc-flow-arrow bc-accent-' + accent);
-    const path = document.createElementNS(SVG_NS, 'path');
-    path.setAttribute('d', pathD);
-    path.setAttribute('marker-end', 'url(#bc-flow-marker)');
-    g.appendChild(path);
-    return g;
-  }
-
-  function highlight(id, accentClass) {
-    const el = svg.querySelector('[data-id="' + id + '"]');
-    if (el) el.classList.add('bc-hl', accentClass);
-  }
-
-  function setView(viewId) {
-    const view = VIEWS.find(v => v.id === viewId) || VIEWS[0];
-    const accentClass = 'bc-accent-' + view.accent;
-
-    tabs.querySelectorAll('.bc-tab').forEach(btn => {
-      btn.setAttribute('aria-selected', btn.dataset.view === view.id ? 'true' : 'false');
-    });
-
-    svg.querySelectorAll('.bc-hl').forEach(el => {
-      el.classList.remove('bc-hl', 'bc-accent-red', 'bc-accent-green', 'bc-accent-blue', 'bc-accent-amber');
-    });
-    while (flowContainer.firstChild) flowContainer.removeChild(flowContainer.firstChild);
-
-    svg.setAttribute('data-view', view.id);
-
-    if (view.entry) highlight(view.entry, accentClass);
-
-    (view.paths || []).forEach(path => {
-      path.forEach(id => highlight(id, accentClass));
-      for (let i = 0; i < path.length - 1; i++) {
-        const arrow = buildArrow(path[i], path[i + 1], view.accent);
-        if (arrow) flowContainer.appendChild(arrow);
-      }
-    });
-
-    (view.extras || []).forEach(id => highlight(id, accentClass));
-
-    titleEl.textContent = view.title;
-    bodyEl.innerHTML =
-      '<span class="bc-caption-tag">' + view.label + '</span>' + view.body;
-  }
-
-  setView(VIEWS[0].id);
-  autoplayTimer = setTimeout(nextAutoplayView, AUTOPLAY_INTERVAL_MS);
 })();
 </script>
 

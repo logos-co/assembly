@@ -32,7 +32,7 @@ Institutions have it worse, because the archive *is* their org chart. A treasury
 
 The usual reaction to stories like this is "well, I'm not a whale. Who cares about me?"
 
-That used to be a reasonable bet. Building a profile from an archive took analysts, time, and money, so it only got done to people worth the cost: the whales, the funds, the targets of physical "wrench attacks." The [first post in my transaction supply chain series](https://forum.research.logos.co/) tallied over $100 million lost to physical-coercion attacks in the first four months of 2026 alone, and those start with somebody figuring out who holds what.
+That used to be a reasonable bet. Building a profile from an archive took analysts, time, and money, so it only got done to people worth the cost: the whales, the funds, the targets of physical "wrench attacks." The [first post in my transaction supply chain series](https://forum.research.logos.co/t/the-transaction-supply-chain-part-1-coming-together-with-an-intended-action/723) tallied over $100 million lost to physical-coercion attacks in the first four months of 2026 alone, and those start with somebody figuring out who holds what.
 
 AI makes that cost roughly the same for everyone. Researchers at ETH Zurich [showed in 2024](https://arxiv.org/abs/2310.07298) that GPT-4 could infer location, income, and other personal attributes from people's Reddit posts at about 100x lower cost and 240x faster than humans. In February 2026, a team including Nicholas Carlini and Florian Tramèr [showed](https://arxiv.org/abs/2602.16800) LLM agents matching pseudonymous Hacker News accounts to their owners' real LinkedIn profiles at up to 68% recall with 90% precision. The best pre-LLM method got close to zero. Their conclusion: "practical obscurity protecting pseudonymous users online no longer holds."
 
@@ -42,7 +42,7 @@ So "who cares about me" is the wrong question. Nobody has to care about you. Pro
 
 The reason the archive exists at all is that a transaction is more than its settlement. The [PriFi framing](https://logos.co/media/article/pri-fi-securing-transaction-supply-chain) breaks a transaction into seven stages: **discovery** (finding who has what you want), **diligence** (checking they are who they claim), **negotiation**, **contracting**, **ordering** (whose transaction goes when), **settlement** (the only stage where value moves), and **enforcement**. Blockchains secure settlement, and they do it by publishing it. The PriFi article calls that the glass-vault problem: "a vault with exceptionally strong locks and perfectly transparent glass walls."
 
-The other six stages run on infrastructure that logs everything: chat apps, explorers, indexers, RPC providers, transaction services. Every leak at every stage is a deposit into somebody's archive, and the archives are a business. Chain analytics is a [multi-billion-dollar industry](https://forum.research.logos.co/) built on the transaction graph. The broader data broker market was valued at nearly $278 billion in 2024, per [Bathang's piece on metadata](https://logos.co/media/article/metadata-ai-inference). And a transaction is only as private as its leakiest stage: shield the settlement perfectly and the group chat where you agreed on the price already told someone everything.
+The other six stages run on infrastructure that logs everything: chat apps, explorers, indexers, RPC providers, transaction services. Every leak at every stage is a deposit into somebody's archive, and the archives are a business. Chain analytics is a [multi-billion-dollar industry](https://forum.research.logos.co/t/the-transaction-supply-chain-part-1-coming-together-with-an-intended-action/723) built on the transaction graph. The broader data broker market was valued at nearly $278 billion in 2024, per [Bathang's piece on metadata](https://logos.co/media/article/metadata-ai-inference). And a transaction is only as private as its leakiest stage: shield the settlement perfectly and the group chat where you agreed on the price already told someone everything.
 
 Here's the whale's payment from above, next to the same payment done on Logos:
 
@@ -82,7 +82,7 @@ Put the two weapons together and you get the 2037 version of the whale's story, 
 
 ## Same payment, two stacks
 
-So what does it look like to stop feeding the archive? I've been building a demo app on Logos called [Muster](https://github.com/corpetty/muster) to answer exactly that, by doing the same action on different rails and recording what leaves the room at each stage. Here's the whale's joint payment three ways: (A) a Safe with the standard public Transaction Service, (B) a Safe where the signers coordinate privately among themselves, and (C) a private-to-private transfer on Logos testnet.
+So what does it look like to stop feeding the archive? I've been building a demo app on Logos called [Muster](https://github.com/corpetty/muster) (a personal project; disclaimer at the bottom) to answer exactly that, by doing the same action on different rails and recording what leaves the room at each stage. Here's the whale's joint payment three ways: (A) a Safe with the standard public Transaction Service, (B) a Safe where the signers coordinate privately among themselves, and (C) a private-to-private transfer on Logos testnet.
 
 ![[qa-rails-diff.png]]
 *Figure 3. Per-stage "what left the room" for the same joint payment on three rails, from Muster's leak inventory (verified against the Safe 1.4.1 build). Rail B shows how much of the leak is a choice of coordination tool. Rail C shows what changes when settlement itself is private.*
@@ -132,7 +132,7 @@ It's early, and the user-side protections are thinner than the network-side ones
 
 ## Methodology (holler at me)
 
-I work at Logos, and the Logos-specific claims come from the team's own public material: Marvin's [forum post](https://forum.research.logos.co/t/logos-techstack-pq-readiness/719), two IFT research calls ([1](https://www.youtube.com/watch?v=M-hIwizTRE8), [2](https://www.youtube.com/watch?v=MeI52qWyVRs)), the Logos roadmap, and [docs.logos.co](https://docs.logos.co). The Ethereum vs Logos comparison comes from Muster's leak inventory, verified against the Safe 1.4.1 build; Muster is a demo app I build on my own time. External numbers link to primary sources. The [technical companion](https://logos-co.github.io/assembly/content-tracker/quantum-and-ai-threats-technical-draft) has the full component status, the open problems, and what I'm asking the team for. *[Corey: credit the quantum-computing expert who checked the quantum section, if they're OK being named.]*
+I work at Logos, and the Logos-specific claims come from the team's own public material: Marvin's [forum post](https://forum.research.logos.co/t/logos-techstack-pq-readiness/719), two IFT research calls ([1](https://www.youtube.com/watch?v=M-hIwizTRE8), [2](https://www.youtube.com/watch?v=MeI52qWyVRs)), the Logos roadmap, and [docs.logos.co](https://docs.logos.co). The Ethereum vs Logos comparison comes from Muster's leak inventory, verified against the Safe 1.4.1 build. Muster is a personal project of mine, not a project of, affiliated with, or endorsed by Logos Collective Association or IFT Studio Pte. Ltd. External numbers link to primary sources. The [technical companion](https://logos-co.github.io/assembly/content-tracker/quantum-and-ai-threats-technical-draft) has the full component status, the open problems, and what I'm asking the team for. Thanks to a friend with a quantum computing background for checking the quantum section.
 
 If you think I've got the threat model wrong, or that some part of this deserves more worry than I'm giving it, I want to hear it. Reply on the [forum thread](https://forum.research.logos.co/t/logos-techstack-pq-readiness/719) or hit me up on X.
 
@@ -142,18 +142,16 @@ If you think I've got the threat model wrong, or that some part of this deserves
 
 ## Open questions (strip before publishing)
 
-1. **Bathang vs Rick**: the metadata article's byline on logos.co is "Bathang"; Jonny referred to it as Rick's. Confirm how to credit.
-2. **Links to the transaction supply chain series**: the wrench-attack figure ($100M+, Jan–Apr 2026) and the "$3B+ surveillance industry" figure come from Corey's Muster part-1 post (`muster-articles/intro-bucket-1.md`). Replace the two `forum.research.logos.co/` placeholder links with the actual post URL, or cite the underlying sources directly.
-3. **Muster screenshots** (`chat-send-dialogue.png`, `chat-txn-complete.png`) live in `content-tracker/muster-articles/`. Embedded by relative path (same as the Muster post does); confirm they render on the Pages site, or copy them into `content/attachments/`.
-4. **Figure 1 is a composite.** The Ethereum side assumes a hosted (non-E2E) group chat and the standard Safe Transaction Service; the Safe stages are from the verified leak inventory. The Logos-side Ordering and Enforcement entries are "per design, confirm" in the inventory. Confirm before publishing.
-5. **Muster disclaimer**: the forum series carries a personal-project disclaimer. Does a Logos-published article need the same line?
-6. **Chat X-Wing / MLS**: only Marvin's word; confirm it covers Chat's MLS group setup (see technical companion OQ12).
-7. **"tens to thousands of times bigger" proofs**: 128-byte Groth16 vs kilobytes-to-hundreds-of-kilobytes STARKs. Confirm with the crypto team; soften to "much bigger" if needed.
-8. **"Logos is in a worse spot than Bitcoin" if Q-day beats phase 3**: carried over from the reviewed technical draft; the crypto team should confirm the framing before it goes out under a Logos byline.
-9. **Technical companion link**: points at the assembly Pages URL; swap for the forum URL once posted.
-10. **Basecamp link**: Muster post uses logos.co/basecamp; PriFi article uses logos.co/get-started. Pick one.
-11. **Carl's "be somewhat hyperbolic" note** vs Corey's "give people hope": the draft is vivid in the whale section and ends on practical steps. Corey's call whether to push harder.
-12. All open questions in the technical companion still apply to the claims summarized here (docs.logos.co LEZ page still says ECDH; LEZ proof format; RLN; trapdoor framing).
+1. **Quantum-section acknowledgement**: currently thanks "a friend with a quantum computing background"; swap in a name once Corey confirms he's OK being acknowledged.
+2. **Muster screenshots** (`chat-send-dialogue.png`, `chat-txn-complete.png`) live in `content-tracker/muster-articles/`. Embedded by relative path (same as the Muster post does); confirm they render on the Pages site, or copy them into `content/attachments/`.
+3. **Figure 1 is a composite.** The Ethereum side assumes a hosted (non-E2E) group chat and the standard Safe Transaction Service; the Safe stages are from the verified leak inventory. The Logos-side Ordering and Enforcement entries are "per design, confirm" in the inventory. Confirm before publishing.
+4. **Chat X-Wing / MLS**: only Marvin's word; confirm it covers Chat's MLS group setup (see technical companion OQ12).
+5. **"tens to thousands of times bigger" proofs**: 128-byte Groth16 vs kilobytes-to-hundreds-of-kilobytes STARKs. Confirm with the crypto team; soften to "much bigger" if needed.
+6. **"Logos is in a worse spot than Bitcoin" if Q-day beats phase 3**: carried over from the reviewed technical draft; the crypto team should confirm the framing before it goes out under a Logos byline.
+7. **Technical companion link**: points at the assembly Pages URL; swap for the forum URL once posted.
+8. **Basecamp link**: Muster post uses logos.co/basecamp; PriFi article uses logos.co/get-started. Pick one.
+9. **Carl's "be somewhat hyperbolic" note** vs Corey's "give people hope": the draft is vivid in the whale section and ends on practical steps. Corey's call whether to push harder.
+10. All open questions in the technical companion still apply to the claims summarized here (docs.logos.co LEZ page still says ECDH; LEZ proof format; RLN; trapdoor framing).
 
 ## Sources consulted (strip before publishing)
 
